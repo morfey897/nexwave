@@ -1,51 +1,51 @@
-"use client";
-import { useTranslations } from "next-intl";
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
-import { HiLogout } from "react-icons/hi";
+'use client';
+import { useTranslations } from 'next-intl';
+import { Avatar, Dropdown, Navbar } from 'flowbite-react';
+import { HiLogout } from 'react-icons/hi';
 
 function Header() {
-  const t = useTranslations("header");
-  return (
-    <Navbar rounded className="fixed z-30 w-full">
-      <Navbar.Brand href="/">
-        <svg
-          className="w-6 h-6 text-purple-800 dark:text-white"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path d="M10 .5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19ZM8.374 17.4a7.6 7.6 0 0 1-5.9-7.4c0-.83.137-1.655.406-2.441l.239.019a3.887 3.887 0 0 1 2.082 2.5 4.1 4.1 0 0 0 2.441 2.8c1.148.522 1.389 2.007.732 4.522Zm3.6-8.829a.997.997 0 0 0-.027-.225 5.456 5.456 0 0 0-2.811-3.662c-.832-.527-1.347-.854-1.486-1.89a7.584 7.584 0 0 1 8.364 2.47c-1.387.208-2.14 2.237-2.14 3.307a1.187 1.187 0 0 1-1.9 0Zm1.626 8.053-.671-2.013a1.9 1.9 0 0 1 1.771-1.757l2.032.619a7.553 7.553 0 0 1-3.132 3.151Z" />
-        </svg>
-        <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white decoration-2 underline decoration-purple-800">
-          {process.env.NEXT_PUBLIC_TITLE}
-        </span>
-      </Navbar.Brand>
-      <div className="flex md:order-2">
-        <Dropdown
-          arrowIcon={false}
-          inline
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
-          }
-        >
-          <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">
-              name@flowbite.com
-            </span>
-          </Dropdown.Header>
-          <Dropdown.Item>{t("settings")}</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item>{t("sign_out")}</Dropdown.Item>
-        </Dropdown>
-        {/* <Navbar.Toggle /> */}
-      </div>
-      {/* <Navbar.Collapse>
+	const t = useTranslations('header');
+	return (
+		<Navbar rounded className='fixed z-30 w-full'>
+			<Navbar.Brand href='/'>
+				<svg
+					className='w-6 h-6 text-purple-800 dark:text-white'
+					aria-hidden='true'
+					xmlns='http://www.w3.org/2000/svg'
+					fill='currentColor'
+					viewBox='0 0 20 20'
+				>
+					<path d='M10 .5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19ZM8.374 17.4a7.6 7.6 0 0 1-5.9-7.4c0-.83.137-1.655.406-2.441l.239.019a3.887 3.887 0 0 1 2.082 2.5 4.1 4.1 0 0 0 2.441 2.8c1.148.522 1.389 2.007.732 4.522Zm3.6-8.829a.997.997 0 0 0-.027-.225 5.456 5.456 0 0 0-2.811-3.662c-.832-.527-1.347-.854-1.486-1.89a7.584 7.584 0 0 1 8.364 2.47c-1.387.208-2.14 2.237-2.14 3.307a1.187 1.187 0 0 1-1.9 0Zm1.626 8.053-.671-2.013a1.9 1.9 0 0 1 1.771-1.757l2.032.619a7.553 7.553 0 0 1-3.132 3.151Z' />
+				</svg>
+				<span className='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white decoration-2 underline decoration-purple-800'>
+					{process.env.NEXT_PUBLIC_TITLE}
+				</span>
+			</Navbar.Brand>
+			<div className='flex md:order-2'>
+				<Dropdown
+					arrowIcon={false}
+					inline
+					label={
+						<Avatar
+							alt='User settings'
+							img='https://flowbite.com/docs/images/people/profile-picture-5.jpg'
+							rounded
+						/>
+					}
+				>
+					<Dropdown.Header>
+						<span className='block text-sm'>Bonnie Green</span>
+						<span className='block truncate text-sm font-medium'>
+							name@flowbite.com
+						</span>
+					</Dropdown.Header>
+					<Dropdown.Item>{t('settings')}</Dropdown.Item>
+					<Dropdown.Divider />
+					<Dropdown.Item>{t('sign_out')}</Dropdown.Item>
+				</Dropdown>
+				{/* <Navbar.Toggle /> */}
+			</div>
+			{/* <Navbar.Collapse>
       <Navbar.Link href="#" active>
         Home
       </Navbar.Link>
@@ -54,10 +54,10 @@ function Header() {
       <Navbar.Link href="#">Pricing</Navbar.Link>
       <Navbar.Link href="#">Contact</Navbar.Link>
     </Navbar.Collapse> */}
-    </Navbar>
-  );
+		</Navbar>
+	);
 
-  /*
+	/*
   <nav className="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
       <div className="flex items-center justify-between">
@@ -100,7 +100,7 @@ function Header() {
 }
 
 {
-  /* <div className="z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="notification-dropdown" style={{ position: "absolute", inset: "0px auto auto 0px", margin: 0, transform: 'translate(996px, 65px)' }} data-popper-placement="bottom">
+	/* <div className="z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="notification-dropdown" style={{ position: "absolute", inset: "0px auto auto 0px", margin: 0, transform: 'translate(996px, 65px)' }} data-popper-placement="bottom">
             <div className="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               Notifications
             </div>
@@ -176,7 +176,7 @@ function Header() {
 }
 
 {
-  /* <button type="button" data-dropdown-toggle="apps-dropdown" className="hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
+	/* <button type="button" data-dropdown-toggle="apps-dropdown" className="hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
             <span className="sr-only">View notifications</span>
 
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
@@ -184,7 +184,7 @@ function Header() {
 }
 
 {
-  /* <div className="z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="apps-dropdown" style={{ position: "absolute", inset: "0px auto auto 0px", margin: 0, transform: 'translate(1036px, 65px)' }} data-popper-placement="bottom">
+	/* <div className="z-50 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="apps-dropdown" style={{ position: "absolute", inset: "0px auto auto 0px", margin: 0, transform: 'translate(1036px, 65px)' }} data-popper-placement="bottom">
             <div className="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               Apps
             </div>

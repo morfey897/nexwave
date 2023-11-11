@@ -1,89 +1,89 @@
-import { Metadata, Viewport } from "next";
-import { getPathname } from "@/headers";
+import { Metadata, Viewport } from 'next';
+import { getPathname } from '@/headers';
 
 type PageType = {
-  title?: string;
-  description?: string;
-  ogTitle?: string;
-  ogDescription?: string;
+	title?: string;
+	description?: string;
+	ogTitle?: string;
+	ogDescription?: string;
 };
 
 export const getTitle = (pageTitle: string, rootTitle?: String) =>
-  [(pageTitle || "").trim(), (rootTitle || "").trim()]
-    .filter((a) => !!a)
-    .join(" | ");
+	[(pageTitle || '').trim(), (rootTitle || '').trim()]
+		.filter((a) => !!a)
+		.join(' | ');
 
 export const generateViewport = (): Viewport => {
-  return {
-    width: "device-width",
-    initialScale: 1,
-    minimumScale: 1,
-    userScalable: false,
-    viewportFit: "cover",
+	return {
+		width: 'device-width',
+		initialScale: 1,
+		minimumScale: 1,
+		userScalable: false,
+		viewportFit: 'cover',
 
-    themeColor: [
-      {
-        color: "#161616",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        color: "#ffffff",
-        media: "(prefers-color-scheme: light)",
-      },
-    ],
-  };
+		themeColor: [
+			{
+				color: '#161616',
+				media: '(prefers-color-scheme: dark)',
+			},
+			{
+				color: '#ffffff',
+				media: '(prefers-color-scheme: light)',
+			},
+		],
+	};
 };
 
 export const getLayoutMetadata = (
-  title?: string,
-  description?: string,
+	title?: string,
+	description?: string,
 ): Metadata => {
-  return {
-    title: title,
-    description: description,
-    applicationName: process.env.NEXT_PUBLIC_TITLE,
-    appleWebApp: {
-      capable: true,
-      title: process.env.NEXT_PUBLIC_TITLE,
-      statusBarStyle: "default",
-    },
-    formatDetection: {
-      telephone: false,
-    },
+	return {
+		title: title,
+		description: description,
+		applicationName: process.env.NEXT_PUBLIC_TITLE,
+		appleWebApp: {
+			capable: true,
+			title: process.env.NEXT_PUBLIC_TITLE,
+			statusBarStyle: 'default',
+		},
+		formatDetection: {
+			telephone: false,
+		},
 
-    metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || ""),
+		metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || ''),
 
-    icons: [
-      {
-        rel: "apple-touch-icon",
-        url: "/assets/apple-touch-icon.png",
-        sizes: "180x180",
-      },
-      {
-        rel: "mask-icon",
-        url: "/assets/safari-pinned-tab.svg",
-        color: "#161616",
-      },
-      { rel: "icon", url: "/assets/favicon-32x32.png", sizes: "32x32" },
-      { rel: "icon", url: "/assets/favicon-16x16.png", sizes: "16x16" },
-    ],
-    manifest: "/manifest.json",
-  };
+		icons: [
+			{
+				rel: 'apple-touch-icon',
+				url: '/assets/apple-touch-icon.png',
+				sizes: '180x180',
+			},
+			{
+				rel: 'mask-icon',
+				url: '/assets/safari-pinned-tab.svg',
+				color: '#161616',
+			},
+			{ rel: 'icon', url: '/assets/favicon-32x32.png', sizes: '32x32' },
+			{ rel: 'icon', url: '/assets/favicon-16x16.png', sizes: '16x16' },
+		],
+		manifest: '/manifest.json',
+	};
 };
 
 export const getMetadata = (page: PageType): Metadata => {
-  const pathname = getPathname();
+	const pathname = getPathname();
 
-  return {
-    openGraph: {
-      title: page?.ogTitle || "",
-      description: page?.ogDescription || "",
-    },
-    alternates: {
-      canonical: pathname,
-    },
-    ...getLayoutMetadata(page?.title, page?.description || ""),
-  };
+	return {
+		openGraph: {
+			title: page?.ogTitle || '',
+			description: page?.ogDescription || '',
+		},
+		alternates: {
+			canonical: pathname,
+		},
+		...getLayoutMetadata(page?.title, page?.description || ''),
+	};
 };
 
 // export const getJSON_LD = (props: SettingsType) => {
