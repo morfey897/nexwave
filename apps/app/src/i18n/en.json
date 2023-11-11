@@ -1,0 +1,44 @@
+{
+  "header": {
+    "search": "Search",
+    "settings": "Settings",
+    "sign_out": "Sign out",
+    "i18n": {
+      "uk": {
+        "title": "Українська",
+        "abr": "Укр"
+      },
+      "ru": {
+        "title": "Русский",
+        "abr": "Рус"
+      },
+      "en": {
+        "title": "English",
+        "abr": "Eng"
+      }
+    },
+    "links": {
+      "cms": "Edit PDKalipso",
+      "site": "PDKalipso"
+    },
+    "breadcrumbs": {
+      "app": "Root",
+      "clients": "Clients",
+      "services": "Services",
+      "timetable": "Timetable",
+      "users": "Users",
+      "products": "Products"
+    }
+  },
+  "page_not_found": {
+    "headline": "We lost this page",
+    "subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go.",
+    "go_back": "Go back",
+    "go_home": "Take me home"
+  },
+  "page_error": {
+    "headline": "Something went wrong!",
+    "subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again.",
+    "reset": "Try again"
+  }
+}
