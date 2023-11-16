@@ -21,7 +21,7 @@ function Table<T extends TUID>({
 		<div className={clsx('flex flex-col my-4 lg:my-6', className)} {...props}>
 			<div className='overflow-x-auto min-w-full align-middle'>
 				{(!isEmpty || !empty) && (
-					<div className='overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg'>
+					<div className='overflow-hidden border rounded-md border-gray-200 dark:border-gray-700 md:rounded-lg'>
 						<TableDesktop
 							className='min-w-full hidden lg:table'
 							head={head}

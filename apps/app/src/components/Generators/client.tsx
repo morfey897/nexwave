@@ -21,7 +21,7 @@ export function AvatarGenerator({
 		.join('');
 	return (
 		<div className='flex items-center gap-x-2 cursor-pointer relative'>
-			<button className='-ml-2 text-gray-300 dark:text-gray-700 p-1 -scale-x-[1]'>
+			<button className='text-gray-300 dark:text-gray-700 p-1 -scale-x-[1]'>
 				<MdMore size={24} />
 			</button>
 			{item.avatar ? (

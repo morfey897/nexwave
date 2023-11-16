@@ -23,7 +23,7 @@ function Body<T extends TUID>({
 							htmlFor={`cb_${item._uid}`}
 							className='cursor-pointer peer-checked:[&>div>span]:rotate-180'
 						>
-							<div className='p-4 flex justify-between'>
+							<div className='p-4 pl-3 flex justify-between'>
 								{head.slice(0, 1).map(({ Generator, token }) => (
 									<Generator
 										key={`generator_${item._uid}_${token}`}
@@ -41,7 +41,7 @@ function Body<T extends TUID>({
 							{head.slice(1).map(({ token, Generator, title }) => (
 								<div
 									key={`line_${item._uid}_${token}`}
-									className='p-4 flex align-end justify-between gap-x-4'
+									className='p-4 pl-3 flex align-end justify-between gap-x-4'
 								>
 									<div>
 										<span>{title}</span>

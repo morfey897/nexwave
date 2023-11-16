@@ -1,6 +1,7 @@
 {
   "common": {
     "search": "Search",
+    "sort_by": "Sort by",
     "clear_search": "Clear search",
     "clear": "Clear",
     "del": "Delete",
