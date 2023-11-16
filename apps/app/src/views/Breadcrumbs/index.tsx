@@ -1,20 +1,14 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { useMemo, Fragment } from 'react';
-import {
-	HiUsers,
-	HiCalendar,
-	HiUserCircle,
-	HiHome,
-	HiChevronRight,
-} from 'react-icons/hi';
+import { HiHome, HiChevronRight } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import clsx from 'clsx';
 
 export default function Breadcrumbs() {
 	const pathname = usePathname();
-	const t = useTranslations('header.breadcrumbs');
+	const t = useTranslations('common.breadcrumbs');
 
 	const parts = useMemo(() => {
 		return pathname
@@ -42,41 +36,35 @@ export default function Breadcrumbs() {
 			);
 	}, [pathname]);
 
-	console.log('parts', parts);
-
-	return (
-		<div>
-			<div className='container flex items-center px-6 py-4 mx-auto overflow-x-auto whitespace-nowrap'>
-				<a
-					href='#'
-					className='flex items-center justify-center text-gray-600 dark:text-gray-200 gap-x-2 hover:underline'
-				>
-					<HiHome size={20} />
-					<span>{t('app')}</span>
-				</a>
-
-				{parts.map(({ path, token, active }) => (
-					<Fragment key={path}>
+	return parts.length <= 1 ? null : (
+		<div className='container flex items-center my-4 mx-auto overflow-x-auto whitespace-nowrap flex-wrap'>
+			{parts.map(({ path, token, active }, index) => (
+				<Fragment key={path}>
+					{index === 0 ? (
+						<span className='mr-2 text-gray-600 dark:text-gray-200 rtl:-scale-x-100'>
+							<HiHome size={20} />
+						</span>
+					) : (
 						<span className='mx-2 text-gray-500 dark:text-gray-300 rtl:-scale-x-100'>
 							<HiChevronRight size={24} />
 						</span>
-						{active ? (
-							<span className='text-blue-600 dark:text-blue-400 cursor-pointer'>
-								{t(token)}
-							</span>
-						) : (
-							<Link
-								href={path}
-								className={clsx(
-									'hover:underline text-gray-600 dark:text-gray-200',
-								)}
-							>
-								{t(token)}
-							</Link>
-						)}
-					</Fragment>
-				))}
-			</div>
+					)}
+					{active ? (
+						<span className='text-blue-600 dark:text-blue-400 cursor-pointer'>
+							{t(token)}
+						</span>
+					) : (
+						<Link
+							href={path}
+							className={clsx(
+								'hover:underline text-gray-600 dark:text-gray-200',
+							)}
+						>
+							{t(token)}
+						</Link>
+					)}
+				</Fragment>
+			))}
 		</div>
 	);
 }

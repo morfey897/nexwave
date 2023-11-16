@@ -11,7 +11,7 @@ export default function Error({
 	error: Error & { digest?: string };
 	reset: () => void;
 }) {
-	const t = useTranslations('page_error');
+	const t = useTranslations('error_page');
 
 	useEffect(() => {
 		console.error(error);
@@ -32,7 +32,7 @@ export default function Error({
 							{t('subheadlines')}
 						</p>
 
-						<div className='flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>
+						<div className='w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>
 							<button
 								onClick={reset}
 								className='w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600'

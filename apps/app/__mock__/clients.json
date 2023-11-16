@@ -1,0 +1,163 @@
+
+[
+  {
+    "_uid": "1",
+    "email": "john.doe@example.com",
+    "name": "John",
+    "surname": "Doe",
+    "phone": "+380639152991",
+    "avatar": "https://i.pravatar.cc/150?img=1",
+    "birthday": "1980-01-01",
+    "created_at": "2021-08-01T00:00:00Z",
+    "last_visit_at": "2023-11-13T00:00:00Z",
+    "badges": ["loyal", "regular"]
+  },
+  {
+    "_uid": "2",
+    "email": "jane.doe@example.com",
+    "phone": "+380639152991",
+    "name": "Jane",
+    "surname": "Doe",
+    "avatar": "https://i.pravatar.cc/150?img=2",
+    "birthday": "1985-01-01",
+    "created_at": "2021-08-02T00:00:00Z",
+    "last_visit_at": "2023-11-11T00:00:00Z",
+    "badges": ["satisfied"]
+  },
+  {
+    "_uid": "3",
+    "email": "bob.smith@example.com",
+    "phone": "+380639152991",
+    "name": "Bob",
+    "surname": "Smith",
+    "avatar": "https://i.pravatar.cc/150?img=3",
+    "birthday": "1990-01-01",
+    "created_at": "2021-08-03T00:00:00Z",
+    "last_visit_at": "2021-08-03T00:00:00Z",
+    "badges": ["economical"]
+  },
+  {
+    "_uid": "4",
+    "email": "alice.smith@example.com",
+    "phone": "+380639152991",
+    "name": "Alice",
+    "surname": "Smith",
+    "avatar": "https://i.pravatar.cc/150?img=4",
+    "birthday": "1995-01-01",
+    "created_at": "2021-08-04T00:00:00Z",
+    "last_visit_at": "2021-08-04T00:00:00Z",
+    "badges": ["newbie"]
+  },
+  {
+    "_uid": "5",
+    "email": "jim.johnson@example.com",
+    "name": "Jim",
+    "surname": "Johnson",
+    "avatar": "https://i.pravatar.cc/150?img=5",
+    "birthday": "2000-01-01",
+    "created_at": "2021-08-05T00:00:00Z",
+    "last_visit_at": "2021-08-05T00:00:00Z",
+    "badges": ["problematic"]
+  },
+  {
+    "_uid": "6",
+    "email": "susan.johnson@example.com",
+    "name": "Susan",
+    "surname": "Johnson",
+    "avatar": "https://i.pravatar.cc/150?img=6",
+    "birthday": "2005-01-01",
+    "created_at": "2021-08-06T00:00:00Z",
+    "last_visit_at": "2021-08-06T00:00:00Z",
+    "badges": ["freebie"]
+  },
+  {
+    "_uid": "7",
+    "email": "david.brown@example.com",
+    "name": "David",
+    "surname": "Brown",
+    "avatar": "https://i.pravatar.cc/150?img=7",
+    "birthday": "2010-01-01",
+    "created_at": "2021-08-07T00:00:00Z",
+    "last_visit_at": "2021-08-07T00:00:00Z"
+  },
+  {
+    "_uid": "8",
+    "email": "emily.brown@example.com",
+    "name": "Emily",
+    "surname": "Brown",
+    "avatar": "https://i.pravatar.cc/150?img=8",
+    "birthday": "2015-01-01",
+    "created_at": "2021-08-08T00:00:00Z",
+    "last_visit_at": "2021-08-08T00:00:00Z"
+  },
+  {
+    "_uid": "9",
+    "email": "michael.wilson@example.com",
+    "name": "Michael",
+    "surname": "Wilson",
+    "avatar": "https://i.pravatar.cc/150?img=9",
+    "birthday": "2020-01-01",
+    "created_at": "2021-08-09T00:00:00Z",
+    "last_visit_at": "2021-08-09T00:00:00Z"
+  },
+  {
+    "_uid": "10",
+    "email": "olivia.wilson@example.com",
+    "name": "Olivia",
+    "surname": "Wilson",
+    "avatar": "https://i.pravatar.cc/150?img=10",
+    "birthday": "2025-01-01",
+    "created_at": "2021-08-10T00:00:00Z",
+    "last_visit_at": "2021-08-10T00:00:00Z"
+  },
+  {
+    "_uid": "11",
+    "email": "jacob.miller@example.com",
+    "name": "Jacob",
+    "surname": "Miller",
+    "avatar": "https://i.pravatar.cc/150?img=11",
+    "birthday": "2030-01-01",
+    "created_at": "2021-08-11T00:00:00Z",
+    "last_visit_at": "2021-08-11T00:00:00Z"
+  },
+  {
+    "_uid": "12",
+    "email": "emma.miller@example.com",
+    "name": "Emma",
+    "surname": "Miller",
+    "avatar": "https://i.pravatar.cc/150?img=12",
+    "birthday": "2035-01-01",
+    "created_at": "2021-08-12T00:00:00Z",
+    "last_visit_at": "2021-08-12T00:00:00Z"
+  },
+  {
+    "_uid": "13",
+    "email": "william.davis@example.com",
+    "name": "William",
+    "surname": "Davis",
+    "avatar": "https://i.pravatar.cc/150?img=13",
+    "birthday": "2040-01-01",
+    "created_at": "2021-08-13T00:00:00Z",
+    "last_visit_at": "2021-08-13T00:00:00Z"
+  },
+  {
+    "_uid": "14",
+    "email": "ava.davis@example.com",
+    "name": "Ava",
+    "surname": "Davis",
+    "avatar": "https://i.pravatar.cc/150?img=14",
+    "birthday": "2045-01-01",
+    "created_at": "2021-08-14T00:00:00Z",
+    "last_visit_at": "2021-08-14T00:00:00Z"
+  },
+  {
+    "_uid": "15",
+    "email": "oliver.garcia@example.com",
+    "name": "Oliver",
+    "surname": "Garcia",
+    "avatar": "https://i.pravatar.cc/150?img=15",
+    "birthday": "2050-01-01",
+    "created_at": "2021-08-15T00:00:00Z",
+    "last_visit_at": "2021-08-15T00:00:00Z"
+  }
+]

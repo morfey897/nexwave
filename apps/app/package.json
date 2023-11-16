@@ -13,6 +13,7 @@
     "@formatjs/intl-localematcher": "^0.4.2",
     "clsx": "^2.0.0",
     "config": "*",
+    "date-fns": "^2.30.0",
     "negotiator": "^0.6.3",
     "next": "14.0.1",
     "next-intl": "^2.22.1",

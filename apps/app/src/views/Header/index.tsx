@@ -5,15 +5,31 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import { HiMenuAlt3, HiX, HiCog, HiLogout } from 'react-icons/hi';
+import {
+	HiMenuAlt3,
+	HiX,
+	HiCog,
+	HiLogout,
+	HiOutlineSearch,
+} from 'react-icons/hi';
 import { TiWaves } from 'react-icons/ti';
 import ThemeSwithcer from '@/components/Theme';
 import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
+import User from './User';
+import { Search } from '@/components/Inputs';
 
 function Header() {
-	const t = useTranslations('header');
+	const t = useTranslations('common');
 	const [menu, setMenu] = useState(false);
+
+	const [user, setUser] = useState({
+		avatar:
+			'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200',
+		name: 'Jane',
+		surname: 'Doe',
+		email: 'janedoe@exampl.com',
+	});
 
 	const onToggleMenu = useCallback(() => {
 		setMenu((menu) => !menu);
@@ -27,7 +43,7 @@ function Header() {
 		<>
 			<div className='relative w-full h-[80px]' />
 			<nav className='fixed bg-white shadow dark:bg-gray-800 top-0 w-full z-30'>
-				<div className='container px-6 py-4 mx-auto'>
+				<div className='px-6 py-4 mx-auto'>
 					<div className='lg:flex lg:items-center lg:justify-between'>
 						<div className='flex items-center justify-between'>
 							<Link
@@ -38,29 +54,7 @@ function Header() {
 							</Link>
 
 							<div className='mx-10'>
-								<div className='relative'>
-									<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-										<svg
-											className='w-5 h-5 text-gray-400'
-											viewBox='0 0 24 24'
-											fill='none'
-										>
-											<path
-												d='M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z'
-												stroke='currentColor'
-												strokeWidth='2'
-												strokeLinecap='round'
-												strokeLinejoin='round'
-											></path>
-										</svg>
-									</span>
-
-									<input
-										type='text'
-										className='w-full py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300'
-										placeholder={t('search')}
-									/>
-								</div>
+								<Search placeholder={t('search')} />
 							</div>
 
 							{/* <!-- Mobile menu button --> */}
@@ -115,7 +109,7 @@ function Header() {
 												<Image
 													width={24}
 													height={24}
-													src='https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'
+													src={user.avatar}
 													className='object-cover w-full h-full'
 													alt='avatar'
 												/>
@@ -124,21 +118,10 @@ function Header() {
 									}
 								>
 									<div className='px-2 py-4 flex flex-col'>
-										<div className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default'>
-											<Image
-												className='flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9'
-												src='https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200'
-												alt='jane avatar'
-											/>
-											<div className='mx-1'>
-												<h1 className='text-sm font-semibold text-gray-700 dark:text-gray-200'>
-													Jane Doe
-												</h1>
-												<p className='text-sm text-gray-500 dark:text-gray-400 break-words hyphens-auto'>
-													janedoe@exampl.com
-												</p>
-											</div>
-										</div>
+										<User
+											className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default'
+											user={user}
+										/>
 
 										<hr className='border-gray-200 dark:border-gray-700' />
 										<NavItem Icon={HiCog} label={t('settings')} />
@@ -151,21 +134,10 @@ function Header() {
 								<div className='flex flex-col w-full lg:hidden'>
 									<hr className='border-gray-200 dark:border-gray-700 my-2' />
 
-									<div className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300'>
-										<Image
-											className='flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9'
-											src='https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200'
-											alt='jane avatar'
-										/>
-										<div className='mx-1'>
-											<h1 className='text-sm font-semibold text-gray-700 dark:text-gray-200'>
-												Jane Doe
-											</h1>
-											<p className='text-sm text-gray-500 dark:text-gray-400 break-words hyphens-auto'>
-												janedoe@exampl.com
-											</p>
-										</div>
-									</div>
+									<User
+										className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300'
+										user={user}
+									/>
 
 									<NavItem
 										className='[&>span]:!block !flex-row'

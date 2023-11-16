@@ -8,7 +8,7 @@ import DropDown from '@/components/DropDown';
 import CurrentLocale, { ICONS } from './Icons';
 
 function LocaleSwitcher() {
-	const t = useTranslations('header');
+	const t = useTranslations('common');
 	const locale = useLocale();
 	const router = useRouter();
 
@@ -23,7 +23,6 @@ function LocaleSwitcher() {
 	return (
 		<DropDown
 			direction={{ y: 'top', x: 'right' }}
-			className='inline-block m-auto md:m-0'
 			Element={
 				<button className='px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700'>
 					<CurrentLocale

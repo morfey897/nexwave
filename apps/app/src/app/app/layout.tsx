@@ -14,7 +14,7 @@ export default async function RootLayout({
 			<Header />
 			<main className='flex w-full'>
 				<Aside />
-				<div className='container px-6 py-4 mx-auto'>
+				<div className='w-full md:px-6 md:py-4 px-4 py-2 mx-auto'>
 					<Breadcrumbs />
 					{children}
 				</div>

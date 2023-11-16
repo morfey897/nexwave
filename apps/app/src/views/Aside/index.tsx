@@ -21,13 +21,13 @@ const isActive = (pathName: string, route: string) =>
 
 function Aside() {
 	const pathName = usePathname();
-	const t = useTranslations('header');
+	const t = useTranslations('common');
 
 	const activeClassName = '!bg-gray-200 dark:!bg-gray-700';
 
 	return (
-		<div className='flex-shrink-0 h-screen w-14 md:w-32 lg:w-64'>
-			<aside className='top-0 bottom-0 z-10 left-0 fixed flex flex-col w-14 md:w-32 lg:w-64 lg:px-4 py-4 lg:py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-800 dark:border-gray-700'>
+		<div className='shrink-0 h-screen w-10 sm:w-14 md:w-32 lg:w-64'>
+			<aside className='top-0 bottom-0 z-10 left-0 fixed flex flex-col w-10 sm:w-14 md:w-32 lg:w-64 lg:px-4 py-4 lg:py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-800 dark:border-gray-700'>
 				<nav className='flex flex-col flex-1 space-y-2 md:space-y-6 pt-[80px]'>
 					<NavItem
 						href={routes.ROOT}
@@ -80,7 +80,9 @@ function Aside() {
 
 				<div className='flex flex-col md:flex-row justify-center'>
 					<NavItem href={routes.SETTINGS} Icon={HiCog} />
-					<LocaleSwitcher />
+					<div className='flex items-center flex-col lg:flex-row'>
+						<LocaleSwitcher />
+					</div>
 				</div>
 			</aside>
 		</div>

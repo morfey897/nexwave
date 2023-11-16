@@ -1,0 +1,18 @@
+[
+	{
+		"email": "john.doe@example.com",
+		"phone": "+1-555-555-5555",
+		"uid": "123456789",
+		"avatar": "https://i.pravatar.cc/150?img=123456789",
+		"role": "admin",
+		"access": ["read", "write", "delete"]
+	},
+	{
+		"email": "jane.doe@example.com",
+		"phone": "+1-555-555-5555",
+		"uid": "987654321",
+		"avatar": "https://i.pravatar.cc/150?img=987654321",
+		"role": "user",
+		"access": ["read"]
+	}
+]

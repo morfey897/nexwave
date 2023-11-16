@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 
 export default function NotFound() {
 	const router = useRouter();
-	const t = useTranslations('page_not_found');
+	const t = useTranslations('not_found_page');
 
 	const onBack = useCallback(() => {
 		router.back();

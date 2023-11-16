@@ -29,7 +29,7 @@ function NavItem({
 				className,
 			)}
 		>
-			{!!Icon && <Icon className={'w-8 h-8 flex-shrink-0'} />}
+			{!!Icon && <Icon className={'w-8 h-8 shrink-0'} />}
 			{!!label && (
 				<span className={'mx-4 font-medium hidden md:block'}>{label}</span>
 			)}
