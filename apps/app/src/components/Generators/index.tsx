@@ -1,7 +1,10 @@
 'use client';
 
-import { HiOutlineDotsVertical } from 'react-icons/hi';
-import { TUID, TGenerator, TLevel } from '@/types/table';
+import {
+	HiOutlineDotsVertical,
+} from 'react-icons/hi';
+import { TGenerator, TLevel } from '@/types/table';
+import { TUID } from '@/types/common';
 
 import { useLocale, useTranslations } from 'next-intl';
 import { format, differenceInDays } from 'date-fns';
@@ -70,7 +73,13 @@ export function BadgesGenerator({
 	);
 }
 
-export function ActionGenerator<T extends TUID>({ item }: { item: T }) {
+export function ActionGenerator<T extends TUID>({
+	item,
+	isMobile,
+}: {
+	item: T;
+	isMobile?: boolean;
+}) {
 	return (
 		<button>
 			<HiOutlineDotsVertical size={20} />

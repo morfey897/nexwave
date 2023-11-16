@@ -1,5 +1,5 @@
-export interface IClient {
-	_uid: string;
+import { TUID } from '@/types/common';
+export interface IClient extends TUID {
 	avatar: string;
 	name: string;
 	surname: string;

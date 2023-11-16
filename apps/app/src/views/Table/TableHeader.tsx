@@ -28,7 +28,7 @@ function TableHeader({
 	const t = useTranslations('common');
 
 	return (
-		<div className={clsx('container mx-auto mb-6', className)} {...props}>
+		<div className={clsx('container mx-auto', className)} {...props}>
 			<div className='sm:flex sm:items-center sm:justify-between gap-x-3'>
 				<div>
 					<div className='flex items-center gap-x-3'>

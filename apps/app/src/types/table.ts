@@ -1,8 +1,11 @@
-export type TUID = { _uid: string };
-
+import { TUID } from './common';
 export type TSort = 'head' | 'sorted_s' | 'sorted_n' | 'none' | 'sr-only';
 
-export type TGenerator<T extends TUID> = React.FC<{ item: T; token?: string }>;
+export type TGenerator<T extends TUID> = React.FC<{
+	item: T;
+	token?: string;
+	isMobile?: boolean;
+}>;
 
 export interface IHeadProps<T extends TUID> {
 	token: string;
@@ -13,7 +16,6 @@ export interface IHeadProps<T extends TUID> {
 
 export interface ITableProps<T extends TUID> {
 	head: Array<IHeadProps<T>>;
-	headMobile?: Array<IHeadProps<T>>;
 	body?: Array<T>;
 }
 

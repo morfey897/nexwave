@@ -10,7 +10,6 @@ import clients from '../../../../__mock__/clients.json';
 import { IClient } from '@/types/client';
 import { AvatarGenerator } from '@/components/Generators/client';
 import withGenerator, {
-	ActionGenerator,
 	TimeGenerator,
 	BadgesGenerator,
 } from '@/components/Generators';
@@ -22,8 +21,8 @@ export default function Home() {
 
 	return (
 		//  ml-0 lg:ml-64
-		<div className='flex flex-col items-center justify-between'>
-			<section className='container my-4 mx-auto'>
+		<div className='flex flex-col items-center justify-between my-4 lg:my-8'>
+			<section className='container mx-auto'>
 				<TableHeader
 					messages={{
 						headline: t('clients_page.headline'),
@@ -63,32 +62,6 @@ export default function Home() {
 							token: 'name',
 							title: 'Name',
 							type: 'sorted_s',
-							Generator: AvatarGenerator,
-						},
-						{
-							token: 'badges',
-							title: 'Badges',
-							type: 'none',
-							Generator: withGenerator('badges', BadgesGenerator),
-						},
-						{
-							token: 'lastVisit',
-							title: 'LastVisit',
-							type: 'sorted_n',
-							Generator: withGenerator('last_visit_at', TimeGenerator),
-						},
-						{
-							token: 'actions',
-							title: 'Actions',
-							type: 'sr-only',
-							Generator: ActionGenerator,
-						},
-					]}
-					headMobile={[
-						{
-							token: 'name',
-							title: 'Name',
-							type: 'head',
 							Generator: AvatarGenerator,
 						},
 						{

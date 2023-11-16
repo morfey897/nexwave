@@ -2,8 +2,16 @@
 
 import Image from 'next/image';
 import { IClient } from '@/types/client';
+import { HiOutlineDotsVertical } from 'react-icons/hi';
+import { MdMore } from 'react-icons/md';
 
-export function AvatarGenerator({ item }: { item: IClient }) {
+export function AvatarGenerator({
+	item,
+	isMobile,
+}: {
+	item: IClient;
+	isMobile?: boolean;
+}) {
 	const fullName = [item.name, item.surname]
 		.filter((v) => Boolean(v))
 		.join(' ');
@@ -12,7 +20,10 @@ export function AvatarGenerator({ item }: { item: IClient }) {
 		.filter((v) => Boolean(v))
 		.join('');
 	return (
-		<div className='flex items-center gap-x-2 cursor-pointer'>
+		<div className='flex items-center gap-x-2 cursor-pointer relative'>
+			<button className='-ml-2 text-gray-300 dark:text-gray-700 p-1 -scale-x-[1]'>
+				<MdMore size={24} />
+			</button>
 			{item.avatar ? (
 				<Image
 					width={40}
@@ -25,7 +36,7 @@ export function AvatarGenerator({ item }: { item: IClient }) {
 				<span className='w-10 h-10 rounded-full'>{abr}</span>
 			)}
 			<div>
-				<h2 className='font-medium text-gray-800 dark:text-white '>
+				<h2 className='font-medium text-gray-800 dark:text-white break-words hyphens-auto'>
 					{fullName}
 				</h2>
 				{item.phone && (
