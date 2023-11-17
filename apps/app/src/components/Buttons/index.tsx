@@ -1,11 +1,5 @@
 import clsx from 'clsx';
-
-type TButtonProps = {
-	variant?: 'primary' | 'default';
-	message?: string;
-	icon?: React.ReactNode;
-	iconAfter?: React.ReactNode;
-};
+import { IButtonProps } from '@/types/view';
 
 export function Button({
 	variant = 'default',
@@ -15,7 +9,7 @@ export function Button({
 	className,
 	children,
 	...props
-}: TButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: IButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
 		<button
 			className={clsx(

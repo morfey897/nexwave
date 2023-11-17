@@ -16,8 +16,10 @@ export function useSort() {
 				clone.set(SORT_DESC, uid);
 			} else if (clone.get(SORT_DESC) === uid) {
 				clone.set(SORT_DESC, '');
+				clone.set(SORT_ASC, '');
 			} else {
 				clone.set(SORT_ASC, uid);
+				clone.set(SORT_DESC, '');
 			}
 			if (!clone.get(SORT_DESC)) {
 				clone.delete(SORT_DESC);

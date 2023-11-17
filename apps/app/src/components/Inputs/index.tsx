@@ -1,16 +1,15 @@
 import clsx from 'clsx';
 import { HiOutlineSearch } from 'react-icons/hi';
+import { TWrapperProps } from '@/types/view';
 
 export function Search({
 	wrapperClassName,
 	className,
 	type,
 	...props
-}: {
-	wrapperClassName?: string;
-} & React.InputHTMLAttributes<HTMLInputElement>) {
+}: TWrapperProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	return (
-		<div className={clsx('relative', wrapperClassName)}>
+		<div className={clsx('relative text-base', wrapperClassName)}>
 			<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
 				<HiOutlineSearch size={16} />
 			</span>

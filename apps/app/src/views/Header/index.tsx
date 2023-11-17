@@ -103,7 +103,7 @@ function Header() {
 								<DropDown
 									className='hidden lg:block'
 									direction={{ y: 'bottom', x: 'left' }}
-									Element={
+									element={
 										<>
 											<button className='w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full'>
 												<Image

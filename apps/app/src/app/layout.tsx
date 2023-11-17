@@ -39,7 +39,7 @@ export default async function RootLayout({
 			<body
 				className={clsx(
 					inter.className,
-					'bg-gray-100/60 dark:bg-gray-900 text-gray-900 dark:text-gray-200',
+					'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200',
 				)}
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>

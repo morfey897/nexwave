@@ -20,7 +20,7 @@ type TPages = Array<{
 	active?: boolean;
 }>;
 
-export default function TableFooter({
+export default function Pagination({
 	pages,
 	className,
 	...props

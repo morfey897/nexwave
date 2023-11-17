@@ -1,17 +1,13 @@
 import clsx from 'clsx';
 import { PiNoteBlankLight } from 'react-icons/pi';
+import { TMessages } from '@/types/view';
 
-type TTableEmptyProps = {
-	messages?: Record<string, string>;
-	buttons?: React.ReactNode;
-};
-
-function TableEmpty({
+function Empty({
 	messages,
-	buttons,
 	className,
+	children,
 	...props
-}: TTableEmptyProps & React.HTMLAttributes<HTMLDivElement>) {
+}: TMessages & React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
 			className={clsx(
@@ -31,11 +27,11 @@ function TableEmpty({
 					{messages?.subheadline}
 				</p>
 				<div className='flex items-center mt-4 sm:mx-auto gap-x-3'>
-					{buttons}
+					{children}
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default TableEmpty;
+export default Empty;

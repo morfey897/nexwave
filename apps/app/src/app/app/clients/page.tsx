@@ -1,7 +1,7 @@
 'use client';
-import TableEmpty from '@/views/Table/TableEmpty';
-import TableHeader from '@/views/Table/TableHeader';
-import TableFooter from '@/views/Table/TableFooter';
+import Empty from '@/views/Blocks/Empty';
+import PageHeader from '@/views/Blocks/PageHeader';
+import Pagination from '@/views/Blocks/Pagination';
 import Table from '@/views/Table';
 import { useTranslations } from 'next-intl';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
@@ -23,39 +23,36 @@ export default function Home() {
 		//  ml-0 lg:ml-64
 		<div className='flex flex-col items-center justify-between my-4 lg:my-8'>
 			<section className='container mx-auto'>
-				<TableHeader
+				<PageHeader
 					messages={{
 						headline: t('clients_page.headline'),
 						subheadline: t('clients_page.subheadline'),
-						amount: t('clients_page.amount', { count: 2 }),
+						amount: 0,
 						search: t('common.search'),
 						add: t('common.add'),
 						import: t('common.import'),
 						export: t('common.export'),
 					}}
 					filters={[
-						{ title: 'all', uid: 'all', active: true },
-						{ title: 'part', uid: 'part', active: false },
+						{ title: 'all', uid: 'all' },
+						{ title: 'part', uid: 'part' },
 					]}
 				/>
 				<Table<IClient>
 					empty={
-						<TableEmpty
-							buttons={
-								<>
-									<Button message={t('common.clear')} />
-									<Button
-										variant='primary'
-										icon={<HiOutlinePlusCircle size={20} />}
-										message={t('common.add')}
-									/>
-								</>
-							}
+						<Empty
 							messages={{
 								headline: t('clients_page.headline_empty'),
 								subheadline: t('clients_page.subheadline_empty'),
 							}}
-						/>
+						>
+							<Button message={t('common.clear')} />
+							<Button
+								variant='primary'
+								icon={<HiOutlinePlusCircle size={20} />}
+								message={t('common.add')}
+							/>
+						</Empty>
 					}
 					head={[
 						{
@@ -89,7 +86,7 @@ export default function Home() {
 						})) as unknown as Array<IClient>
 					}
 				/>
-				<TableFooter pages={1} />
+				<Pagination pages={1} />
 			</section>
 		</div>
 	);
