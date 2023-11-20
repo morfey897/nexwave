@@ -1,6 +1,6 @@
 'use client';
 import PageContainer from '@/views/Blocks/PageContainer';
-import { useFilter, useSearch } from '@/hooks/filter';
+import { useFilter, useView } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
@@ -12,7 +12,7 @@ import { useMemo } from 'react';
 
 export default function Home() {
 	const { onFilter, filter } = useFilter({ name: EnumSearchParams.FILTER });
-	const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
+	// const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
 
 	const t = useTranslations();
 
@@ -40,6 +40,7 @@ export default function Home() {
 					/>
 					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
 						<Filter
+							as='group'
 							className='flex shrink-0'
 							icon={<HiOutlineViewGrid size={16} />}
 							message={t('timetable_page.view', { filter: filter })}
@@ -47,13 +48,13 @@ export default function Home() {
 							onChange={onFilter}
 							value={filter}
 						/>
-						<Search
+						{/* <Search
 							onChange={onSearch}
 							defaultValue={search || ''}
 							placeholder={t('common.search')}
 							wrapperClassName='flex items-center w-full max-w-[380px]'
 							className='h-12'
-						/>
+						/> */}
 					</div>
 				</PageContainer>
 			</section>

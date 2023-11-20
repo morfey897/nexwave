@@ -1,11 +1,9 @@
 'use client';
-import { IHeadProps, ITableHeadProps } from '@/types/table';
+import { EnumSort, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
-import { EnumSearchParams } from '@/types/filter';
 import { hasType } from '@/utils/table';
 
 import { SortButton } from '../SortButton';
-import { useSort } from '@/hooks/filter';
 import clsx from 'clsx';
 
 function Head<T extends TUID>({
@@ -13,47 +11,40 @@ function Head<T extends TUID>({
 	className,
 	...props
 }: ITableHeadProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
-	const { onSort, sort } = useSort({
-		name: EnumSearchParams.SORT,
-	});
-
 	return (
 		<thead className={clsx(className)} {...props}>
 			<tr>
-				{head.map(({ token, type, title }) => (
+				{head.map(({ token, type, title, comparator, onSort }) => (
 					<th
 						key={token}
 						scope='col'
 						className='py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400'
 					>
-						{hasType(type, 'sorted_s') && (
+						{!!type && hasType(type, EnumSort.SYMBOLIC) && (
 							<SortButton
-								_uid={token}
-								s_asc={sort.asc}
-								s_desc={sort.desc}
+								comparator={comparator || 0}
 								variant='symbolic'
-								onClick={() => onSort(token)}
+								onClick={() => typeof onSort === 'function' && onSort(token)}
 							>
 								{title}
 							</SortButton>
 						)}
-						{hasType(type, 'sorted_n') && (
+						{!!type && hasType(type, EnumSort.NUMERIC) && (
 							<SortButton
-								_uid={token}
-								s_asc={sort.asc}
-								s_desc={sort.desc}
+								comparator={comparator || 0}
 								variant='numeric'
-								onClick={() => onSort(token)}
+								onClick={() => typeof onSort === 'function' && onSort(token)}
 							>
 								{title}
 							</SortButton>
 						)}
-						{hasType(type, 'none') && (
-							<span className='cursor-default'>{title}</span>
-						)}
-						{hasType(type, 'sr-only') && (
+						{!!type && hasType(type, EnumSort.SR_ONLY) && (
 							<span className='sr-only'>{title}</span>
 						)}
+						{!type ||
+							(hasType(type, EnumSort.NONE) && (
+								<span className='cursor-default'>{title}</span>
+							))}
 					</th>
 				))}
 			</tr>

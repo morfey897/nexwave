@@ -18,18 +18,28 @@ import { Button } from '@/components/Button';
 import { EnumFilter } from '@/types/client';
 import PageContainer from '@/views/Blocks/PageContainer';
 import Headline from '@/views/Headline';
-import { useFilter, useSearch } from '@/hooks/filter';
+import { useFilter, useSearch, useSort } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useMemo } from 'react';
 import { EnumLevel } from '@/types/common';
 import { useDevice } from '@/hooks/device';
+import { EnumSort } from '@/types/table';
 
 export default function Home() {
 	const device = useDevice();
-	const { onFilter, filter } = useFilter({ name: EnumSearchParams.FILTER });
-	const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
+	const { onFilter, filter } = useFilter({
+		name: EnumSearchParams.FILTER,
+		defaultValue: EnumFilter.ALL,
+	});
+	const { onSearch, search } = useSearch({
+		name: EnumSearchParams.SEARCH,
+	});
+	const { onSort, sort } = useSort({
+		name: EnumSearchParams.SORT,
+		defaultValue: 'name'
+	});
 
 	const t = useTranslations();
 
@@ -63,6 +73,7 @@ export default function Home() {
 					/>
 					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
 						<Filter
+							as='dropdown'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
 							message={t('clients_page.filter', { filter: filter })}
@@ -100,19 +111,29 @@ export default function Home() {
 						{
 							token: 'name',
 							title: 'Name',
-							type: 'sorted_s',
+							type: EnumSort.SYMBOLIC,
+							comparator:
+								sort.asc === 'name' ? 1 : sort.desc === 'name' ? -1 : 0,
+							onSort: onSort,
 							Generator: AvatarGenerator,
 						},
 						{
 							token: 'badges',
 							title: 'Badges',
-							type: 'none',
+							type: EnumSort.NONE,
 							Generator: withGenerator('badges', BadgesGenerator),
 						},
 						{
 							token: 'lastVisit',
 							title: 'LastVisit',
-							type: 'sorted_n',
+							type: EnumSort.NUMERIC,
+							comparator:
+								sort.asc === 'lastVisit'
+									? 1
+									: sort.desc === 'lastVisit'
+									? -1
+									: 0,
+							onSort: onSort,
 							Generator: withGenerator('last_visit_at', TimeGenerator),
 						},
 					]}

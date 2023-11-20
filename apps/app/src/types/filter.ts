@@ -8,11 +8,11 @@ export enum EnumSearchParams {
 	FILTER = 'filter',
 	SEARCH = 'search',
 	SORT = 'sort',
+	VIEW = 'view',
 }
 
 export type TFilterParams = {
 	prefix?: string;
-	defaultValue?: string;
+	defaultValue?: string | number;
 	name: EnumSearchParams;
-	store?: EnumStore;
 };

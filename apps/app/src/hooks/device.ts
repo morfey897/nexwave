@@ -24,12 +24,14 @@ export const useMediaQuery = (query: string) => {
 };
 
 export const useBreakpoint = () => {
+	const xs = useMediaQuery('(max-width: 639px)');
 	const sm = useMediaQuery('(min-width: 640px)');
 	const md = useMediaQuery('(min-width: 768px)');
 	const ls = useMediaQuery('(min-width: 1024px)');
 	const xl = useMediaQuery('(min-width: 1280px)');
 	const xxl = useMediaQuery('(min-width: 1536px)');
 	return {
+		xs,
 		sm,
 		md,
 		ls,
@@ -39,11 +41,9 @@ export const useBreakpoint = () => {
 };
 
 export const useDevice = (): EnumDevice => {
-	const md = useMediaQuery('(min-width: 768px)');
-	const ls = useMediaQuery('(min-width: 1024px)');
-	const xl = useMediaQuery('(min-width: 1280px)');
-	const xxl = useMediaQuery('(min-width: 1536px)');
+	const { xs, sm, md, ls, xl, xxl } = useBreakpoint();
 	if (xxl || xl || ls) return EnumDevice.DESKTOP;
 	if (md) return EnumDevice.TABLET;
-	return EnumDevice.MOBILE;
+	if (sm || xs) return EnumDevice.MOBILE;
+	return EnumDevice.NONE;
 };

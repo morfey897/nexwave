@@ -31,7 +31,7 @@ function Table<T extends TUID>({
 								body={body}
 							/>
 						)}
-						{device != EnumDevice.DESKTOP && (
+						{(device == EnumDevice.MOBILE || device == EnumDevice.TABLET) && (
 							<TableMobile
 								className='min-w-full'
 								head={head}

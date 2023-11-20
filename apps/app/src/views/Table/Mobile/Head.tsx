@@ -1,20 +1,16 @@
 'use client';
-import { ITableHeadProps } from '@/types/table';
+import { EnumSort, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
 import { SortButton } from '../SortButton';
-import { useSort } from '@/hooks/filter';
 import { Fragment } from 'react';
 import { useTranslations } from 'next-intl';
-import { EnumSearchParams } from '@/types/filter';
 
 function Head<T extends TUID>({
 	head,
 	...props
 }: ITableHeadProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
 	const t = useTranslations('common');
-
-	const { onSort, sort } = useSort({ name: EnumSearchParams.SORT });
 
 	return (
 		<thead {...props}>
@@ -26,28 +22,30 @@ function Head<T extends TUID>({
 							{head
 								.filter(
 									({ type }) =>
-										hasType(type, 'sorted_n') || hasType(type, 'sorted_s'),
+										!!type &&
+										(hasType(type, EnumSort.NUMERIC) ||
+											hasType(type, EnumSort.SYMBOLIC)),
 								)
-								.map(({ token, type, title }) => (
+								.map(({ token, type, title, comparator, onSort }) => (
 									<Fragment key={token}>
-										{hasType(type, 'sorted_s') && (
+										{!!type && hasType(type, EnumSort.SYMBOLIC) && (
 											<SortButton
-												_uid={token}
-												s_asc={sort.asc}
-												s_desc={sort.desc}
+												comparator={comparator || 0}
 												variant='symbolic'
-												onClick={() => onSort(token)}
+												onClick={() =>
+													typeof onSort === 'function' && onSort(token)
+												}
 											>
 												{title}
 											</SortButton>
 										)}
-										{hasType(type, 'sorted_n') && (
+										{!!type && hasType(type, EnumSort.NUMERIC) && (
 											<SortButton
-												_uid={token}
-												s_asc={sort.asc}
-												s_desc={sort.desc}
+												comparator={comparator || 0}
 												variant='numeric'
-												onClick={() => onSort(token)}
+												onClick={() =>
+													typeof onSort === 'function' && onSort(token)
+												}
 											>
 												{title}
 											</SortButton>

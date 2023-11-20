@@ -25,16 +25,13 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const { onPage, page } = usePage({
+	const { onPage, page: activePage } = usePage({
+		pages,
 		name: EnumSearchParams.PAGE,
-		defaultValue: '1',
+		defaultValue: 1,
 	});
 
 	const t = useTranslations('common');
-
-	const activePage = useMemo(() => {
-		return Number.isNaN(page) || page < 1 || page > pages ? 1 : page;
-	}, [page, pages]);
 
 	const listPages = useMemo(() => {
 		const pagesList: TPages = [
@@ -68,9 +65,7 @@ export default function Pagination({
 			<Button
 				message={t('prev')}
 				icon={<HiOutlineArrowLongLeft size={24} />}
-				onClick={
-					activePage <= 1 ? undefined : () => onPage(String(activePage - 1))
-				}
+				onClick={activePage <= 1 ? undefined : () => onPage(activePage - 1)}
 				disabled={activePage === 1}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>
@@ -85,9 +80,7 @@ export default function Pagination({
 								: 'text-gray-500 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100',
 						)}
 						key={page ? `Page_${page}` : `index_${index}`}
-						onClick={
-							typeof page === 'number' ? () => onPage(String(page)) : undefined
-						}
+						onClick={typeof page === 'number' ? () => onPage(page) : undefined}
 						disabled={typeof page != 'number'}
 					>
 						{title}
@@ -101,9 +94,7 @@ export default function Pagination({
 			<Button
 				message={t('next')}
 				iconAfter={<HiOutlineArrowLongRight size={24} />}
-				onClick={
-					activePage >= pages ? undefined : () => onPage(String(activePage + 1))
-				}
+				onClick={activePage >= pages ? undefined : () => onPage(activePage + 1)}
 				disabled={activePage >= pages}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>

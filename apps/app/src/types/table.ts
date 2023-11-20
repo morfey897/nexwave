@@ -1,6 +1,10 @@
 import { TUID } from './common';
-import { TDeviceProps } from './view';
-export type TSort = 'head' | 'sorted_s' | 'sorted_n' | 'none' | 'sr-only';
+export enum EnumSort {
+	NONE = 'none',
+	SR_ONLY = 'sr-only',
+	SYMBOLIC = 'symbolic',
+	NUMERIC = 'numeric',
+}
 
 export type TGenerator<T extends TUID> = React.FC<{
 	item: T;
@@ -11,7 +15,9 @@ export type TGenerator<T extends TUID> = React.FC<{
 export interface IHeadProps<T extends TUID> {
 	token: string;
 	title: string;
-	type: TSort | TSort[];
+	type?: EnumSort | EnumSort[];
+	onSort?: (uid: string) => void;
+	comparator?: 1 | -1 | 0;
 	Generator: TGenerator<T>;
 }
 

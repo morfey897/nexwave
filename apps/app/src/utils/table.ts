@@ -1,4 +1,4 @@
-import { TSort } from '@/types/table';
+import { EnumSort } from '@/types/table';
 
-export const hasType = (type: TSort | TSort[], input: TSort) =>
+export const hasType = (type: EnumSort | EnumSort[], input: EnumSort) =>
 	type === input || (Array.isArray(type) && type.includes(input));

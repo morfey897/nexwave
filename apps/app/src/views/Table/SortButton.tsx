@@ -5,28 +5,24 @@ import {
 	BiSortUp,
 	BiSolidSortAlt,
 } from 'react-icons/bi';
-import { TUID } from '@/types/common';
 import clsx from 'clsx';
 
 export function SortButton({
-	_uid,
-	s_asc,
-	s_desc,
+	comparator,
 	variant,
 	className,
 	children,
 	...props
-}: TUID & {
-	s_asc?: string | null;
-	s_desc?: string | null;
+}: {
+	comparator?: 1 | 0 | -1;
 	variant: 'symbolic' | 'numeric';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	let Icon;
 	let NextIcon;
-	if (s_asc === _uid) {
+	if (comparator === 1) {
 		Icon = variant === 'symbolic' ? BiSortAZ : BiSortUp;
 		NextIcon = variant === 'symbolic' ? BiSortZA : BiSortDown;
-	} else if (s_desc === _uid) {
+	} else if (comparator === -1) {
 		Icon = variant === 'symbolic' ? BiSortZA : BiSortDown;
 		NextIcon = BiSolidSortAlt;
 	} else {

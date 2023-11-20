@@ -7,6 +7,7 @@ export type TBadgeProps = {
 };
 
 export enum EnumDevice {
+	NONE = '_none',
 	MOBILE = 'mobile',
 	DESKTOP = 'desktop',
 	TABLET = 'tablet',
