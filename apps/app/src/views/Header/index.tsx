@@ -10,7 +10,6 @@ import {
 	HiX,
 	HiCog,
 	HiLogout,
-	HiOutlineSearch,
 } from 'react-icons/hi';
 import { TiWaves } from 'react-icons/ti';
 import ThemeSwithcer from '@/components/Theme';

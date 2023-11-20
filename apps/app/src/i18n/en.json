@@ -58,8 +58,11 @@
   "clients_page": {
     "headline": "Clients",
     "subheadline": "Here you can find all clients",
-    "amount": "{count, plural, =0 {No clients yet} =1 {One client} other {# clients}}",
     "headline_empty": "No clients yet",
     "subheadline_empty": "You can add new client by clicking on the button below"
+  },
+  "timetable_page": {
+    "headline": "Timetable",
+    "subheadline": "Here you can find all events"
   }
 }

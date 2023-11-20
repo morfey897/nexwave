@@ -3,9 +3,10 @@ import { IHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
 import { SortButton } from '../SortButton';
-import { useSort } from '@/hooks/useSort';
+import { useSort } from '@/hooks/filter';
 import { Fragment } from 'react';
 import { useTranslations } from 'next-intl';
+import { EnumSearchParams } from '@/types/filter';
 
 function Head<T extends TUID>({
 	head,
@@ -15,7 +16,7 @@ function Head<T extends TUID>({
 } & React.HTMLAttributes<HTMLTableSectionElement>) {
 	const t = useTranslations('common');
 
-	const { onSort, s_asc, s_desc } = useSort();
+	const { onSort, sort } = useSort({ name: EnumSearchParams.SORT });
 
 	return (
 		<thead {...props}>
@@ -34,8 +35,8 @@ function Head<T extends TUID>({
 										{hasType(type, 'sorted_s') && (
 											<SortButton
 												_uid={token}
-												s_asc={s_asc}
-												s_desc={s_desc}
+												s_asc={sort.asc}
+												s_desc={sort.desc}
 												variant='symbolic'
 												onClick={() => onSort(token)}
 											>
@@ -45,8 +46,8 @@ function Head<T extends TUID>({
 										{hasType(type, 'sorted_n') && (
 											<SortButton
 												_uid={token}
-												s_asc={s_asc}
-												s_desc={s_desc}
+												s_asc={sort.asc}
+												s_desc={sort.desc}
 												variant='numeric'
 												onClick={() => onSort(token)}
 											>

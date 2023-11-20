@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 import { ITableProps } from '@/types/table';
 import { TUID } from '@/types/common';
-import TableMobile from './TableMobile';
-import TableDesktop from './TableDesktop';
+import TableMobile from './Mobile';
+import TableDesktop from './Desktop';
 
 function Table<T extends TUID>({
 	head,

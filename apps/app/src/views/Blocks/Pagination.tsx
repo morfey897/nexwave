@@ -7,8 +7,9 @@ import {
 	HiOutlineArrowLongLeft,
 	HiOutlineArrowLongRight,
 } from 'react-icons/hi2';
-import { PAGE } from '@/constants/searchparams';
 import { Button } from '@/components/Buttons';
+import { EnumSearchParams } from '@/types/filter';
+import { usePage } from '@/hooks/filter';
 
 type TTableFooterProps = {
 	pages: number;
@@ -25,14 +26,13 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const params = useSearchParams();
-	const router = useRouter();
+	const { onPage, page } = usePage({ name: EnumSearchParams.PAGE });
+
 	const t = useTranslations('common');
 
 	const activePage = useMemo(() => {
-		const page = parseInt(params.get(PAGE) || '');
 		return Number.isNaN(page) || page < 1 || page > pages ? 1 : page;
-	}, [params, pages]);
+	}, [page, pages]);
 
 	const listPages = useMemo(() => {
 		const pagesList: TPages = [
@@ -57,20 +57,6 @@ export default function Pagination({
 
 		return pagesList;
 	}, [pages, activePage]);
-
-	const onPage = useCallback(
-		(page: number) => {
-			const clone = new URLSearchParams(params);
-			if (page === 1) {
-				clone.delete(PAGE);
-			} else {
-				clone.set(PAGE, String(page));
-			}
-			const str = clone.toString();
-			router.push(`?${str}`);
-		},
-		[params, router],
-	);
 
 	return (
 		<div

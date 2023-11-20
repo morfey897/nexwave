@@ -23,10 +23,10 @@ export function SortButton({
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	let Icon;
 	let NextIcon;
-	if (s_asc?.includes(_uid)) {
+	if (s_asc === _uid) {
 		Icon = variant === 'symbolic' ? BiSortAZ : BiSortUp;
 		NextIcon = variant === 'symbolic' ? BiSortZA : BiSortDown;
-	} else if (s_desc?.includes(_uid)){
+	} else if (s_desc === _uid) {
 		Icon = variant === 'symbolic' ? BiSortZA : BiSortDown;
 		NextIcon = BiSolidSortAlt;
 	} else {
@@ -47,7 +47,7 @@ export function SortButton({
 				{!!Icon && <Icon size={20} />}
 			</span>
 			<span className='w-[20px] h-[20px] hidden group-hover:inline-block group-focus:hidden opacity-60'>
-			{!!NextIcon && <NextIcon size={20} />}
+				{!!NextIcon && <NextIcon size={20} />}
 			</span>
 		</button>
 	);

@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { HiOutlineCloudArrowUp } from 'react-icons/hi2';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
@@ -10,9 +10,12 @@ import { TMessages } from '@/types/view';
 import DropDown from '@/components/DropDown';
 import { HiOutlineFilter } from 'react-icons/hi';
 
-import { useFilter } from '@/hooks/useFilter';
+import { useFilter, useSearch } from '@/hooks/filter';
+import { EnumSearchParams } from '@/types/filter';
 
-interface ITableHeaderProps extends TMessages {
+interface IPageHeaderProps extends TMessages {
+	onAdd?: () => void;
+	onImport?: () => void;
 	filters?: Array<{
 		title: string;
 		uid: string;
@@ -20,32 +23,24 @@ interface ITableHeaderProps extends TMessages {
 }
 
 function PageHeader({
+	onAdd,
+	onImport,
 	messages,
 	filters,
 	className,
 	...props
-}: ITableHeaderProps & React.HTMLAttributes<HTMLDivElement>) {
-	const { onFilter, filter } = useFilter();
-
-	const filterButtons = useMemo(
-		() =>
-			filters?.map(({ uid, title }) => (
-				<Button
-					key={uid}
-					onClick={() => onFilter(uid)}
-					disabled={filter === uid}
-					className={clsx(
-						'disabled:text-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
-					)}
-				>
-					{title}
-				</Button>
-			)),
-		[filters, filter, onFilter],
-	);
+}: IPageHeaderProps & React.HTMLAttributes<HTMLDivElement>) {
+	const { onFilter, filter } = useFilter({ name: EnumSearchParams.FILTER });
+	const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
 
 	return (
-		<div className={clsx('container mx-auto sticky top-[80px] bg-gray-100 dark:bg-gray-900 z-10 pb-4', className)} {...props}>
+		<div
+			className={clsx(
+				'container mx-auto sticky top-[80px] bg-gray-100 dark:bg-gray-900 z-10 pb-4',
+				className,
+			)}
+			{...props}
+		>
 			<div className='flex items-center justify-between gap-x-3'>
 				<div className='w-full'>
 					<div className='flex items-center gap-x-3 justify-between'>
@@ -72,15 +67,21 @@ function PageHeader({
 
 				<div className='hidden md:flex items-center mt-4 gap-x-3 gap-y-2'>
 					<GroupButton>
-						<Button
-							variant='primary'
-							icon={<HiOutlinePlusCircle size={20} />}
-							message={messages?.add}
-						/>
-						<Button
-							icon={<HiOutlineCloudArrowUp size={20} />}
-							message={messages?.import}
-						/>
+						{!!onAdd && (
+							<Button
+								onClick={onAdd}
+								variant='primary'
+								icon={<HiOutlinePlusCircle size={20} />}
+								message={messages?.add}
+							/>
+						)}
+						{!!onImport && (
+							<Button
+								onClick={onImport}
+								icon={<HiOutlineCloudArrowUp size={20} />}
+								message={messages?.import}
+							/>
+						)}
 					</GroupButton>
 				</div>
 			</div>
@@ -97,11 +98,26 @@ function PageHeader({
 							/>
 						}
 					>
-						<div className='px-2 py-4 flex flex-col'>{filterButtons}</div>
+						<div className='px-2 py-4 flex flex-col'>
+							{filters?.map(({ uid, title }) => (
+								<Button
+									key={uid}
+									onClick={() => onFilter(uid)}
+									disabled={filter === uid}
+									className={clsx(
+										'disabled:text-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
+									)}
+								>
+									{title}
+								</Button>
+							))}
+						</div>
 					</DropDown>
 				</div>
 
 				<Search
+					onChange={onSearch}
+					defaultValue={search || ''}
 					placeholder={messages?.search as string}
 					wrapperClassName='flex items-center w-full max-w-[380px]'
 					className='h-12'

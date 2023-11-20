@@ -18,5 +18,3 @@ export interface ITableProps<T extends TUID> {
 	head: Array<IHeadProps<T>>;
 	body?: Array<T>;
 }
-
-export type TLevel = 'success' | 'warn' | 'info';

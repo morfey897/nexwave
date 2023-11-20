@@ -15,6 +15,7 @@ import withGenerator, {
 } from '@/components/Generators';
 
 import { Button } from '@/components/Buttons';
+import { EnumLevel } from '@/types/common';
 
 export default function Home() {
 	const t = useTranslations();
@@ -78,9 +79,9 @@ export default function Home() {
 						clients.map((item) => ({
 							...item,
 							badges: [
-								{ title: 'Problem', level: 'warn' },
-								{ title: 'VIP', level: 'success' },
-								{ title: 'NewWW', level: 'info' },
+								{ title: 'Problem', level: EnumLevel.WARN },
+								{ title: 'VIP', level: EnumLevel.SUCCESS },
+								{ title: 'NewWW', level: EnumLevel.INFO },
 								{ title: 'Newbie' },
 							],
 						})) as unknown as Array<IClient>
