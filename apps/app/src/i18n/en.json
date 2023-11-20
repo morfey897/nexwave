@@ -10,7 +10,7 @@
 		"export": "Export",
 		"add": "Add",
 		"prev": "Previous",
-		"page_of": "{activePage} / {pages}",
+		"page_of": "{page} / {maxPage}",
 		"next": "Next",
 		"settings": "Settings",
 		"sign_out": "Sign out",

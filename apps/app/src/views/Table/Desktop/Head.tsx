@@ -3,7 +3,7 @@ import { EnumSort, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
 
-import { SortButton } from '../SortButton';
+import SortButton from '@/components/Buttons/SortButton';
 import clsx from 'clsx';
 
 function Head<T extends TUID>({
@@ -22,21 +22,21 @@ function Head<T extends TUID>({
 					>
 						{!!type && hasType(type, EnumSort.SYMBOLIC) && (
 							<SortButton
+								variant='text'
 								comparator={comparator || 0}
-								variant='symbolic'
+								as='symbolic'
 								onClick={() => typeof onSort === 'function' && onSort(token)}
-							>
-								{title}
-							</SortButton>
+								message={title}
+							/>
 						)}
 						{!!type && hasType(type, EnumSort.NUMERIC) && (
 							<SortButton
+								variant='text'
 								comparator={comparator || 0}
-								variant='numeric'
+								as='numeric'
 								onClick={() => typeof onSort === 'function' && onSort(token)}
-							>
-								{title}
-							</SortButton>
+								message={title}
+							/>
 						)}
 						{!!type && hasType(type, EnumSort.SR_ONLY) && (
 							<span className='sr-only'>{title}</span>

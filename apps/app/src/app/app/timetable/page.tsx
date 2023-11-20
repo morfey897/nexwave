@@ -11,8 +11,10 @@ import { EnumView } from '@/types/calendar';
 import { useMemo } from 'react';
 
 export default function Home() {
-	const { onFilter, filter } = useFilter({ name: EnumSearchParams.FILTER });
-	// const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
+	const { onFilter, filter } = useFilter({
+		name: EnumSearchParams.FILTER,
+		defaultValue: EnumView.WEEK,
+	});
 
 	const t = useTranslations();
 
@@ -40,7 +42,7 @@ export default function Home() {
 					/>
 					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
 						<Filter
-							as='group'
+							as='auto:md'
 							className='flex shrink-0'
 							icon={<HiOutlineViewGrid size={16} />}
 							message={t('timetable_page.view', { filter: filter })}

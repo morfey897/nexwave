@@ -10,7 +10,7 @@
 		"export": "Експорт",
 		"add": "Додати",
 		"prev": "Попередня",
-		"page_of": "{activePage} / {pages}",
+		"page_of": "{page} / {maxPage}",
 		"next": "Наступна",
 		"settings": "Налаштування",
 		"sign_out": "Вийти",

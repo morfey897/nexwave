@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import DropDown from '../../DropDown';
-import { Button, GroupButton } from '../../Button';
+import { Button, GroupButton } from '../../Buttons';
 import { TMessage } from '@/types/view';
 
 interface IFilter extends TMessage {
@@ -12,7 +12,7 @@ interface IFilter extends TMessage {
 		uid: string;
 	}>;
 	icon?: React.ReactNode;
-	as?: 'dropdown' | 'group' | 'auto';
+	as?: 'dropdown' | 'group' | 'auto:lg' | 'auto:md';
 }
 
 const AsDropDown = ({
@@ -52,8 +52,6 @@ const AsDropDown = ({
 const AsGroup = ({
 	onChange,
 	value,
-	icon,
-	message,
 	filters,
 	className,
 }: { className?: string } & IFilter) => (
@@ -81,7 +79,7 @@ function Filter({
 	message,
 	filters,
 	icon,
-	as = 'auto',
+	as,
 	...props
 }: IFilter & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>) {
 	return (
@@ -103,6 +101,32 @@ function Filter({
 					filters={filters}
 					icon={icon}
 				/>
+			)}
+			{(as === 'auto:lg' || as === 'auto:md') && (
+				<>
+					<AsGroup
+						className={clsx('hidden', {
+							'md:flex': as === 'auto:md',
+							'lg:flex': as === 'auto:lg',
+						})}
+						onChange={onChange}
+						value={value}
+						message={message}
+						filters={filters}
+						icon={icon}
+					/>
+					<AsDropDown
+						className={clsx({
+							'md:hidden': as === 'auto:md',
+							'lg:hidden': as === 'auto:lg',
+						})}
+						onChange={onChange}
+						value={value}
+						message={message}
+						filters={filters}
+						icon={icon}
+					/>
+				</>
 			)}
 		</div>
 	);

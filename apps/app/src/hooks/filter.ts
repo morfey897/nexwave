@@ -2,6 +2,8 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TFilterParams } from '@/types/filter';
+import { type } from 'os';
+import { max } from 'lodash';
 
 function _use({ prefix, name, defaultValue }: TFilterParams) {
 	const searchParams = useSearchParams();
@@ -68,15 +70,37 @@ export function useView(params: TFilterParams) {
 export function usePage({
 	pages,
 	...params
-}: TFilterParams & { pages: number }) {
+}: TFilterParams & { pages?: number }) {
 	const { onChange, value } = _use(params);
+
+	const maxPage = useMemo(
+		() => (!pages || Number.isNaN(pages) ? 1 : pages),
+		[pages],
+	);
 
 	const page = useMemo(() => {
 		const page = parseInt(value);
-		return Number.isNaN(page) || page < 1 || page > pages ? 1 : page;
-	}, [value, pages]);
+		return Number.isNaN(page) || page < 1 || page > maxPage ? 1 : page;
+	}, [value, maxPage]);
 
-	return { onPage: onChange, page };
+	const onPage = useCallback(
+		(page: number | string) => {
+			if (typeof page === 'string') {
+				page = parseInt(page);
+			}
+			if (Number.isNaN(page)) return;
+			if (page <= 1) {
+				onChange(1);
+			} else if (page >= maxPage) {
+				onChange(maxPage);
+			} else {
+				onChange(page);
+			}
+		},
+		[page, maxPage, onChange],
+	);
+
+	return { onPage, page, maxPage };
 }
 
 /**

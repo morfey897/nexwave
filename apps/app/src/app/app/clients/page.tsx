@@ -1,7 +1,7 @@
 'use client';
 import { HiOutlineFilter } from 'react-icons/hi';
 import Empty from '@/views/Blocks/Empty';
-import Pagination from '@/views/Blocks/Pagination';
+import Pagination from '@/components/Controls/Pagination';
 import Table from '@/views/Table';
 import { useTranslations } from 'next-intl';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
@@ -14,11 +14,11 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { Button } from '@/components/Button';
+import { Button } from '@/components/Buttons';
 import { EnumFilter } from '@/types/client';
 import PageContainer from '@/views/Blocks/PageContainer';
 import Headline from '@/views/Headline';
-import { useFilter, useSearch, useSort } from '@/hooks/filter';
+import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
@@ -38,7 +38,11 @@ export default function Home() {
 	});
 	const { onSort, sort } = useSort({
 		name: EnumSearchParams.SORT,
-		defaultValue: 'name'
+		defaultValue: 'name',
+	});
+	const { onPage, page, maxPage } = usePage({
+		pages: 1,
+		name: EnumSearchParams.PAGE,
 	});
 
 	const t = useTranslations();
@@ -73,7 +77,7 @@ export default function Home() {
 					/>
 					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
 						<Filter
-							as='dropdown'
+							as='auto:lg'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
 							message={t('clients_page.filter', { filter: filter })}
@@ -149,7 +153,7 @@ export default function Home() {
 						})) as unknown as Array<IClient>
 					}
 				/>
-				<Pagination pages={1} />
+				<Pagination maxPage={maxPage} page={page} onPage={onPage} />
 			</section>
 		</div>
 	);

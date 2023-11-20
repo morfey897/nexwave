@@ -1,7 +1,7 @@
 'use client';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { HiOutlineCloudArrowUp } from 'react-icons/hi2';
-import { Button, GroupButton } from '@/components/Button';
+import { Button, GroupButton } from '@/components/Buttons';
 import { CountBadge } from '@/components/Badge';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';

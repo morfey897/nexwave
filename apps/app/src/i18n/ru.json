@@ -9,7 +9,7 @@
     "export": "Экспорт",
     "add": "Добавить",
     "prev": "Предыдущая",
-    "page_of": "{activePage} / {pages}",
+    "page_of": "{page} / {maxPage}",
     "next": "Следующая",
     "settings": "Настройки",
     "sign_out": "Выйти",

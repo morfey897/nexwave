@@ -6,12 +6,12 @@ import {
 	HiOutlineArrowLongLeft,
 	HiOutlineArrowLongRight,
 } from 'react-icons/hi2';
-import { Button } from '@/components/Button';
-import { EnumSearchParams } from '@/types/filter';
-import { usePage } from '@/hooks/filter';
+import { Button } from '@/components/Buttons';
 
 type TTableFooterProps = {
-	pages: number;
+	onPage?: (page: number) => void;
+	page: number;
+	maxPage: number;
 };
 
 type TPages = Array<{
@@ -21,23 +21,19 @@ type TPages = Array<{
 }>;
 
 export default function Pagination({
-	pages,
+	page,
+	maxPage,
+	onPage,
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const { onPage, page: activePage } = usePage({
-		pages,
-		name: EnumSearchParams.PAGE,
-		defaultValue: 1,
-	});
-
 	const t = useTranslations('common');
 
 	const listPages = useMemo(() => {
 		const pagesList: TPages = [
-			...new Set([1, ...[activePage - 1, activePage, activePage + 1], pages]),
+			...new Set([1, ...[page - 1, page, page + 1], maxPage]),
 		]
-			.filter((value) => value >= 1 && value <= pages)
+			.filter((value) => value >= 1 && value <= maxPage)
 			.sort((a, b) => a - b)
 			.reduce((acc: TPages, i) => {
 				let previous = acc[acc.length - 1] || { page: undefined };
@@ -49,13 +45,13 @@ export default function Pagination({
 				acc.push({
 					page: i,
 					title: String(i),
-					active: i === activePage,
+					active: i === page,
 				});
 				return acc;
 			}, []);
 
 		return pagesList;
-	}, [pages, activePage]);
+	}, [maxPage, page]);
 
 	return (
 		<div
@@ -65,8 +61,8 @@ export default function Pagination({
 			<Button
 				message={t('prev')}
 				icon={<HiOutlineArrowLongLeft size={24} />}
-				onClick={activePage <= 1 ? undefined : () => onPage(activePage - 1)}
-				disabled={activePage === 1}
+				onClick={() => typeof onPage === 'function' && onPage(page - 1)}
+				disabled={page === 1}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>
 
@@ -80,7 +76,11 @@ export default function Pagination({
 								: 'text-gray-500 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100',
 						)}
 						key={page ? `Page_${page}` : `index_${index}`}
-						onClick={typeof page === 'number' ? () => onPage(page) : undefined}
+						onClick={() =>
+							typeof page === 'number' &&
+							typeof onPage === 'function' &&
+							onPage(page)
+						}
 						disabled={typeof page != 'number'}
 					>
 						{title}
@@ -88,14 +88,14 @@ export default function Pagination({
 				))}
 			</div>
 			<div className='items-center flex md:hidden gap-x-3'>
-				{t('page_of', { activePage, pages })}
+				{t('page_of', { page, maxPage })}
 			</div>
 
 			<Button
 				message={t('next')}
 				iconAfter={<HiOutlineArrowLongRight size={24} />}
-				onClick={activePage >= pages ? undefined : () => onPage(activePage + 1)}
-				disabled={activePage >= pages}
+				onClick={() => typeof onPage === 'function' && onPage(page + 1)}
+				disabled={page >= maxPage}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>
 		</div>

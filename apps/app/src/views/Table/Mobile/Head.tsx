@@ -2,7 +2,7 @@
 import { EnumSort, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
-import { SortButton } from '../SortButton';
+import SortButton from '@/components/Buttons/SortButton';
 import { Fragment } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -30,25 +30,25 @@ function Head<T extends TUID>({
 									<Fragment key={token}>
 										{!!type && hasType(type, EnumSort.SYMBOLIC) && (
 											<SortButton
+												variant='text'
 												comparator={comparator || 0}
-												variant='symbolic'
+												as='symbolic'
 												onClick={() =>
 													typeof onSort === 'function' && onSort(token)
 												}
-											>
-												{title}
-											</SortButton>
+												message={title}
+											/>
 										)}
 										{!!type && hasType(type, EnumSort.NUMERIC) && (
 											<SortButton
+												variant='text'
 												comparator={comparator || 0}
-												variant='numeric'
+												as='numeric'
 												onClick={() =>
 													typeof onSort === 'function' && onSort(token)
 												}
-											>
-												{title}
-											</SortButton>
+												message={title}
+											/>
 										)}
 									</Fragment>
 								))}
