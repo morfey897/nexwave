@@ -1,5 +1,5 @@
 'use client';
-import { IHeadProps } from '@/types/table';
+import { IHeadProps, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { EnumSearchParams } from '@/types/filter';
 import { hasType } from '@/utils/table';
@@ -12,9 +12,7 @@ function Head<T extends TUID>({
 	head,
 	className,
 	...props
-}: {
-	head: Array<IHeadProps<T>>;
-} & React.HTMLAttributes<HTMLTableSectionElement>) {
+}: ITableHeadProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
 	const { onSort, sort } = useSort({
 		name: EnumSearchParams.SORT,
 	});

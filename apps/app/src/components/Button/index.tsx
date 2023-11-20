@@ -37,11 +37,16 @@ export function GroupButton({
 	children,
 	...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+	const len = Array.isArray(children)
+		? children.filter((el) => Boolean(el)).length
+		: 1;
+
 	return (
-		// className=''
 		<div
 			className={clsx(
-				'inline-flex overflow-hidden divide-x [&>*:first-child]:rounded-r-none [&>*:not(:first-child):not(:last-child)]:rounded-none [&>*:last-child]:rounded-l-none',
+				'inline-flex overflow-hidden divide-x',
+				len > 1 &&
+					'[&>*:first-child]:rounded-r-none [&>*:not(:first-child):not(:last-child)]:rounded-none [&>*:last-child]:rounded-l-none',
 				className,
 			)}
 			{...props}
@@ -50,3 +55,5 @@ export function GroupButton({
 		</div>
 	);
 }
+
+export default Button;

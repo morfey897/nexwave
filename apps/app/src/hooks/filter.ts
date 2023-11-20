@@ -8,28 +8,91 @@ const parseSort = (sort: string | null) => ({
 	desc: (sort?.charAt(0) === '-' ? sort?.slice(1) : '') || '',
 });
 
+const setValue = (
+	params: string | URLSearchParams,
+	{ prefix, name, defaultValue }: TFilterParams,
+	value: string,
+) => {
+	const searchParam = prefix ? `${prefix}-${name}` : name;
+
+	const clone = new URLSearchParams(params);
+	if (defaultValue === value || !value) {
+		clone.delete(searchParam);
+	} else {
+		clone.set(searchParam, value);
+	}
+	return clone.toString();
+};
+
+const getValue = (
+	params: string | URLSearchParams,
+	{ prefix, name, defaultValue }: TFilterParams,
+) => {
+	const searchParam = prefix ? `${prefix}-${name}` : name;
+	return new URLSearchParams(params).get(searchParam) || defaultValue || '';
+};
+
+// const useStore = (store?: TFilterParams['store']) => {
+// 	const params = useSearchParams();
+
+// 	const closure = useMemo(() => {
+// 		return {
+// 			get: (name: string) => {
+// 				if (store === 'localStorage') {
+// 					return localStorage.getItem(name);
+// 				}
+// 				return params.get(name);
+// 			},
+// 			set: (name: string, value: string) => {
+// 				if (store === 'localStorage') {
+// 					localStorage.setItem(name, value);
+// 					return '';
+// 				}
+// 				const clone = new URLSearchParams(params);
+// 				clone.set(name, value);
+// 				return clone.toString();
+// 			},
+// 			del: (name: string) => {
+// 				if (store === 'localStorage') {
+// 					localStorage.removeItem(name);
+// 					return '';
+// 				}
+// 				const clone = new URLSearchParams(params);
+// 				clone.delete(name);
+// 			},
+// 			toString: () => {
+// 				if (store === 'localStorage') {
+// 					localStorage.setItem(name, value);
+// 					return '';
+// 				}
+// 				const clone = new URLSearchParams(params);
+// 				clone.set(name, value);
+// 				// return clone.toString();
+// 			},
+// 		};
+// 	}, [params]);
+
+// 	return closure;
+// };
+
 /**
  * Hook for filter
  * @param name - search param name
  * @returns
  */
-export function useFilter({ prefix, name }: TFilterParams) {
-	const params = useSearchParams();
+export function useFilter(params: TFilterParams) {
+	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const searchParam = prefix ? `${prefix}-${name}` : name;
-
 	const onFilter = useCallback(
-		(uid: string) => {
-			const clone = new URLSearchParams(params);
-			clone.set(searchParam, uid);
-			const str = clone.toString();
+		(value: string) => {
+			const str = setValue(searchParams, params, value);
 			router.push(`?${str}`);
 		},
-		[params, router, searchParam],
+		[searchParams, router],
 	);
 
-	const filter = useMemo(() => params.get(searchParam), [params, searchParam]);
+	const filter = useMemo(() => getValue(searchParams, params), [searchParams]);
 
 	return { onFilter, filter };
 }
@@ -39,27 +102,19 @@ export function useFilter({ prefix, name }: TFilterParams) {
  * @param name - search param name
  * @returns
  */
-export function useSearch({ prefix, name }: TFilterParams) {
-	const params = useSearchParams();
+export function useSearch(params: TFilterParams) {
+	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const searchParam = prefix ? `${prefix}-${name}` : name;
-
 	const onSearch = useCallback(
-		(input: string) => {
-			const clone = new URLSearchParams(params);
-			if (!input) {
-				clone.delete(searchParam);
-			} else {
-				clone.set(searchParam, input);
-			}
-			const str = clone.toString();
+		(value: string) => {
+			const str = setValue(searchParams, params, value);
 			router.push(`?${str}`);
 		},
-		[params, router, searchParam],
+		[router, searchParams],
 	);
 
-	const search = useMemo(() => params.get(searchParam), [params, searchParam]);
+	const search = useMemo(() => getValue(searchParams, params), [searchParams]);
 
 	return { onSearch, search };
 }
@@ -69,32 +124,29 @@ export function useSearch({ prefix, name }: TFilterParams) {
  * @param name - search param name
  * @returns
  */
-export function useSort({ prefix, name }: TFilterParams) {
-	const params = useSearchParams();
+export function useSort(params: TFilterParams) {
+	const searchParams = useSearchParams();
 	const router = useRouter();
-
-	const searchParam = prefix ? `${prefix}-${name}` : name;
 
 	const onSort = useCallback(
 		(uid: string) => {
-			const clone = new URLSearchParams(params);
-			const sort = parseSort(clone.get(searchParam));
+			let str = new URLSearchParams(searchParams).toString();
+			const sort = parseSort(getValue(searchParams, params));
 			if (sort.asc === uid) {
-				clone.set(searchParam, `-${uid}`);
+				str = setValue(searchParams, params, `-${uid}`);
 			} else if (sort.desc === uid) {
-				clone.delete(searchParam);
+				str = setValue(searchParams, params, '');
 			} else {
-				clone.set(searchParam, uid);
+				str = setValue(searchParams, params, uid);
 			}
-			const str = clone.toString();
 			router.push(`?${str}`);
 		},
-		[params, router, searchParam],
+		[searchParams, router],
 	);
 
 	const sort = useMemo(
-		() => parseSort(params.get(searchParam)),
-		[params, searchParam],
+		() => parseSort(getValue(searchParams, params)),
+		[searchParams],
 	);
 
 	return { onSort, sort };
@@ -105,30 +157,22 @@ export function useSort({ prefix, name }: TFilterParams) {
  * @param name - search param name
  * @returns
  */
-export function usePage({ prefix, name }: TFilterParams) {
-	const params = useSearchParams();
+export function usePage(params: TFilterParams) {
+	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const searchParam = prefix ? `${prefix}-${name}` : name;
-
 	const onPage = useCallback(
-		(page: number) => {
-			const clone = new URLSearchParams(params);
-			if (page === 1) {
-				clone.delete(searchParam);
-			} else {
-				clone.set(searchParam, String(page));
-			}
-			const str = clone.toString();
+		(page: string) => {
+			const str = setValue(searchParams, params, page);
 			router.push(`?${str}`);
 		},
-		[params, router, searchParam],
+		[router, searchParams],
 	);
 
 	const page = useMemo(() => {
-		const page = parseInt(params.get(searchParam) || '');
+		const page = parseInt(getValue(searchParams, params));
 		return Number.isNaN(page) || page < 1 ? 1 : page;
-	}, [params, searchParam]);
+	}, [searchParams]);
 
 	return { onPage, page };
 }

@@ -1,6 +1,6 @@
 'use client';
+import { HiOutlineFilter } from 'react-icons/hi';
 import Empty from '@/views/Blocks/Empty';
-import PageHeader from '@/views/Blocks/PageHeader';
 import Pagination from '@/views/Blocks/Pagination';
 import Table from '@/views/Table';
 import { useTranslations } from 'next-intl';
@@ -14,32 +14,73 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { Button } from '@/components/Buttons';
+import { Button } from '@/components/Button';
+import { EnumFilter } from '@/types/client';
+import PageContainer from '@/views/Blocks/PageContainer';
+import Headline from '@/views/Headline';
+import { useFilter, useSearch } from '@/hooks/filter';
+import { EnumSearchParams } from '@/types/filter';
+import Search from '@/components/Controls/Search';
+import Filter from '@/components/Controls/Filter';
+import { useMemo } from 'react';
 import { EnumLevel } from '@/types/common';
+import { useDevice } from '@/hooks/device';
 
 export default function Home() {
+	const device = useDevice();
+	const { onFilter, filter } = useFilter({ name: EnumSearchParams.FILTER });
+	const { onSearch, search } = useSearch({ name: EnumSearchParams.SEARCH });
+
 	const t = useTranslations();
 
+	const filters = useMemo(() => {
+		return Object.values(EnumFilter).map((uid) => ({
+			uid: uid,
+			title: t(`clients_page.filter_${uid}`),
+		}));
+	}, []);
+
 	return (
-		//  ml-0 lg:ml-64
 		<div className='flex flex-col items-center justify-between my-4 lg:my-8'>
 			<section className='container mx-auto'>
-				<PageHeader
-					messages={{
-						headline: t('clients_page.headline'),
-						subheadline: t('clients_page.subheadline'),
-						amount: 0,
-						search: t('common.search'),
-						add: t('common.add'),
-						import: t('common.import'),
-						export: t('common.export'),
-					}}
-					filters={[
-						{ title: 'all', uid: 'all' },
-						{ title: 'part', uid: 'part' },
-					]}
-				/>
+				<PageContainer>
+					<Headline
+						headline={t('clients_page.headline')}
+						subheadline={t('clients_page.subheadline')}
+						amount={0}
+						add={{
+							title: t('common.add'),
+							onClick: () => {
+								console.log('onAdd');
+							},
+						}}
+						imprt={{
+							title: t('common.import'),
+							onClick: () => {
+								console.log('onImport');
+							},
+						}}
+					/>
+					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
+						<Filter
+							className='flex shrink-0'
+							icon={<HiOutlineFilter size={16} />}
+							message={t('clients_page.filter', { filter: filter })}
+							filters={filters}
+							onChange={onFilter}
+							value={filter}
+						/>
+						<Search
+							onChange={onSearch}
+							defaultValue={search || ''}
+							placeholder={t('common.search')}
+							wrapperClassName='flex items-center w-full max-w-[380px]'
+							className='h-12'
+						/>
+					</div>
+				</PageContainer>
 				<Table<IClient>
+					device={device}
 					empty={
 						<Empty
 							messages={{

@@ -1,68 +1,78 @@
 {
-  "common": {
-    "search": "Search",
-    "sort_by": "Sort by",
-    "clear_search": "Clear search",
-    "clear": "Clear",
-    "del": "Delete",
-    "import": "Import",
-    "export": "Export",
-    "add": "Add",
-    "prev": "Previous",
-    "page_of": "{activePage} / {pages}",
-    "next": "Next",
-    "settings": "Settings",
-    "sign_out": "Sign out",
-    "today": "Today",
-    "yesterday": "Yesterday",
-    "before_yesterday": "Before yesterday",
-    "days_ago": "{count, plural, =0 {Today} =1 {Yesterday} =2 {Before yesterday} other {# days ago}}",
-    "i18n": {
-      "uk": {
-        "title": "Українська",
-        "abr": "Укр"
-      },
-      "ru": {
-        "title": "Русский",
-        "abr": "Рус"
-      },
-      "en": {
-        "title": "English",
-        "abr": "Eng"
-      }
-    },
-    "links": {
-      "cms": "Edit PDKalipso",
-      "site": "PDKalipso"
-    },
-    "breadcrumbs": {
-      "app": "Root",
-      "clients": "Clients",
-      "services": "Services",
-      "timetable": "Timetable",
-      "users": "Users",
-      "products": "Products"
-    }
-  },
-  "not_found_page": {
-    "headline": "We lost this page",
-    "subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go.",
-    "go_back": "Go back",
-    "go_home": "Take me home"
-  },
-  "error_page": {
-    "headline": "Something went wrong!",
-    "subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again.",
-    "reset": "Try again"
-  },
-  "clients_page": {
-    "headline": "Clients",
-    "subheadline": "Here you can find all clients",
-    "headline_empty": "No clients yet",
-    "subheadline_empty": "You can add new client by clicking on the button below"
-  },
-  "timetable_page": {
-    "headline": "Timetable",
-    "subheadline": "Here you can find all events"
-  }
+	"common": {
+		"search": "Search",
+		"view": "{view, select, month {Month} week {Week} day {Day} list {List} other {View}}",
+		"sort_by": "Sort by",
+		"clear_search": "Clear search",
+		"clear": "Clear",
+		"del": "Delete",
+		"import": "Import",
+		"export": "Export",
+		"add": "Add",
+		"prev": "Previous",
+		"page_of": "{activePage} / {pages}",
+		"next": "Next",
+		"settings": "Settings",
+		"sign_out": "Sign out",
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"before_yesterday": "Before yesterday",
+		"days_ago": "{count, plural, =0 {Today} =1 {Yesterday} =2 {Before yesterday} other {# days ago}}",
+		"i18n": {
+			"uk": {
+				"title": "Українська",
+				"abr": "Укр"
+			},
+			"ru": {
+				"title": "Русский",
+				"abr": "Рус"
+			},
+			"en": {
+				"title": "English",
+				"abr": "Eng"
+			}
+		},
+		"links": {
+			"cms": "Edit PDKalipso",
+			"site": "PDKalipso"
+		},
+		"breadcrumbs": {
+			"app": "Root",
+			"clients": "Clients",
+			"services": "Services",
+			"timetable": "Timetable",
+			"users": "Users",
+			"products": "Products"
+		}
+	},
+	"not_found_page": {
+		"headline": "We lost this page",
+		"subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go.",
+		"go_back": "Go back",
+		"go_home": "Take me home"
+	},
+	"error_page": {
+		"headline": "Something went wrong!",
+		"subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again.",
+		"reset": "Try again"
+	},
+	"clients_page": {
+		"headline": "Clients",
+		"subheadline": "Here you can find all clients",
+		"headline_empty": "No clients yet",
+		"subheadline_empty": "You can add new client by clicking on the button below",
+		"filter": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
+		"filter_all": "All",
+		"filter_active": "Active",
+		"filter_inactive": "Inactive"
+	},
+	"timetable_page": {
+		"headline": "Timetable",
+		"subheadline": "Here you can find all events",
+		"view": "{filter, select, month {Month} week {Week} day {Day} list {List} other {View}}",
+		"view_month": "Month",
+		"view_week": "Week",
+		"view_day": "Day",
+		"view_list": "List"
+	}
 }

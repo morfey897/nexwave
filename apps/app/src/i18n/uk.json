@@ -1,66 +1,67 @@
 {
-  "common": {
-    "search": "Пошук",
-    "sort_by": "Сортувати за",
-    "clear_search": "Очистити пошук",
-    "clear": "Очистити",
-    "del": "Видалити",
-    "import": "Імпорт",
-    "export": "Експорт",
-    "add": "Додати",
-    "prev": "Попередня",
-    "page_of": "{activePage} / {pages}",
-    "next": "Наступна",
-    "settings": "Налаштування",
-    "sign_out": "Вийти",
-    "days_ago": "{count, plural, =0 {Сьогодні} =1 {Вчора} =2 {Позавчера} other {# дн. тому}}",
-    "i18n": {
-      "uk": {
-        "title": "Українська",
-        "abr": "Укр"
-      },
-      "ru": {
-        "title": "Русский",
-        "abr": "Рус"
-      },
-      "en": {
-        "title": "English",
-        "abr": "Eng"
-      }
-    },
-    "links": {
-      "cms": "Edit PDKalipso",
-      "site": "PDKalipso"
-    },
-    "breadcrumbs": {
-      "app": "Головна",
-      "clients": "Клієнти",
-      "services": "Послуги",
-      "timetable": "Росклад",
-      "users": "Користувачі",
-      "products": "Товари"
-    }
-  },
-  "not_found_page": {
-    "headline": "Ми втратили цю сторінку",
-    "subheadline": "Ми шукали всюди, але не змогли знайти те, що ви шукаєте. Давай знайдемо тобі найкраще місце.",
-    "go_back": "Повернутися назад",
-    "go_home": "На головну"
-  },
-  "error_page": {
-    "headline": "Упс... щось пішло не так",
-    "subheadline": "Ми робили все можливе, але не змогли уникнути помилки. Спробуємо ще раз.",
-    "reset": "Спробувати ще"
-  },
-  "clients_page": {
-    "headline": "Клієнти",
-    "subheadline": "Список клієнтів",
-    "amount": "{count, plural, =0 {Ще немає клієнтів} =1 {Один клієнт} =2 {Два клієнти} =3 {Три клієнти} =4 {Три клієнти} other {# клиентів}}",
-    "headline_empty": "Немає клієнтів",
-    "subheadline_empty": "Додайте клієнтів, щоб вони з'явилися тут"
-  },
-  "timetable_page": {
-    "headline": "Розклад",
-    "subheadline": "Розклад роботи усіх співробітників"
-  }
+	"common": {
+		"search": "Пошук",
+		"filter": "Фільтр{filter, select, all { Всі} active { Активні} inactive { Неактивні} other {}}",
+		"sort_by": "Сортувати за",
+		"clear_search": "Очистити пошук",
+		"clear": "Очистити",
+		"del": "Видалити",
+		"import": "Імпорт",
+		"export": "Експорт",
+		"add": "Додати",
+		"prev": "Попередня",
+		"page_of": "{activePage} / {pages}",
+		"next": "Наступна",
+		"settings": "Налаштування",
+		"sign_out": "Вийти",
+		"days_ago": "{count, plural, =0 {Сьогодні} =1 {Вчора} =2 {Позавчера} other {# дн. тому}}",
+		"i18n": {
+			"uk": {
+				"title": "Українська",
+				"abr": "Укр"
+			},
+			"ru": {
+				"title": "Русский",
+				"abr": "Рус"
+			},
+			"en": {
+				"title": "English",
+				"abr": "Eng"
+			}
+		},
+		"links": {
+			"cms": "Edit PDKalipso",
+			"site": "PDKalipso"
+		},
+		"breadcrumbs": {
+			"app": "Головна",
+			"clients": "Клієнти",
+			"services": "Послуги",
+			"timetable": "Росклад",
+			"users": "Користувачі",
+			"products": "Товари"
+		}
+	},
+	"not_found_page": {
+		"headline": "Ми втратили цю сторінку",
+		"subheadline": "Ми шукали всюди, але не змогли знайти те, що ви шукаєте. Давай знайдемо тобі найкраще місце.",
+		"go_back": "Повернутися назад",
+		"go_home": "На головну"
+	},
+	"error_page": {
+		"headline": "Упс... щось пішло не так",
+		"subheadline": "Ми робили все можливе, але не змогли уникнути помилки. Спробуємо ще раз.",
+		"reset": "Спробувати ще"
+	},
+	"clients_page": {
+		"headline": "Клієнти",
+		"subheadline": "Список клієнтів",
+		"amount": "{count, plural, =0 {Ще немає клієнтів} =1 {Один клієнт} =2 {Два клієнти} =3 {Три клієнти} =4 {Три клієнти} other {# клиентів}}",
+		"headline_empty": "Немає клієнтів",
+		"subheadline_empty": "Додайте клієнтів, щоб вони з'явилися тут"
+	},
+	"timetable_page": {
+		"headline": "Розклад",
+		"subheadline": "Розклад роботи усіх співробітників"
+	}
 }

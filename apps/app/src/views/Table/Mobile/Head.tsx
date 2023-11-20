@@ -1,5 +1,5 @@
 'use client';
-import { IHeadProps } from '@/types/table';
+import { ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
 import { SortButton } from '../SortButton';
@@ -11,9 +11,7 @@ import { EnumSearchParams } from '@/types/filter';
 function Head<T extends TUID>({
 	head,
 	...props
-}: {
-	head: Array<IHeadProps<T>>;
-} & React.HTMLAttributes<HTMLTableSectionElement>) {
+}: ITableHeadProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
 	const t = useTranslations('common');
 
 	const { onSort, sort } = useSort({ name: EnumSearchParams.SORT });

@@ -12,6 +12,7 @@ export enum EnumSearchParams {
 
 export type TFilterParams = {
 	prefix?: string;
+	defaultValue?: string;
 	name: EnumSearchParams;
 	store?: EnumStore;
 };

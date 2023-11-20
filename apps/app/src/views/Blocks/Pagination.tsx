@@ -1,13 +1,12 @@
 'use client';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
 	HiOutlineArrowLongLeft,
 	HiOutlineArrowLongRight,
 } from 'react-icons/hi2';
-import { Button } from '@/components/Buttons';
+import { Button } from '@/components/Button';
 import { EnumSearchParams } from '@/types/filter';
 import { usePage } from '@/hooks/filter';
 
@@ -26,7 +25,10 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const { onPage, page } = usePage({ name: EnumSearchParams.PAGE });
+	const { onPage, page } = usePage({
+		name: EnumSearchParams.PAGE,
+		defaultValue: '1',
+	});
 
 	const t = useTranslations('common');
 
@@ -66,7 +68,9 @@ export default function Pagination({
 			<Button
 				message={t('prev')}
 				icon={<HiOutlineArrowLongLeft size={24} />}
-				onClick={activePage <= 1 ? undefined : () => onPage(activePage - 1)}
+				onClick={
+					activePage <= 1 ? undefined : () => onPage(String(activePage - 1))
+				}
 				disabled={activePage === 1}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>
@@ -81,7 +85,9 @@ export default function Pagination({
 								: 'text-gray-500 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100',
 						)}
 						key={page ? `Page_${page}` : `index_${index}`}
-						onClick={typeof page === 'number' ? () => onPage(page) : undefined}
+						onClick={
+							typeof page === 'number' ? () => onPage(String(page)) : undefined
+						}
 						disabled={typeof page != 'number'}
 					>
 						{title}
@@ -95,7 +101,9 @@ export default function Pagination({
 			<Button
 				message={t('next')}
 				iconAfter={<HiOutlineArrowLongRight size={24} />}
-				onClick={activePage >= pages ? undefined : () => onPage(activePage + 1)}
+				onClick={
+					activePage >= pages ? undefined : () => onPage(String(activePage + 1))
+				}
 				disabled={activePage >= pages}
 				className='[&>span]:hidden [&>span]:md:block'
 			/>

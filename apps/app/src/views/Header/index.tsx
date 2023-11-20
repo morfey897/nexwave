@@ -5,18 +5,13 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import {
-	HiMenuAlt3,
-	HiX,
-	HiCog,
-	HiLogout,
-} from 'react-icons/hi';
+import { HiMenuAlt3, HiX, HiCog, HiLogout } from 'react-icons/hi';
 import { TiWaves } from 'react-icons/ti';
 import ThemeSwithcer from '@/components/Theme';
 import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
 import User from './User';
-import { Search } from '@/components/Inputs';
+import Search from '@/components/Controls/Search';
 
 function Header() {
 	const t = useTranslations('common');

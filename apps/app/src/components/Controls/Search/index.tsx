@@ -5,7 +5,7 @@ import { TWrapperProps } from '@/types/view';
 import { useMemo, useEffect, useCallback, useRef, ChangeEvent } from 'react';
 import { throttle } from 'lodash';
 
-export function Search({
+function Search({
 	onChange,
 	wait = 500,
 	wrapperClassName,
@@ -72,3 +72,5 @@ export function Search({
 		</div>
 	);
 }
+
+export default Search;
