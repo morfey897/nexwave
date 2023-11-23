@@ -11,7 +11,7 @@ function Calendar<T extends INode>({
 }: ICalendarProps<T> & TDeviceProps & React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div className={clsx(className)} {...props}>
-			<div className='overflow-scroll border rounded-md border-gray-200 dark:border-gray-700 md:rounded-lg'>
+			<div className='overflow-y-hidden overflow-x-scroll border rounded-md border-gray-200 dark:border-gray-700 md:rounded-lg'>
 				<CalendarDesktop calendar={calendar} />
 			</div>
 		</div>

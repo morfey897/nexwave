@@ -5,12 +5,12 @@ import { EnumSearchParams } from '@/types/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useTranslations } from 'next-intl';
-import Headline from '@/views/Headline';
+import Headline from '@/components/Headline';
 import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
 import { EnumView } from '@/types/calendar';
 import { EnumFilter, IEvent } from '@/types/event';
 import { use, useMemo } from 'react';
-import Calendar from '@/views/Calendar';
+import Calendar from '@/components/Calendar';
 import { useDevice } from '@/hooks/device';
 
 import events from '../../../../__mock__/timetable.json';

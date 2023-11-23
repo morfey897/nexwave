@@ -1,8 +1,8 @@
 'use client';
 import { HiOutlineFilter } from 'react-icons/hi';
-import Empty from '@/views/Blocks/Empty';
+import Empty from '@/components/Blocks/Empty';
 import Pagination from '@/components/Controls/Pagination';
-import Table from '@/views/Table';
+import Table from '@/components/Table';
 import { useTranslations } from 'next-intl';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 
@@ -17,7 +17,7 @@ import withGenerator, {
 import { Button } from '@/components/Buttons';
 import { EnumFilter } from '@/types/client';
 import PageContainer from '@/components/Containers';
-import Headline from '@/views/Headline';
+import Headline from '@/components/Headline';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
 import Search from '@/components/Controls/Search';

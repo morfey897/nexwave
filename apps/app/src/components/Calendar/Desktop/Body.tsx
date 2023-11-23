@@ -10,19 +10,19 @@ import {
 
 function Body<T extends INode>({
 	calendar: { dates, events, Generator },
-	cell,
+	cellHeight,
 	timeStep,
 	className,
 	...props
 }: ICalendarProps<T> & {
-	cell: TSize;
+	cellHeight: number;
 	timeStep: number;
 } & React.HTMLAttributes<HTMLTableSectionElement>) {
 	const times = useTimesCalendar({ events, dates, timeStep });
 	const timeList = useSidebarCalendar(times);
 	const body = useBodyCalendar({ events, dates, times: times });
 
-	const totalHeight = cell.height * timeList.length;
+	const totalHeight = cellHeight * timeList.length;
 
 	const timeMarkers = useMemo(
 		() =>
@@ -30,19 +30,22 @@ function Body<T extends INode>({
 				<div
 					key={time}
 					className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
-					style={{ height: cell.height, width: cell.width }}
+					style={{ height: cellHeight }}
 				>
 					<span className='relative -top-[10px] px-1 bg-white dark:bg-gray-900'>
 						{title}
 					</span>
 				</div>
 			)),
-		[timeList, cell.height, cell.width],
+		[timeList, cellHeight],
 	);
 
 	return (
-		<div className={clsx('flex relative', className)} {...props}>
-			<div className='shrink-0' style={{ width: cell.width }}>
+		<div
+			className={clsx('flex relative w-fit min-w-full', className)}
+			{...props}
+		>
+			<div className='shrink-0'>
 				{timeList.map(({ time }, index) => (
 					<hr
 						key={time}
@@ -50,25 +53,22 @@ function Body<T extends INode>({
 							'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
 							time % 60 === 0 ? 'border-solid' : 'border-dashed',
 						)}
-						style={{ height: cell.height, top: index * cell.height }}
+						style={{ height: cellHeight, top: index * cellHeight }}
 					/>
 				))}
-				{timeMarkers}
 			</div>
 
-			<div
-				className='absolute left-1/3 opacity-50'
-				style={{ width: cell.width }}
-			>
-				{timeMarkers}
-			</div>
-
-			<div
-				className='absolute left-2/3 opacity-50'
-				style={{ width: cell.width }}
-			>
-				{timeMarkers}
-			</div>
+			{dates.map((date, index) => (
+				<div
+					key={`date_${date}`}
+					className={clsx('absolute', index > 0 && 'opacity-50')}
+					style={{
+						left: `${((100 * index) / dates.length).toFixed(2)}%`,
+					}}
+				>
+					{timeMarkers}
+				</div>
+			))}
 
 			{dates.map((date) => (
 				<div
@@ -81,8 +81,8 @@ function Body<T extends INode>({
 							className='absolute w-full cursor-pointer hover:!z-[100] hover:!-left-[5%] hover:!w-[110%] transition-all duration-300'
 							key={`item_${event._uid}`}
 							style={{
-								top: ((rect.y - times.min) * cell.height) / times.step + 8,
-								height: (rect.height * cell.height) / times.step,
+								top: ((rect.y - times.min) * cellHeight) / times.step + 8,
+								height: (rect.height * cellHeight) / times.step,
 								zIndex: index + 1,
 								left: rect.x + '%',
 								width: rect.width + '%',

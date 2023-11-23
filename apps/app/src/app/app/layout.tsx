@@ -1,6 +1,6 @@
-import Header from '@/views/Header';
-import Aside from '@/views/Aside';
-import Breadcrumbs from '@/views/Breadcrumbs';
+import Header from '@/components/Header';
+import Aside from '@/components/Aside';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default async function RootLayout({
 	children,
