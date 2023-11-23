@@ -22,22 +22,27 @@ function Body<T extends INode>({
 	const timeList = useSidebarCalendar(times);
 	const body = useBodyCalendar({ events, dates, times: times });
 
+	const totalHeight = cell.height * timeList.length;
+
 	return (
 		<div
-			className={clsx('flex justify-between relative', className)}
+			className={clsx('flex relative', className)}
 			{...props}
 		>
-			<div className='shrink-0 divide-gray-200 dark:divide-gray-700'>
+			<div
+				className='shrink-0'
+				style={{ width: cell.width }}
+			>
 				{timeList.map(({ time, title }) => (
 					<Fragment key={time}>
-						<div
+						<hr
 							className={clsx(
 								'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
 								time % 60 === 0 ? 'border-solid' : 'border-dashed',
 							)}
 						/>
 						<div
-							className='relative text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
+							className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
 							style={{ height: cell.height, width: cell.width }}
 						>
 							<span className='relative -top-[10px] px-1 bg-white  dark:bg-gray-900'>
@@ -47,10 +52,26 @@ function Body<T extends INode>({
 					</Fragment>
 				))}
 			</div>
+
+			<div className='absolute left-[500px]' style={{ width: cell.width }}>
+				{timeList.map(({ time, title }) => (
+					<div
+						key={time}
+						className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis opacity-50'
+						style={{ height: cell.height, width: cell.width }}
+					>
+						<span className='relative -top-[10px] px-1 bg-white dark:bg-gray-900'>
+							{title}
+						</span>
+					</div>
+				))}
+			</div>
+
 			{dates.map((date) => (
 				<div
+					style={{ height: totalHeight }}
 					key={date}
-					className='relative -mt-2 mr-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
+					className='border-l border-gray-200 dark:border-gray-700 relative -mt-2 mr-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
 				>
 					{body?.get(date)?.map(({ event, rect, index }) => (
 						<div

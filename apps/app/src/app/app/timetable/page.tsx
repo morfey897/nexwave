@@ -53,50 +53,50 @@ export default function Home() {
 	}, []);
 
 	return (
-		<div className='flex flex-col items-center justify-between my-4 lg:my-8'>
-			<section className='container mx-auto'>
-				<PageContainer>
-					<Headline
-						headline={t('timetable_page.headline')}
-						subheadline={t('timetable_page.subheadline')}
-						amount={0}
-						add={{
-							title: t('common.add'),
-							onClick: () => {
-								console.log('onAdd');
-							},
-						}}
-					/>
-					<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
-						<Filter
-							as='dropdown'
-							className='flex shrink-0'
-							icon={<HiOutlineFilter size={16} />}
-							message={t('timetable_page.filter._', { filter })}
-							filters={filters}
-							onChange={onFilter}
-							value={filter}
-						/>
-						<Filter
-							as='auto:md'
-							className='flex shrink-0'
-							icon={<HiOutlineViewGrid size={16} />}
-							message={t('timetable_page.view._', { view })}
-							filters={views}
-							onChange={onView}
-							value={view}
-						/>
-					</div>
-				</PageContainer>
-				<Calendar<IEvent>
-					device={device}
-					calendar={{
-						dates: getDates,
-						events: getEvents,
-						Generator: EventGenerator,
+		// <div className='flex flex-col items-center justify-between my-4 lg:my-8'>
+		<section className='container mx-auto my-4 lg:my-8'>
+			<PageContainer>
+				<Headline
+					headline={t('timetable_page.headline')}
+					subheadline={t('timetable_page.subheadline')}
+					amount={0}
+					add={{
+						title: t('common.add'),
+						onClick: () => {
+							console.log('onAdd');
+						},
 					}}
 				/>
-			</section>
-		</div>
+				<div className='mt-4 flex gap-2 items-center justify-between justify-items-center'>
+					<Filter
+						as='dropdown'
+						className='flex shrink-0'
+						icon={<HiOutlineFilter size={16} />}
+						message={t('timetable_page.filter._', { filter })}
+						filters={filters}
+						onChange={onFilter}
+						value={filter}
+					/>
+					<Filter
+						as='auto:md'
+						className='flex shrink-0'
+						icon={<HiOutlineViewGrid size={16} />}
+						message={t('timetable_page.view._', { view })}
+						filters={views}
+						onChange={onView}
+						value={view}
+					/>
+				</div>
+			</PageContainer>
+			<Calendar<IEvent>
+				device={device}
+				calendar={{
+					dates: getDates,
+					events: getEvents,
+					Generator: EventGenerator,
+				}}
+				className='my-4 lg:my-6'
+			/>
+		</section>
 	);
 }

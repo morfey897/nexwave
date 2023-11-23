@@ -16,7 +16,7 @@ function Head<T extends INode>({
 
 	return (
 		<div
-			className={clsx('flex justify-between relative w-full', className)}
+			className={clsx('flex relative', className)}
 			{...props}
 		>
 			<div className='shrink-0' style={{ width: cell.width }} />
