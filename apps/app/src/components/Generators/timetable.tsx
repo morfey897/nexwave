@@ -1,5 +1,5 @@
 import { IEvent } from '@/types/event';
-import { toDate, toTime } from '@/utils/date';
+import { toDate, toTime } from '@/utils/datetime';
 import { addZiro } from '@/utils/str';
 import clsx from 'clsx';
 

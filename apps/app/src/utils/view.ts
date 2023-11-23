@@ -1,11 +1,7 @@
-type Rect = {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
-};
+import { TTimes } from '@/types/calendar';
+import { TSize, TRect } from '@/types/view';
 
-export function intersection(rect1: Rect, rect2: Rect) {
+export function intersection(rect1: TRect, rect2: TRect) {
 	const xOverlap = Math.max(
 		0,
 		Math.min(rect1.x + rect1.width, rect2.x + rect2.width) -
@@ -20,7 +16,7 @@ export function intersection(rect1: Rect, rect2: Rect) {
 	return xOverlap * yOverlap;
 }
 
-function isRectanglesOverlap(rect1: Rect, rect2: Rect) {
+function isRectanglesOverlap(rect1: TRect, rect2: TRect) {
 	return (
 		rect1.x < rect2.x + rect2.width &&
 		rect1.x + rect1.width > rect2.x &&
@@ -29,7 +25,7 @@ function isRectanglesOverlap(rect1: Rect, rect2: Rect) {
 	);
 }
 
-export function detectCollisions(rectangles: Rect[]) {
+export function detectCollisions(rectangles: TRect[]) {
 	// Create events array
 	const events: Array<{ type: string; x: number; index: number }> = [];
 
@@ -115,4 +111,21 @@ export function groupRectangles(
 	}
 
 	return groups;
+}
+
+export function cellStyle(rect: TRect): TRect {
+	let width = 100;
+	let left = 0;
+	if (rect.width > 1) {
+		const len = Math.floor(120 / rect.width);
+		const spacing = (width - rect.width * len) / (rect.width - 1);
+		left = rect.x * (len + spacing);
+		width = len;
+	}
+	return {
+		y: rect.y,
+		height: rect.height,
+		x: left,
+		width: width,
+	};
 }

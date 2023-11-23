@@ -14,7 +14,7 @@ import Calendar from '@/views/Calendar';
 import { useDevice } from '@/hooks/device';
 
 import events from '../../../../__mock__/timetable.json';
-import { toDate } from '@/utils/date';
+import { toDate } from '@/utils/datetime';
 import { EventGenerator } from '@/components/Generators/timetable';
 
 export default function Home() {

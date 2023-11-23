@@ -7,6 +7,12 @@ export enum EnumView {
 	LIST = 'list',
 }
 
+export type TTimes = {
+	min: number;
+	max: number;
+	step: number;
+};
+
 export interface INode extends TUID {
 	date: string;
 	duration: number;

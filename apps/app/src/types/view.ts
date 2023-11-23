@@ -38,3 +38,15 @@ export type TGenerator<T> = React.FC<
 		item: T;
 	} & TDeviceProps
 >;
+
+export type TPosition = {
+	x: number;
+	y: number;
+};
+
+export type TSize = {
+	width: number;
+	height: number;
+};
+
+export interface TRect extends TPosition, TSize {}
