@@ -16,7 +16,7 @@ import withGenerator, {
 
 import { Button } from '@/components/Buttons';
 import { EnumFilter } from '@/types/client';
-import PageContainer from '@/views/Blocks/PageContainer';
+import PageContainer from '@/components/Containers';
 import Headline from '@/views/Headline';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
@@ -50,7 +50,7 @@ export default function Home() {
 	const filters = useMemo(() => {
 		return Object.values(EnumFilter).map((uid) => ({
 			uid: uid,
-			title: t(`clients_page.filter_${uid}`),
+			title: t(`clients_page.filter.${uid}`),
 		}));
 	}, []);
 
@@ -80,7 +80,7 @@ export default function Home() {
 							as='auto:lg'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('clients_page.filter', { filter: filter })}
+							message={t('clients_page.filter._', { filter: filter })}
 							filters={filters}
 							onChange={onFilter}
 							value={filter}

@@ -61,18 +61,28 @@
 		"subheadline": "Here you can find all clients",
 		"headline_empty": "No clients yet",
 		"subheadline_empty": "You can add new client by clicking on the button below",
-		"filter": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
-		"filter_all": "All",
-		"filter_active": "Active",
-		"filter_inactive": "Inactive"
+		"filter": {
+			"_": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
+			"all": "All",
+			"active": "Active",
+			"inactive": "Inactive"
+		}
 	},
 	"timetable_page": {
 		"headline": "Timetable",
 		"subheadline": "Here you can find all events",
-		"view": "{filter, select, month {Month} week {Week} day {Day} list {List} other {View}}",
-		"view_month": "Month",
-		"view_week": "Week",
-		"view_day": "Day",
-		"view_list": "List"
+		"view": {
+			"_": "{view, select, month {Month} week {Week} day {Day} list {List} other {View}}",
+			"month": "Month",
+			"week": "Week",
+			"day": "Day",
+			"list": "List"
+		},
+		"filter": {
+			"_": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
+			"all": "All",
+			"active": "Active",
+			"inactive": "Inactive"
+		}
 	}
 }

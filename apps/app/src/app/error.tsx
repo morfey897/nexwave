@@ -29,7 +29,7 @@ export default function Error({
 							{t('headline')}
 						</h1>
 						<p className='mt-4 text-gray-500 dark:text-gray-400'>
-							{t('subheadlines')}
+							{t('subheadline')}
 						</p>
 
 						<div className='w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>

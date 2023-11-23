@@ -26,9 +26,7 @@ const AsDropDown = ({
 	<DropDown
 		wrapperClassName={clsx(className)}
 		direction={{ y: 'bottom' }}
-		element={
-			<Button icon={icon} message={message} className='h-12 text-base' />
-		}
+		element={<Button icon={icon} message={message} />}
 	>
 		<div className='px-2 py-4 flex flex-col'>
 			{filters?.map(({ uid, title }) => (

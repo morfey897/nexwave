@@ -2,6 +2,14 @@
 import { EnumDevice } from '@/types/view';
 import { useCallback, useState, useEffect } from 'react';
 
+const MIN_WIDTH = {
+	sm: 640,
+	md: 768,
+	lg: 1024,
+	xl: 1280,
+	xxl: 1536,
+};
+
 export const useMediaQuery = (query: string) => {
 	const [targetReached, setTargetReached] = useState(false);
 
@@ -24,25 +32,25 @@ export const useMediaQuery = (query: string) => {
 };
 
 export const useBreakpoint = () => {
-	const xs = useMediaQuery('(max-width: 639px)');
-	const sm = useMediaQuery('(min-width: 640px)');
-	const md = useMediaQuery('(min-width: 768px)');
-	const ls = useMediaQuery('(min-width: 1024px)');
-	const xl = useMediaQuery('(min-width: 1280px)');
-	const xxl = useMediaQuery('(min-width: 1536px)');
+	const xs = useMediaQuery(`(max-width: ${MIN_WIDTH.sm - 1}px)`);
+	const sm = useMediaQuery(`(min-width: ${MIN_WIDTH.sm}px)`);
+	const md = useMediaQuery(`(min-width: ${MIN_WIDTH.md}px)`);
+	const lg = useMediaQuery(`(min-width: ${MIN_WIDTH.lg}px)`);
+	const xl = useMediaQuery(`(min-width: ${MIN_WIDTH.xl}px)`);
+	const xxl = useMediaQuery(`(min-width: ${MIN_WIDTH.xxl}px)`);
 	return {
 		xs,
 		sm,
 		md,
-		ls,
+		lg,
 		xl,
 		xxl,
 	};
 };
 
 export const useDevice = (): EnumDevice => {
-	const { xs, sm, md, ls, xl, xxl } = useBreakpoint();
-	if (xxl || xl || ls) return EnumDevice.DESKTOP;
+	const { xs, sm, md, lg, xl, xxl } = useBreakpoint();
+	if (xxl || xl || lg) return EnumDevice.DESKTOP;
 	if (md) return EnumDevice.TABLET;
 	if (sm || xs) return EnumDevice.MOBILE;
 	return EnumDevice.NONE;

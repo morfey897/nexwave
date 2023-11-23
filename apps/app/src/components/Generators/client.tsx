@@ -2,16 +2,9 @@
 
 import Image from 'next/image';
 import { IClient } from '@/types/client';
-import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { MdMore } from 'react-icons/md';
 
-export function AvatarGenerator({
-	item,
-	isMobile,
-}: {
-	item: IClient;
-	isMobile?: boolean;
-}) {
+export function AvatarGenerator({ item }: { item: IClient }) {
 	const fullName = [item.name, item.surname]
 		.filter((v) => Boolean(v))
 		.join(' ');

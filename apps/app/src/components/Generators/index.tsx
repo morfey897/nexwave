@@ -1,23 +1,14 @@
 'use client';
 
-import {
-	HiOutlineDotsVertical,
-} from 'react-icons/hi';
-import { TGenerator } from '@/types/table';
+import { HiOutlineDotsVertical } from 'react-icons/hi';
+import { TGenerator } from '@/types/view';
 import { EnumLevel } from '@/types/common';
 import { TUID } from '@/types/common';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { format, differenceInDays } from 'date-fns';
-import { enUS, ru, uk } from 'date-fns/locale';
-import { DEFAULT_LOCALE } from 'config';
 import clsx from 'clsx';
-
-const LOCALES: Record<string, Locale> = {
-	uk: uk,
-	ru: ru,
-	en: enUS,
-};
+import { useDateLocale } from '@/hooks/datetime';
 
 export function TimeGenerator({
 	item,
@@ -26,7 +17,7 @@ export function TimeGenerator({
 }) {
 	const t = useTranslations('common');
 	const NOW = new Date(new Date().toISOString().split('T')[0]);
-	const locale = useLocale();
+	const dateLocale = useDateLocale();
 
 	if (!item?.value) return '';
 	const date = new Date(item?.value);
@@ -37,7 +28,7 @@ export function TimeGenerator({
 	if (days <= 7) return t('days_ago', { count: days });
 
 	return format(date, 'dd MMM yyyy', {
-		locale: LOCALES[locale] || LOCALES[DEFAULT_LOCALE],
+		locale: dateLocale,
 	});
 }
 
@@ -55,11 +46,14 @@ export function BadgesGenerator({
 						'-ml-4 lg:first:ml-0 inline-block border-2 text-xs border-white dark:border-gray-700 shrink-0 px-2.5 py-1 rounded-full cursor-pointer',
 						'transition-all group-hover:opacity-50 hover:!opacity-100 hover:z-20 hover:scale-110',
 						{
-							'text-gray-500 bg-gray-100 dark:bg-gray-800': !level || !Object.values(EnumLevel).includes(level),
+							'text-gray-500 bg-gray-100 dark:bg-gray-800':
+								!level || !Object.values(EnumLevel).includes(level),
 							'text-emerald-500 bg-emerald-100 dark:bg-gray-800':
 								level === EnumLevel.SUCCESS,
-							'text-red-500 bg-red-100 dark:bg-gray-800': level === EnumLevel.WARN,
-							'text-blue-600 bg-blue-100 dark:bg-gray-800': level === EnumLevel.INFO,
+							'text-red-500 bg-red-100 dark:bg-gray-800':
+								level === EnumLevel.WARN,
+							'text-blue-600 bg-blue-100 dark:bg-gray-800':
+								level === EnumLevel.INFO,
 						},
 					)}
 				>
@@ -70,13 +64,7 @@ export function BadgesGenerator({
 	);
 }
 
-export function ActionGenerator<T extends TUID>({
-	item,
-	isMobile,
-}: {
-	item: T;
-	isMobile?: boolean;
-}) {
+export function ActionGenerator<T extends TUID>({ item }: { item: T }) {
 	return (
 		<button>
 			<HiOutlineDotsVertical size={20} />

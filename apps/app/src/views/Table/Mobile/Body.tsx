@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { BiChevronDown } from 'react-icons/bi';
 import { ITableProps } from '@/types/table';
 import { TUID } from '@/types/common';
+import { EnumDevice } from '@/types/view';
 
 function Body<T extends TUID>({
 	head,
@@ -28,8 +29,7 @@ function Body<T extends TUID>({
 									<Generator
 										key={`generator_${item._uid}_${token}`}
 										item={item}
-										token={token}
-										isMobile
+										device={EnumDevice.MOBILE}
 									/>
 								))}
 								<span className='shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
@@ -49,8 +49,7 @@ function Body<T extends TUID>({
 									<Generator
 										key={`generator_${item._uid}_${token}`}
 										item={item}
-										token={token}
-										isMobile
+										device={EnumDevice.MOBILE}
 									/>
 								</div>
 							))}

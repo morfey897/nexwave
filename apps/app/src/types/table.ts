@@ -1,4 +1,5 @@
 import { TUID } from './common';
+import { TGenerator } from './view';
 export enum EnumSort {
 	NONE = 'none',
 	SR_ONLY = 'sr-only',
@@ -6,13 +7,7 @@ export enum EnumSort {
 	NUMERIC = 'numeric',
 }
 
-export type TGenerator<T extends TUID> = React.FC<{
-	item: T;
-	token?: string;
-	isMobile?: boolean;
-}>;
-
-export interface IHeadProps<T extends TUID> {
+interface IHeadProps<T extends TUID> {
 	token: string;
 	title: string;
 	type?: EnumSort | EnumSort[];

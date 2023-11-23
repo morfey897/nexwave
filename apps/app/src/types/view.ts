@@ -32,3 +32,9 @@ export interface IButtonProps extends TMessage {
 	icon?: React.ReactNode;
 	iconAfter?: React.ReactNode;
 }
+
+export type TGenerator<T> = React.FC<
+	{
+		item: T;
+	} & TDeviceProps
+>;
