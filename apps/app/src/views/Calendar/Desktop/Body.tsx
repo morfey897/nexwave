@@ -1,5 +1,5 @@
 import { ICalendarProps, INode } from '@/types/calendar';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import clsx from 'clsx';
 import { TSize } from '@/types/view';
 import {
@@ -24,47 +24,50 @@ function Body<T extends INode>({
 
 	const totalHeight = cell.height * timeList.length;
 
+	const timeMarkers = useMemo(
+		() =>
+			timeList.map(({ time, title }) => (
+				<div
+					key={time}
+					className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
+					style={{ height: cell.height, width: cell.width }}
+				>
+					<span className='relative -top-[10px] px-1 bg-white dark:bg-gray-900'>
+						{title}
+					</span>
+				</div>
+			)),
+		[timeList, cell.height, cell.width],
+	);
+
 	return (
-		<div
-			className={clsx('flex relative', className)}
-			{...props}
-		>
-			<div
-				className='shrink-0'
-				style={{ width: cell.width }}
-			>
-				{timeList.map(({ time, title }) => (
-					<Fragment key={time}>
-						<hr
-							className={clsx(
-								'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
-								time % 60 === 0 ? 'border-solid' : 'border-dashed',
-							)}
-						/>
-						<div
-							className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
-							style={{ height: cell.height, width: cell.width }}
-						>
-							<span className='relative -top-[10px] px-1 bg-white  dark:bg-gray-900'>
-								{title}
-							</span>
-						</div>
-					</Fragment>
+		<div className={clsx('flex relative', className)} {...props}>
+			<div className='shrink-0' style={{ width: cell.width }}>
+				{timeList.map(({ time }, index) => (
+					<hr
+						key={time}
+						className={clsx(
+							'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
+							time % 60 === 0 ? 'border-solid' : 'border-dashed',
+						)}
+						style={{ height: cell.height, top: index * cell.height }}
+					/>
 				))}
+				{timeMarkers}
 			</div>
 
-			<div className='absolute left-[500px]' style={{ width: cell.width }}>
-				{timeList.map(({ time, title }) => (
-					<div
-						key={time}
-						className='text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis opacity-50'
-						style={{ height: cell.height, width: cell.width }}
-					>
-						<span className='relative -top-[10px] px-1 bg-white dark:bg-gray-900'>
-							{title}
-						</span>
-					</div>
-				))}
+			<div
+				className='absolute left-1/3 opacity-50'
+				style={{ width: cell.width }}
+			>
+				{timeMarkers}
+			</div>
+
+			<div
+				className='absolute left-2/3 opacity-50'
+				style={{ width: cell.width }}
+			>
+				{timeMarkers}
 			</div>
 
 			{dates.map((date) => (
