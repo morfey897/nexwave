@@ -1,9 +1,6 @@
-'use client';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TFilterParams } from '@/types/filter';
-import { type } from 'os';
-import { max } from 'lodash';
 
 function _use({ prefix, name, defaultValue }: TFilterParams) {
 	const searchParams = useSearchParams();
@@ -22,12 +19,12 @@ function _use({ prefix, name, defaultValue }: TFilterParams) {
 			const str = clone.toString();
 			router.push(`?${str}`);
 		},
-		[router, searchParams],
+		[router, searchParams, defaultValue, searchParam],
 	);
 
 	const value = useMemo(
 		() => (searchParams.get(searchParam) || defaultValue || '').toString(),
-		[searchParams],
+		[searchParams, searchParam, defaultValue],
 	);
 	return { onChange, value };
 }
@@ -97,7 +94,7 @@ export function usePage({
 				onChange(page);
 			}
 		},
-		[page, maxPage, onChange],
+		[maxPage, onChange],
 	);
 
 	return { onPage, page, maxPage };

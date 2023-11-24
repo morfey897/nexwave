@@ -6,7 +6,7 @@ import {
 	HiOutlineArrowLongLeft,
 	HiOutlineArrowLongRight,
 } from 'react-icons/hi2';
-import { Button } from '@/components/Buttons';
+import { Button } from '@/components/Button';
 
 type TTableFooterProps = {
 	onPage?: (page: number) => void;

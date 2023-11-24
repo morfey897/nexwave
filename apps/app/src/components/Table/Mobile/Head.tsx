@@ -2,7 +2,7 @@
 import { EnumSort, ITableHeadProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
-import SortButton from '@/components/Buttons/SortButton';
+import SortButton from '@/components/Button/SortButton';
 import { Fragment } from 'react';
 import { useTranslations } from 'next-intl';
 

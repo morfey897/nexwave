@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import DropDown from '../../DropDown';
-import { Button, GroupButton } from '../../Buttons';
+import { Button, GroupButton } from '../../Button';
 import { TMessage } from '@/types/view';
 
 interface IFilter extends TMessage {

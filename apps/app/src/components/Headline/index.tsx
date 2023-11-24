@@ -1,10 +1,8 @@
-'use client';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { HiOutlineCloudArrowUp } from 'react-icons/hi2';
-import { Button, GroupButton } from '@/components/Buttons';
+import { Button, GroupButton } from '@/components/Button';
 import { CountBadge } from '@/components/Badge';
 import clsx from 'clsx';
-import { useTranslations } from 'next-intl';
 
 type THeadline = {
 	headline?: string;
@@ -27,10 +25,10 @@ function Headline({
 	add,
 	imprt,
 	className,
+	isScrolled = false,
 	...props
-}: THeadline & React.HTMLAttributes<HTMLDivElement>) {
-	const t = useTranslations('common');
-
+}: { isScrolled?: boolean } & THeadline &
+	React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
 			className={clsx('flex items-center justify-between gap-x-3', className)}
@@ -56,7 +54,13 @@ function Headline({
 				</div>
 
 				{!!subheadline && (
-					<p className='mt-1 text-sm text-gray-500 dark:text-gray-300'>
+					<p
+						className={clsx(
+							'mt-1 text-sm text-gray-500 dark:text-gray-300',
+							'transition-max-height duration-300 ease-linear overflow-hidden max-h-[100vh]',
+							isScrolled && '!max-h-0',
+						)}
+					>
 						{subheadline}
 					</p>
 				)}

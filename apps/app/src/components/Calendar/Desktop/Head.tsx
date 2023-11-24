@@ -3,27 +3,28 @@ import clsx from 'clsx';
 import { INode, ICalendarProps } from '@/types/calendar';
 import { useHeaderCalendar } from '@/hooks/calendar';
 
-function Head<T extends INode>({
-	calendar,
-	className,
-	...props
-}: ICalendarProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
+function Head<T extends INode>({ calendar, className }: ICalendarProps<T> & React.HTMLAttributes<HTMLDivElement>) {
 	const header = useHeaderCalendar(calendar);
 
 	return (
-		<div className={clsx('flex relative', className)} {...props}>
-			{header.map(({ date, headline, subheadline }) => (
+		<div className={clsx('flex w-fit min-w-full', className)}>
+			{header.map(({ isoDate, title, abr, date }, index) => (
 				<div
-					key={date}
-					className='w-full py-3.5 px-4 text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
+					key={isoDate}
+					className={clsx(
+						'w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
+						index > 0 && 'border-l border-gray-200 dark:border-gray-700',
+					)}
 				>
-					{headline}
-					<span className='block font-light mt-2'>{subheadline}</span>
+					<span className='hidden lg:inline-block'>{title}</span>
+					<span className='lg:hidden'>{abr}</span>
+					<span className='block font-light mt-2'>{date}</span>
 				</div>
 			))}
-			<div className='absolute left-0 right-0 bottom-0 h-3 bg-white dark:bg-slate-900' />
 		</div>
 	);
 }
+
+//  
 
 export default Head;

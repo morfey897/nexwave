@@ -68,12 +68,13 @@ export function useHeaderCalendar<T extends INode>({
 				const dateStr = toDate(str);
 				const date = new Date(dateStr);
 				return {
-					date: dateStr,
-					headline: format(date, 'EEEE', { locale: dateLocale }),
-					subheadline: format(date, 'd MMM', { locale: dateLocale }),
+					isoDate: dateStr,
+					title: format(date, 'EEEE', { locale: dateLocale }),
+					abr: format(date, 'EEE', { locale: dateLocale }),
+					date: format(date, 'd MMM', { locale: dateLocale }),
 				};
 			}),
-		[dates],
+		[dates, dateLocale],
 	);
 	return header;
 }

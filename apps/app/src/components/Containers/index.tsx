@@ -1,19 +1,40 @@
-import React from 'react';
 import clsx from 'clsx';
 
-function PageContainer({
+export function Container({
+	children,
 	className,
-	...props
+	...rest
 }: React.HTMLAttributes<HTMLDivElement>) {
 	return (
-		<div
-			className={clsx(
-				'container mx-auto sticky top-[80px] bg-gray-100 dark:bg-gray-900 z-10 pb-4',
-				className,
-			)}
-			{...props}
-		/>
+		<div className={clsx('max-w-screen-2xl', className)} {...rest}>
+			{children}
+		</div>
 	);
 }
 
-export default PageContainer;
+export function ContainerBody({
+	className,
+	children,
+	maxHeight,
+	...rest
+}: { maxHeight?: number } & React.HTMLAttributes<HTMLDivElement>) {
+	return (
+		<div className={clsx(className)} {...rest}>
+			{children}
+		</div>
+	);
+}
+
+export function ContainerHeader({
+	className,
+	children,
+	...rest
+}: React.HTMLAttributes<HTMLDivElement>) {
+	return (
+		<div className={clsx('top-[80px] z-20', className)} {...rest}>
+			{children}
+		</div>
+	);
+}
+
+export default Container;

@@ -5,6 +5,7 @@ import { HiHome, HiChevronRight } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import clsx from 'clsx';
+import Container from '../Containers';
 
 export default function Breadcrumbs() {
 	const pathname = usePathname();
@@ -37,7 +38,8 @@ export default function Breadcrumbs() {
 	}, [pathname]);
 
 	return parts.length <= 1 ? null : (
-		<div className='container flex items-center my-4 mx-auto overflow-x-auto whitespace-nowrap flex-wrap'>
+		//  flex  my-4 mx-auto
+		<Container className='flex my-4 items-center overflow-x-auto whitespace-nowrap flex-wrap'>
 			{parts.map(({ path, token, active }, index) => (
 				<Fragment key={path}>
 					{index === 0 ? (
@@ -65,6 +67,6 @@ export default function Breadcrumbs() {
 					)}
 				</Fragment>
 			))}
-		</div>
+		</Container>
 	);
 }

@@ -14,9 +14,8 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { Button } from '@/components/Buttons';
+import { Button } from '@/components/Button';
 import { EnumFilter } from '@/types/client';
-import PageContainer from '@/components/Containers';
 import Headline from '@/components/Headline';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/filter';
@@ -57,7 +56,7 @@ export default function Home() {
 	return (
 		<div className='flex flex-col items-center justify-between my-4 lg:my-8'>
 			<section className='container mx-auto'>
-				<PageContainer>
+				<div className='container mx-auto sticky top-[80px] bg-gray-100 dark:bg-gray-900 z-10 pb-4'>
 					<Headline
 						headline={t('clients_page.headline')}
 						subheadline={t('clients_page.subheadline')}
@@ -93,7 +92,7 @@ export default function Home() {
 							className='h-12'
 						/>
 					</div>
-				</PageContainer>
+				</div>
 				<Table<IClient>
 					device={device}
 					empty={
