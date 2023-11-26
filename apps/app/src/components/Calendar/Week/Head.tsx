@@ -3,11 +3,16 @@ import clsx from 'clsx';
 import { INode, ICalendarProps } from '@/types/calendar';
 import { useHeaderCalendar } from '@/hooks/calendar';
 
-function Head<T extends INode>({ calendar, className }: ICalendarProps<T> & React.HTMLAttributes<HTMLDivElement>) {
-	const header = useHeaderCalendar(calendar);
+function Head<T extends INode>({
+	dates,
+	className,
+}: {
+	dates: ICalendarProps<T>['dates'];
+} & React.HTMLAttributes<HTMLDivElement>) {
+	const header = useHeaderCalendar(dates);
 
 	return (
-		<div className={clsx('flex w-fit min-w-full', className)}>
+		<div className={clsx('flex w-fit min-w-full items-center', className)}>
 			{header.map(({ isoDate, title, abr, date }, index) => (
 				<div
 					key={isoDate}
@@ -25,6 +30,6 @@ function Head<T extends INode>({ calendar, className }: ICalendarProps<T> & Reac
 	);
 }
 
-//  
+//
 
 export default Head;

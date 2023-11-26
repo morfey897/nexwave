@@ -22,7 +22,10 @@ export function useTimesCalendar<T extends INode>({
 	events,
 	dates,
 	timeStep,
-}: Omit<ICalendarProps<T>['calendar'], 'Generator'> & {
+}: {
+	events: ICalendarProps<T>['events'];
+	dates: ICalendarProps<T>['dates'];
+} & {
 	timeStep: number;
 }): TTimes {
 	const times = useMemo(() => {
@@ -58,9 +61,9 @@ export function useTimesCalendar<T extends INode>({
  * @param dates
  * @returns
  */
-export function useHeaderCalendar<T extends INode>({
-	dates,
-}: Omit<ICalendarProps<T>['calendar'], 'events' | 'Generator'>) {
+export function useHeaderCalendar<T extends INode>(
+	dates: ICalendarProps<T>['dates'],
+) {
 	const dateLocale = useDateLocale();
 	const header = useMemo(
 		() =>
@@ -109,9 +112,11 @@ export function useBodyCalendar<T extends INode>({
 	events,
 	dates,
 	times,
-}: Omit<ICalendarProps<T>['calendar'], 'Generator'> & { times: TTimes }) {
+}: {
+	dates: ICalendarProps<T>['dates'];
+	events: ICalendarProps<T>['events'];
+} & { times: TTimes }) {
 	const body = useMemo(() => {
-		
 		const timesMap = new Map<
 			string,
 			Array<{ event: T; rect: TRect; index: number }>
@@ -146,14 +151,12 @@ export function useBodyCalendar<T extends INode>({
 					return {
 						event,
 						index,
-						rect: cellStyle(
-							{
-								y: rect.y,
-								height: rect.totalHeight,
-								x: group?.indexOf(index) || 0,
-								width: group?.length || 1,
-							},
-						),
+						rect: cellStyle({
+							y: rect.y,
+							height: rect.totalHeight,
+							x: group?.indexOf(index) || 0,
+							width: group?.length || 1,
+						}),
 					};
 				}),
 			);

@@ -27,9 +27,13 @@ export function TimeGenerator({
 
 	if (days <= 7) return t('days_ago', { count: days });
 
-	return format(date, 'dd MMM yyyy', {
-		locale: dateLocale,
-	});
+	return (
+		<span>
+			{format(date, 'dd MMM yyyy', {
+				locale: dateLocale,
+			})}
+		</span>
+	);
 }
 
 export function BadgesGenerator({

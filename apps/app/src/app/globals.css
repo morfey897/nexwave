@@ -18,6 +18,15 @@ td {
   padding: 0;
 }
 
+.hide-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

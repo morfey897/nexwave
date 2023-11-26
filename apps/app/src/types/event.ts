@@ -1,5 +1,4 @@
 import { INode } from './calendar';
-import { TGenerator } from './view';
 
 export enum EnumFilter {
 	ALL = 'all',

@@ -57,7 +57,7 @@ function Headline({
 					<p
 						className={clsx(
 							'mt-1 text-sm text-gray-500 dark:text-gray-300',
-							'transition-max-height duration-300 ease-linear overflow-hidden max-h-[100vh]',
+							'transition-max-height duration-100 ease-linear overflow-hidden max-h-[100vh]',
 							isScrolled && '!max-h-0',
 						)}
 					>

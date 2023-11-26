@@ -2,7 +2,6 @@ import { HiLightningBolt } from 'react-icons/hi';
 import {
 	Container,
 	ContainerHeader,
-	ContainerBody,
 } from '@/components/Containers';
 
 export default function Home() {
@@ -14,7 +13,7 @@ export default function Home() {
 				<HiLightningBolt size={54} />
 			</ContainerHeader>
 
-			<ContainerBody>
+			<div>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
 					bibendum libero mattis semper cursus. Quisque et facilisis magna.
@@ -99,7 +98,7 @@ export default function Home() {
 					dictum. Mauris interdum vel eros eget maximus. Sed vulputate diam id
 					rhoncus dignissim.
 				</p>
-			</ContainerBody>
+			</div>
 		</Container>
 	);
 }

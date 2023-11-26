@@ -8,7 +8,9 @@ import {
 } from '@/hooks/calendar';
 
 function Body<T extends INode>({
-	calendar: { dates, events, Generator },
+	dates,
+	events,
+	Generator,
 	cellHeight,
 	timeStep,
 	className,
@@ -21,6 +23,7 @@ function Body<T extends INode>({
 	const body = useBodyCalendar({ events, dates, times: times });
 
 	const totalHeight = cellHeight * timeList.length;
+	const totalDays = dates.length;
 
 	const timeMarkers = useMemo(
 		() =>
@@ -72,23 +75,32 @@ function Body<T extends INode>({
 						style={{ height: totalHeight }}
 						key={date}
 						className={clsx(
-							'relative -mt-2 mr-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
+							'-mt-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
 							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						)}
 					>
 						{body?.get(date)?.map(({ event, rect, index }) => (
 							<div
-								className='absolute w-full cursor-pointer hover:!z-[100] hover:!-left-[5%] hover:!w-[110%] transition-all duration-300'
 								key={`item_${event._uid}`}
-								style={{
-									top: ((rect.y - times.min) * cellHeight) / times.step + 8,
-									height: (rect.height * cellHeight) / times.step,
-									zIndex: index + 1,
-									left: rect.x + '%',
-									width: rect.width + '%',
-								}}
+								className={clsx('relative mr-2', {
+									'ml-12': totalDays === 1,
+									'ml-8': totalDays >= 2 && totalDays <= 3,
+									'ml-6': totalDays >= 4 && totalDays <= 5,
+								})}
 							>
-								<Generator item={event} />
+								<div
+									className='absolute w-full cursor-pointer hover:!z-[19] hover:!-left-[5%] hover:!w-[110%] transition-all duration-300'
+									key={`item_${event._uid}`}
+									style={{
+										top: ((rect.y - times.min) * cellHeight) / times.step + 8,
+										height: (rect.height * cellHeight) / times.step,
+										zIndex: index + 1,
+										left: rect.x + '%',
+										width: rect.width + '%',
+									}}
+								>
+									<Generator item={event} />
+								</div>
 							</div>
 						))}
 					</div>

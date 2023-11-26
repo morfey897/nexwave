@@ -7,22 +7,24 @@ import {
 } from 'react-icons/bi';
 import Button from '.';
 import { IButtonProps } from '@/types/view';
+import clsx from 'clsx';
 
 function SortButton({
 	comparator,
 	as,
+	className,
 	...props
 }: {
-	comparator?: 1 | 0 | -1;
+	comparator?: number;
 	as: 'symbolic' | 'numeric';
 } & IButtonProps &
 	React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	let Icon;
 	let NextIcon;
-	if (comparator === 1) {
+	if (typeof comparator === 'number' && comparator > 0) {
 		Icon = as === 'symbolic' ? BiSortAZ : BiSortUp;
 		NextIcon = as === 'symbolic' ? BiSortZA : BiSortDown;
-	} else if (comparator === -1) {
+	} else if (typeof comparator === 'number' && comparator < 0) {
 		Icon = as === 'symbolic' ? BiSortZA : BiSortDown;
 		NextIcon = BiSolidSortAlt;
 	} else {
@@ -32,7 +34,7 @@ function SortButton({
 	return (
 		<Button
 			{...props}
-			className='hover:underline group'
+			className={clsx('hover:underline group', className)}
 			iconAfter={
 				<>
 					<span className='w-[20px] h-[20px] group-hover:hidden group-focus:inline-block'>

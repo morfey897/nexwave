@@ -1,20 +1,19 @@
-import clsx from 'clsx';
-
-import { BiChevronDown } from 'react-icons/bi';
-import { ITableProps } from '@/types/table';
 import { TUID } from '@/types/common';
+import { ITableProps } from '@/types/table';
 import { EnumDevice } from '@/types/view';
+import clsx from 'clsx';
+import { BiChevronDown } from 'react-icons/bi';
 
 function Body<T extends TUID>({
 	head,
 	body,
-	...props
+	className,
 }: ITableProps<T> & React.HTMLAttributes<HTMLTableSectionElement>) {
 	return (
-		<tbody {...props}>
+		<div className={clsx(className)}>
 			{body?.map((item) => (
-				<tr key={`tr_${item._uid}}`}>
-					<td className={clsx('bg-white dark:bg-gray-800')}>
+				<div key={`tr_${item._uid}}`}>
+					<div className={clsx('bg-white dark:bg-gray-800')}>
 						<input
 							type='checkbox'
 							id={`cb_${item._uid}`}
@@ -54,10 +53,10 @@ function Body<T extends TUID>({
 								</div>
 							))}
 						</div>
-					</td>
-				</tr>
+					</div>
+				</div>
 			))}
-		</tbody>
+		</div>
 	);
 }
 

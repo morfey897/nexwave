@@ -1,7 +1,6 @@
 {
 	"common": {
 		"search": "Search",
-		"view": "{view, select, month {Month} week {Week} day {Day} list {List} other {View}}",
 		"sort_by": "Sort by",
 		"clear_search": "Clear search",
 		"clear": "Clear",
@@ -45,6 +44,16 @@
 			"products": "Products"
 		}
 	},
+	"calendar_views": {
+		"_": "{view, select, week {Week} day {Day} other {View}}",
+		"week": "Week",
+		"day": "Day"
+	},
+	"table_views": {
+		"_": "{view, select, table {Table} list {List} other {View}}",
+		"table": "Table",
+		"list": "List"
+	},
 	"not_found_page": {
 		"headline": "We lost this page",
 		"subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go.",
@@ -71,13 +80,6 @@
 	"timetable_page": {
 		"headline": "Timetable",
 		"subheadline": "Here you can find all events",
-		"view": {
-			"_": "{view, select, month {Month} week {Week} day {Day} list {List} other {View}}",
-			"month": "Month",
-			"week": "Week",
-			"day": "Day",
-			"list": "List"
-		},
 		"filter": {
 			"_": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
 			"all": "All",

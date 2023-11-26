@@ -1,5 +1,11 @@
 import { TUID } from './common';
 import { TGenerator } from './view';
+
+export enum EnumView {
+	TABLE = 'table',
+	LIST = 'list',
+}
+
 export enum EnumSort {
 	NONE = 'none',
 	SR_ONLY = 'sr-only',
@@ -8,22 +14,16 @@ export enum EnumSort {
 }
 
 interface IHeadProps<T extends TUID> {
+	flex?: number;
 	token: string;
 	title: string;
 	type?: EnumSort | EnumSort[];
 	onSort?: (uid: string) => void;
-	comparator?: 1 | -1 | 0;
+	comparator?: number;
 	Generator: TGenerator<T>;
 }
 
-export interface ITableBodyProps<T extends TUID> {
+export interface ITableProps<T extends TUID>{
+	head: Array<IHeadProps<T>>;
 	body?: Array<T>;
 }
-
-export interface ITableHeadProps<T extends TUID> {
-	head: Array<IHeadProps<T>>;
-}
-
-export interface ITableProps<T extends TUID>
-	extends ITableHeadProps<T>,
-		ITableBodyProps<T> {}
