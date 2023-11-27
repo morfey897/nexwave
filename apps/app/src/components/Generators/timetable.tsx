@@ -1,5 +1,5 @@
 import { IEvent } from '@/types/event';
-import { toDate, toTime } from '@/utils/datetime';
+import { toIsoDate, toTime } from '@/utils/datetime';
 import { addZiro } from '@/utils/str';
 import clsx from 'clsx';
 
@@ -29,7 +29,7 @@ export function EventGenerator({ item }: { item: IEvent }) {
 			<p>{item.title}</p>
 			<p>{item.description}</p>
 			<p className='flex flex-col'>
-				<span>{toDate(item.date)}</span>
+				<span>{toIsoDate(item.date)}</span>
 				<span>
 					{time} {item.duration}m.
 				</span>

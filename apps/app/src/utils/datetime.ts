@@ -1,9 +1,12 @@
 // '2023-11-21T08:10:39.898Z'
-export const toDate = (d: Date | string | number) => {
-	if (!(d instanceof Date)) {
-		d = new Date(d);
+export const toIsoDate = (d: Date | string | number) => {
+	if (typeof d !== 'string') {
+		if (!(d instanceof Date)) {
+			d = new Date(d);
+		}
+		d = d.toISOString();
 	}
-	return d.toISOString().split('T')[0];
+	return d.split('T')[0];
 };
 
 export const toTime = (d: Date | string | number) => {

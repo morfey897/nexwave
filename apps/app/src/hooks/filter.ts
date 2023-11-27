@@ -1,6 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TFilterParams } from '@/types/filter';
+import { addDays } from 'date-fns';
+import { toIsoDate } from '@/utils/datetime';
 
 function _use({ prefix, name, defaultValue }: TFilterParams) {
 	const searchParams = useSearchParams();
@@ -129,4 +131,26 @@ export function useSort(params: TFilterParams) {
 	);
 
 	return { onSort, sort };
+}
+
+/**
+ * Hook for days
+ * @param name - search param name
+ * @returns
+ */
+export function useDay(params: TFilterParams) {
+	const { onChange, value } = _use(params);
+	const onDay = useCallback(
+		(number: number) => {
+			if (!number) {
+				onChange('');
+			} else {
+				const data = new Date(value);
+				onChange(toIsoDate(addDays(data, number)));
+			}
+		},
+		[value, onChange],
+	);
+
+	return { onDay, day: value };
 }

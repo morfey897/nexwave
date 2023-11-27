@@ -28,7 +28,6 @@ export function useScrollDetect(threshold: number) {
 
 	useEffect(() => {
 		if (isBrowser()) {
-			console.log('useScrollDetect');
 			const scrollTop = getScrollPercent();
 			setIsScrolling(scrollTop > threshold);
 			window.addEventListener('scroll', onScroll);

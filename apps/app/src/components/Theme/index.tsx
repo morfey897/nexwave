@@ -12,8 +12,6 @@ function ThemeSwithcer({
 }: React.HTMLAttributes<HTMLDivElement>) {
 	const [theme, setTheme] = useState<ThemeType>('none');
 
-	// console.log('document.documentElement.classList', document?.documentElement?.classList);
-
 	useEffect(() => {
 		const classList = document.documentElement.classList;
 		if (classList.contains('dark')) {

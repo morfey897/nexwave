@@ -3,11 +3,10 @@ import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { useDateLocale } from '@/hooks/datetime';
 import {
-	toDate,
+	toIsoDate,
 	mmToTime,
 	toTime,
 	timeToMinutes,
-	addTime,
 } from '@/utils/datetime';
 import { addZiro } from '@/utils/str';
 import { cellStyle, detectCollisions, groupRectangles } from '@/utils/view';
@@ -29,28 +28,32 @@ export function useTimesCalendar<T extends INode>({
 	timeStep: number;
 }): TTimes {
 	const times = useMemo(() => {
-		let min = 24 * 60 - 1;
-		let max = 0;
+		let min = 0;
+		let max = 24 * 60 - timeStep;
 
-		for (let j = 0; j < events.length; j++) {
-			const event = events[j];
-			const eventDate = toDate(event.date);
-			for (let i = 0; i < dates.length; i++) {
-				const date = toDate(dates[i]);
-				if (eventDate === date) {
-					const minTime = toTime(event.date);
-					const maxTime = addTime(event.date, mmToTime(event.duration));
-					const minMminutes = timeToMinutes(minTime);
-					const maxMminutes = timeToMinutes(maxTime);
-					min = Math.min(min, minMminutes, maxMminutes);
-					max = Math.max(max, minMminutes, maxMminutes);
-				}
-			}
-		}
+		// for (let j = 0; j < events.length; j++) {
+		// 	const event = events[j];
+		// 	const eventDate = toIsoDate(event.date);
+		// 	for (let i = 0; i < dates.length; i++) {
+		// 		const date = toIsoDate(dates[i]);
+		// 		if (eventDate === date) {
+		// 			const minTime = toTime(event.date);
+		// 			const maxTime = addTime(event.date, mmToTime(event.duration));
+		// 			const minMminutes = timeToMinutes(minTime);
+		// 			const maxMminutes = timeToMinutes(maxTime);
+		// 			min = Math.min(min, minMminutes, maxMminutes);
+		// 			max = Math.max(max, minMminutes, maxMminutes);
+		// 		}
+		// 	}
+		// }
 
 		min = min - (min % timeStep);
 		max = max + (+Boolean(max % timeStep) * timeStep - (max % timeStep));
-		return { min, max, step: timeStep };
+		return {
+			min,
+			max,
+			step: timeStep,
+		};
 	}, [events, dates, timeStep]);
 
 	return times;
@@ -68,7 +71,7 @@ export function useHeaderCalendar<T extends INode>(
 	const header = useMemo(
 		() =>
 			dates.map((str) => {
-				const dateStr = toDate(str);
+				const dateStr = toIsoDate(str);
 				const date = new Date(dateStr);
 				return {
 					isoDate: dateStr,
@@ -112,7 +115,7 @@ export function useNow() {
 	const timer = useMemo(() => {
 		const now = new Date();
 		return {
-			date: toDate(now),
+			date: toIsoDate(now),
 			hh: now.getHours(),
 			mm: now.getMinutes(),
 			ss: now.getSeconds(),
@@ -142,8 +145,8 @@ export function useBodyCalendar<T extends INode>({
 		>();
 		if (!events || !dates) return timesMap;
 		for (let dateIndex = 0; dateIndex < dates.length; dateIndex++) {
-			const date = toDate(dates[dateIndex]);
-			const list = events.filter((event) => toDate(event.date) === date);
+			const date = toIsoDate(dates[dateIndex]);
+			const list = events.filter((event) => toIsoDate(event.date) === date);
 			const rectanglesList = list
 				.map((event) => ({
 					event,

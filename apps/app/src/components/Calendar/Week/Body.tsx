@@ -7,7 +7,7 @@ import {
 	useTimesCalendar,
 	useNow,
 } from '@/hooks/calendar';
-import { timeToMinutes, toDate } from '@/utils/datetime';
+import { timeToMinutes, toIsoDate } from '@/utils/datetime';
 
 function Body<T extends INode>({
 	dates,
@@ -80,7 +80,7 @@ function Body<T extends INode>({
 							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						)}
 					>
-						{toDate(now.date) === toDate(date) && (
+						{toIsoDate(now.date) === toIsoDate(date) && (
 							<div
 								className={clsx(
 									'absolute left-0 z-0 border-t border-gray-200 dark:border-gray-700',

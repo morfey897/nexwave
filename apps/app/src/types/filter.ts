@@ -9,6 +9,7 @@ export enum EnumSearchParams {
 	SEARCH = 'search',
 	SORT = 'sort',
 	VIEW = 'view',
+	DAY = 'day',
 }
 
 export type TFilterParams = {
