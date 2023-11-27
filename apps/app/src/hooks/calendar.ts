@@ -74,7 +74,7 @@ export function useHeaderCalendar<T extends INode>(
 					isoDate: dateStr,
 					title: format(date, 'EEEE', { locale: dateLocale }),
 					abr: format(date, 'EEE', { locale: dateLocale }),
-					date: format(date, 'd MMM', { locale: dateLocale }),
+					formatedDate: format(date, 'd MMM', { locale: dateLocale }),
 				};
 			}),
 		[dates, dateLocale],
@@ -87,7 +87,7 @@ export function useHeaderCalendar<T extends INode>(
  * @param times
  * @returns
  */
-export function useSidebarCalendar(times: TTimes) {
+export function useSidebarCalendar({ times }: { times: TTimes }) {
 	const timesList = useMemo(() => {
 		const list = [];
 		for (let t = times.min; t <= times.max; t += times.step) {
@@ -101,6 +101,25 @@ export function useSidebarCalendar(times: TTimes) {
 	}, [times]);
 
 	return timesList;
+}
+
+/**
+ * Now is a current time
+ * @param times
+ * @returns
+ */
+export function useNow() {
+	const timer = useMemo(() => {
+		const now = new Date();
+		return {
+			date: toDate(now),
+			hh: now.getHours(),
+			mm: now.getMinutes(),
+			ss: now.getSeconds(),
+		};
+	}, []);
+
+	return timer;
 }
 
 /**

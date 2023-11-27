@@ -5,7 +5,9 @@ import {
 	useBodyCalendar,
 	useSidebarCalendar,
 	useTimesCalendar,
+	useNow,
 } from '@/hooks/calendar';
+import { timeToMinutes, toDate } from '@/utils/datetime';
 
 function Body<T extends INode>({
 	dates,
@@ -18,11 +20,12 @@ function Body<T extends INode>({
 	cellHeight: number;
 	timeStep: number;
 } & React.HTMLAttributes<HTMLDivElement>) {
+	const now = useNow();
 	const times = useTimesCalendar({ events, dates, timeStep });
-	const timeList = useSidebarCalendar(times);
+	const timeList = useSidebarCalendar({ times });
 	const body = useBodyCalendar({ events, dates, times: times });
 
-	const totalHeight = cellHeight * timeList.length;
+	const totalHeight = Math.floor(cellHeight * timeList.length);
 	const totalDays = dates.length;
 
 	const timeMarkers = useMemo(
@@ -45,18 +48,16 @@ function Body<T extends INode>({
 		<div className={clsx(className)}>
 			<div className='h-3' />
 			<div className={clsx('flex relative w-fit min-w-full')}>
-				<div>
-					{timeList.map(({ time }, index) => (
-						<hr
-							key={time}
-							className={clsx(
-								'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
-								time % 60 === 0 ? 'border-solid' : 'border-dashed',
-							)}
-							style={{ height: cellHeight, top: index * cellHeight }}
-						/>
-					))}
-				</div>
+				{timeList.map(({ time }, index) => (
+					<hr
+						key={time}
+						className={clsx(
+							'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
+							time % 60 === 0 ? 'border-solid' : 'border-dashed',
+						)}
+						style={{ top: index * cellHeight }}
+					/>
+				))}
 
 				{dates.map((date, index) => (
 					<div
@@ -75,10 +76,25 @@ function Body<T extends INode>({
 						style={{ height: totalHeight }}
 						key={date}
 						className={clsx(
-							'-mt-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
+							'relative -mt-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
 							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						)}
 					>
+						{toDate(now.date) === toDate(date) && (
+							<div
+								className={clsx(
+									'absolute left-0 z-0 border-t border-gray-200 dark:border-gray-700',
+									'border-solid border-red-400 w-full',
+								)}
+								style={{
+									top: Math.round(
+										((timeToMinutes(now) - times.min) / timeStep) * cellHeight,
+									),
+								}}
+							>
+								<span className='bg-red-400 rounded-full w-2 h-2 block -mt-1' />
+							</div>
+						)}
 						{body?.get(date)?.map(({ event, rect, index }) => (
 							<div
 								key={`item_${event._uid}`}
