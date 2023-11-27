@@ -80,21 +80,23 @@ function Body<T extends INode>({
 							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						)}
 					>
-						{toIsoDate(now.date) === toIsoDate(date) && (
-							<div
-								className={clsx(
-									'absolute left-0 z-0 border-t border-gray-200 dark:border-gray-700',
-									'border-solid border-red-400 w-full',
-								)}
-								style={{
-									top: Math.round(
-										((timeToMinutes(now) - times.min) / timeStep) * cellHeight,
-									),
-								}}
-							>
-								<span className='bg-red-400 rounded-full w-2 h-2 block -mt-1' />
-							</div>
-						)}
+						<div
+							id='marker-now'
+							className={clsx(
+								'absolute left-0 z-0 border-t border-red-400 border-solid',
+								'w-full',
+								toIsoDate(now.date) === toIsoDate(date)
+									? 'visible'
+									: 'invisible',
+							)}
+							style={{
+								top: Math.round(
+									((timeToMinutes(now) - times.min) / timeStep) * cellHeight,
+								),
+							}}
+						>
+							<span className='bg-red-400 rounded-full w-2 h-2 block -mt-1' />
+						</div>
 						{body?.get(date)?.map(({ event, rect, index }) => (
 							<div
 								key={`item_${event._uid}`}

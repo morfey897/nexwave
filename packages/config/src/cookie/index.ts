@@ -1,2 +1,4 @@
 export const LOCALE_COOKIE = 'NEXT_LOCALE';
 export const THEME_COOKIE = 'NEXT_THEME';
+export const DEVICE_COOKIE = 'NEXT_DEVICE';
+export const DEVICE_INFO_COOKIE = 'NEXT_DEVICE_INFO';

@@ -1,11 +1,60 @@
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
-import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE } from 'config';
+import {
+	DEFAULT_LOCALE,
+	LOCALES,
+	LOCALE_COOKIE,
+	DEVICE_COOKIE,
+	DEVICE_INFO_COOKIE,
+	PATHNAME_HEADER,
+} from 'config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import UAParser, { IDevice, IResult } from 'ua-parser-js';
 import * as routes from '@/constants/routes';
+import { ca } from 'date-fns/locale';
+import { EnumDevice } from './types/view';
 
 type LangType = typeof LOCALES & undefined;
+
+const getDevice = (userAgent: string | null | undefined) => {
+	const ua = UAParser(userAgent || undefined);
+	let device: EnumDevice = EnumDevice.NONE;
+	switch (ua.device.type) {
+		case 'mobile': {
+			device = EnumDevice.MOBILE;
+			break;
+		}
+		case 'tablet': {
+			device = EnumDevice.TABLET;
+			break;
+		}
+		default: {
+			device = EnumDevice.DESKTOP;
+			break;
+		}
+	}
+	return {
+		device,
+		info: JSON.stringify(ua),
+	};
+};
+
+const setCookie = (
+	response: NextResponse,
+	cookie: Record<string, string | undefined>,
+) => {
+	const setCookies = response.headers.get('set-cookie');
+	response.headers.set(
+		'set-cookie',
+		Object.entries(cookie)
+			.filter(([key, value]) => Boolean(value) && Boolean(key))
+			.map(([key, value]) => `${key}=${value};path=/`)
+			.concat(setCookies || '')
+			.filter((v) => Boolean(v))
+			.join(','),
+	);
+};
 
 function getLocale(request: NextRequest) {
 	const headers = {
@@ -31,7 +80,14 @@ export function middleware(request: NextRequest) {
 		? cookieValue
 		: getLocale(request);
 
-	let response = NextResponse.next();
+	const { device, info } = getDevice(request.headers.get('user-agent'));
+
+	const response = NextResponse.next();
+
+	setCookie(response, {
+		[DEVICE_COOKIE]: device,
+		[DEVICE_INFO_COOKIE]: info,
+	});
 
 	// const auth = true;//request.headers.get('Authorization');
 	// if (!auth && request.nextUrl.pathname.startsWith(routes.ROOT)) {
@@ -45,16 +101,10 @@ export function middleware(request: NextRequest) {
 	// }
 
 	if (cookieValue != locale) {
-		const setCookies = response.headers.get('set-cookie');
-		response.headers.set(
-			'set-cookie',
-			[`${LOCALE_COOKIE}=${locale};path=/`, setCookies]
-				.filter((v) => Boolean(v))
-				.join(','),
-		);
+		setCookie(response, { [LOCALE_COOKIE]: locale });
 	}
 
-	response.headers.set('X-Next-Pathname', pathname);
+	response.headers.set(PATHNAME_HEADER, pathname);
 	return response;
 }
 

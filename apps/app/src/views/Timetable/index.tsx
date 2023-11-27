@@ -8,7 +8,7 @@ import Headline from '@/components/Headline';
 import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
 import { EnumView } from '@/types/calendar';
 import { EnumFilter } from '@/types/event';
-import { useCallback, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { WeekCalendarHead, WeekCalendarBody } from '@/components/Calendar/Week';
 import { previousMonday, addDays } from 'date-fns';
 import { toIsoDate } from '@/utils/datetime';
@@ -22,6 +22,7 @@ import Container, {
 import clsx from 'clsx';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import { IEvent } from '@/types/event';
+import { EnumDevice } from '@/types/view';
 
 const getFirstDay = () => {
 	const now = new Date();
@@ -35,10 +36,12 @@ function TimetableView({
 	events,
 	cellHeight,
 	timeStep,
+	device,
 }: {
 	events: IEvent[];
 	cellHeight: number;
 	timeStep: number;
+	device?: EnumDevice;
 }) {
 	const t = useTranslations();
 
@@ -52,7 +55,7 @@ function TimetableView({
 
 	const { onView, view } = useView({
 		name: EnumSearchParams.VIEW,
-		defaultValue: EnumView.WEEK,
+		defaultValue: device === EnumDevice.MOBILE ? EnumView.DAY : EnumView.WEEK,
 	});
 
 	const { onDay, day } = useDay({
@@ -89,6 +92,13 @@ function TimetableView({
 			return [day];
 		}
 	}, [view, day]);
+
+	useEffect(() => {
+		document.getElementById('marker-now')?.scrollIntoView({
+			behavior: 'auto',
+			block: 'center',
+		});
+	}, [day, view]);
 
 	return (
 		<Container className='overflow-x-clip'>
