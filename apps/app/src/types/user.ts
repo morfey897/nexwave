@@ -6,13 +6,14 @@ export enum EnumFilter {
 	INACTIVE = 'inactive',
 }
 
-export interface IClient extends TUID {
+export interface IUser extends TUID {
 	avatar: string;
 	name: string;
 	surname: string;
 	email: string;
-	birthday?: string;
 	phone: string;
+	birthday?: string;
+	
 	badges?: string;
 	last_visit_at?: string;
 	created_at?: string;
