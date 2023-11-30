@@ -20,8 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({
 	children,
+	modal,
 }: {
 	children: React.ReactNode;
+	modal: React.ReactNode;
 }) {
 	const locale = getLocale();
 	const theme = getTheme();
@@ -32,7 +34,6 @@ export default async function RootLayout({
 	} catch (error) {
 		messages = {};
 	}
-
 	return (
 		<html lang={locale} className={theme || ''}>
 			<ThemeProvider />
@@ -44,6 +45,7 @@ export default async function RootLayout({
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					{children}
+					{modal}
 				</NextIntlClientProvider>
 			</body>
 		</html>

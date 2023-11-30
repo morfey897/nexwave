@@ -53,6 +53,31 @@
 		"subheadline": "Ми робили все можливе, але не змогли уникнути помилки. Спробуємо ще раз.",
 		"reset": "Спробувати ще"
 	},
+	"sign_in_page": {
+		"with_google": "Увійти за допомогою Google",
+		"with_email": "або за допомогою email",
+		"email": "Email",
+		"password": "Пароль",
+		"forgot_password": "Забули пароль?",
+		"invalid_credential": "Невірний email або пароль",
+		"submit": "Увійти",
+		"dont_have_account": "Немає аккаунта? Створити"
+	},
+	"sign_up_page": {
+		"with_google": "Реєстрація с помощью Google",
+		"with_email": "або за допомогою email",
+		"name": "Ім'я",
+		"email": "Email",
+		"invalid_email": "Невірний email",
+		"password": "Пароль",
+		"weak_password": "Не менше 6 символів, цифра, велика літера та спецсимвол @$!%*?&.",
+		"confirm_password": "Підтвердіть пароль",
+		"invalid_password": "Паролі не співпадають",
+		"submit": "Зареєструватися",
+		"have_account": "Вже є аккаунт? Увійти",
+		"email_in_use": "Email вже використовується",
+		"sign_in": "Увійти?"
+	},
 	"clients_page": {
 		"headline": "Клієнти",
 		"subheadline": "Список клієнтів",

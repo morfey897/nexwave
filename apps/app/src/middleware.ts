@@ -82,22 +82,28 @@ export function middleware(request: NextRequest) {
 
 	const { device, info } = getDevice(request.headers.get('user-agent'));
 
-	const response = NextResponse.next();
+	let response = NextResponse.next();
 
 	setCookie(response, {
 		[DEVICE_COOKIE]: device,
 		[DEVICE_INFO_COOKIE]: info,
 	});
 
-	// const auth = true;//request.headers.get('Authorization');
+	// const auth = true; //request.headers.get('Authorization');
 	// if (!auth && request.nextUrl.pathname.startsWith(routes.ROOT)) {
-	//   response = NextResponse.redirect(new URL(routes.AUTH, request.nextUrl.href), {
-	//     status: 307
-	//   });
-	// } else if (auth && request.nextUrl.pathname === routes.AUTH) {
-	//   response = NextResponse.redirect(new URL(routes.ROOT, request.nextUrl.href), {
-	//     status: 307
-	//   });
+	// 	response = NextResponse.redirect(
+	// 		new URL(routes.AUTH, request.nextUrl.href),
+	// 		{
+	// 			status: 307,
+	// 		},
+	// 	);
+	// } else if (auth && request.nextUrl.pathname.startsWith(routes.AUTH)) {
+	// 	response = NextResponse.redirect(
+	// 		new URL(routes.ROOT, request.nextUrl.href),
+	// 		{
+	// 			status: 307,
+	// 		},
+	// 	);
 	// }
 
 	if (cookieValue != locale) {

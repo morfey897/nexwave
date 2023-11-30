@@ -13,7 +13,7 @@ export function Button({
 	return (
 		<button
 			className={clsx(
-				'px-5 py-2 flex items-center justify-center rounded-lg tracking-wide text-sm shrink-0 sm:w-auto gap-x-2 transition-colors duration-200',
+				'px-5 py-2 flex items-center justify-center rounded-lg tracking-wide text-sm shrink-0 gap-x-2 transition-colors duration-200',
 				{
 					'text-white bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600 disabled:dark:text-gray-700 disabled:text-gray-300 disabled:bg-blue-400 disabled:dark:bg-blue-700':
 						variant === 'primary',

@@ -1,4 +1,7 @@
-export const AUTH = '/';
+export const AUTH = '/auth';
+export const SIGN_IN = '/auth/signin';
+export const SIGN_UP = '/auth/signup';
+
 export const ROOT = '/app';
 export const CLIENTS = '/app/clients';
 export const CLIENT = '/app/clients/[id]';

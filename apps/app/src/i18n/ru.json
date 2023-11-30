@@ -1,62 +1,87 @@
 {
-  "common": {
-    "search": "Поиск",
-    "sort_by": "Сортировать по",
-    "clear_search": "Очистить поиск",
-    "clear": "Очистить",
-    "del": "Удалить",
-    "import": "Импорт",
-    "export": "Экспорт",
-    "add": "Добавить",
-    "prev": "Предыдущая",
-    "page_of": "{page} / {maxPage}",
-    "next": "Следующая",
-    "settings": "Настройки",
-    "sign_out": "Выйти",
-    "days_ago": "{count, plural, =0 {Сегодня} =1 {Вчера} =2 {Позавчера} other {# дн. назад}}",
-    "i18n": {
-      "uk": {
-        "title": "Українська",
-        "abr": "Укр"
-      },
-      "ru": {
-        "title": "Русский",
-        "abr": "Рус"
-      },
-      "en": {
-        "title": "English",
-        "abr": "Eng"
-      }
-    },
-    "links": {
-      "cms": "Edit PDKalipso",
-      "site": "PDKalipso"
-    },
-    "breadcrumbs": {
-      "app": "Главная",
-      "clients": "Клиенты",
-      "services": "Услуги",
-      "timetable": "Расписание",
-      "users": "Пользователи",
-      "products": "Товары"
-    }
-  },
-  "not_found_page": {
-    "headline": "Мы потеряли эту страницу",
-    "subheadline": "Мы искали повсюду, но не смогли найти то, что вы ищете. Давай найдем для тебя лучшее место.",
-    "go_back": "Вернуться назад",
-    "go_home": "На главную"
-  },
-  "error_page": {
-    "headline": "Упс... что-то пошло не так",
-    "subheadline": "Мы делали все возможное, но не смогли избежать ошибки. Давайте попробуем еще раз.",
-    "reset": "Попробовать еще"
-  },
-  "clients_page": {
-    "headline": "Клиенты",
-    "subheadline": "Список всех клиентов",
-    "amount": "{count, plural, =0 {Еще нет клиентов} =1 {Один клиент} =2 {Два клиента} =3 {Три клиента} =4 {Три клиента} other {# клиентов}}",
-    "headline_empty": "Нет клиентов",
-    "subheadline_empty": "Создайте своего первого клиента" 
-  }
+	"common": {
+		"search": "Поиск",
+		"sort_by": "Сортировать по",
+		"clear_search": "Очистить поиск",
+		"clear": "Очистить",
+		"del": "Удалить",
+		"import": "Импорт",
+		"export": "Экспорт",
+		"add": "Добавить",
+		"prev": "Предыдущая",
+		"page_of": "{page} / {maxPage}",
+		"next": "Следующая",
+		"settings": "Настройки",
+		"sign_out": "Выйти",
+		"days_ago": "{count, plural, =0 {Сегодня} =1 {Вчера} =2 {Позавчера} other {# дн. назад}}",
+		"i18n": {
+			"uk": {
+				"title": "Українська",
+				"abr": "Укр"
+			},
+			"ru": {
+				"title": "Русский",
+				"abr": "Рус"
+			},
+			"en": {
+				"title": "English",
+				"abr": "Eng"
+			}
+		},
+		"links": {
+			"cms": "Edit PDKalipso",
+			"site": "PDKalipso"
+		},
+		"breadcrumbs": {
+			"app": "Главная",
+			"clients": "Клиенты",
+			"services": "Услуги",
+			"timetable": "Расписание",
+			"users": "Пользователи",
+			"products": "Товары"
+		}
+	},
+	"not_found_page": {
+		"headline": "Мы потеряли эту страницу",
+		"subheadline": "Мы искали повсюду, но не смогли найти то, что вы ищете. Давай найдем для тебя лучшее место.",
+		"go_back": "Вернуться назад",
+		"go_home": "На главную"
+	},
+	"error_page": {
+		"headline": "Упс... что-то пошло не так",
+		"subheadline": "Мы делали все возможное, но не смогли избежать ошибки. Давайте попробуем еще раз.",
+		"reset": "Попробовать еще"
+	},
+	"sign_in_page": {
+		"with_google": "Войти с помощью Google",
+		"with_email": "или войти с помощью email",
+		"email": "Email",
+		"password": "Пароль",
+		"forgot_password": "Забыли пароль?",
+		"invalid_credential": "Неверный email или пароль",
+		"submit": "Войти",
+		"dont_have_account": "Нет аккаунта? Создайте"
+	},
+	"sign_up_page": {
+		"with_google": "Регистрация с Google",
+		"with_email": "или регистрация с помощью email",
+		"name": "Имя",
+		"email": "Email",
+		"invalid_email": "Некорректный email",
+		"password": "Пароль",
+		"weak_password": "Не менее 6 символов, цифра, заглавная буква и спецсимвол @$!%*?&.",
+		"confirm_password": "Подтвердите пароль",
+		"invalid_password": "Пароли не совпадают",
+		"submit": "Зарегистрироваться",
+		"have_account": "Уже есть аккаунт? Войти",
+		"email_in_use": "Email уже используется",
+		"sign_in": "Войти?"
+	},
+	"clients_page": {
+		"headline": "Клиенты",
+		"subheadline": "Список всех клиентов",
+		"amount": "{count, plural, =0 {Еще нет клиентов} =1 {Один клиент} =2 {Два клиента} =3 {Три клиента} =4 {Три клиента} other {# клиентов}}",
+		"headline_empty": "Нет клиентов",
+		"subheadline_empty": "Создайте своего первого клиента"
+	}
 }

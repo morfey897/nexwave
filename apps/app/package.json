@@ -14,6 +14,8 @@
     "clsx": "^2.0.0",
     "config": "*",
     "date-fns": "^2.30.0",
+    "firebase": "^10.7.0",
+    "firebase-admin": "^11.11.1",
     "lodash": "^4.17.21",
     "negotiator": "^0.6.3",
     "next": "14.0.1",

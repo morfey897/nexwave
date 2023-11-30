@@ -5,10 +5,8 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default async function RootLayout({
 	children,
-	modal,
 }: {
 	children: React.ReactNode;
-	modal: React.ReactNode;
 }) {
 	return (
 		<>
@@ -19,7 +17,6 @@ export default async function RootLayout({
 					<Breadcrumbs />
 					{children}
 				</Block>
-				{modal}
 			</main>
 		</>
 	);

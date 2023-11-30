@@ -65,6 +65,31 @@
 		"subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again.",
 		"reset": "Try again"
 	},
+	"sign_in_page": {
+		"with_google": "Sign in with Google",
+		"with_email": "or sign in with email",
+		"email": "Email",
+		"password": "Password",
+		"forgot_password": "Forgot password?",
+		"invalid_credential": "Invalid email or password",
+		"submit": "Sign in",
+		"dont_have_account": "Don't have an account yet? Sign up"
+	},
+	"sign_up_page": {
+		"with_google": "Sign up with Google",
+		"with_email": "or sign up with email",
+		"name": "Name",
+		"email": "Email",
+		"invalid_email": "Invalid email",
+		"password": "Password",
+		"weak_password": "At least 6 characters, a number, a capital letter and the special character @$!%*?&.",
+		"confirm_password": "Comfirm Password",
+		"invalid_password": "Invalid password",
+		"submit": "Sign up",
+		"have_account": "Already have an account? Sign in?",
+		"email_in_use": "This email is already in use",
+		"sign_in": "Sign in?"
+	},
 	"clients_page": {
 		"headline": "Clients",
 		"subheadline": "Here you can find all clients",
