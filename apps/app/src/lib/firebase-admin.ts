@@ -1,4 +1,3 @@
-'use server';
 import admin, { AppOptions } from 'firebase-admin';
 import { UserRecord } from 'firebase-admin/auth';
 
@@ -7,14 +6,12 @@ const firebaseConfig: AppOptions = {
 		JSON.parse(process.env.FIREBASE_CREDENTIALS || '{}'),
 	),
 };
-function getApp() {
-	let app = admin.apps[0];
-	if (!!app) {
-		console.log('From cache');
-		return app;
-	}
-	console.log('New app');
-	return admin.initializeApp(firebaseConfig);
+export function getApp() {
+	return admin.apps[0] || admin.initializeApp(firebaseConfig);
+}
+
+export function getAuth() {
+	return admin.auth(getApp());
 }
 
 export async function signIn({
@@ -24,8 +21,7 @@ export async function signIn({
 	username?: string;
 	password?: string;
 }) {
-	const app = getApp();
-	const auth = admin.auth(app);
+	const auth = getAuth();
 
 	// admin.auth().verify
 

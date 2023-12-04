@@ -1,5 +1,5 @@
 'use client';
-import { EXTERNAL } from '@/constants/routes';
+import { APP, EXTERNAL } from '@/constants/routes';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -14,18 +14,20 @@ import User from './User';
 import Search from '@/components/Controls/Search';
 import Block from '../Block';
 import Container from '../Containers';
+import { useLogout } from '@/hooks/auth';
+import { useRouter } from 'next/navigation';
+import { HOME } from '@/constants/routes';
+import { getUser } from '@/lib/firebase';
 
 function Header() {
 	const t = useTranslations('common');
+	const onLogout = useLogout();
+	const route = useRouter();
+
 	const [menu, setMenu] = useState(false);
 
-	const [user, setUser] = useState({
-		avatar:
-			'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200',
-		name: 'Jane',
-		surname: 'Doe',
-		email: 'janedoe@exampl.com',
-	});
+	const user = getUser();
+	const avatar = 'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200';
 
 	const onToggleMenu = useCallback(() => {
 		setMenu((menu) => !menu);
@@ -35,12 +37,17 @@ function Header() {
 		setMenu(false);
 	}, []);
 
+	const onExit = useCallback(async () => {
+		await onLogout();
+		route.push(HOME);
+	}, [onLogout]);
+
 	return (
 		<>
 			<div className='relative w-full h-[80px]' />
 			<nav className='fixed bg-white shadow dark:bg-gray-800 top-0 w-full z-30'>
 				<Link
-					href='/'
+					href={APP}
 					className='lg:left-6 top-4 flex items-center gap-2 text-gray-900 dark:text-white absolute font-semibold text-xl'
 				>
 					<TiWaves size={52} />
@@ -108,7 +115,7 @@ function Header() {
 														<Image
 															width={24}
 															height={24}
-															src={user.avatar}
+															src={avatar}
 															className='object-cover w-full h-full'
 															alt='avatar'
 														/>
@@ -125,7 +132,11 @@ function Header() {
 												<hr className='border-gray-200 dark:border-gray-700' />
 												<NavItem Icon={HiCog} label={t('settings')} />
 												<hr className='border-gray-200 dark:border-gray-700' />
-												<NavItem Icon={HiLogout} label={t('sign_out')} />
+												<NavItem
+													Icon={HiLogout}
+													label={t('sign_out')}
+													onClick={onExit}
+												/>
 											</div>
 										</DropDown>
 
@@ -147,6 +158,7 @@ function Header() {
 												className='[&>span]:!block !flex-row'
 												Icon={HiLogout}
 												label={t('sign_out')}
+												onClick={onExit}
 											/>
 										</div>
 									</div>

@@ -4,7 +4,7 @@ import { TFilterParams } from '@/types/filter';
 import { addDays } from 'date-fns';
 import { toIsoDate } from '@/utils/datetime';
 
-function _use({ prefix, name, defaultValue }: TFilterParams) {
+function useHook({ prefix, name, defaultValue }: TFilterParams) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
@@ -37,7 +37,7 @@ function _use({ prefix, name, defaultValue }: TFilterParams) {
  * @returns
  */
 export function useFilter(params: TFilterParams) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 	return { onFilter: onChange, filter: value };
 }
 
@@ -47,7 +47,7 @@ export function useFilter(params: TFilterParams) {
  * @returns
  */
 export function useSearch(params: TFilterParams) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 	return { onSearch: onChange, search: value };
 }
 
@@ -57,7 +57,7 @@ export function useSearch(params: TFilterParams) {
  * @returns
  */
 export function useView(params: TFilterParams) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 	return { onView: onChange, view: value };
 }
 
@@ -70,7 +70,7 @@ export function usePage({
 	pages,
 	...params
 }: TFilterParams & { pages?: number }) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 
 	const maxPage = useMemo(
 		() => (!pages || Number.isNaN(pages) ? 1 : pages),
@@ -108,7 +108,7 @@ export function usePage({
  * @returns
  */
 export function useSort(params: TFilterParams) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 
 	const sort = useMemo(() => {
 		return {
@@ -139,7 +139,7 @@ export function useSort(params: TFilterParams) {
  * @returns
  */
 export function useDay(params: TFilterParams) {
-	const { onChange, value } = _use(params);
+	const { onChange, value } = useHook(params);
 	const onDay = useCallback(
 		(number: number) => {
 			if (!number) {

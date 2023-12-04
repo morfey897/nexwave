@@ -29,10 +29,10 @@ function Aside() {
 		<aside className='top-0 bottom-0 z-20 left-0 fixed flex flex-col w-10 sm:w-14 md:w-32 lg:w-64 lg:px-4 py-4 lg:py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-800 dark:border-gray-700'>
 			<nav className='flex flex-col flex-1 space-y-2 md:space-y-6 pt-[80px]'>
 				<NavItem
-					href={routes.ROOT}
+					href={routes.APP}
 					label={t('breadcrumbs.app')}
 					Icon={HiHome}
-					className={clsx(isActive(pathName, routes.ROOT) && activeClassName)}
+					className={clsx(isActive(pathName, routes.APP) && activeClassName)}
 				/>
 				<NavItem
 					href={routes.TIMETABLE}

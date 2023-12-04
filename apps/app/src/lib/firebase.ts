@@ -2,21 +2,14 @@
 import * as app from 'firebase/app';
 import * as Auth from 'firebase/auth';
 import * as validation from '@/utils/validation';
-import { TError, TSignIn, EnumStatus } from '@/types/firebase';
-import { ca } from 'date-fns/locale';
+import { TError, TSignIn, EnumSignIn } from '@/types/firebase';
 
 const firebaseConfig: app.FirebaseOptions = JSON.parse(
 	process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS || '{}',
 );
 
 function getApp() {
-	let instance = app.getApps()[0];
-	if (!!instance) {
-		console.log('From cache');
-		return instance;
-	}
-	console.log('New app');
-	return app.initializeApp(firebaseConfig);
+	return app.getApps()[0] || app.initializeApp(firebaseConfig);
 }
 
 function getError(error: any): TError {
@@ -43,6 +36,14 @@ function validate(props: Array<{ value: any; key: 'email' | 'password' }>) {
 		}
 		return prev;
 	}, []);
+}
+
+export const AuthErrorCodes = Auth.AuthErrorCodes;
+
+export function getUser(): Auth.User | null {
+	const app = getApp();
+	const auth = Auth.getAuth(app);
+	return auth.currentUser;
 }
 
 export async function signUpWithEmailAndPassword({
@@ -82,7 +83,7 @@ export async function signUpWithEmailAndPassword({
 					displayName: name,
 				});
 			} catch (error: any) {
-				console.warn(error);
+				console.warn('Error updating profile', error);
 			}
 		}
 
@@ -90,18 +91,19 @@ export async function signUpWithEmailAndPassword({
 
 		if (!verified) {
 			try {
-				auth.languageCode = 'ru';
+				// TODO: set language code
+				// auth.languageCode = 'ru';
 				await Auth.sendEmailVerification(userCredential.user);
 			} catch (error: any) {
-				console.warn(error);
+				console.warn('Error sending email verification', error);
 			}
 		}
 		return {
-			status: verified ? EnumStatus.VERIFIED : EnumStatus.UNVERIFIED,
+			status: verified ? EnumSignIn.VERIFIED : EnumSignIn.UNVERIFIED,
 			user: userCredential.user,
 		};
 	} catch (error: any) {
-		return { status: EnumStatus.FAILED, error: getError(error) };
+		return { status: EnumSignIn.FAILED, error: getError(error) };
 	}
 }
 
@@ -123,11 +125,11 @@ export async function signInWithEmailAndPassword({
 		);
 		const verified = userCredential.user.emailVerified;
 		return {
-			status: verified ? EnumStatus.VERIFIED : EnumStatus.UNVERIFIED,
+			status: verified ? EnumSignIn.VERIFIED : EnumSignIn.UNVERIFIED,
 			user: userCredential.user,
 		};
 	} catch (error: any) {
-		return { status: EnumStatus.FAILED, error: getError(error) };
+		return { status: EnumSignIn.FAILED, error: getError(error) };
 	}
 }
 
@@ -136,8 +138,8 @@ export async function signOut(): Promise<TSignIn> {
 	const auth = Auth.getAuth(app);
 	try {
 		await auth.signOut();
-		return { status: EnumStatus.SUCCESS };
+		return { status: EnumSignIn.SUCCESS };
 	} catch (error: any) {
-		return { status: EnumStatus.FAILED, error: getError(error) };
+		return { status: EnumSignIn.FAILED, error: getError(error) };
 	}
 }

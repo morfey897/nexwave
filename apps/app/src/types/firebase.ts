@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
-export enum EnumStatus {
+
+export enum EnumSignIn {
 	VERIFIED = 'verified',
 	UNVERIFIED = 'unverified',
 	SUCCESS = 'success',
@@ -12,7 +13,7 @@ export type TError = {
 };
 
 export type TSignIn = {
-	status: EnumStatus;
+	status: EnumSignIn;
 	error?: TError;
 	user?: User;
 };
