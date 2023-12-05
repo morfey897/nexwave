@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { IClient } from '@/types/client';
-import { MdMore } from 'react-icons/md';
+import { MdOutlineMoreVert } from 'react-icons/md';
 
 export function AvatarGenerator({ item }: { item: IClient }) {
 	const fullName = [item.name, item.surname]
@@ -14,8 +14,12 @@ export function AvatarGenerator({ item }: { item: IClient }) {
 		.join('');
 	return (
 		<div className='flex items-center gap-x-2 cursor-pointer relative'>
-			<button className='text-gray-300 dark:text-gray-700 p-1 -scale-x-[1]'>
-				<MdMore size={24} />
+			<button className='text-gray-400 dark:text-gray-600 p-1 bg-gray-200 dark:bg-gray-800 rounded-lg relative group'>
+				<span className='hidden absolute group-hover:flex h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+					<span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 dark:bg-gray-600 opacity-75'></span>
+					<span className='relative inline-flex rounded-full h-full w-full bg-gray-400/20 dark:bg-gray-600/20'></span>
+				</span>
+				<MdOutlineMoreVert size={24} />
 			</button>
 			{item.avatar ? (
 				<Image

@@ -52,7 +52,7 @@ export default function Breadcrumbs() {
 						</span>
 					)}
 					{active ? (
-						<span className='text-blue-600 dark:text-blue-400 cursor-pointer'>
+						<span className='text-blue-600 dark:text-blue-400 cursor-default'>
 							{t(token)}
 						</span>
 					) : (
