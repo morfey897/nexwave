@@ -20,7 +20,7 @@ export const Avatar = ({
 	return (
 		<div
 			className={clsx(
-				'shrink-0 rounded-full ring text-gray-200 dark:ring-gray-200 ring-gray-300 bg-blue-500 dark:bg-blue-600',
+				'shrink-0 rounded-lg ring text-gray-200 dark:ring-gray-200 ring-gray-300 bg-blue-500 dark:bg-blue-600',
 				'flex items-center justify-center',
 				className,
 			)}
