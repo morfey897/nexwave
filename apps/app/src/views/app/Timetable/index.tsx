@@ -1,6 +1,6 @@
 'use client';
 import { useFilter, useView, useDay } from '@/hooks/filter';
-import { EnumSearchParams } from '@/types/filter';
+import { EnumSearchParams } from '@/types/search';
 import Filter from '@/components/Controls/Filter';
 import ChangeDate from '@/components/Controls/ChangeDate';
 import { useTranslations } from 'next-intl';

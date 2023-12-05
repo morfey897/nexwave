@@ -9,8 +9,6 @@ import { EnumSignIn, TSignIn } from '@/types/firebase';
 import { API_AUTH_LOGIN, API_AUTH_LOGOUT } from '@/constants/routes';
 
 export enum EnumProvider {
-	// GOOGLE = 'google',
-	// FACEBOOK = 'facebook',
 	PASSWORD_SIGN_IN = 'password-sign-in',
 	PASSWORD_SIGN_UP = 'password-sign-up',
 }
@@ -60,9 +58,10 @@ function useHook<T>(func: (props: T) => Promise<TSignIn>) {
 					// if (status !== EnumStatus.LOADING)
 					// 	throw new Error('Interrupted', { cause: 'interrupted' });
 					setStatus(EnumStatus.SUCCESS);
+					return EnumStatus.SUCCESS;
 				}
-				return EnumStatus.SUCCESS;
 			} catch (error: any) {
+				console.warn('Error login', error);
 				if (error?.cause !== 'interrupted') {
 					setStatus(EnumStatus.FAILED);
 				}
@@ -84,7 +83,7 @@ function useHook<T>(func: (props: T) => Promise<TSignIn>) {
 			onReset,
 			errors,
 		};
-	}, [status, onLogin, errors]);
+	}, [status, onLogin, onReset, errors]);
 
 	return memoResult;
 }

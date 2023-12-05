@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import { HiMenuAlt3, HiX, HiCog, HiLogout } from 'react-icons/hi';
 import { TiWaves } from 'react-icons/ti';
-import ThemeSwithcer from '@/components/Theme';
+import ThemeSwithcer from '@/components/ThemeSwithcer';
 import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
 import User from './User';
@@ -18,6 +18,7 @@ import { useLogout } from '@/hooks/auth';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/constants/routes';
 import { getUser } from '@/lib/firebase';
+import Overlay from '../Overlay';
 
 function Header() {
 	const t = useTranslations('common');
@@ -27,7 +28,8 @@ function Header() {
 	const [menu, setMenu] = useState(false);
 
 	const user = getUser();
-	const avatar = 'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200';
+	const avatar =
+		'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200';
 
 	const onToggleMenu = useCallback(() => {
 		setMenu((menu) => !menu);
@@ -107,7 +109,7 @@ function Header() {
 
 										{/* Desktop version */}
 										<DropDown
-											className='hidden lg:block'
+											wrapperClassName='hidden lg:block'
 											direction={{ y: 'bottom', x: 'left' }}
 											element={
 												<>
@@ -145,7 +147,7 @@ function Header() {
 											<hr className='border-gray-200 dark:border-gray-700 my-2' />
 
 											<User
-												className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300'
+												className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default'
 												user={user}
 											/>
 
@@ -165,12 +167,7 @@ function Header() {
 								</div>
 							</div>
 						</div>
-						{menu && (
-							<div
-								onClick={onCloseMenu}
-								className='inset-0 fixed bg-transparent backdrop-blur-sm'
-							/>
-						)}
+						{menu && <Overlay onClick={onCloseMenu} blur='sm' />}
 					</Container>
 				</Block>
 			</nav>

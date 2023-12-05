@@ -4,7 +4,8 @@ import './globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTheme } from '@/headers';
 import clsx from 'clsx';
-import ThemeProvider from '@/components/Theme/provider';
+import ThemeProvider from '@/providers/ThemeProvider';
+import ModalContainer from '@/views/Modal';
 import { generateViewport, getMetadata } from '@/utils/seo';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,10 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({
 	children,
-	modal,
 }: {
 	children: React.ReactNode;
-	modal: React.ReactNode;
 }) {
 	const locale = getLocale();
 	const theme = getTheme();
@@ -45,7 +44,7 @@ export default async function RootLayout({
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					{children}
-					{modal}
+					<ModalContainer/>
 				</NextIntlClientProvider>
 			</body>
 		</html>

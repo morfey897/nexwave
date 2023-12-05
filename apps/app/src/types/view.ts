@@ -1,3 +1,4 @@
+import { RedirectType } from 'next/navigation';
 export type TWrapperProps = {
 	wrapperClassName?: string;
 };
@@ -50,3 +51,10 @@ export type TSize = {
 };
 
 export interface TRect extends TPosition, TSize {}
+
+export interface IModal<T> {
+	name: string;
+	params: T;
+	onDismiss: (type?: RedirectType) => void;
+	onConfirm: (pathname: string, type?: RedirectType) => void;
+}

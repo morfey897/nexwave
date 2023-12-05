@@ -6,6 +6,7 @@ import {
 	DEVICE_COOKIE,
 	PATHNAME_HEADER,
 	SESSION_COOKIE,
+	UID_COOKIE,
 } from 'config';
 import { EnumDevice } from './types/view';
 
@@ -34,3 +35,4 @@ export const isMobile = () => getDevice() === EnumDevice.MOBILE;
 export const isTablet = () => getDevice() === EnumDevice.TABLET;
 
 export const getSession = () => cookies().get(SESSION_COOKIE)?.value;
+export const getUID = () => cookies().get(UID_COOKIE)?.value;

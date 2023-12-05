@@ -1,9 +1,5 @@
 export const HOME = '/';
 
-export const AUTH = '/auth';
-export const SIGN_IN = '/auth/login';
-export const SIGN_UP = '/auth/login?user=new';
-
 export const APP = '/app';
 export const CLIENTS = '/app/clients';
 export const CLIENT = '/app/clients/[id]';

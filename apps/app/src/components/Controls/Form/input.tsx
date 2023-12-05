@@ -34,6 +34,7 @@ function Input({
 						!!errorCopy && '!border-red-500',
 						className,
 					)}
+					required={required}
 					{...props}
 				/>
 			</div>

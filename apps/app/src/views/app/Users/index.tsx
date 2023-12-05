@@ -16,7 +16,7 @@ import withGenerator, {
 import { EnumFilter } from '@/types/client';
 import Headline from '@/components/Headline';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
-import { EnumSearchParams } from '@/types/filter';
+import { EnumSearchParams } from '@/types/search';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useMemo } from 'react';

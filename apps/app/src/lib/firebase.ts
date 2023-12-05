@@ -4,6 +4,12 @@ import * as Auth from 'firebase/auth';
 import * as validation from '@/utils/validation';
 import { TError, TSignIn, EnumSignIn } from '@/types/firebase';
 
+export const AuthErrorCodes = {
+	...Auth.AuthErrorCodes,
+	MISSING_EMAIL: 'auth/missing-email',
+	MISSING_PASSWORD: 'auth/missing-password',
+};
+
 const firebaseConfig: app.FirebaseOptions = JSON.parse(
 	process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS || '{}',
 );
@@ -23,13 +29,17 @@ function validate(props: Array<{ value: any; key: 'email' | 'password' }>) {
 	return props.reduce((prev: Array<string>, { value, key }) => {
 		switch (key) {
 			case 'email': {
-				if (!validation.isEmail(value)) {
-					prev.push(Auth.AuthErrorCodes.INVALID_EMAIL);
+				if (!value) {
+					prev.push(AuthErrorCodes.MISSING_EMAIL);
+				} else if (!validation.isEmail(value)) {
+					prev.push(AuthErrorCodes.INVALID_EMAIL);
 				}
 				break;
 			}
 			case 'password': {
-				if (!validation.isPassword(value)) {
+				if (!value) {
+					prev.push(AuthErrorCodes.MISSING_PASSWORD);
+				} else if (!validation.isPassword(value)) {
 					prev.push(Auth.AuthErrorCodes.WEAK_PASSWORD);
 				}
 			}
@@ -37,8 +47,6 @@ function validate(props: Array<{ value: any; key: 'email' | 'password' }>) {
 		return prev;
 	}, []);
 }
-
-export const AuthErrorCodes = Auth.AuthErrorCodes;
 
 export function getUser(): Auth.User | null {
 	const app = getApp();
@@ -118,6 +126,13 @@ export async function signInWithEmailAndPassword({
 	const auth = Auth.getAuth(app);
 
 	try {
+		const invalid = validate([
+			{ value: email, key: 'email' },
+			{ value: password, key: 'password' },
+		]);
+		if (invalid.length) {
+			throw { code: invalid.join(',') };
+		}
 		const userCredential = await Auth.signInWithEmailAndPassword(
 			auth,
 			email || '',

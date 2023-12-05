@@ -90,38 +90,6 @@ export async function middleware(request: NextRequest) {
 		[DEVICE_INFO_COOKIE]: info,
 	});
 
-
-	const uid = request.cookies.get(UID_COOKIE)?.value;
-	const session = request.cookies.get(SESSION_COOKIE)?.value;
-	const checkSession = session
-		? await fetch(`${request.nextUrl.origin}${routes.API_AUTH}`, {
-				headers: {
-					Cookie: `${SESSION_COOKIE}=${session}`,
-				},
-		  })
-		: { status: 401 };
-
-	const isVerify = checkSession.status === 200;
-
-	if (!isVerify && request.nextUrl.pathname.startsWith(routes.APP)) {
-		response = NextResponse.redirect(
-			new URL(
-				!!uid ? routes.SIGN_IN : routes.SIGN_UP,
-				request.nextUrl.href,
-			),
-			{
-				status: 307,
-			},
-		);
-	} else if (isVerify && request.nextUrl.pathname.startsWith(routes.AUTH)) {
-		response = NextResponse.redirect(
-			new URL(routes.APP, request.nextUrl.href),
-			{
-				status: 307,
-			},
-		);
-	}
-
 	if (cookieValue != locale) {
 		setCookie(response, { [LOCALE_COOKIE]: locale });
 	}
