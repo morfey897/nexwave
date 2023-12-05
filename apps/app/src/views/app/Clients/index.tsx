@@ -14,7 +14,7 @@ import withGenerator, {
 } from '@/components/Generators';
 
 import { EnumFilter } from '@/types/client';
-import Headline from '@/components/Headline';
+import Caption from '@/components/Caption';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import { EnumSearchParams } from '@/types/search';
 import Search from '@/components/Controls/Search';
@@ -121,7 +121,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 		<Container>
 			<ContainerHeader>
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
-					<Headline
+					<Caption
 						isScrolled={isScrolled}
 						headline={t('clients_page.headline')}
 						subheadline={t('clients_page.subheadline')}

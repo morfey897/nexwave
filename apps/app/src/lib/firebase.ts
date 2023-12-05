@@ -1,22 +1,12 @@
 'use client';
 import * as app from 'firebase/app';
 import * as Auth from 'firebase/auth';
-import * as validation from '@/utils/validation';
+import { validate } from '@/utils/validation';
 import { TError, TSignIn, EnumSignIn } from '@/types/firebase';
-
-export const AuthErrorCodes = {
-	...Auth.AuthErrorCodes,
-	MISSING_EMAIL: 'auth/missing-email',
-	MISSING_PASSWORD: 'auth/missing-password',
-};
 
 const firebaseConfig: app.FirebaseOptions = JSON.parse(
 	process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS || '{}',
 );
-
-function getApp() {
-	return app.getApps()[0] || app.initializeApp(firebaseConfig);
-}
 
 function getError(error: any): TError {
 	return {
@@ -25,33 +15,13 @@ function getError(error: any): TError {
 	};
 }
 
-function validate(props: Array<{ value: any; key: 'email' | 'password' }>) {
-	return props.reduce((prev: Array<string>, { value, key }) => {
-		switch (key) {
-			case 'email': {
-				if (!value) {
-					prev.push(AuthErrorCodes.MISSING_EMAIL);
-				} else if (!validation.isEmail(value)) {
-					prev.push(AuthErrorCodes.INVALID_EMAIL);
-				}
-				break;
-			}
-			case 'password': {
-				if (!value) {
-					prev.push(AuthErrorCodes.MISSING_PASSWORD);
-				} else if (!validation.isPassword(value)) {
-					prev.push(Auth.AuthErrorCodes.WEAK_PASSWORD);
-				}
-			}
-		}
-		return prev;
-	}, []);
+export function getApp() {
+	return app.getApps()[0] || app.initializeApp(firebaseConfig);
 }
 
-export function getUser(): Auth.User | null {
+export function getAuth() {
 	const app = getApp();
-	const auth = Auth.getAuth(app);
-	return auth.currentUser;
+	return Auth.getAuth(app);
 }
 
 export async function signUpWithEmailAndPassword({
@@ -65,8 +35,7 @@ export async function signUpWithEmailAndPassword({
 	confirmPassword?: string;
 	name?: string;
 }): Promise<TSignIn> {
-	const app = getApp();
-	const auth = Auth.getAuth(app);
+	const auth = getAuth();
 
 	try {
 		const invalid = validate([
@@ -122,8 +91,7 @@ export async function signInWithEmailAndPassword({
 	email?: string;
 	password?: string;
 }): Promise<TSignIn> {
-	const app = getApp();
-	const auth = Auth.getAuth(app);
+	const auth = getAuth();
 
 	try {
 		const invalid = validate([
@@ -149,8 +117,7 @@ export async function signInWithEmailAndPassword({
 }
 
 export async function signOut(): Promise<TSignIn> {
-	const app = getApp();
-	const auth = Auth.getAuth(app);
+	const auth = getAuth();
 	try {
 		await auth.signOut();
 		return { status: EnumSignIn.SUCCESS };

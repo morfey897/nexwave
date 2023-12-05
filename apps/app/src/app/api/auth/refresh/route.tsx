@@ -1,5 +1,5 @@
 import { getAuth } from '@/lib/firebase-admin';
-import { SESSION_COOKIE, UID_COOKIE } from '@packages/config/dist';
+import { SESSION_COOKIE } from '@packages/config/dist';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -28,13 +28,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 			name: SESSION_COOKIE,
 			value: sessionCookie,
 			maxAge: expiresIn,
-			httpOnly: true,
-			secure: true,
-		});
-		// Add the uid cookie to the browser
-		cookies().set({
-			name: UID_COOKIE,
-			value: decodedToken.uid,
+			// expires:
 			httpOnly: true,
 			secure: true,
 		});

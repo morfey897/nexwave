@@ -13,12 +13,13 @@ import Modal from '@/components/Modal';
 import { useLogin, EnumProvider, EnumStatus } from '@/hooks/auth';
 import Spinner from '@/components/Spinner';
 import { IModal } from '@/types/view';
-import { APP } from '@/constants/routes';
+import { APP } from '@/routes';
 import { useModals } from '@/hooks/modal';
 import { RedirectType } from 'next/navigation';
-import { AuthErrorCodes } from '@/lib/firebase';
+import { AuthErrorCodes } from '@/errorCodes';
 import { RiLockPasswordFill, RiFileUserLine } from 'react-icons/ri';
 import { HiX } from 'react-icons/hi';
+import Headline from '@/components/Headline';
 
 type TProps = {
 	name: string;
@@ -240,11 +241,13 @@ const SignIn = ({
 export type TLoginProps = { mode: string } | null;
 
 function LoginView({
+	headline,
+	subheadline,
 	name,
 	params,
 	onConfirm,
 	onDismiss,
-}: IModal<TLoginProps>) {
+}: IModal<TLoginProps> & { headline?: string; subheadline?: string }) {
 	const signIn = useLogin(EnumProvider.PASSWORD_SIGN_IN);
 	const signUp = useLogin(EnumProvider.PASSWORD_SIGN_UP);
 	const { onOpen } = useModals();
@@ -298,11 +301,20 @@ function LoginView({
 				icon={<HiX size={28} />}
 				onClick={() => onDismiss()}
 			/>
-			<div className='flex justify-center'>
-				<div className='text-gray-800 dark:text-white'>
-					<TiWaves size={48} />
+			{!!headline ? (
+				<Headline
+					headline={headline}
+					subheadline={subheadline}
+					className='text-lg md:text-xl font-semibold text-center'
+					bodyClassName='text-center'
+				/>
+			) : (
+				<div className='flex justify-center'>
+					<div className='text-gray-800 dark:text-white'>
+						<TiWaves size={48} />
+					</div>
 				</div>
-			</div>
+			)}
 			{isNew ? (
 				<SignUp
 					name='signUp'

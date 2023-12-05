@@ -5,7 +5,7 @@ import Block from '@/components/Block';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { getSession, getUID } from '@/headers';
 import Login from '@/views/auth/Login';
-import Overlay from '@/components/Overlay';
+import UserProvider from '@/providers/UserProvider';
 import Loading from './Loading';
 
 export default async function RootLayout({
@@ -32,7 +32,7 @@ export default async function RootLayout({
 	}
 
 	return (
-		<>
+		<UserProvider>
 			<Header />
 			<main className='flex w-full'>
 				{!isValid && <Login uid={uid} />}
@@ -48,6 +48,6 @@ export default async function RootLayout({
 					)}
 				</Block>
 			</main>
-		</>
+		</UserProvider>
 	);
 }

@@ -1,12 +1,14 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useContext } from 'react';
 import {
 	signUpWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	AuthErrorCodes,
 } from '@/lib/firebase';
+import { AuthErrorCodes } from '@/errorCodes';
+
 import { EnumSignIn, TSignIn } from '@/types/firebase';
-import { API_AUTH_LOGIN, API_AUTH_LOGOUT } from '@/constants/routes';
+import { API } from '@/routes';
+import { UserContext } from '@/providers/UserProvider';
 
 export enum EnumProvider {
 	PASSWORD_SIGN_IN = 'password-sign-in',
@@ -45,7 +47,7 @@ function useHook<T>(func: (props: T) => Promise<TSignIn>) {
 					// TODO: check status
 					// if (status !== EnumStatus.LOADING)
 					// 	throw new Error('Interrupted', { cause: 'interrupted' });
-					const response = await fetch(API_AUTH_LOGIN, {
+					const response = await fetch(API.AUTH_LOGIN, {
 						method: 'POST',
 						headers: {
 							Authorization: `Bearer ${token}`,
@@ -125,10 +127,15 @@ export function useLogout() {
 	const onLogout = useCallback(async () => {
 		await Promise.allSettled([
 			signOut(),
-			fetch(API_AUTH_LOGOUT, { method: 'POST' }),
+			fetch(API.AUTH_LOGOUT, { method: 'POST' }),
 		]);
 		return EnumStatus.SUCCESS;
 	}, []);
 
 	return onLogout;
+}
+
+export function useUser() {
+	const context = useContext(UserContext);
+	return context.user;
 }

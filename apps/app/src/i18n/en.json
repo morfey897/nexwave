@@ -90,6 +90,10 @@
 		"email_in_use": "This email is already in use",
 		"sign_in": "Sign in?"
 	},
+	"auth_page": {
+		"headline": "Session expired",
+		"subheadline": "Please sign in again to continue"
+	},
 	"clients_page": {
 		"headline": "Clients",
 		"subheadline": "Here you can find all clients",

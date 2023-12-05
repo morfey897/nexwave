@@ -10,7 +10,7 @@ import {
 } from 'react-icons/hi';
 import { HiMiniBuildingStorefront } from 'react-icons/hi2';
 import React from 'react';
-import * as routes from '@/constants/routes';
+import * as routes from '@/routes';
 import NavItem from '@/components/NavItem';
 import LocaleSwitcher from '@/components/Locale';
 import { usePathname } from 'next/navigation';

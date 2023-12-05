@@ -13,7 +13,7 @@ import {
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
-import * as routes from '@/constants/routes';
+import * as routes from '@/routes';
 import { EnumDevice } from './types/view';
 
 type LangType = typeof LOCALES & undefined;

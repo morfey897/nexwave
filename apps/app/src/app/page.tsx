@@ -1,7 +1,7 @@
 import { TiWaves } from 'react-icons/ti';
 import Link from 'next/link';
 import { openModal } from '@/utils/modal';
-import { LOGIN } from '@/constants/modals';
+import { MODALS } from '@/routes';
 
 function Home() {
 	return (
@@ -15,14 +15,14 @@ function Home() {
 
 					<div className='space-x-4 text-xl'>
 						<Link
-							href={openModal(LOGIN, { mode: 'new' })}
+							href={openModal(MODALS.LOGIN, { mode: 'new' })}
 							className='text-blue-500 dark:text-blue-400 hover:underline'
 						>
 							Sign up
 						</Link>
 						<span className='text-lg'>/</span>
 						<Link
-							href={openModal(LOGIN)}
+							href={openModal(MODALS.LOGIN)}
 							className='text-blue-500 dark:text-blue-400 hover:underline'
 						>
 							Sign in

@@ -1,8 +1,7 @@
 'use client';
-import { APP, EXTERNAL } from '@/constants/routes';
+import { APP, EXTERNAL } from '@/routes';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import { HiMenuAlt3, HiX, HiCog, HiLogout } from 'react-icons/hi';
@@ -10,24 +9,24 @@ import { TiWaves } from 'react-icons/ti';
 import ThemeSwithcer from '@/components/ThemeSwithcer';
 import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
-import User from './User';
+import User, { Avatar } from './User';
 import Search from '@/components/Controls/Search';
 import Block from '../Block';
 import Container from '../Containers';
 import { useLogout } from '@/hooks/auth';
 import { useRouter } from 'next/navigation';
-import { HOME } from '@/constants/routes';
-import { getUser } from '@/lib/firebase';
+import { HOME } from '@/routes';
 import Overlay from '../Overlay';
+import { useUser } from '@/hooks/auth';
+import Button from '../Button';
 
 function Header() {
 	const t = useTranslations('common');
 	const onLogout = useLogout();
 	const route = useRouter();
+	const user = useUser();
 
 	const [menu, setMenu] = useState(false);
-
-	const user = getUser();
 	const avatar =
 		'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200';
 
@@ -42,7 +41,7 @@ function Header() {
 	const onExit = useCallback(async () => {
 		await onLogout();
 		route.push(HOME);
-	}, [onLogout]);
+	}, [onLogout, route]);
 
 	return (
 		<>
@@ -112,17 +111,9 @@ function Header() {
 											wrapperClassName='hidden lg:block'
 											direction={{ y: 'bottom', x: 'left' }}
 											element={
-												<>
-													<button className='w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full'>
-														<Image
-															width={24}
-															height={24}
-															src={avatar}
-															className='object-cover w-full h-full'
-															alt='avatar'
-														/>
-													</button>
-												</>
+												<button className='mr-1'>
+													<Avatar user={user} size={32} />
+												</button>
 											}
 										>
 											<div className='px-2 py-4 flex flex-col'>

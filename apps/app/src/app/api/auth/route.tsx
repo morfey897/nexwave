@@ -7,12 +7,10 @@ export async function GET(request: NextRequest) {
 	const auth = getAuth();
 	const session = cookies().get(SESSION_COOKIE)?.value || '';
 
-	//Validate if the cookie exist in the request
-	if (!session) {
-		return NextResponse.json({ isLogged: false }, { status: 401 });
-	}
-
 	try {
+		if (!session) {
+			throw new Error('Session is not defined');
+		}
 		//Use Firebase Admin to validate the session cookie
 		const decodedClaims = await auth.verifySessionCookie(session, true);
 		if (!decodedClaims) {

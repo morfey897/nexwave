@@ -4,7 +4,7 @@ import { EnumSearchParams } from '@/types/search';
 import Filter from '@/components/Controls/Filter';
 import ChangeDate from '@/components/Controls/ChangeDate';
 import { useTranslations } from 'next-intl';
-import Headline from '@/components/Headline';
+import Caption from '@/components/Caption';
 import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
 import { EnumView } from '@/types/calendar';
 import { EnumFilter } from '@/types/event';
@@ -104,7 +104,7 @@ function TimetableView({
 		<Container className='overflow-x-clip'>
 			<ContainerHeader className='sticky'>
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
-					<Headline
+					<Caption
 						isScrolled={isScrolled}
 						headline={t('timetable_page.headline')}
 						subheadline={t('timetable_page.subheadline')}
