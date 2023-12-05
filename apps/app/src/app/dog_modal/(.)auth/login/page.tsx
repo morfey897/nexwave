@@ -1,6 +1,6 @@
 'use client';
 import Login from '@/views/auth/Login';
-import withModal, { ModalType } from '@/components/Modal/HOC';
+import withModal, { ModalType } from '@/providers/modal/withModal';
 function LoginModal(props: ModalType) {
 	return <Login className='mx-auto' {...props} />;
 }

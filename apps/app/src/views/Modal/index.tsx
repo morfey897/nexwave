@@ -1,8 +1,8 @@
 'use client';
 import * as modals from '@/constants/modals';
 import LoginView, { TLoginProps } from '@/views/Modal/Login';
-import withModal from '@/components/Modal/HOC';
-import ModalProvider from '@/providers/ModalProvider';
+import withModal from '@/providers/modal/withModal';
+import ModalProvider from '@/providers/modal/provider';
 
 function Container() {
 	return (

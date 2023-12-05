@@ -18,7 +18,7 @@ import { useModals } from '@/hooks/modal';
 import { RedirectType } from 'next/navigation';
 import { AuthErrorCodes } from '@/lib/firebase';
 import { RiLockPasswordFill, RiFileUserLine } from 'react-icons/ri';
-import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
+import { HiX } from 'react-icons/hi';
 
 type TProps = {
 	name: string;
@@ -291,17 +291,17 @@ function LoginView({
 	}, [onOpen, isNew, name]);
 
 	return (
-		<Modal className={'mx-auto max-w-[375px]'}>
-			<div className='flex justify-center relative'>
-				<Button
-					className='absolute top-2 left-0'
-					icon={<HiOutlineArrowLongLeft />}
-					onClick={() => onDismiss()}
-				/>
+		<Modal className={'mx-auto max-w-[375px] relative'}>
+			<Button
+				variant='text'
+				className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+				icon={<HiX size={28} />}
+				onClick={() => onDismiss()}
+			/>
+			<div className='flex justify-center'>
 				<div className='text-gray-800 dark:text-white'>
 					<TiWaves size={48} />
 				</div>
-				<span />
 			</div>
 			{isNew ? (
 				<SignUp

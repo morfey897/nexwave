@@ -35,11 +35,7 @@ export default async function RootLayout({
 		<>
 			<Header />
 			<main className='flex w-full'>
-				{!isValid && (
-					<Overlay blur='sm' className='bg-gray-100/20 dark:bg-black/60 z-50'>
-						<div className='mt-[100px]'>{<Login uid={uid} />}</div>
-					</Overlay>
-				)}
+				{!isValid && <Login uid={uid} />}
 				<Aside />
 				<Block>
 					{isValid ? (

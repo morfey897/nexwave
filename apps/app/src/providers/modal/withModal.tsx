@@ -4,7 +4,7 @@ import {
 	useEffect,
 	MouseEventHandler,
 } from 'react';
-import Overlay from '../../Overlay';
+import Overlay from '../../components/Overlay';
 import { useModalParams, useModals } from '@/hooks/modal';
 import { IModal } from '@/types/view';
 import { RedirectType } from 'next/navigation';
