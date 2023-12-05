@@ -5,24 +5,14 @@ import {
 	closeModal,
 	closeAllModal,
 	getModalParams,
-	hasModal,
 } from '@/utils/modal';
 
-/**
- * Get modal params
- * @param name
- * @returns
- */
-export function useModal<T>(name: string) {
+export function useModalParams<T>(name: string) {
 	const searchParams = useSearchParams();
-
-	const params = useMemo(() => {
-		return {
-			open: hasModal(name, searchParams),
-			params: getModalParams(name, searchParams) as T,
-		};
-	}, [searchParams, name]);
-
+	const params = useMemo(
+		() => getModalParams(name, searchParams) as T,
+		[searchParams, name],
+	);
 	return params;
 }
 

@@ -3,6 +3,9 @@ import { encode, decode } from 'js-base64';
 
 const getName = (name: string) => `${EnumSearchParams.MODAL}${name}`;
 
+export const pureName = (name: string) =>
+	name.replace(EnumSearchParams.MODAL, '');
+
 export const encodeModalParams = (params: any | null | undefined) => {
 	let str = '';
 	try {

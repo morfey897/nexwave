@@ -4,9 +4,7 @@ import Aside from '@/components/Aside';
 import Block from '@/components/Block';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { getSession, getUID } from '@/headers';
-import Create from '@/views/auth/Create';
 import Login from '@/views/auth/Login';
-import { is } from 'date-fns/locale';
 import Overlay from '@/components/Overlay';
 import Loading from './Loading';
 
@@ -39,7 +37,7 @@ export default async function RootLayout({
 			<main className='flex w-full'>
 				{!isValid && (
 					<Overlay blur='sm' className='bg-gray-100/20 dark:bg-black/60 z-50'>
-						<div className='mt-[100px]'>{!!uid ? <Login /> : <Create />}</div>
+						<div className='mt-[100px]'>{<Login uid={uid} />}</div>
 					</Overlay>
 				)}
 				<Aside />
@@ -50,7 +48,7 @@ export default async function RootLayout({
 							{children}
 						</>
 					) : (
-						<Loading amount={4}/>
+						<Loading amount={4} />
 					)}
 				</Block>
 			</main>

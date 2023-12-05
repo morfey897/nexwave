@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTheme } from '@/headers';
 import clsx from 'clsx';
 import ThemeProvider from '@/providers/ThemeProvider';
-import ModalContainer from '@/views/Modal';
+import ModalsContainer from '@/views/Modal';
 import { generateViewport, getMetadata } from '@/utils/seo';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -44,7 +44,7 @@ export default async function RootLayout({
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					{children}
-					<ModalContainer/>
+					<ModalsContainer />
 				</NextIntlClientProvider>
 			</body>
 		</html>

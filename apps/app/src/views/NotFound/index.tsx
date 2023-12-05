@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
 import { useCallback } from 'react';
+import Button from '@/components/Button';
 
 export default function NotFound() {
 	const router = useRouter();
@@ -12,6 +13,10 @@ export default function NotFound() {
 
 	const onBack = useCallback(() => {
 		router.back();
+	}, [router]);
+
+	const onHome = useCallback(() => {
+		router.push(APP);
 	}, [router]);
 
 	return (
@@ -29,20 +34,13 @@ export default function NotFound() {
 					</p>
 
 					<div className='flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>
-						<button
+						<Button
 							onClick={onBack}
-							className='flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg dark:text-gray-200 gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:border-gray-700'
-						>
-							<HiOutlineArrowLongLeft size={24} />
-							<span>{t('go_back')}</span>
-						</button>
+							message={t('go_back')}
+							icon={<HiOutlineArrowLongLeft size={24} />}
+						/>
 
-						<Link
-							href={APP}
-							className='w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600'
-						>
-							{t('go_home')}
-						</Link>
+						<Button variant='primary' onClick={onHome} message={t('go_home')} />
 					</div>
 				</div>
 

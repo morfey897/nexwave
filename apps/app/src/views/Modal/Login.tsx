@@ -9,17 +9,16 @@ import Button from '@/components/Button';
 import { FcGoogle } from 'react-icons/fc';
 import Input from '@/components/Controls/Form/input';
 import { useTranslations } from 'next-intl';
-import withModal from '@/components/Modal/HOC';
 import Modal from '@/components/Modal';
 import { useLogin, EnumProvider, EnumStatus } from '@/hooks/auth';
 import Spinner from '@/components/Spinner';
-import { LOGIN } from '@/constants/modals';
 import { IModal } from '@/types/view';
 import { APP } from '@/constants/routes';
 import { useModals } from '@/hooks/modal';
 import { RedirectType } from 'next/navigation';
 import { AuthErrorCodes } from '@/lib/firebase';
 import { RiLockPasswordFill, RiFileUserLine } from 'react-icons/ri';
+import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
 
 type TProps = {
 	name: string;
@@ -41,9 +40,6 @@ const SignUp = ({
 	const t = useTranslations('sign_up_page');
 	return (
 		<div>
-			<div className='text-gray-800 dark:text-white flex justify-center mx-auto'>
-				<TiWaves size={48} />
-			</div>
 			<Button
 				icon={<FcGoogle size={24} />}
 				className='!w-full px-6 py-3 mt-2'
@@ -162,9 +158,6 @@ const SignIn = ({
 	const t = useTranslations('sign_in_page');
 	return (
 		<div>
-			<div className='text-gray-800 dark:text-white flex justify-center mx-auto'>
-				<TiWaves size={48} />
-			</div>
 			<Button
 				icon={<FcGoogle size={24} />}
 				className='w-full px-6 py-3 mt-2'
@@ -244,11 +237,14 @@ const SignIn = ({
 	);
 };
 
-export function LoginView({
+export type TLoginProps = { mode: string } | null;
+
+function LoginView({
 	name,
 	params,
 	onConfirm,
-}: IModal<{ mode: string } | null>) {
+	onDismiss,
+}: IModal<TLoginProps>) {
 	const signIn = useLogin(EnumProvider.PASSWORD_SIGN_IN);
 	const signUp = useLogin(EnumProvider.PASSWORD_SIGN_UP);
 	const { onOpen } = useModals();
@@ -296,6 +292,17 @@ export function LoginView({
 
 	return (
 		<Modal className={'mx-auto max-w-[375px]'}>
+			<div className='flex justify-center relative'>
+				<Button
+					className='absolute top-2 left-0'
+					icon={<HiOutlineArrowLongLeft />}
+					onClick={() => onDismiss()}
+				/>
+				<div className='text-gray-800 dark:text-white'>
+					<TiWaves size={48} />
+				</div>
+				<span />
+			</div>
 			{isNew ? (
 				<SignUp
 					name='signUp'
@@ -319,4 +326,4 @@ export function LoginView({
 	);
 }
 
-export default withModal(LoginView, LOGIN);
+export default LoginView;

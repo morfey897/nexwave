@@ -1,51 +1,36 @@
 'use client';
-import { Fragment, useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { EnumSearchParams } from '@/types/search';
-import { decode } from 'js-base64';
-
-type TModal = {
-	name: string;
-	params: Record<string, string | number | boolean | null>;
-};
+import { hasModal, pureName } from '@/utils/modal';
 
 function ModalProvider({
 	children,
 }: {
-	children: (
-		name: TModal['name'],
-		params: TModal['params'],
-	) => JSX.Element | null;
+	children: (name: string) => JSX.Element | null;
 }) {
 	const searchParams = useSearchParams();
-	const [dialogs, setDialogs] = useState<Array<TModal>>([]);
+	const [modals, setModals] = useState<Array<string>>([]);
 
 	useEffect(() => {
-		const newList = [];
-		for (const [key, value] of searchParams.entries()) {
-			if (key.startsWith(EnumSearchParams.MODAL)) {
-				let params = {};
-				try {
-					params = JSON.parse(decode(value));
-				} catch (error) {
-					params = {};
-				}
-				const name = key.replace(EnumSearchParams.MODAL, '');
-
-				newList.push({
-					name,
-					params,
-				});
+		const newList: Array<string> = [];
+		for (const [key] of searchParams.entries()) {
+			const name = pureName(key);
+			if (hasModal(name, searchParams)) {
+				newList.push(name);
 			}
 		}
-		setDialogs(newList);
+		setModals((modals) => {
+			if (modals.length !== newList.length) return newList;
+			return newList.every((modal, index) => modals[index] === modal)
+				? modals
+				: newList;
+		});
 	}, [searchParams]);
 
 	return (
 		<div className='absolute' id='modal-provider'>
-			{dialogs.map(({ name, params }) => (
-				<Fragment key={name}>{children(name, params)}</Fragment>
+			{modals.map((name) => (
+				<Fragment key={name}>{children(name)}</Fragment>
 			))}
 		</div>
 	);

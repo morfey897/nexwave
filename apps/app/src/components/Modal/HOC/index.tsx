@@ -1,13 +1,11 @@
-import clsx from 'clsx';
 import {
 	useCallback,
 	useRef,
 	useEffect,
 	MouseEventHandler,
-	useMemo,
 } from 'react';
 import Overlay from '../../Overlay';
-import { useModal, useModals } from '@/hooks/modal';
+import { useModalParams, useModals } from '@/hooks/modal';
 import { IModal } from '@/types/view';
 import { RedirectType } from 'next/navigation';
 
@@ -18,7 +16,7 @@ export default function withModal<T>(
 	function Wrapper() {
 		const overlay = useRef(null);
 		const wrapper = useRef(null);
-		const { open, params } = useModal<T>(name);
+		const params = useModalParams<T>(name);
 		const { onClose } = useModals();
 
 		const onConfirm = useCallback<IModal<T>['onConfirm']>(
@@ -56,7 +54,7 @@ export default function withModal<T>(
 			return () => document.removeEventListener('keydown', onKeyDown);
 		}, [onKeyDown]);
 
-		return open ? (
+		return (
 			<Overlay
 				ref={overlay}
 				className='bg-gray-100/20 dark:bg-black/60'
@@ -75,7 +73,7 @@ export default function withModal<T>(
 					/>
 				</div>
 			</Overlay>
-		) : null;
+		);
 	}
 	return Wrapper;
 }

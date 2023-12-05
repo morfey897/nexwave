@@ -1,9 +1,23 @@
-import LoginView from '@/views/Modal/Login';
+'use client';
+import * as modals from '@/constants/modals';
+import LoginView, { TLoginProps } from '@/views/Modal/Login';
+import withModal from '@/components/Modal/HOC';
+import ModalProvider from '@/providers/ModalProvider';
 
-export default function Modals() {
+function Container() {
 	return (
-		<div className='absolute' id='modal-provider'>
-			<LoginView />
-		</div>
+		<ModalProvider>
+			{(name: string) => {
+				let Component;
+				switch (name) {
+					case modals.LOGIN:
+						Component = withModal<TLoginProps>(LoginView, name);
+						break;
+				}
+				return !!Component ? <Component /> : null;
+			}}
+		</ModalProvider>
 	);
 }
+
+export default Container;
