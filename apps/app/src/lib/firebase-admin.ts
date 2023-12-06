@@ -3,7 +3,7 @@ import { UserRecord } from 'firebase-admin/auth';
 
 const firebaseConfig: AppOptions = {
 	credential: admin.credential.cert(
-		JSON.parse(process.env.FIREBASE_CREDENTIALS || '{}'),
+		JSON.parse(process.env.NEXT_PRIVATE_FIREBASE_CREDENTIALS || '{}'),
 	),
 };
 export function getApp() {
