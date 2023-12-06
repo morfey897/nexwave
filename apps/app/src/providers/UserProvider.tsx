@@ -26,7 +26,7 @@ function UserProvider({ children }: React.HTMLAttributes<HTMLDivElement>) {
 				router.refresh();
 			}
 		}
-	}, []);
+	}, [router]);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {

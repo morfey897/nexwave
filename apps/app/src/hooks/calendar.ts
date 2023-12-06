@@ -54,7 +54,7 @@ export function useTimesCalendar<T extends INode>({
 			max,
 			step: timeStep,
 		};
-	}, [events, dates, timeStep]);
+	}, [timeStep]);
 
 	return times;
 }

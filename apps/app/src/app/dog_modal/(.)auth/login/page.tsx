@@ -1,8 +1,5 @@
-'use client';
-import Login from '@/views/auth/Login';
-import withModal, { ModalType } from '@/providers/modal/withModal';
-function LoginModal(props: ModalType) {
-	return <Login className='mx-auto' {...props} />;
+function LoginModal() {
+	return <p>LoginModal</p>;
 }
 
-export default withModal(LoginModal);
+export default LoginModal;

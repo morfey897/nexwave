@@ -115,7 +115,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 				{ title: 'Newbie' },
 			],
 		})) as unknown as ITableProps<IClient>['body'];
-	}, []);
+	}, [clients]);
 
 	return (
 		<Container>

@@ -27,14 +27,16 @@ export const Avatar = ({
 			style={{ width: size, height: size }}
 		>
 			{!!photo ? (
-				<img
-					className={clsx('rounded-full object-cover')}
-					src={photo}
-					alt={user?.displayName || 'avatar'}
-					style={{ width: size, height: size }}
-					width={size}
-					height={size}
-				/>
+				<picture>
+					<img
+						className={clsx('rounded-full object-cover')}
+						src={photo}
+						alt={user?.displayName || 'avatar'}
+						style={{ width: size, height: size }}
+						width={size}
+						height={size}
+					/>
+				</picture>
 			) : abrev && abrev.length > 0 ? (
 				<p className='font-semibold' style={{ fontSize: `calc(${size}px/2)` }}>
 					{abrev}
