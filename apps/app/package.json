@@ -11,6 +11,7 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.7.2",
     "@formatjs/intl-localematcher": "^0.4.2",
+    "@vercel/postgres-kysely": "^0.6.0",
     "clsx": "^2.0.0",
     "config": "*",
     "date-fns": "^2.30.0",
@@ -26,6 +27,7 @@
     "react-icons": "^4.11.0",
     "react-intersection-observer": "^9.5.2",
     "react-use": "^17.4.0",
+    "storage": "*",
     "ua-parser-js": "^1.0.37"
   },
   "devDependencies": {
