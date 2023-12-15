@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/ThemeSwithcer"
-  ],
+, "src/store"  ],
   "exclude": ["node_modules"]
 }

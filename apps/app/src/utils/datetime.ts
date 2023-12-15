@@ -1,3 +1,8 @@
+import toMS from 'ms';
+
+export const ms = (time: string | number) => toMS(time.toString());
+export const sec = (time: string | number) => Math.ceil(ms(time) / 1000);
+
 // '2023-11-21T08:10:39.898Z'
 export const toIsoDate = (d: Date | string | number) => {
 	if (typeof d !== 'string') {

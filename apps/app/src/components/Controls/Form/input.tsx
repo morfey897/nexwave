@@ -39,7 +39,7 @@ function Input({
 				/>
 			</div>
 			<div className='flex justify-end'>{hint}</div>
-			<p className='text-xs text-gray-300 dark:text-gray-500 break-words hyphens-auto'>
+			<p className='text-xs text-gray-400 dark:text-gray-500 break-words hyphens-auto'>
 				{errorCopy}
 			</p>
 		</div>

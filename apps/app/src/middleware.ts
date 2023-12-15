@@ -1,22 +1,16 @@
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import {
-	DEFAULT_LOCALE,
-	LOCALES,
-	LOCALE_COOKIE,
-	DEVICE_COOKIE,
-	DEVICE_INFO_COOKIE,
-	PATHNAME_HEADER,
-	SESSION_COOKIE,
-	UID_COOKIE,
+	cookies as cookiesConfig,
+	headers as headersConfig,
+	locales
 } from 'config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
-import * as routes from '@/routes';
 import { EnumDevice } from './types/view';
 
-type LangType = typeof LOCALES & undefined;
+type LangType = typeof locales.LOCALES & undefined;
 
 const getDevice = (userAgent: string | null | undefined) => {
 	const ua = UAParser(userAgent || undefined);
@@ -66,8 +60,8 @@ function getLocale(request: NextRequest) {
 		.map((lang) => lang.split('-')[0]);
 	return match(
 		[...new Set(languages)],
-		LOCALES,
-		DEFAULT_LOCALE,
+		locales.LOCALES,
+		process.env.NEXT_PUBLIC_DEFAULT_LOCALE!,
 	) as unknown as LangType;
 }
 
@@ -76,8 +70,8 @@ export async function middleware(request: NextRequest) {
 	if (/\.(!?json|xml|txt|js|css|ico|png|jpg|jpeg)$/.test(pathname))
 		return NextResponse.next();
 
-	const cookieValue = request.cookies.get(LOCALE_COOKIE)?.value;
-	const locale = LOCALES.includes(cookieValue as LangType)
+	const cookieValue = request.cookies.get(cookiesConfig.LOCALE)?.value;
+	const locale = locales.LOCALES.includes(cookieValue as LangType)
 		? cookieValue
 		: getLocale(request);
 
@@ -86,15 +80,15 @@ export async function middleware(request: NextRequest) {
 	let response = NextResponse.next();
 
 	setCookie(response, {
-		[DEVICE_COOKIE]: device,
-		[DEVICE_INFO_COOKIE]: info,
+		[cookiesConfig.DEVICE]: device,
+		[cookiesConfig.DEVICE_INFO]: info,
 	});
 
 	if (cookieValue != locale) {
-		setCookie(response, { [LOCALE_COOKIE]: locale });
+		setCookie(response, { [cookiesConfig.LOCALE]: locale });
 	}
 
-	response.headers.set(PATHNAME_HEADER, pathname);
+	response.headers.set(headersConfig.PATHNAME, pathname);
 	return response;
 }
 

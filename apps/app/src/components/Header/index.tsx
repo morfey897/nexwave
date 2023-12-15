@@ -11,24 +11,18 @@ import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
 import User, { Avatar } from './User';
 import Search from '@/components/Controls/Search';
-import Block from '../Block';
-import Container from '../Containers';
-import { useLogout } from '@/hooks/auth';
+import Block from '@/components/Block';
+import Container from '@/components/Containers';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
-import Overlay from '../Overlay';
-import { useUser } from '@/hooks/auth';
-import Button from '../Button';
+import Overlay from '@/components/Overlay';
+import { signOut } from '@/actions/auth';
 
 function Header() {
 	const t = useTranslations('common');
-	const onLogout = useLogout();
 	const route = useRouter();
-	const user = useUser();
 
 	const [menu, setMenu] = useState(false);
-	const avatar =
-		'https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200';
 
 	const onToggleMenu = useCallback(() => {
 		setMenu((menu) => !menu);
@@ -39,9 +33,9 @@ function Header() {
 	}, []);
 
 	const onExit = useCallback(async () => {
-		await onLogout();
+		await signOut();
 		route.push(HOME);
-	}, [onLogout, route]);
+	}, []);
 
 	return (
 		<>
@@ -112,15 +106,12 @@ function Header() {
 											direction={{ y: 'bottom', x: 'left' }}
 											element={
 												<button className='mr-1'>
-													<Avatar user={user} size={32} />
+													<Avatar size={32} />
 												</button>
 											}
 										>
 											<div className='px-2 py-4 flex flex-col'>
-												<User
-													className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default'
-													user={user}
-												/>
+												<User className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default' />
 
 												<hr className='border-gray-200 dark:border-gray-700' />
 												<NavItem Icon={HiCog} label={t('settings')} />
@@ -137,10 +128,7 @@ function Header() {
 										<div className='flex flex-col w-full lg:hidden'>
 											<hr className='border-gray-200 dark:border-gray-700 my-2' />
 
-											<User
-												className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default'
-												user={user}
-											/>
+											<User className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default' />
 
 											<NavItem
 												className='[&>span]:!block !flex-row'

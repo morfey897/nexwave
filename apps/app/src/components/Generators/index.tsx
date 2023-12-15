@@ -13,7 +13,7 @@ import { useDateLocale } from '@/hooks/datetime';
 export function TimeGenerator({
 	item,
 }: {
-	item: { _uid: string; value: string };
+	item: { uuid: string; value: string };
 }) {
 	const t = useTranslations('common');
 	const NOW = new Date(new Date().toISOString().split('T')[0]);
@@ -39,7 +39,7 @@ export function TimeGenerator({
 export function BadgesGenerator({
 	item,
 }: {
-	item: { _uid: string; value: Array<{ title: string; level?: EnumLevel }> };
+	item: { uuid: string; value: Array<{ title: string; level?: EnumLevel }> };
 }) {
 	return (
 		<div className='flex group w-fit relative flex-wrap justify-center'>
@@ -78,11 +78,11 @@ export function ActionGenerator<T extends TUID>({ item }: { item: T }) {
 
 function withGenerator<T extends TUID>(
 	field: string,
-	C?: TGenerator<{ _uid: string; value: any }>,
+	C?: TGenerator<{ uuid: string; value: any }>,
 ) {
 	function Wrapper({ item }: { item: T }) {
 		const value = (item as any)[field];
-		return !!C ? <C item={{ _uid: item._uid, value }} /> : <span>{value}</span>;
+		return !!C ? <C item={{ uuid: item.uuid, value }} /> : <span>{value}</span>;
 	}
 	return Wrapper;
 }

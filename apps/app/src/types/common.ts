@@ -1,4 +1,7 @@
-export type TUID = { _uid: string };
+export type TUID = {
+	id: number;
+	uuid: string;
+};
 
 export enum EnumLevel {
 	SUCCESS = 'success',

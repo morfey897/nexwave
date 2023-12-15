@@ -1,11 +1,11 @@
 'use client';
-import LoginView from '@/views/Modal/Login';
+import LoginView, { TLoginProps } from '@/views/Modal/Login';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
 import Overlay from '@/components/Overlay';
 import { useTranslations } from 'next-intl';
 
-function Auth({ uid }: { uid?: string | null }) {
+function Auth({ params }: { params: TLoginProps }) {
 	const route = useRouter();
 	const t = useTranslations('auth_page');
 	return (
@@ -21,7 +21,7 @@ function Auth({ uid }: { uid?: string | null }) {
 						route.push(HOME);
 					}}
 					name=''
-					params={!!uid ? null : { mode: 'new' }}
+					params={params}
 				/>
 			</div>
 		</Overlay>

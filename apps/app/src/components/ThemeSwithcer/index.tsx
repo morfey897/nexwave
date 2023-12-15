@@ -2,7 +2,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { HiMoon, HiSun } from 'react-icons/hi';
 import clsx from 'clsx';
-import { THEME_COOKIE } from '@packages/config/dist';
+import { cookies as cookiesConfig } from 'config';
 
 type ThemeType = 'dark' | 'light' | 'none';
 
@@ -31,7 +31,7 @@ function ThemeSwithcer({
 		if (newTheme != 'none') {
 			const classList = document.documentElement.classList;
 			setTheme(newTheme);
-			document.cookie = `${THEME_COOKIE}=${newTheme};path=/`;
+			document.cookie = `${cookiesConfig.THEME}=${newTheme};path=/`;
 			if (newTheme === 'dark') {
 				classList.remove('light');
 				classList.add('dark');

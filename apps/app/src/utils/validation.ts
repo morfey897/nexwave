@@ -1,4 +1,4 @@
-import { AuthErrorCodes } from '@/errorCodes';
+import ErrorCodes from '@/errorCodes';
 
 export const validate = (
 	props: Array<{ value: any; key: 'email' | 'password' }>,
@@ -7,17 +7,17 @@ export const validate = (
 		switch (key) {
 			case 'email': {
 				if (!value) {
-					prev.push(AuthErrorCodes.MISSING_EMAIL);
+					prev.push(ErrorCodes.MISSING_EMAIL);
 				} else if (!isEmail(value)) {
-					prev.push(AuthErrorCodes.INVALID_EMAIL);
+					prev.push(ErrorCodes.INVALID_EMAIL);
 				}
 				break;
 			}
 			case 'password': {
 				if (!value) {
-					prev.push(AuthErrorCodes.MISSING_PASSWORD);
+					prev.push(ErrorCodes.MISSING_PASSWORD);
 				} else if (!isPassword(value)) {
-					prev.push(AuthErrorCodes.WEAK_PASSWORD);
+					prev.push(ErrorCodes.WEAK_PASSWORD);
 				}
 			}
 		}

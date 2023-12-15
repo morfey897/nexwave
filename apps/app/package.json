@@ -11,14 +11,15 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.7.2",
     "@formatjs/intl-localematcher": "^0.4.2",
-    "@vercel/postgres-kysely": "^0.6.0",
     "clsx": "^2.0.0",
     "config": "*",
     "date-fns": "^2.30.0",
-    "firebase": "^10.7.0",
-    "firebase-admin": "^11.11.1",
+    "google-auth-library": "^9.4.1",
+    "immer": "^10.0.3",
     "js-base64": "^3.7.5",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "ms": "^2.1.3",
     "negotiator": "^0.6.3",
     "next": "14.0.1",
     "next-intl": "^2.22.1",
@@ -28,10 +29,13 @@
     "react-intersection-observer": "^9.5.2",
     "react-use": "^17.4.0",
     "storage": "*",
-    "ua-parser-js": "^1.0.37"
+    "ua-parser-js": "^1.0.37",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.201",
+    "@types/ms": "^0.7.34",
     "@types/negotiator": "^0.6.3",
     "@types/node": "^20",
     "@types/react": "^18",

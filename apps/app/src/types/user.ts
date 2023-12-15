@@ -1,20 +1,25 @@
 import { TUID } from '@/types/common';
 
 export enum EnumFilter {
-	ALL = 'all', 
-	ACTIVE = 'active', 
+	ALL = 'all',
+	ACTIVE = 'active',
 	INACTIVE = 'inactive',
 }
 
 export interface IUser extends TUID {
-	avatar: string;
-	name: string;
-	surname: string;
 	email: string;
-	phone: string;
-	birthday?: string;
-	
-	badges?: string;
-	last_visit_at?: string;
-	created_at?: string;
+	email_verified: boolean;
+	avatar?: string | null;
+	name?: string | null;
+	surname?: string | null;
+	birthday?: string | null; //Date or string?
+
+	badges?: string | null; //Big question mark
+	last_login_at?: string | null; //Date or timestamp?
+	created_at?: string | null; //Date or timestamp?
 }
+
+export type ICurrentUser = Omit<
+	IUser,
+	'birthday' | 'badges' | 'last_login_at' | 'created_at'
+>;

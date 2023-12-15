@@ -6,44 +6,54 @@ import { MdOutlineAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { useCallback } from 'react';
 import Button from '@/components/Button';
+import OAuthButton from '@/components/Button/OAuthButton';
 import { FcGoogle } from 'react-icons/fc';
 import Input from '@/components/Controls/Form/input';
 import { useTranslations } from 'next-intl';
 import Modal from '@/components/Modal';
-import { useLogin, EnumProvider, EnumStatus } from '@/hooks/auth';
 import Spinner from '@/components/Spinner';
 import { IModal } from '@/types/view';
-import { APP } from '@/routes';
 import { useModals } from '@/hooks/modal';
 import { RedirectType } from 'next/navigation';
-import { AuthErrorCodes } from '@/errorCodes';
+import ErrorCodes from '@/errorCodes';
 import { RiLockPasswordFill, RiFileUserLine } from 'react-icons/ri';
 import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
+import {
+	signInWithEmailAndPassword,
+	signUpWithEmailAndPassword,
+} from '@/actions/auth';
+import { APP } from '@/routes';
+
+import { useAction } from '@/hooks/action';
+import { EnumStatus } from '@/types/status';
 
 type TProps = {
 	name: string;
-	errors: Array<string>;
-	status: EnumStatus;
-	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-	onChange: (event: React.FormEvent<HTMLFormElement>) => void;
-	onChangeMode: () => void;
+	changeMode: () => void;
+	confirm: () => void;
 };
 
-const SignUp = ({
-	name,
-	onSubmit,
-	onChange,
-	onChangeMode,
-	errors,
-	status,
-}: TProps) => {
+const SignUp = ({ name, changeMode, confirm }: TProps) => {
+	const { action, submit, reset, pending, result } = useAction(
+		signUpWithEmailAndPassword,
+	);
 	const t = useTranslations('sign_up_page');
+
+	useEffect(() => {
+		if (result?.status === EnumStatus.SUCCESS) {
+			confirm();
+		}
+	}, [result, confirm]);
+
 	return (
 		<div>
-			<Button
+			<OAuthButton
+				redirect_to={APP}
+				provider='google'
+				disabled={pending}
 				icon={<FcGoogle size={24} />}
-				className='!w-full px-6 py-3 mt-2'
+				className='w-full px-6 py-3 mt-2'
 				message={t('with_google')}
 			/>
 			<div className='flex items-center justify-between my-4'>
@@ -57,8 +67,9 @@ const SignUp = ({
 			</div>
 			<form
 				className='w-full max-w-md'
-				onSubmit={onSubmit}
-				onChange={onChange}
+				onSubmit={submit}
+				action={action}
+				onChange={reset}
 				name={name}
 			>
 				<div className='space-y-4'>
@@ -77,9 +88,9 @@ const SignUp = ({
 						type='email'
 						placeholder={t('email')}
 						errorCopy={
-							(errors.includes(AuthErrorCodes.INVALID_EMAIL) &&
+							(result?.error?.code?.includes(ErrorCodes.INVALID_EMAIL) &&
 								t('invalid_email')) ||
-							(errors.includes(AuthErrorCodes.MISSING_EMAIL) &&
+							(result?.error?.code?.includes(ErrorCodes.MISSING_EMAIL) &&
 								t('missing_email'))
 						}
 					/>
@@ -91,9 +102,9 @@ const SignUp = ({
 						type='password'
 						placeholder={t('password')}
 						errorCopy={
-							(errors.includes(AuthErrorCodes.WEAK_PASSWORD) &&
+							(result?.error?.code?.includes(ErrorCodes.WEAK_PASSWORD) &&
 								t('weak_password')) ||
-							(errors.includes(AuthErrorCodes.MISSING_PASSWORD) &&
+							(result?.error?.code?.includes(ErrorCodes.MISSING_PASSWORD) &&
 								t('missing_password'))
 						}
 					/>
@@ -105,18 +116,18 @@ const SignUp = ({
 						type='password'
 						placeholder={t('confirm_password')}
 						errorCopy={
-							errors.includes(AuthErrorCodes.INVALID_PASSWORD) &&
+							result?.error?.code?.includes(ErrorCodes.INVALID_PASSWORD) &&
 							t('invalid_password')
 						}
 					/>
 				</div>
 
-				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-					{errors.includes(AuthErrorCodes.EMAIL_EXISTS) && (
+				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto flex items-center'>
+					{result?.error?.code?.includes(ErrorCodes.EMAIL_EXISTS) && (
 						<>
 							<span className='pr-1'>{t('email_in_use')}</span>
 							<Button
-								onClick={onChangeMode}
+								onClick={changeMode}
 								variant='text'
 								className='text-sm text-blue-500 hover:underline dark:text-blue-400'
 								message={t('sign_in')}
@@ -130,14 +141,14 @@ const SignUp = ({
 					type='submit'
 					className='w-full mt-6 px-6 py-3'
 					message={t('submit')}
-					disabled={status === EnumStatus.LOADING}
-					icon={status === EnumStatus.LOADING && <Spinner variant='primary' />}
+					disabled={pending}
+					icon={pending && <Spinner variant='primary' />}
 				/>
 			</form>
 			<div className='mt-6'>
 				<div className='text-center mx-auto space-y-2'>
 					<Button
-						onClick={onChangeMode}
+						onClick={changeMode}
 						variant='text'
 						className='text-sm text-blue-500 hover:underline dark:text-blue-400 text-center mx-auto block'
 						message={t('have_account')}
@@ -148,18 +159,24 @@ const SignUp = ({
 	);
 };
 
-const SignIn = ({
-	name,
-	onSubmit,
-	onChange,
-	onChangeMode,
-	errors,
-	status,
-}: TProps) => {
+const SignIn = ({ name, changeMode, confirm }: TProps) => {
+	const { action, submit, reset, pending, result } = useAction(
+		signInWithEmailAndPassword,
+	);
 	const t = useTranslations('sign_in_page');
+
+	useEffect(() => {
+		if (result?.status === EnumStatus.SUCCESS) {
+			confirm();
+		}
+	}, [result]);
+
 	return (
 		<div>
-			<Button
+			<OAuthButton
+				redirect_to={APP}
+				provider='google'
+				disabled={pending}
 				icon={<FcGoogle size={24} />}
 				className='w-full px-6 py-3 mt-2'
 				message={t('with_google')}
@@ -174,9 +191,10 @@ const SignIn = ({
 				<span className='w-1/5 border-b dark:border-gray-600'></span>
 			</div>
 			<form
+				action={action}
 				className='w-full'
-				onSubmit={onSubmit}
-				onChange={onChange}
+				onChange={reset}
+				onSubmit={submit}
 				name={name}
 			>
 				<div className='space-y-4'>
@@ -187,7 +205,7 @@ const SignIn = ({
 						type='email'
 						placeholder={t('email')}
 						errorCopy={
-							errors.includes(AuthErrorCodes.MISSING_EMAIL) &&
+							result?.error?.code?.includes(ErrorCodes.MISSING_EMAIL) &&
 							t('missing_email')
 						}
 					/>
@@ -205,14 +223,14 @@ const SignIn = ({
 						type='password'
 						placeholder={t('password')}
 						errorCopy={
-							errors.includes(AuthErrorCodes.MISSING_PASSWORD) &&
+							result?.error?.code?.includes(ErrorCodes.MISSING_PASSWORD) &&
 							t('missing_password')
 						}
 					/>
 				</div>
 
 				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-					{status === EnumStatus.FAILED && t('invalid_credential')}
+					{result?.status === EnumStatus.FAILED && t('invalid_credential')}
 				</p>
 
 				<Button
@@ -220,14 +238,14 @@ const SignIn = ({
 					type='submit'
 					className='w-full mt-6 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50'
 					message={t('submit')}
-					disabled={status === EnumStatus.LOADING}
-					icon={status === EnumStatus.LOADING && <Spinner variant='primary' />}
+					disabled={pending}
+					icon={pending && <Spinner variant='primary' />}
 				/>
 			</form>
 			<div className='mt-6'>
 				<div className='text-center mx-auto space-y-2'>
 					<Button
-						onClick={onChangeMode}
+						onClick={changeMode}
 						variant='text'
 						className='text-sm text-blue-500 hover:underline dark:text-blue-400 text-center mx-auto block'
 						message={t('dont_have_account')}
@@ -248,8 +266,6 @@ function LoginView({
 	onConfirm,
 	onDismiss,
 }: IModal<TLoginProps> & { headline?: string; subheadline?: string }) {
-	const signIn = useLogin(EnumProvider.PASSWORD_SIGN_IN);
-	const signUp = useLogin(EnumProvider.PASSWORD_SIGN_UP);
 	const { onOpen } = useModals();
 	const [isNew, setNew] = useState(params?.mode === 'new');
 
@@ -257,33 +273,9 @@ function LoginView({
 		setNew(params?.mode === 'new');
 	}, [params]);
 
-	const onSubmit = useCallback(
-		async (event: React.FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
-			event.stopPropagation();
-
-			const formData = new FormData(event.currentTarget);
-			const form = event.currentTarget.name;
-			let result: EnumStatus = EnumStatus.FAILED;
-			if (form === 'signUp') {
-				result = await signUp.onLogin({
-					name: formData.get('name')?.toString(),
-					email: formData.get('email')?.toString(),
-					password: formData.get('password')?.toString(),
-					confirmPassword: formData.get('confirm_password')?.toString(),
-				});
-			} else if (form === 'signIn') {
-				result = await signIn.onLogin({
-					email: formData.get('email')?.toString(),
-					password: formData.get('password')?.toString(),
-				});
-			}
-			if (result === EnumStatus.SUCCESS) {
-				onConfirm(APP);
-			}
-		},
-		[signIn, signUp, onConfirm],
-	);
+	const confirm = useCallback(() => {
+		onConfirm(APP);
+	}, [onConfirm]);
 
 	const onToggleView = useCallback(() => {
 		if (name) {
@@ -316,23 +308,9 @@ function LoginView({
 				</div>
 			)}
 			{isNew ? (
-				<SignUp
-					name='signUp'
-					onChange={signUp.onReset}
-					onChangeMode={onToggleView}
-					onSubmit={onSubmit}
-					errors={signUp.errors}
-					status={signUp.status}
-				/>
+				<SignUp name='signUp' changeMode={onToggleView} confirm={confirm} />
 			) : (
-				<SignIn
-					name='signIn'
-					onChange={signIn.onReset}
-					onChangeMode={onToggleView}
-					onSubmit={onSubmit}
-					errors={signIn.errors}
-					status={signIn.status}
-				/>
+				<SignIn name='signIn' changeMode={onToggleView} confirm={confirm} />
 			)}
 		</Modal>
 	);

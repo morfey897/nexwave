@@ -15,10 +15,8 @@ export const EXTERNAL = {
 };
 
 export const API = {
-	AUTH: '/api/auth',
-	AUTH_LOGIN: '/api/auth/login',
-	AUTH_LOGOUT: '/api/auth/logout',
-	AUTH_REFRESH: '/api/auth/refresh',
+	AUTH_OAUTH: '/api/auth/[provider]',
+	AUTH_REFRESH_TOKEN: '/api/auth/refresh',
 };
 
 export const MODALS = {

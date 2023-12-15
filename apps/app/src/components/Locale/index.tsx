@@ -1,6 +1,6 @@
 'use client';
 import { useLocale, useTranslations } from 'next-intl';
-import { LOCALES, LOCALE_COOKIE } from 'config';
+import { locales, cookies as cookiesConfig } from 'config';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import NavItem from '../NavItem';
@@ -14,7 +14,7 @@ function LocaleSwitcher() {
 
 	const onChangeLocale = useCallback(
 		(newLocale: string) => {
-			document.cookie = `${LOCALE_COOKIE}=${newLocale};path=/`;
+			document.cookie = `${cookiesConfig.LOCALE}=${newLocale};path=/`;
 			router.refresh();
 		},
 		[router],
@@ -30,7 +30,7 @@ function LocaleSwitcher() {
 			}
 		>
 			<div className='px-2 py-4 flex flex-col'>
-				{LOCALES.map((locale) => (
+				{locales.LOCALES.map((locale) => (
 					<NavItem
 						key={locale}
 						className={clsx(

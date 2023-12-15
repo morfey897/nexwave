@@ -16,34 +16,13 @@ const migrator = new Migrator({
 	}),
 });
 
-async function migrateToLatest() {
-	const { error, results } = await migrator.migrateToLatest();
-
-	results?.forEach((it) => {
-		if (it.status === 'Success') {
-			console.info(`migration "${it.migrationName}" was executed successfully`);
-		} else if (it.status === 'Error') {
-			console.error(`failed to execute migration "${it.migrationName}"`);
-		}
-	});
-
-	if (error) {
-		console.error('failed to migrate');
-		console.error(error);
-		process.exit(1);
-	}
-
-	await db.destroy();
-}
-
-async function migrateDown(down: number) {
-	for await (const _ of new Array(down)) {
-		const { error, results } = await migrator.migrateDown();
-
+async function migrateUp(amount: number | undefined) {
+	if (typeof amount === 'undefined') {
+		const { error, results } = await migrator.migrateToLatest();
 		results?.forEach((it) => {
 			if (it.status === 'Success') {
 				console.info(
-					`migration "${it.migrationName}" was rollbacked successfully`,
+					`migration "${it.migrationName}" was executed successfully`,
 				);
 			} else if (it.status === 'Error') {
 				console.error(`failed to execute migration "${it.migrationName}"`);
@@ -55,12 +34,36 @@ async function migrateDown(down: number) {
 			console.error(error);
 			process.exit(1);
 		}
-	}
+	} else if (typeof amount === 'number') {
+		for await (const _ of new Array(amount)) {
+			const { error, results } = await migrator.migrateUp();
 
+			results?.forEach((it) => {
+				if (it.status === 'Success') {
+					console.info(
+						`migration "${it.migrationName}" was executed successfully`,
+					);
+				} else if (it.status === 'Error') {
+					console.error(`failed to execute migration "${it.migrationName}"`);
+				}
+			});
+
+			if (error) {
+				console.error('failed to migrate');
+				console.error(error);
+				process.exit(1);
+			}
+		}
+	} else {
+		throw new Error('Invalid argument');
+	}
 	await db.destroy();
 }
 
 const getNumber = (value: string) => {
+	if (typeof value === 'undefined') {
+		return undefined;
+	}
 	const parsedValue = parseInt(value, 10);
 	if (isNaN(parsedValue)) {
 		throw new InvalidArgumentError('Not a number');
@@ -69,23 +72,14 @@ const getNumber = (value: string) => {
 };
 
 program
-	.description('CLI for apply/rollback migration schema of database')
-	.option('-d, --down <number>', 'transaction rollback', getNumber)
-	.option('-up-all, --up-all', 'all transaction apply');
+	.description('CLI for apply migration schema of database')
+	.option('-up, --up [number]', 'transaction apply', getNumber);
 program.parse();
 
 const opts = program.opts();
 
 void (async function () {
-	console.warn('MIGRATION_START...');
-	if (opts.upAll) {
-		console.log('MIGRATION_ALL_FILES');
-		await migrateToLatest();
-	} else if (opts.down) {
-		console.log('ROLLBACK_TRANSACTION', opts.down);
-		await migrateDown(opts.down);
-	} else {
-		console.log('UNKNOWN_COMMAND');
-	}
-	console.warn('MIGRATION_END...');
+	console.warn('MIGRATION START...');
+	await migrateUp(opts.up);
+	console.warn('MIGRATION END...');
 })();

@@ -99,7 +99,7 @@ function Body<T extends INode>({
 						</div>
 						{body?.get(date)?.map(({ event, rect, index }) => (
 							<div
-								key={`item_${event._uid}`}
+								key={`item_${event.uuid}`}
 								className={clsx('relative mr-2', {
 									'ml-12': totalDays === 1,
 									'ml-8': totalDays >= 2 && totalDays <= 3,
@@ -108,7 +108,7 @@ function Body<T extends INode>({
 							>
 								<div
 									className='absolute w-full cursor-pointer hover:!z-[19] hover:!-left-[5%] hover:!w-[110%] transition-all duration-300'
-									key={`item_${event._uid}`}
+									key={`item_${event.uuid}`}
 									style={{
 										top: ((rect.y - times.min) * cellHeight) / times.step + 8,
 										height: (rect.height * cellHeight) / times.step,

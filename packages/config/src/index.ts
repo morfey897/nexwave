@@ -1,4 +1,4 @@
-export * from './cookie';
-export * from './header';
-export * from './currency';
-export * from './i18n';
+export * as cookies from './cookies';
+export * as headers from './headers';
+export * as currencies from './currencies';
+export * as locales from './locales';

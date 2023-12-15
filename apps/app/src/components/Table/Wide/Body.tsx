@@ -14,7 +14,7 @@ function Body<T extends TUID>({
 				<div key={row} className={clsx('flex w-fit min-w-full items-center')}>
 					{head.map(({ token, Generator, flex }) => (
 						<div
-							key={`item_${token}_${item._uid}`}
+							key={`item_${token}_${item.uuid}`}
 							className='w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-left text-ellipsis'
 							style={{ flex: flex || 1 }}
 						>

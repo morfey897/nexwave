@@ -1,21 +1,17 @@
-import Image from 'next/image';
-import { User } from 'firebase/auth';
 import clsx from 'clsx';
-import { HiOutlineUser } from 'react-icons/hi';
+import { MdVerified } from 'react-icons/md';
+import { useNWStore } from '@/hooks/store';
+import { fullname, abbreviation } from '@/utils/data';
 
 export const Avatar = ({
-	user,
 	className,
 	size,
 }: {
-	user: User | null;
 	className?: string;
 	size?: number;
 }) => {
-	const photo = user?.photoURL;
-	const abrev = (user?.displayName?.split(' ') || user?.email?.split('@'))
-		?.map((n) => n[0].toUpperCase())
-		.join('');
+	const user = useNWStore((state) => state.user);
+	const photo = user?.avatar;
 
 	return (
 		<div
@@ -31,36 +27,37 @@ export const Avatar = ({
 					<img
 						className={clsx('rounded-full object-cover')}
 						src={photo}
-						alt={user?.displayName || 'avatar'}
+						alt={fullname(user) || 'avatar'}
 						style={{ width: size, height: size }}
 						width={size}
 						height={size}
 					/>
 				</picture>
-			) : abrev && abrev.length > 0 ? (
-				<p className='font-semibold' style={{ fontSize: `calc(${size}px/2)` }}>
-					{abrev}
-				</p>
 			) : (
-				<HiOutlineUser size={size} />
+				<p className='font-semibold' style={{ fontSize: `calc(${size}px/2)` }}>
+					{abbreviation(user)}
+				</p>
 			)}
 		</div>
 	);
 };
 
-function User({
-	user,
-	...props
-}: { user: User | null } & React.HTMLAttributes<HTMLDivElement>) {
+function User(props: React.HTMLAttributes<HTMLDivElement>) {
+	const user = useNWStore((state) => state.user);
 	return (
 		<div {...props}>
-			<Avatar user={user} size={32} />
+			<Avatar size={32} />
 			<div className='mx-4'>
 				<h1 className='text-sm font-semibold text-gray-700 dark:text-gray-200'>
-					{user?.displayName}
+					{fullname(user)}
 				</h1>
 				<p className='text-sm text-gray-500 dark:text-gray-400 break-words hyphens-auto'>
-					{user?.email}
+					{user?.email}{' '}
+					{user?.email_verified && (
+						<sup className='inline-block text-blue-500'>
+							<MdVerified size={12} />
+						</sup>
+					)}
 				</p>
 			</div>
 		</div>

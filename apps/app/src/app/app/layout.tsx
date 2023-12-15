@@ -1,44 +1,47 @@
-import { getAuth } from '@/lib/firebase-admin';
 import Header from '@/components/Header';
 import Aside from '@/components/Aside';
 import Block from '@/components/Block';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { getSession, getUID } from '@/headers';
+import { getSession, getTrail, getRefreshToken } from '@/headers';
 import Login from '@/views/auth/Login';
-import UserProvider from '@/providers/UserProvider';
 import Loading from './Loading';
+import { verify, decode } from '@/lib/jwt';
+import { ICurrentUser } from '@/types/user';
+import StoreProvider from '@/providers/StoreProvider';
+import Refresh from './refresh';
+import { cookies } from 'next/headers';
+import { sessionCookie } from '@/utils/cookies';
+import { API } from '@/routes';
 
 export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	let isValid = true;
-	const uid = getUID();
+	const hasTrail = !!getTrail();
+	const refreshToken = getRefreshToken();
+	let user: ICurrentUser | null = null;
 
 	try {
-		const auth = getAuth();
 		const session = getSession();
-		if (!session) {
-			throw new Error('Invalid session');
-		}
-		//Use Firebase Admin to validate the session cookie
-		const decodedClaims = await auth.verifySessionCookie(session, true);
-		if (!decodedClaims) {
-			throw new Error('Invalid session');
-		}
+		if (!session) throw new Error('Invalid session');
+
+		const payload = await verify<{ user: ICurrentUser }>(session);
+		user = payload?.user || null;
+		const isValidUser = !!user && !!user.uuid && !!user.email;
+		if (!isValidUser) throw new Error('Invalid user');
 	} catch (error) {
-		isValid = false;
+		user = null;
 	}
 
 	return (
-		<UserProvider>
+		<StoreProvider store={{ user }}>
 			<Header />
 			<main className='flex w-full'>
-				{!isValid && <Login uid={uid} />}
+				{!user && <Login params={hasTrail ? null : { mode: 'new' }} />}
 				<Aside />
 				<Block>
-					{isValid ? (
+					{!!user ? (
 						<>
 							<Breadcrumbs />
 							{children}
@@ -48,6 +51,7 @@ export default async function RootLayout({
 					)}
 				</Block>
 			</main>
-		</UserProvider>
+			{!!refreshToken && <Refresh forceUpdate={!user} />}
+		</StoreProvider>
 	);
 }
