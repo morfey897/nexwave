@@ -5,13 +5,10 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import { getSession, getTrail, getRefreshToken } from '@/headers';
 import Login from '@/views/auth/Login';
 import Loading from './Loading';
-import { verify, decode } from '@/lib/jwt';
+import { verify } from '@/lib/jwt';
 import { ICurrentUser } from '@/types/user';
 import StoreProvider from '@/providers/StoreProvider';
-import Refresh from './refresh';
-import { cookies } from 'next/headers';
-import { sessionCookie } from '@/utils/cookies';
-import { API } from '@/routes';
+import RefreshToken from './RefreshToken';
 
 export default async function RootLayout({
 	children,
@@ -51,7 +48,7 @@ export default async function RootLayout({
 					)}
 				</Block>
 			</main>
-			{!!refreshToken && <Refresh forceUpdate={!user} />}
+			{!!refreshToken && <RefreshToken />}
 		</StoreProvider>
 	);
 }

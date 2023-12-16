@@ -37,21 +37,20 @@ export async function GET(request: NextRequest) {
 	return NextResponse.json({ success: true }, { status: 200 });
 }
 
-// export async function POST(request: NextRequest) {
-// 	const refresh_token =
-// 		request.headers.get('Authorization')?.replace('Bearer ', '') || '';
-// 	const session = (await request.text()) || '';
+export async function POST(request: NextRequest) {
+	const refresh_token =
+		request.headers.get('Authorization')?.replace('Bearer ', '') || '';
+	const session = (await request.text()) || '';
 
-// 	const user = await refreshCookie(refresh_token, session);
-// 	if (!user) {
-// 		return NextResponse.json({ success: false });
-// 	}
+	const user = await refreshCookie(refresh_token, session);
+	if (!user) {
+		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+	}
 
-// 	try {
-// 		await refreshCookie(refresh_token, session);
-// 	} catch (e) {
-// 		return NextResponse.json({ error: 'Unauthorized 1' }, { status: 401 });
-// 	}
+	const sessionData = sessionCookie(user);
 
-// 	return NextResponse.json({ success: true }, { status: 200 });
-// }
+	return NextResponse.json(
+		{ success: true, session: sessionData },
+		{ status: 200 },
+	);
+}

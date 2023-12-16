@@ -1,20 +1,11 @@
 'use client';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { API } from '@/routes';
 import { useRouter } from 'next/navigation';
 import { ms } from '@/utils/datetime';
 
-function Refresh({ forceUpdate }: { forceUpdate: boolean }) {
+function RefreshToken() {
 	const router = useRouter();
-
-	useLayoutEffect(() => {
-		if (!forceUpdate) return;
-		fetch(API.AUTH_REFRESH_TOKEN)
-			.then((response) => response.json())
-			.then(({ success }) => {
-				if (success) router.refresh();
-			});
-	}, [forceUpdate, router]);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -25,9 +16,9 @@ function Refresh({ forceUpdate }: { forceUpdate: boolean }) {
 				});
 		}, ms(process.env.NEXT_PUBLIC_REFRESH_TOKEN_INTERVAL!));
 		return () => clearInterval(timer);
-	}, []);
+	}, [router]);
 
 	return null;
 }
 
-export default Refresh;
+export default RefreshToken;

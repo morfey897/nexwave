@@ -3,12 +3,14 @@ import Negotiator from 'negotiator';
 import {
 	cookies as cookiesConfig,
 	headers as headersConfig,
-	locales
+	locales,
 } from 'config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
 import { EnumDevice } from './types/view';
+import { API, APP } from '@/routes';
+import { getSession, getRefreshToken } from '@/headers';
 
 type LangType = typeof locales.LOCALES & undefined;
 
@@ -37,14 +39,30 @@ const getDevice = (userAgent: string | null | undefined) => {
 
 const setCookie = (
 	response: NextResponse,
-	cookie: Record<string, string | undefined>,
+	cookies: Array<{
+		name: string;
+		value: string | null | undefined;
+		maxAge?: number;
+		httpOnly?: boolean;
+		secure?: boolean;
+	}>,
 ) => {
 	const setCookies = response.headers.get('set-cookie');
 	response.headers.set(
 		'set-cookie',
-		Object.entries(cookie)
-			.filter(([key, value]) => Boolean(value) && Boolean(key))
-			.map(([key, value]) => `${key}=${value};path=/`)
+		cookies
+			.filter(({ name, value }) => Boolean(value) && Boolean(name))
+			.map(({ name, value, maxAge, httpOnly, secure }) =>
+				[
+					`${name}=${value}`,
+					'path=/',
+					maxAge ? `Max-Age=${maxAge}` : undefined,
+					httpOnly ? 'HttpOnly' : undefined,
+					secure ? 'Secure' : undefined,
+				]
+					.filter((v) => Boolean(v))
+					.join('; '),
+			)
 			.concat(setCookies || '')
 			.filter((v) => Boolean(v))
 			.join(','),
@@ -77,15 +95,44 @@ export async function middleware(request: NextRequest) {
 
 	const { device, info } = getDevice(request.headers.get('user-agent'));
 
-	let response = NextResponse.next();
+	const response = NextResponse.next();
 
-	setCookie(response, {
-		[cookiesConfig.DEVICE]: device,
-		[cookiesConfig.DEVICE_INFO]: info,
-	});
+	setCookie(response, [
+		{ name: cookiesConfig.DEVICE, value: device },
+		{ name: cookiesConfig.DEVICE_INFO, value: info },
+	]);
 
 	if (cookieValue != locale) {
-		setCookie(response, { [cookiesConfig.LOCALE]: locale });
+		setCookie(response, [
+			{
+				name: cookiesConfig.LOCALE,
+				value: locale,
+			},
+		]);
+	}
+
+	// Refresh session cookie
+	if (pathname.startsWith(APP)) {
+		try {
+			const refreshResponse = await fetch(
+				new URL(API.AUTH_REFRESH_TOKEN, request.nextUrl.origin),
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${getRefreshToken()}`,
+					},
+					body: getSession(),
+				},
+			);
+			const json = await refreshResponse.json();
+
+			if (json.success && !!json.session && typeof json.session === 'object') {
+				setCookie(response, [json.session]);
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	response.headers.set(headersConfig.PATHNAME, pathname);

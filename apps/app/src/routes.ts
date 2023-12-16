@@ -16,7 +16,7 @@ export const EXTERNAL = {
 
 export const API = {
 	AUTH_OAUTH: '/api/auth/[provider]',
-	AUTH_REFRESH_TOKEN: '/api/auth/refresh',
+	AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
 };
 
 export const MODALS = {
