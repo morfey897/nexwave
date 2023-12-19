@@ -6,7 +6,7 @@ import { getSession, getTrail, getRefreshToken } from '@/headers';
 import Login from '@/views/auth/Login';
 import Loading from './Loading';
 import { verify } from '@/lib/jwt';
-import { ICurrentUser } from '@/types/user';
+import { ICurrentUser } from '@/models/user';
 import StoreProvider from '@/providers/StoreProvider';
 import RefreshToken from './RefreshToken';
 

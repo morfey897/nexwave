@@ -6,7 +6,7 @@ export function createDB(props: VercelPostgresPoolConfig) {
 	const pool = createPool(props);
 	const db = drizzle(pool);
 	return {
-		pool,
 		db,
+		destroy: () => pool.end(),
 	};
 }

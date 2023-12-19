@@ -1,4 +1,4 @@
-import { ICurrentUser } from '@/types/user';
+import { ICurrentUser } from '@/models/user';
 import { cookies as cookiesConfig } from 'config';
 import { sign } from '@/lib/jwt';
 

@@ -1,5 +1,15 @@
 import db, { schemas, orm } from '@/lib/storage';
-import { ICurrentUser } from '@/types/user';
+import { hasInvitation } from './invitation';
+import { TUID } from '@/types/common';
+import { ca } from 'date-fns/locale';
+
+export interface ICurrentUser extends TUID {
+	email: string;
+	emailVerified: boolean;
+	name?: string | null;
+	surname?: string | null;
+	avatar?: string | null;
+}
 
 /**
  * Find user by unique params
@@ -30,7 +40,7 @@ export async function findUserByParams({
 			id: schemas.user.id,
 			uuid: schemas.user.uuid,
 			email: schemas.user.email,
-			email_verified: schemas.user.email_verified,
+			emailVerified: schemas.user.emailVerified,
 			name: schemas.user.name,
 			surname: schemas.user.surname,
 			avatar: schemas.user.avatar,
@@ -70,7 +80,7 @@ export async function getUser({
 			id: schemas.user.id,
 			uuid: schemas.user.uuid,
 			email: schemas.user.email,
-			email_verified: schemas.user.email_verified,
+			emailVerified: schemas.user.emailVerified,
 			name: schemas.user.name,
 			surname: schemas.user.surname,
 			avatar: schemas.user.avatar,
@@ -89,14 +99,14 @@ export async function getUser({
  */
 export async function createUser({
 	email,
-	email_verified,
+	emailVerified,
 	password,
 	name,
 	avatar,
 	surname,
 }: {
 	email: string;
-	email_verified: boolean;
+	emailVerified: boolean;
 	password: string | null;
 	name?: string;
 	avatar?: string;
@@ -106,7 +116,7 @@ export async function createUser({
 		.insert(schemas.user)
 		.values({
 			email: email,
-			email_verified: email_verified,
+			emailVerified: emailVerified,
 			...(password === null
 				? {}
 				: { password: orm.sql<string>`crypt(${password}, gen_salt('bf'))` }),
@@ -118,13 +128,25 @@ export async function createUser({
 			id: schemas.user.id,
 			uuid: schemas.user.uuid,
 			email: schemas.user.email,
-			email_verified: schemas.user.email_verified,
+			emailVerified: schemas.user.emailVerified,
 			name: schemas.user.name,
 			surname: schemas.user.surname,
 			avatar: schemas.user.avatar,
 		});
 
-	return list && list.length ? list[0] : null;
+	const user: ICurrentUser | null = list && list.length ? list[0] : null;
+
+	if (user) {
+		try {
+			const hasInvite = await hasInvitation({ email: user.email });
+			if (!hasInvite) {
+				//TODO: create project
+			}
+		} catch (error) {
+			console.log('ERROR', error);
+		}
+	}
+	return user;
 }
 
 /**
@@ -135,34 +157,34 @@ export async function createUser({
 export async function updateUser(
 	uuid: string,
 	{
-		email_verified,
+		emailVerified,
 		name,
 		avatar,
 		surname,
-		last_login_at,
+		lastLoginAt,
 	}: {
-		email_verified?: boolean;
+		emailVerified?: boolean;
 		name?: string;
 		avatar?: string;
 		surname?: string;
-		last_login_at?: Date;
+		lastLoginAt?: Date;
 	},
 ): Promise<ICurrentUser | null> {
 	const list = await db
 		.update(schemas.user)
 		.set({
-			...(typeof email_verified === 'boolean' ? { email_verified } : {}),
+			...(typeof emailVerified === 'boolean' ? { emailVerified } : {}),
 			...(name ? { name } : {}),
 			...(surname ? { surname } : {}),
 			...(avatar ? { avatar } : {}),
-			...(last_login_at ? { last_login_at } : {}),
+			...(lastLoginAt ? { lastLoginAt } : {}),
 		})
 		.where(orm.eq(schemas.user.uuid, uuid))
 		.returning({
 			id: schemas.user.id,
 			uuid: schemas.user.uuid,
 			email: schemas.user.email,
-			email_verified: schemas.user.email_verified,
+			emailVerified: schemas.user.emailVerified,
 			name: schemas.user.name,
 			surname: schemas.user.surname,
 			avatar: schemas.user.avatar,

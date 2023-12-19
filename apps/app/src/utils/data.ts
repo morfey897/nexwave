@@ -1,4 +1,4 @@
-import { ICurrentUser } from '@/types/user';
+import { ICurrentUser } from '@/models/user';
 
 export const abbreviation = (user: ICurrentUser | null) => {
   if (!user) return '';

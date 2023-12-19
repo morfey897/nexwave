@@ -9,7 +9,7 @@ import * as user from '@/models/user';
 
 type Info = {
 	email: string | null;
-	email_verified: boolean;
+	emailVerified: boolean;
 	name?: string;
 	surname?: string;
 	avatar?: string;
@@ -25,7 +25,7 @@ const getFullInfo = async (
 	const payload = (info.getPayload() || {}) as TokenPayload;
 	return {
 		email: payload.email || null,
-		email_verified: payload.email_verified === true,
+		emailVerified: payload.email_verified === true,
 		name: payload.given_name,
 		surname: payload.family_name,
 		avatar: payload.picture,
@@ -42,7 +42,7 @@ const getInfo = async (
 
 	return {
 		email: tokenInfo.email || null,
-		email_verified: tokenInfo.email_verified === true,
+		emailVerified: tokenInfo.email_verified === true,
 	};
 };
 
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
 			if (!result) {
 				result = await user.createUser({
 					email: fullInfo.email,
-					email_verified: fullInfo.email_verified,
+					emailVerified: fullInfo.emailVerified,
 					password: null,
 					name: fullInfo.name,
 					surname: fullInfo.surname,
@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
 				// TODO redirect to error sign in page
 				return NextResponse.redirect(new URL(HOME, request.nextUrl));
 			}
-			await user.updateUser(result.uuid, { last_login_at: new Date() });
+			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));
 			cookies().set(refreshCookie(result));

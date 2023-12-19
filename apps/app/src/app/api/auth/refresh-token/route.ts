@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decode, verify } from '@/lib/jwt';
 import { cookies as cookiesConfig } from 'config';
-import { ICurrentUser } from '@/types/user';
+import { ICurrentUser } from '@/models/user';
 import { cookies } from 'next/headers';
 import { sessionCookie } from '@/utils/cookies';
 

@@ -1,5 +1,5 @@
 import { createStore } from 'zustand';
-import { ICurrentUser } from '@/types/user';
+import { ICurrentUser } from '@/models/user';
 import { immer } from 'zustand/middleware/immer';
 
 export interface INWStore {

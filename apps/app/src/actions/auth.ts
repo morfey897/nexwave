@@ -83,7 +83,7 @@ export async function signInWithEmailAndPassword(
 		const result = await user.getUser({ email, password });
 
 		if (!!result) {
-			await user.updateUser(result.uuid, { last_login_at: new Date() });
+			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));
 			cookies().set(refreshCookie(result));
@@ -124,11 +124,11 @@ export async function signUpWithEmailAndPassword(
 			email,
 			password,
 			name,
-			email_verified: false,
+			emailVerified: false,
 		});
 
 		if (!!result) {
-			await user.updateUser(result.uuid, { last_login_at: new Date() });
+			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
 			//Add the cookie to the browser
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));

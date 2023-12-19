@@ -53,7 +53,7 @@ function User(props: React.HTMLAttributes<HTMLDivElement>) {
 				</h1>
 				<p className='text-sm text-gray-500 dark:text-gray-400 break-words hyphens-auto'>
 					{user?.email}{' '}
-					{user?.email_verified && (
+					{user?.emailVerified && (
 						<sup className='inline-block text-blue-500'>
 							<MdVerified size={12} />
 						</sup>
