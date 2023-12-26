@@ -1,5 +1,6 @@
 import db, { schemas, orm } from '@/lib/storage';
 import { TUID } from '@/types/common';
+import { or } from 'drizzle-orm';
 import { humanId } from 'human-id';
 
 enum EnumStatus {
@@ -32,6 +33,10 @@ export interface IProject extends TUID {
 	status: keyof typeof EnumStatus;
 	roles: Record<string, number>;
 }
+
+export type TProjectToUser = Omit<IProject, 'ownerId'> & {
+	role: keyof typeof EnumRole;
+};
 
 async function generateUniqSlug(): Promise<string> {
 	let existList: Array<{ id: number }> = [];
@@ -191,4 +196,95 @@ export async function removeUserFromProject({
 		});
 
 	return !!junction;
+}
+
+/**
+ * Get project by user id
+ * @param userId - number
+ * @returns
+ */
+export async function getProjectByUserId({
+	userId,
+}: {
+	userId: number;
+}): Promise<TProjectToUser[] | null> {
+	const projects = await db
+		.select({
+			id: schemas.project.id,
+			uuid: schemas.project.uuid,
+			createdAt: schemas.project.createdAt,
+			roles: schemas.project.roles,
+			slug: schemas.project.slug,
+			name: schemas.project.name,
+			image: schemas.project.image,
+			status: schemas.project.status,
+			role: schemas.projectToUser.role,
+		})
+		.from(schemas.user)
+		.leftJoin(
+			schemas.projectToUser,
+			orm.eq(schemas.projectToUser.userId, schemas.user.id),
+		)
+		.leftJoin(
+			schemas.project,
+			orm.eq(schemas.projectToUser.projectId, schemas.project.id),
+		)
+		.where(
+			orm.and(
+				orm.eq(schemas.user.id, userId),
+				orm.isNotNull(schemas.projectToUser),
+			),
+		)
+		.execute();
+
+	const filteredProjects = projects.filter(
+		(item) => item.role !== null,
+	) as TProjectToUser[];
+	return filteredProjects.length > 0 ? filteredProjects : null;
+}
+
+/**
+ * Get project by slug
+ * @param slug - string
+ * @returns
+ */
+export async function getProjectBySlug({
+	slug,
+	userId,
+}: {
+	slug: string;
+	userId: number;
+}): Promise<TProjectToUser | null> {
+	const [project] = await db
+		.select({
+			id: schemas.project.id,
+			uuid: schemas.project.uuid,
+			createdAt: schemas.project.createdAt,
+			roles: schemas.project.roles,
+			slug: schemas.project.slug,
+			name: schemas.project.name,
+			image: schemas.project.image,
+			status: schemas.project.status,
+			role: schemas.projectToUser.role,
+		})
+		.from(schemas.project)
+		.leftJoin(
+			schemas.projectToUser,
+			orm.eq(schemas.projectToUser.projectId, schemas.project.id),
+		)
+		.leftJoin(
+			schemas.user,
+			orm.eq(schemas.projectToUser.userId, schemas.user.id),
+		)
+		.where(
+			orm.and(
+				orm.eq(schemas.user.id, userId),
+				orm.eq(schemas.project.slug, slug),
+				orm.isNotNull(schemas.projectToUser),
+				orm.isNotNull(schemas.projectToUser.role),
+			),
+		)
+		.execute();
+
+	return project ? (project as TProjectToUser) : null;
 }

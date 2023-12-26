@@ -1,52 +1,58 @@
 import Header from '@/components/Header';
-import Aside from '@/components/Aside';
-import Block from '@/components/Block';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import { getSession, getTrail, getRefreshToken } from '@/headers';
 import Login from '@/views/auth/Login';
 import Loading from './Loading';
 import { verifyAuth } from '@/lib/jwt';
 import { ICurrentUser } from '@/models/user';
 import StoreProvider from '@/providers/StoreProvider';
-import RefreshToken from './RefreshToken';
+import RefreshToken from '@/components/Auth/RefreshToken';
+import { getProjectByUserId, type TProjectToUser } from '@/models/project';
+import { getPathname } from '@/headers';
 
-export default async function RootLayout({
+export default async function AppLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const pathname = getPathname();
 	const hasTrail = !!getTrail();
 	const refreshToken = getRefreshToken();
 	let user: ICurrentUser | null = null;
+	let projects: TProjectToUser[] | null = null;
 
 	try {
+		const [, slug] = pathname.match(/\/app\/([^\/]+)/) || [];
 		const session = getSession();
 		if (!session) throw new Error('Invalid session');
 
 		const payload = await verifyAuth<{ user: ICurrentUser }>(session);
 		user = payload?.user || null;
-		const isValidUser = !!user && !!user.uuid && !!user.email;
-		if (!isValidUser) throw new Error('Invalid user');
+		const isValidUser = !!user && !!user.id && !!user.uuid && !!user.email;
+		if (!isValidUser || user === null) throw new Error('Invalid user');
+
+		projects = await getProjectByUserId({ userId: user.id });
+		if (slug) {
+			if (!projects?.find((p) => p.slug === slug)) {
+				// TODO should show dialog
+				throw new Error('Invalid project');
+			}
+		}
 	} catch (error) {
 		user = null;
 	}
 
 	return (
-		<StoreProvider store={{ user }}>
+		<StoreProvider store={{ user, projects }}>
 			<Header />
 			<main className='flex w-full'>
-				{!user && <Login params={hasTrail ? null : { mode: 'new' }} />}
-				<Aside />
-				<Block>
-					{!!user ? (
-						<>
-							<Breadcrumbs />
-							{children}
-						</>
-					) : (
+				{!!user ? (
+					children
+				) : (
+					<>
+						<Login params={hasTrail ? null : { mode: 'new' }} />
 						<Loading amount={4} />
-					)}
-				</Block>
+					</>
+				)}
 			</main>
 			{!!refreshToken && <RefreshToken />}
 		</StoreProvider>

@@ -12,6 +12,7 @@
 		"page_of": "{page} / {maxPage}",
 		"next": "Следующая",
 		"settings": "Настройки",
+		"edit": "Редактировать",
 		"sign_out": "Выйти",
 		"days_ago": "{count, plural, =0 {Сегодня} =1 {Вчера} =2 {Позавчера} other {# дн. назад}}",
 		"i18n": {

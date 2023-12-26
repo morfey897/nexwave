@@ -6,13 +6,22 @@ export const VERIFY_EMAIL = '/handshake/[uuid]/verify-email';
 
 /// Protected routes ///
 export const APP = '/app';
-export const CLIENTS = '/app/clients';
-export const CLIENT = '/app/clients/[id]';
-export const USERS = '/app/users';
-export const SERVICES = '/app/services';
-export const PRODUCTS = '/app/products';
-export const SETTINGS = '/app/settings';
-export const TIMETABLE = '/app/timetable';
+export const ROOT = '/app/[slug]';
+export const CLIENTS = '/app/[slug]/clients';
+export const USERS = '/app/[slug]/users';
+export const SERVICES = '/app/[slug]/services';
+export const PRODUCTS = '/app/[slug]/products';
+export const TIMETABLE = '/app/[slug]/timetable';
+export const SETTINGS = '/app/[slug]/settings';
+export const DYNAMIC = [
+	ROOT,
+	CLIENTS,
+	USERS,
+	SERVICES,
+	PRODUCTS,
+	TIMETABLE,
+	SETTINGS,
+];
 
 /// API routes ///
 export const API = {

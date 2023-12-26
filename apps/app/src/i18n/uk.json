@@ -13,6 +13,7 @@
 		"page_of": "{page} / {maxPage}",
 		"next": "Наступна",
 		"settings": "Налаштування",
+		"edit": "Редагувати",
 		"sign_out": "Вийти",
 		"days_ago": "{count, plural, =0 {Сьогодні} =1 {Вчора} =2 {Позавчера} other {# дн. тому}}",
 		"i18n": {

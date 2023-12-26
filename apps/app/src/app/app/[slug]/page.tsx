@@ -4,7 +4,7 @@ export default function Home() {
 	return (
 		//  ml-0 lg:ml-64
 		<div className='flex flex-col items-center justify-between'>
-			<h1 className='text-3xl'>APP PAGE (possible to show list of projects)</h1>
+			<h1 className='text-3xl'>DASHBOARD</h1>
 			<RiDashboardFill size={54} />
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent

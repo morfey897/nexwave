@@ -1,4 +1,4 @@
-import clients from '../../../../__mock__/clients.json';
+import clients from '../../../../../__mock__/clients.json';
 import { IClient } from '@/types/client';
 import ClintsView from '@/views/app/Clients';
 

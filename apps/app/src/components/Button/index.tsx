@@ -19,6 +19,8 @@ export function Button({
 						variant === 'primary',
 					'text-gray-700 bg-white border !border-l !border-r dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700 disabled:dark:text-gray-700 disabled:text-gray-200':
 						variant === 'default',
+					'text-white bg-green-700 hover:bg-green-800 dark:hover:bg-green-700 dark:bg-green-800 disabled:dark:text-gray-700 disabled:text-gray-300 disabled:bg-green-400 disabled:dark:bg-green-700':
+						variant === 'secondary',
 				},
 				className,
 			)}

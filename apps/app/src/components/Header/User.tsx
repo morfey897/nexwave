@@ -1,52 +1,47 @@
+'use client';
+import { MdVerified, MdModeEditOutline } from 'react-icons/md';
+import { fullname, abbrev } from '@/utils';
+import Picture from './Picture';
+import { ICurrentUser } from '@/models/user';
+import Button from '@/components/Button';
 import clsx from 'clsx';
-import { MdVerified } from 'react-icons/md';
-import { useNWStore } from '@/hooks/store';
-import { fullname, abbreviation } from '@/utils/data';
+import { useTranslations } from 'next-intl';
+import { useCallback } from 'react';
 
-export const Avatar = ({
+function User({
+	user,
+	variant = 'medium',
 	className,
-	size,
+	...props
 }: {
-	className?: string;
-	size?: number;
-}) => {
-	const user = useNWStore((state) => state.user);
-	const photo = user?.avatar;
+	user: ICurrentUser | null;
+	variant?: 'small' | 'medium' | 'large';
+} & React.HTMLAttributes<HTMLDivElement>) {
+	const t = useTranslations('common');
+	const size = variant === 'small' ? 32 : variant === 'medium' ? 40 : 52;
+
+	const onEdit = useCallback(() => {
+		console.log('edit');
+	}, []);
 
 	return (
 		<div
 			className={clsx(
-				'shrink-0 rounded-lg ring text-gray-200 dark:ring-gray-200 ring-gray-300 bg-blue-500 dark:bg-blue-600',
-				'flex items-center justify-center',
+				'flex p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default',
 				className,
 			)}
-			style={{ width: size, height: size }}
+			{...props}
 		>
-			{!!photo ? (
-				<picture>
-					<img
-						className={clsx('rounded-full object-cover')}
-						src={photo}
-						alt={fullname(user) || 'avatar'}
-						style={{ width: size, height: size }}
-						width={size}
-						height={size}
-					/>
-				</picture>
-			) : (
-				<p className='font-semibold' style={{ fontSize: `calc(${size}px/2)` }}>
-					{abbreviation(user)}
-				</p>
-			)}
-		</div>
-	);
-};
-
-function User(props: React.HTMLAttributes<HTMLDivElement>) {
-	const user = useNWStore((state) => state.user);
-	return (
-		<div {...props}>
-			<Avatar size={32} />
+			<Picture
+				variant='primary'
+				size={size}
+				photo={user?.avatar}
+				abbrev={abbrev([
+					[user?.name, user?.surname],
+					user?.email.split('@').slice(0, 2),
+				])}
+				name={fullname(user)}
+			/>
 			<div className='mx-4'>
 				<h1 className='text-sm font-semibold text-gray-700 dark:text-gray-200'>
 					{fullname(user)}
@@ -59,6 +54,13 @@ function User(props: React.HTMLAttributes<HTMLDivElement>) {
 						</sup>
 					)}
 				</p>
+				<Button
+					variant='text'
+					message={t('edit')}
+					className='hover:underline !p-0 mt-1'
+					iconAfter={<MdModeEditOutline size={12} />}
+					onClick={onEdit}
+				/>
 			</div>
 		</div>
 	);

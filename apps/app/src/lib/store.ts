@@ -1,9 +1,11 @@
 import { createStore } from 'zustand';
-import { ICurrentUser } from '@/models/user';
+import type { ICurrentUser } from '@/models/user';
+import type { TProjectToUser } from '@/models/project';
 import { immer } from 'zustand/middleware/immer';
 
 export interface INWStore {
 	user: ICurrentUser | null;
+	projects: TProjectToUser[] | null;
 }
 
 export type NWStore = ReturnType<typeof createNWStore>;
@@ -11,6 +13,7 @@ export type NWStore = ReturnType<typeof createNWStore>;
 function createNWStore(state: Partial<INWStore>) {
 	const DEFAULT_STATE: INWStore = {
 		user: null,
+		projects: null,
 	};
 
 	return createStore(

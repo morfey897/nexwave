@@ -45,7 +45,7 @@ function ThemeSwithcer({
 	return theme === 'none' ? (
 		<div
 			className={clsx(
-				'h-6 w-6 bg-slate-700 rounded-full animate-pulse',
+				'h-6 w-6',
 				className,
 			)}
 		/>

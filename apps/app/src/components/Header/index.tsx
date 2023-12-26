@@ -4,12 +4,14 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import { HiMenuAlt3, HiX, HiCog, HiLogout } from 'react-icons/hi';
+import { HiMenuAlt3, HiX, HiLogout } from 'react-icons/hi';
 import { TiWaves } from 'react-icons/ti';
 import ThemeSwithcer from '@/components/ThemeSwithcer';
 import DropDown from '@/components/DropDown';
 import NavItem from '@/components/NavItem';
-import User, { Avatar } from './User';
+import User from './User';
+import Picture from './Picture';
+import Project from './Project';
 import Search from '@/components/Controls/Search';
 import Block from '@/components/Block';
 import Container from '@/components/Containers';
@@ -17,8 +19,12 @@ import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
 import Overlay from '@/components/Overlay';
 import { signOut } from '@/actions/auth';
+import { useNWStore } from '@/hooks/store';
+import { abbrev, fullname } from '@/utils';
 
 function Header() {
+	const user = useNWStore((state) => state.user);
+	const projects = useNWStore((state) => state.projects);
 	const t = useTranslations('common');
 	const route = useRouter();
 
@@ -82,21 +88,6 @@ function Header() {
 											: 'opacity-0 -translate-x-full',
 									)}
 								>
-									<div className='flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8'>
-										<a
-											href={'EXTERNAL.site'}
-											className='px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
-										>
-											{t('links.cms')}
-										</a>
-										<a
-											href={'EXTERNAL.site'}
-											className='px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
-										>
-											{t('links.site')}
-										</a>
-									</div>
-
 									<div className='flex items-center mt-4 lg:mt-0 gap-4'>
 										<ThemeSwithcer className='hidden lg:block' />
 
@@ -106,15 +97,32 @@ function Header() {
 											direction={{ y: 'bottom', x: 'left' }}
 											element={
 												<button className='mr-1'>
-													<Avatar size={32} />
+													<Picture
+														variant='primary'
+														size={32}
+														photo={user?.avatar}
+														abbrev={abbrev([
+															[user?.name, user?.surname],
+															user?.email.split('@').slice(0, 2),
+														])}
+														name={fullname(user)}
+													/>
 												</button>
 											}
 										>
-											<div className='px-2 py-4 flex flex-col'>
-												<User className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default' />
-
+											<div className='px-2 py-4 flex flex-col min-w-[300px]'>
+												<User user={user} />
 												<hr className='border-gray-200 dark:border-gray-700' />
-												<NavItem Icon={HiCog} label={t('settings')} />
+												<div className='space-y-2 p-3'>
+													{projects?.map((project) => (
+														<Project
+															key={project.uuid}
+															project={project}
+															variant='small'
+														/>
+													))}
+												</div>
+
 												<hr className='border-gray-200 dark:border-gray-700' />
 												<NavItem
 													Icon={HiLogout}
@@ -126,15 +134,20 @@ function Header() {
 
 										{/* Mobile version */}
 										<div className='flex flex-col w-full lg:hidden'>
+											<User user={user} />
+
 											<hr className='border-gray-200 dark:border-gray-700 my-2' />
 
-											<User className='flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default' />
+											<div className='space-y-4 p-3'>
+												{projects?.map((project) => (
+													<Project
+														key={project.uuid}
+														project={project}
+														variant='medium'
+													/>
+												))}
+											</div>
 
-											<NavItem
-												className='[&>span]:!block !flex-row'
-												Icon={HiCog}
-												label={t('settings')}
-											/>
 											<NavItem
 												className='[&>span]:!block !flex-row'
 												Icon={HiLogout}

@@ -118,7 +118,9 @@ export async function createUser({
 			name: name || null,
 			surname: surname || null,
 			avatar: avatar || null,
-			password: password ? orm.sql<string>`crypt(${password}, gen_salt('bf'))` : null,
+			password: password
+				? orm.sql<string>`crypt(${password}, gen_salt('bf'))`
+				: null,
 		})
 		.returning({
 			id: schemas.user.id,

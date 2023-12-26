@@ -2,7 +2,6 @@
 import {
 	ReactNode,
 	createContext,
-	useEffect,
 	useLayoutEffect,
 	useRef,
 } from 'react';

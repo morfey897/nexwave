@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { APP } from '@/routes';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
