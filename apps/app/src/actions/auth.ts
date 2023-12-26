@@ -1,13 +1,14 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { sign } from '@/lib/jwt';
+import { signAuth } from '@/lib/jwt';
 import { validate } from '@/utils/validation';
 import ErrorCodes from '@/errorCodes';
 import { TError } from '@/types/auth';
 import { EnumStatus } from '@/types/status';
 import { cookies } from 'next/headers';
 import googleOAuthClient from '@/lib/googleOAuth';
-import * as user from '@/models/user';
+import * as users from '@/models/user';
+import { start } from '@/models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '@/utils/cookies';
 import { API } from '@/routes';
 
@@ -49,7 +50,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 				API.AUTH_OAUTH.replace('[provider]', provider),
 				path,
 			).toString(),
-			state: sign(
+			state: signAuth(
 				{
 					redirect_to: redirect_to.replace(/^[\w\d]*:?\/{2}[^\/]+/, ''),
 					state: 'log_in',
@@ -80,10 +81,10 @@ export async function signInWithEmailAndPassword(
 			throw { code: invalid.join(',') };
 		}
 
-		const result = await user.getUser({ email, password });
+		const result = await users.getUser({ email, password });
 
 		if (!!result) {
-			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
+			await users.updateUser(result.uuid, { lastLoginAt: new Date() });
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));
 			cookies().set(refreshCookie(result));
@@ -120,23 +121,23 @@ export async function signUpWithEmailAndPassword(
 			throw { code: invalid.join(',') };
 		}
 
-		const result = await user.createUser({
-			email,
-			password,
-			name,
+		const { user } = await start({
+			email: email,
 			emailVerified: false,
+			name: name,
+			password: password,
 		});
 
-		if (!!result) {
-			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
-			//Add the cookie to the browser
-			cookies().set(sessionCookie(result));
-			cookies().set(trailCookie('1'));
-			cookies().set(refreshCookie(result));
-			return { status: EnumStatus.SUCCESS };
-		} else {
+		if (!user) {
 			throw { code: ErrorCodes.WENT_WRONG };
 		}
+		await users.updateUser(user.uuid, { lastLoginAt: new Date() });
+		cookies().set(sessionCookie(user));
+		cookies().set(trailCookie('1'));
+		cookies().set(refreshCookie(user));
+		//TODO if user has project redirect to project page
+		//TODO if user has invitations redirect to invitations page
+		return { status: EnumStatus.SUCCESS };
 	} catch (error) {
 		const er = error as unknown as any;
 		if (er.constraint === 'users_email_unique') {

@@ -54,19 +54,13 @@ export const project = pgTable('projects', {
 		.notNull()
 		.references(() => user.id),
 	name: varchar('name', { length: 255 }).notNull(),
-	slug: varchar('slug', { length: 255 }).notNull(),
+	slug: varchar('slug', { length: 255 }).unique().notNull(),
 	image: text('image'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	status: enums.statusEnum('status').default('draft').notNull(),
 	roles: jsonb('roles')
-		.$type<
-			Array<{
-				id: number;
-				permissions: number; //1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|...
-				title: string;
-			}>
-		>()
-		.default([])
+		.$type<Record<string, number>>() // Record<string, number> is the same as { [key: string]: 1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|... }
+		.default({})
 		.notNull(),
 });
 
@@ -79,7 +73,7 @@ export const branch = pgTable('branches', {
 		.default(sql`gen_random_uuid()`)
 		.notNull(),
 	name: varchar('name', { length: 255 }).notNull(),
-	slug: varchar('slug', { length: 255 }).notNull(),
+	slug: varchar('slug', { length: 255 }).unique().notNull(),
 	image: text('image'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	status: enums.statusEnum('status').default('draft').notNull(),
@@ -101,7 +95,7 @@ export const invitation = pgTable('invitations', {
 	projectId: integer('project_id')
 		.notNull()
 		.references(() => project.id),
-	roleId: integer('role_id').notNull(),
+	role: varchar('role', { length: 63 }).notNull(),
 });
 
 /**
@@ -116,7 +110,7 @@ export const projectToUser = pgTable(
 		userId: integer('user_id')
 			.notNull()
 			.references(() => user.id),
-		roleId: integer('role_id').notNull(),
+		role: varchar('role', { length: 63 }).notNull(),
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.projectId, t.userId] }),

@@ -1,5 +1,10 @@
+/// Public routes ///
 export const HOME = '/';
+export const HANDSHAKE = '/handshake';
+export const ACCEPT_INVITE = '/handshake/[uuid]/accept-invite';
+export const VERIFY_EMAIL = '/handshake/[uuid]/verify-email';
 
+/// Protected routes ///
 export const APP = '/app';
 export const CLIENTS = '/app/clients';
 export const CLIENT = '/app/clients/[id]';
@@ -9,16 +14,13 @@ export const PRODUCTS = '/app/products';
 export const SETTINGS = '/app/settings';
 export const TIMETABLE = '/app/timetable';
 
-export const EXTERNAL = {
-	site: 'https://studio-kalipos.com',
-	cms: 'https://edit.studio-kalipos.com',
-};
-
+/// API routes ///
 export const API = {
 	AUTH_OAUTH: '/api/auth/[provider]',
 	AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
 };
 
+/// Modal windows ///
 export const MODALS = {
 	LOGIN: 'login',
 	REGISTER: 'register',

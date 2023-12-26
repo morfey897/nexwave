@@ -9,6 +9,7 @@
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint",
     "generate": "drizzle-kit generate:pg",
     "migrate": "tsx cli/migrate.ts"

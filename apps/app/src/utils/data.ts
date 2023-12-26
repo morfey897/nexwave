@@ -1,7 +1,8 @@
 import { ICurrentUser } from '@/models/user';
 
+
 export const abbreviation = (user: ICurrentUser | null) => {
-  if (!user) return '';
+	if (!user) return '';
 	let abbrev = '';
 	if (user.name && user.surname) {
 		abbrev = user.name[0] + user.surname[0];

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decode, verify } from '@/lib/jwt';
+import { decode, verifyAuth } from '@/lib/jwt';
 import { cookies as cookiesConfig } from 'config';
 import { ICurrentUser } from '@/models/user';
 import { cookies } from 'next/headers';
@@ -9,7 +9,7 @@ const refreshCookie = async (
 	refresh_token: string,
 	session: string,
 ): Promise<ICurrentUser | null> => {
-	const refreshPayload = await verify<{ uuid: string }>(refresh_token);
+	const refreshPayload = await verifyAuth<{ uuid: string }>(refresh_token);
 	const sessionPayload = decode<{ user: ICurrentUser }>(session);
 	if (
 		!sessionPayload ||

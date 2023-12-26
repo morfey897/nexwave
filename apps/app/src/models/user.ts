@@ -1,7 +1,5 @@
 import db, { schemas, orm } from '@/lib/storage';
-import { hasInvitation } from './invitation';
 import { TUID } from '@/types/common';
-import { ca } from 'date-fns/locale';
 
 export interface ICurrentUser extends TUID {
 	email: string;
@@ -117,12 +115,10 @@ export async function createUser({
 		.values({
 			email: email,
 			emailVerified: emailVerified,
-			...(password === null
-				? {}
-				: { password: orm.sql<string>`crypt(${password}, gen_salt('bf'))` }),
-			...(name ? { name } : {}),
-			...(surname ? { surname } : {}),
-			...(avatar ? { avatar } : {}),
+			name: name || null,
+			surname: surname || null,
+			avatar: avatar || null,
+			password: password ? orm.sql<string>`crypt(${password}, gen_salt('bf'))` : null,
 		})
 		.returning({
 			id: schemas.user.id,
@@ -135,17 +131,6 @@ export async function createUser({
 		});
 
 	const user: ICurrentUser | null = list && list.length ? list[0] : null;
-
-	if (user) {
-		try {
-			const hasInvite = await hasInvitation({ email: user.email });
-			if (!hasInvite) {
-				//TODO: create project
-			}
-		} catch (error) {
-			console.log('ERROR', error);
-		}
-	}
 	return user;
 }
 

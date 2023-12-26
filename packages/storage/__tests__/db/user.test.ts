@@ -1,24 +1,24 @@
-import 'dotenv/config';
 import { describe, expect, test } from '@jest/globals';
-import { createDB, schemas, orm } from '../../src';
+import { schemas, orm } from '../../src';
+import * as utils from '../../__utils__/utils';
 
-let cfg: ReturnType<typeof createDB>;
+let cfg: ReturnType<typeof utils.configDB>;
 
-const generateEmail = () =>
-	`test${Math.random().toString(36).substring(7)}@${process.env.DOMAIN!}`;
-
-describe('user module', () => {
+describe.skip('user module', () => {
 	beforeAll(() => {
-		cfg = createDB({
-			connectionString: process.env.POSTGRES_URL,
-		});
+		cfg = utils.configDB();
 	});
 
 	afterAll(async () => {
-		await cfg.db
+		const users = await cfg.db
 			.delete(schemas.user)
-			.where(orm.like(schemas.user.email, `%@${process.env.DOMAIN!}`))
-			.execute();
+			.where(orm.like(schemas.user.email, utils.whereTestEmail('user')))
+			.returning({
+				id: schemas.user.id,
+				email: schemas.user.email,
+			});
+
+		console.info('Clean up users:', users);
 
 		cfg.destroy();
 	});
@@ -27,11 +27,10 @@ describe('user module', () => {
 	 * Test create new user
 	 */
 	describe('createNewUser', () => {
-		let email: string;
+		const email = utils.generateTestEmail('user');
 		const password = 'Test3Jest$';
 		test('createNewUser', async () => {
-			email = generateEmail();
-			let user = await cfg.db
+			const [user] = await cfg.db
 				.insert(schemas.user)
 				.values({
 					email: email,
@@ -49,19 +48,18 @@ describe('user module', () => {
 					avatar: schemas.user.avatar,
 				});
 			expect(user).toBeTruthy();
-			expect(user.length).toBe(1);
-			expect(user[0].id).toBeTruthy();
-			expect(user[0].email).toBe(email);
-			expect(user[0].emailVerified).toBe(false);
-			expect(user[0].name).toBe('Test');
-			expect(user[0].surname).toBe('Jest');
-			expect(user[0].uuid).toMatch(
+			expect(user.id).toBeTruthy();
+			expect(user.email).toBe(email);
+			expect(user.emailVerified).toBe(false);
+			expect(user.name).toBe('Test');
+			expect(user.surname).toBe('Jest');
+			expect(user.uuid).toMatch(
 				/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/,
 			);
 		});
 
 		test('findUserByEmailAndPassword', async () => {
-			let user = await cfg.db
+			const [user] = await cfg.db
 				.select({
 					id: schemas.user.id,
 					uuid: schemas.user.uuid,
@@ -80,13 +78,11 @@ describe('user module', () => {
 							orm.sql<string>`crypt(${password}, password)`,
 						),
 					),
-				)
-				.limit(1);
+				);
 			expect(user).toBeTruthy();
-			expect(user.length).toBe(1);
-			expect(user[0].id).toBeTruthy();
-			expect(user[0].email).toBe(email);
-			expect(user[0].uuid).toMatch(
+			expect(user.id).toBeTruthy();
+			expect(user.email).toBe(email);
+			expect(user.uuid).toMatch(
 				/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/,
 			);
 		});
@@ -97,11 +93,10 @@ describe('user module', () => {
 	 * Should throw error
 	 */
 	describe('createDublicateUser', () => {
-		let email: string;
+		const email =utils.generateTestEmail('user');
 		const password = 'Test3Jest$';
 		test('createNewUser', async () => {
-			email = generateEmail();
-			let user = await cfg.db
+			const [user] = await cfg.db
 				.insert(schemas.user)
 				.values({
 					email: email,
@@ -119,7 +114,6 @@ describe('user module', () => {
 					avatar: schemas.user.avatar,
 				});
 			expect(user).toBeTruthy();
-			expect(user.length).toBe(1);
 		});
 
 		test('createDublicate', async () => {

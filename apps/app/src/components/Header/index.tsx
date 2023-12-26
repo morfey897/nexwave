@@ -1,5 +1,5 @@
 'use client';
-import { APP, EXTERNAL } from '@/routes';
+import { APP } from '@/routes';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -84,13 +84,13 @@ function Header() {
 								>
 									<div className='flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8'>
 										<a
-											href={EXTERNAL.site}
+											href={'EXTERNAL.site'}
 											className='px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
 										>
 											{t('links.cms')}
 										</a>
 										<a
-											href={EXTERNAL.site}
+											href={'EXTERNAL.site'}
 											className='px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
 										>
 											{t('links.site')}

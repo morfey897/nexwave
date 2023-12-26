@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verify } from '@/lib/jwt';
+import { verifyAuth } from '@/lib/jwt';
 import { HOME, APP } from '@/routes';
 import googleOAuthClient from '@/lib/googleOAuth';
 import { TokenPayload } from 'google-auth-library';
 import { cookies } from 'next/headers';
 import { trailCookie, sessionCookie, refreshCookie } from '@/utils/cookies';
-import * as user from '@/models/user';
+import * as users from '@/models/user';
+import { start } from '@/models/start';
 
 type Info = {
 	email: string | null;
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
 	if (/\/google?$/.test(pathname)) {
 		const code = request.nextUrl.searchParams.get('code') || '';
 		const state = request.nextUrl.searchParams.get('state') || '';
-		const payload = await verify<{ state: string; redirect_uri?: string }>(
+		const payload = await verifyAuth<{ state: string; redirect_uri?: string }>(
 			state || '',
 		);
 		if (!payload || payload.state != 'log_in' || !code)
@@ -68,29 +69,33 @@ export async function GET(request: NextRequest) {
 			// TODO redirect to error sign in page
 			return NextResponse.redirect(new URL(HOME, request.nextUrl));
 		} else {
-			let result = await user.getUser({
+			let response: Awaited<ReturnType<typeof start>>;
+			let user = await users.getUser({
 				email: fullInfo.email,
 				password: null,
 			});
-			if (!result) {
-				result = await user.createUser({
+			if (!user) {
+				response = await start({
 					email: fullInfo.email,
 					emailVerified: fullInfo.emailVerified,
-					password: null,
 					name: fullInfo.name,
 					surname: fullInfo.surname,
 					avatar: fullInfo.avatar,
+					password: null,
 				});
+				user = response.user;
 			}
 
-			if (!result) {
+			if (!user) {
 				// TODO redirect to error sign in page
 				return NextResponse.redirect(new URL(HOME, request.nextUrl));
 			}
-			await user.updateUser(result.uuid, { lastLoginAt: new Date() });
-			cookies().set(sessionCookie(result));
+			await users.updateUser(user.uuid, { lastLoginAt: new Date() });
+			cookies().set(sessionCookie(user));
 			cookies().set(trailCookie('1'));
-			cookies().set(refreshCookie(result));
+			cookies().set(refreshCookie(user));
+			//if response.project is null, then redirect to invitations page
+			//if response.project is not null, then redirect to project page
 			return NextResponse.redirect(
 				new URL(payload?.redirect_uri || APP, request.nextUrl),
 			);

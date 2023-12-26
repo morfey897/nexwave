@@ -6,7 +6,7 @@ import {
 	useLayoutEffect,
 	useRef,
 } from 'react';
-import createNWStore, { type NWStore } from '@/store';
+import createNWStore, { type NWStore } from '@/lib/store';
 
 export const StoreContext = createContext<NWStore | null>(null);
 

@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import { getSession, getTrail, getRefreshToken } from '@/headers';
 import Login from '@/views/auth/Login';
 import Loading from './Loading';
-import { verify } from '@/lib/jwt';
+import { verifyAuth } from '@/lib/jwt';
 import { ICurrentUser } from '@/models/user';
 import StoreProvider from '@/providers/StoreProvider';
 import RefreshToken from './RefreshToken';
@@ -23,7 +23,7 @@ export default async function RootLayout({
 		const session = getSession();
 		if (!session) throw new Error('Invalid session');
 
-		const payload = await verify<{ user: ICurrentUser }>(session);
+		const payload = await verifyAuth<{ user: ICurrentUser }>(session);
 		user = payload?.user || null;
 		const isValidUser = !!user && !!user.uuid && !!user.email;
 		if (!isValidUser) throw new Error('Invalid user');
