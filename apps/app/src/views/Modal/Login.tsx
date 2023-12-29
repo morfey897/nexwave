@@ -10,7 +10,7 @@ import OAuthButton from '@/components/Button/OAuthButton';
 import { FcGoogle } from 'react-icons/fc';
 import Input from '@/components/Controls/Form/input';
 import { useTranslations } from 'next-intl';
-import Modal from '@/components/Modal';
+import Modal from '@/components/Modal/Central';
 import Spinner from '@/components/Spinner';
 import { IModal } from '@/types/view';
 import { useModals } from '@/hooks/modal';
@@ -23,10 +23,11 @@ import {
 	signInWithEmailAndPassword,
 	signUpWithEmailAndPassword,
 } from '@/actions/auth';
-import { APP } from '@/routes';
+import { APP, MODALS } from '@/routes';
 
 import { useAction } from '@/hooks/action';
 import { EnumStatus } from '@/types/status';
+import withModal, { TModalState } from '@/components/Modal';
 
 type TProps = {
 	name: string;
@@ -262,10 +263,12 @@ function LoginView({
 	headline,
 	subheadline,
 	name,
+	state,
 	params,
 	onConfirm,
 	onDismiss,
-}: IModal<TLoginProps> & { headline?: string; subheadline?: string }) {
+}: IModal<TLoginProps> &
+	TModalState & { headline?: string; subheadline?: string }) {
 	const { onOpen } = useModals();
 	const [isNew, setNew] = useState(params?.mode === 'new');
 
@@ -286,7 +289,7 @@ function LoginView({
 	}, [onOpen, isNew, name]);
 
 	return (
-		<Modal className={'mx-auto max-w-[375px] relative'}>
+		<Modal className={'mx-auto max-w-[375px] relative'} state={state}>
 			<Button
 				variant='text'
 				className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
@@ -316,4 +319,4 @@ function LoginView({
 	);
 }
 
-export default LoginView;
+export default withModal<TLoginProps>(LoginView, MODALS.LOGIN);

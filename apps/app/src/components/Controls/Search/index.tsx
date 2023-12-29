@@ -35,7 +35,7 @@ function Search({
 					}
 				},
 				wait,
-				{ leading: true },
+				{ leading: false },
 			),
 		[wait, onChange],
 	);

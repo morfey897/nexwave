@@ -12,6 +12,7 @@
 		"page_of": "{page} / {maxPage}",
 		"next": "Next",
 		"settings": "Settings",
+		"projects": "Projects",
 		"edit": "Edit",
 		"sign_out": "Sign out",
 		"today": "Today",
@@ -31,10 +32,6 @@
 				"title": "English",
 				"abr": "Eng"
 			}
-		},
-		"links": {
-			"cms": "Edit PDKalipso",
-			"site": "PDKalipso"
 		},
 		"breadcrumbs": {
 			"app": "Root",

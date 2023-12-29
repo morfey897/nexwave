@@ -8,6 +8,7 @@ import StoreProvider from '@/providers/StoreProvider';
 import RefreshToken from '@/components/Auth/RefreshToken';
 import { getProjectByUserId, type TProjectToUser } from '@/models/project';
 import { getPathname } from '@/headers';
+import ModalsContainer from '@/views/Modal';
 
 export default async function AppLayout({
 	children,
@@ -55,6 +56,7 @@ export default async function AppLayout({
 				)}
 			</main>
 			{!!refreshToken && <RefreshToken />}
+			<ModalsContainer />
 		</StoreProvider>
 	);
 }

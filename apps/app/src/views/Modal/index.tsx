@@ -1,23 +1,20 @@
 'use client';
-import {MODALS} from '@/routes';
-import LoginView, { TLoginProps } from '@/views/Modal/Login';
-import withModal from '@/providers/modal/withModal';
-import ModalProvider from '@/providers/modal/provider';
+import { MODALS } from '@/routes';
+import LoginView from '@/views/Modal/login';
+import AsideSettings from '@/views/Modal/settings';
+import AsideProjects from '@/views/Modal/projects';
+import ModalProvider from '@/providers/ModalProvider';
 
-function Container() {
+function ModalsContainer() {
 	return (
-		<ModalProvider>
-			{(name: string) => {
-				let Component;
-				switch (name) {
-					case MODALS.LOGIN:
-						Component = withModal<TLoginProps>(LoginView, name);
-						break;
-				}
-				return !!Component ? <Component /> : null;
+		<ModalProvider
+			list={{
+				[MODALS.LOGIN]: LoginView,
+				[MODALS.SETTINGS]: AsideSettings,
+				[MODALS.PROJECTS]: AsideProjects,
 			}}
-		</ModalProvider>
+		/>
 	);
 }
 
-export default Container;
+export default ModalsContainer;

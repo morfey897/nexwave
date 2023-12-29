@@ -9,10 +9,10 @@ import * as routes from '@/routes';
 function Project({
 	className,
 	project,
-	variant = 'medium',
+	size = 'md',
 	...props
 }: {
-	variant?: 'small' | 'medium' | 'large';
+	size?: 'sm' | 'md' | 'lg';
 	project: {
 		name: string;
 		image?: string | null;
@@ -21,7 +21,7 @@ function Project({
 } & React.HTMLAttributes<HTMLDivElement>) {
 	const pathname = usePathname();
 
-	const size = variant === 'small' ? 32 : variant === 'medium' ? 36 : 40;
+	const sizeNumber = size === 'sm' ? 32 : size === 'md' ? 36 : 40;
 	const active = !!project.slug && pathname.split('/').includes(project.slug);
 
 	const path = findDynamicPath(pathname, routes.DYNAMIC);
@@ -30,9 +30,9 @@ function Project({
 			className={clsx(
 				'text-gray-600 dark:text-gray-200 font-semibold',
 				{
-					'text-sm': variant === 'small',
-					'text-base': variant === 'medium',
-					'text-lg': variant === 'large',
+					'text-sm': size === 'sm',
+					'text-base': size === 'md',
+					'text-lg': size === 'lg',
 				},
 				className,
 			)}
@@ -48,7 +48,7 @@ function Project({
 			>
 				<Picture
 					variant='secondary'
-					size={size}
+					size={sizeNumber}
 					photo={project?.image}
 					abbrev={abbrev([project?.name?.split(/\s|-|_/g).slice(0, 2)])}
 					name={project?.name}

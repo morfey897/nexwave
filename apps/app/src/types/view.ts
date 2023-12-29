@@ -30,6 +30,7 @@ export type TMessages = {
 
 export interface IButtonProps extends TMessage {
 	variant?: 'primary' | 'default' | 'text' | 'secondary';
+	size?: 'sm' | 'md' | 'lg';
 	icon?: React.ReactNode;
 	iconAfter?: React.ReactNode;
 }

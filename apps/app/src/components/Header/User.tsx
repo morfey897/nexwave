@@ -1,28 +1,19 @@
-'use client';
-import { MdVerified, MdModeEditOutline } from 'react-icons/md';
+import { MdVerified } from 'react-icons/md';
 import { fullname, abbrev } from '@/utils';
 import Picture from './Picture';
 import { ICurrentUser } from '@/models/user';
-import Button from '@/components/Button';
 import clsx from 'clsx';
-import { useTranslations } from 'next-intl';
-import { useCallback } from 'react';
 
 function User({
 	user,
-	variant = 'medium',
+	size = 'md',
 	className,
 	...props
 }: {
 	user: ICurrentUser | null;
-	variant?: 'small' | 'medium' | 'large';
+	size?: 'sm' | 'md' | 'lg';
 } & React.HTMLAttributes<HTMLDivElement>) {
-	const t = useTranslations('common');
-	const size = variant === 'small' ? 32 : variant === 'medium' ? 40 : 52;
-
-	const onEdit = useCallback(() => {
-		console.log('edit');
-	}, []);
+	const sizeNumber = size === 'sm' ? 32 : size === 'md' ? 40 : 52;
 
 	return (
 		<div
@@ -34,7 +25,7 @@ function User({
 		>
 			<Picture
 				variant='primary'
-				size={size}
+				size={sizeNumber}
 				photo={user?.avatar}
 				abbrev={abbrev([
 					[user?.name, user?.surname],
@@ -54,13 +45,6 @@ function User({
 						</sup>
 					)}
 				</p>
-				<Button
-					variant='text'
-					message={t('edit')}
-					className='hover:underline !p-0 mt-1'
-					iconAfter={<MdModeEditOutline size={12} />}
-					onClick={onEdit}
-				/>
 			</div>
 		</div>
 	);

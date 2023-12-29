@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { throttle } from 'lodash';
-import { th } from 'date-fns/locale';
 
 const isBrowser = () => typeof window === 'object';
 
@@ -18,10 +17,14 @@ export function useScrollDetect(threshold: number) {
 
 	const onScroll = useMemo(
 		() =>
-			throttle(() => {
-				const scrollTop = getScrollPercent();
-				setIsScrolling(scrollTop > threshold);
-			}, 400),
+			throttle(
+				() => {
+					const scrollTop = getScrollPercent();
+					setIsScrolling(scrollTop > threshold);
+				},
+				400,
+				{ leading: false },
+			),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[],
 	);
@@ -36,7 +39,7 @@ export function useScrollDetect(threshold: number) {
 				window.removeEventListener('scroll', onScroll);
 			};
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [onScroll]);
 
 	return isScrolling;
