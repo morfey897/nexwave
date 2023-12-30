@@ -259,16 +259,14 @@ const SignIn = ({ name, changeMode, confirm }: TProps) => {
 
 export type TLoginProps = { mode: string } | null;
 
-function LoginView({
+export function LoginView({
 	headline,
 	subheadline,
 	name,
-	state,
 	params,
 	onConfirm,
 	onDismiss,
-}: IModal<TLoginProps> &
-	TModalState & { headline?: string; subheadline?: string }) {
+}: IModal<TLoginProps> & { headline?: string; subheadline?: string }) {
 	const { onOpen } = useModals();
 	const [isNew, setNew] = useState(params?.mode === 'new');
 
@@ -289,7 +287,7 @@ function LoginView({
 	}, [onOpen, isNew, name]);
 
 	return (
-		<Modal className={'mx-auto max-w-[375px] relative'} state={state}>
+		<Modal className={'mx-auto max-w-[375px] relative'} name={name}>
 			<Button
 				variant='text'
 				className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
@@ -319,4 +317,4 @@ function LoginView({
 	);
 }
 
-export default withModal<TLoginProps>(LoginView, MODALS.LOGIN);
+export default withModal<TLoginProps>(LoginView);

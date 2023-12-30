@@ -48,12 +48,11 @@ function AsideProjects({
 	params,
 	onConfirm,
 	onDismiss,
-	state,
 }: IModal<TAsideProjectsProps> & TModalState) {
 	const t = useTranslations('common');
 
 	return (
-		<Aside position='left' state={state}>
+		<Aside position='left' name={name}>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
 					<BsDiagram2 size={32} />
@@ -103,4 +102,4 @@ function AsideProjects({
 	);
 }
 
-export default withModal(AsideProjects, MODALS.PROJECTS, 20);
+export default withModal(AsideProjects, 20);

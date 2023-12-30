@@ -1,5 +1,5 @@
 'use client';
-import LoginView, { TLoginProps } from '@/views/Modal/login';
+import { LoginView, TLoginProps } from '@/views/Modal/login';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
 import Overlay from '@/components/Overlay';

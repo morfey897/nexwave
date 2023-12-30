@@ -1,4 +1,5 @@
-import { useCallback, useMemo } from 'react';
+'use client';
+import { useCallback, useMemo, useContext } from 'react';
 import { useSearchParams, useRouter, RedirectType } from 'next/navigation';
 import {
 	openModal,
@@ -6,6 +7,13 @@ import {
 	closeAllModal,
 	getModalParams,
 } from '@/utils/modal';
+import { ModalContext } from '@/providers/ModalProvider';
+
+export function useModalState(name: string) {
+	const modals = useContext(ModalContext);
+	const state = modals[name];
+	return state;
+}
 
 export function useModalParams<T>(name: string) {
 	const searchParams = useSearchParams();

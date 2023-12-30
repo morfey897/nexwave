@@ -17,7 +17,6 @@ export type TAsideSettingsProps = null;
 function AsideSettings({
 	name,
 	params,
-	state,
 	onConfirm,
 	onDismiss,
 }: IModal<TAsideSettingsProps> & TModalState) {
@@ -38,7 +37,7 @@ function AsideSettings({
 	}, []);
 
 	return (
-		<Aside position='right' state={state}>
+		<Aside position='right' name={name}>
 			<div>
 				<User user={user} size='md' />
 				<Button
@@ -63,8 +62,4 @@ function AsideSettings({
 	);
 }
 
-export default withModal<TAsideSettingsProps>(
-	AsideSettings,
-	MODALS.SETTINGS,
-	20,
-);
+export default withModal<TAsideSettingsProps>(AsideSettings, 20);

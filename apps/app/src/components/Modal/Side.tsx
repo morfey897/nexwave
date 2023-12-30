@@ -1,17 +1,18 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { TModalState } from './index';
+import { useModalState } from '@/hooks/modal';
 
 function Aside({
 	className,
 	position = 'left',
 	children,
-	state,
-}: React.HtmlHTMLAttributes<HTMLDivElement> &
-	TModalState & {
-		position?: 'left' | 'right';
-	}) {
+	name,
+}: React.HtmlHTMLAttributes<HTMLDivElement> & {
+	position?: 'left' | 'right';
+	name: string;
+}) {
+	const state = useModalState(name);
 	return (
 		<div className='absolute'>
 			<aside

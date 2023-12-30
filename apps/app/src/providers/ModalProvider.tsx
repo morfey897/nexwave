@@ -1,5 +1,12 @@
 'use client';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import {
+	useState,
+	useEffect,
+	useMemo,
+	useRef,
+	createContext,
+	useContext,
+} from 'react';
 import { useSearchParams } from 'next/navigation';
 import { hasModal, pureModalName } from '@/utils/modal';
 import { TModalState } from '@/components/Modal';
@@ -29,17 +36,23 @@ const filterModals = (
 		return acc;
 	}, modals);
 
+export const ModalContext = createContext<Record<string, Unit>>({});
+
+export function useModal(name: string) {
+	const modals = useContext(ModalContext);
+	const state = modals[name];
+	return state;
+}
+
 function ModalProvider({
 	list,
 }: {
-	list: Record<string, React.FC<TModalState>>;
+	list: Record<string, React.FC<{ name: string }>>;
 }) {
 	const searchParams = useSearchParams();
 	const timers = useRef<Record<string, NodeJS.Timeout>>({});
 	const [modalsList, setList] = useState<string[]>([]);
-	const [modals, setModals] = useState<Record<string, TModalState['state']>>(
-		{},
-	);
+	const [modals, setModals] = useState<Record<string, Unit>>({});
 
 	useEffect(() => {
 		const newList: Array<string> = [];
@@ -96,6 +109,12 @@ function ModalProvider({
 
 	// Unmount
 	useEffect(() => {
+		if (Object.values(modals).some((state) => state === 'open')) {
+			// document.body.classList.add('overflow-hidden', 'h-screen');
+		} else {
+			console.log('close');
+			// document.body.classList.remove('overflow-hidden', 'h-screen');
+		}
 		setModals(filterModals(modals, 'close', null));
 	}, [modals]);
 
@@ -105,17 +124,17 @@ function ModalProvider({
 		};
 	}, []);
 
-	console.log('ModalProvider:=>', modals);
-
-	const memoModals = useMemo(() => Object.entries(modals), [modals]);
+	const memoModals = useMemo(() => Object.keys(modals), [modals]);
 
 	return (
-		<div className='absolute' id='modal-provider'>
-			{memoModals.map(([name, state]) => {
-				const Component = list[name];
-				return !!Component ? <Component state={state} key={name} /> : null;
-			})}
-		</div>
+		<ModalContext.Provider value={modals}>
+			<div className='absolute' id='modal-provider'>
+				{memoModals.map((name) => {
+					const Component = list[name];
+					return !!Component ? <Component key={name} name={name} /> : null;
+				})}
+			</div>
+		</ModalContext.Provider>
 	);
 }
 

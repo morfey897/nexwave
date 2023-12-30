@@ -1,21 +1,21 @@
 'use client';
 import { useCallback, useRef, useEffect, MouseEventHandler, memo } from 'react';
 import Overlay from '../Overlay';
-import { useModalParams, useModals } from '@/hooks/modal';
+import { useModalParams, useModalState, useModals } from '@/hooks/modal';
 import { IModal } from '@/types/view';
 import { RedirectType } from 'next/navigation';
 import clsx from 'clsx';
 
 export type TModalState = {
-	state: 'mounted' | 'open' | 'closing' | 'close';
+	state: 'mounted' | 'open' | 'closing' | 'close' | 'none';
 };
 
 export default function withModal<T>(
 	Component: React.FC<IModal<T> & TModalState>,
-	name: string,
 	zIndex: 20 | 30 | 40 = 30,
 ) {
-	function Wrapper({ state }: TModalState) {
+	function Wrapper({ name }: { name: string }) {
+		const state = useModalState(name);
 		const overlay = useRef(null);
 		const wrapper = useRef(null);
 		const params = useModalParams<T>(name);

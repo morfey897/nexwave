@@ -22,7 +22,7 @@ export const abbrev = (
 	const [first, last] =
 		pairs.find((list) => !!list && !!list[0] && !!list[1]) ||
 		Math.random().toString(36).substring(2, 2);
-	return `${(first || '')[0]}${(last || '')[0]}`.toUpperCase();
+	return `${!!first ? first[0] : ''}${!!last ? last[0] : ''}`.toUpperCase();
 };
 
 export const fullname = (

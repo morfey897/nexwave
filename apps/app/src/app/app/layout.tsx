@@ -50,8 +50,8 @@ export default async function AppLayout({
 					children
 				) : (
 					<>
-						<Login params={hasTrail ? null : { mode: 'new' }} />
 						<Loading amount={4} />
+						<Login params={hasTrail ? null : { mode: 'new' }} />
 					</>
 				)}
 			</main>
