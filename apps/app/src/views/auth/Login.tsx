@@ -1,5 +1,5 @@
 'use client';
-import { LoginView, TLoginProps } from '@/views/Modal/login';
+import { LoginView, type TLoginProps } from '@/views/Modal/login';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
 import Overlay from '@/components/Overlay';
@@ -21,7 +21,7 @@ function Auth({ params }: { params: TLoginProps }) {
 						route.push(HOME);
 					}}
 					name=''
-					params={params}
+					externalParams={params}
 				/>
 			</div>
 		</Overlay>

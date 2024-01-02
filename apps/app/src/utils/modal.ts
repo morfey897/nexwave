@@ -1,10 +1,10 @@
-import { EnumSearchParams } from '@/types/search';
 import { encode, decode } from 'js-base64';
 
-const getModalName = (name: string) => `${EnumSearchParams.DIALOG}${name}`;
-
+const PREFIX = 'dlg';
+export const getModalName = (name: string) => `${PREFIX}${name}`;
 export const pureModalName = (name: string) =>
-	name.replace(EnumSearchParams.DIALOG, '');
+	name.startsWith(PREFIX) ? name.replace(PREFIX, '') : name;
+export const isModalByName = (name: string) => name.startsWith(PREFIX);
 
 export const encodeParams = (params: any | null | undefined) => {
 	let str = '';
@@ -23,20 +23,9 @@ export const decodeParams = (str: string | null | undefined) => {
 	return null;
 };
 
-export const hasModal = (name: string, base?: URLSearchParams) => {
-	const clone = new URLSearchParams(base);
-	return clone.has(`${getModalName(name)}`);
-};
-
-export const getModalParams = (name: string, base?: URLSearchParams) => {
-	const clone = new URLSearchParams(base);
-	const params = clone.get(`${getModalName(name)}`);
-	return decodeParams(params);
-};
-
 export const openModal = (
 	name: string,
-	props?: any,
+	props: Record<string, string | boolean | number> | null = null,
 	base?: URLSearchParams,
 ) => {
 	const clone = new URLSearchParams(base);
@@ -47,15 +36,5 @@ export const openModal = (
 export const closeModal = (name: string, base?: URLSearchParams) => {
 	const clone = new URLSearchParams(base);
 	clone.delete(`${getModalName(name)}`);
-	return `?${clone.toString()}`;
-};
-
-export const closeAllModal = (base?: URLSearchParams) => {
-	const clone = new URLSearchParams(base);
-	for (const [key] of clone.entries()) {
-		if (key.startsWith(EnumSearchParams.DIALOG)) {
-			clone.delete(key);
-		}
-	}
 	return `?${clone.toString()}`;
 };

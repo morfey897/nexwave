@@ -1,8 +1,7 @@
 'use client';
 import { useCallback, useRef, useEffect, MouseEventHandler, memo } from 'react';
 import Overlay from '../Overlay';
-import { useModalParams, useModalState, useModals } from '@/hooks/modal';
-import { IModal } from '@/types/view';
+import { useModalState, useModals } from '@/hooks/modal';
 import { RedirectType } from 'next/navigation';
 import clsx from 'clsx';
 
@@ -10,25 +9,31 @@ export type TModalState = {
 	state: 'mounted' | 'open' | 'closing' | 'close' | 'none';
 };
 
-export default function withModal<T>(
-	Component: React.FC<IModal<T> & TModalState>,
+export interface IModal {
+	name: string;
+	onDismiss: (type?: RedirectType) => void;
+	onConfirm: (pathname: string, type?: RedirectType) => void;
+}
+
+
+export default function withModal(
+	Component: React.FC<IModal>,
 	zIndex: 20 | 30 | 40 = 30,
 ) {
 	function Wrapper({ name }: { name: string }) {
 		const state = useModalState(name);
 		const overlay = useRef(null);
 		const wrapper = useRef(null);
-		const params = useModalParams<T>(name);
 		const { onClose } = useModals();
 
-		const onConfirm = useCallback<IModal<T>['onConfirm']>(
+		const onConfirm = useCallback<IModal['onConfirm']>(
 			(pathname, type?: RedirectType) => {
 				onClose(name, pathname, type);
 			},
 			[onClose],
 		);
 
-		const onDismiss = useCallback<IModal<T>['onDismiss']>(
+		const onDismiss = useCallback<IModal['onDismiss']>(
 			(type?: RedirectType) => {
 				onClose(name, '', type);
 			},
@@ -82,11 +87,11 @@ export default function withModal<T>(
 					onClick={onClickOverlay}
 				/>
 				<Component
-					state={state}
+					// state={state}
 					name={name}
 					onDismiss={onDismiss}
 					onConfirm={onConfirm}
-					params={params}
+					// params={params}
 				/>
 			</section>
 		);

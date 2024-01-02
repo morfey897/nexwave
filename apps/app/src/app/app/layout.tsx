@@ -47,7 +47,10 @@ export default async function AppLayout({
 			<Header />
 			<main className='flex w-full'>
 				{!!user ? (
-					children
+					<>
+						{children}
+						<ModalsContainer />
+					</>
 				) : (
 					<>
 						<Loading amount={4} />
@@ -56,7 +59,6 @@ export default async function AppLayout({
 				)}
 			</main>
 			{!!refreshToken && <RefreshToken />}
-			<ModalsContainer />
 		</StoreProvider>
 	);
 }

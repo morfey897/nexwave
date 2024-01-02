@@ -1,27 +1,19 @@
 'use client';
 import { useCallback, useMemo, useContext } from 'react';
 import { useSearchParams, useRouter, RedirectType } from 'next/navigation';
-import {
-	openModal,
-	closeModal,
-	closeAllModal,
-	getModalParams,
-} from '@/utils/modal';
+import { openModal, closeModal, isModalByName } from '@/utils/modal';
 import { ModalContext } from '@/providers/ModalProvider';
 
 export function useModalState(name: string) {
 	const modals = useContext(ModalContext);
-	const state = modals[name];
+	const state = modals[name]?.state;
 	return state;
 }
 
-export function useModalParams<T>(name: string) {
-	const searchParams = useSearchParams();
-	const params = useMemo(
-		() => getModalParams(name, searchParams) as T,
-		[searchParams, name],
-	);
-	return params;
+export function useModalParams<T extends any>(name: string) {
+	const modals = useContext(ModalContext);
+	const params = modals[name]?.params as T;
+	return params ? (params as T) : null;
 }
 
 /**
@@ -38,7 +30,7 @@ export function useModals() {
 	const onOpen = useCallback(
 		(
 			name: string,
-			props?: Record<string, string | boolean | number> | null,
+			props: Record<string, string | boolean | number> | null = null,
 			type?: RedirectType,
 		) => {
 			const route = openModal(name, props, searchParams);
@@ -67,8 +59,13 @@ export function useModals() {
 	);
 
 	const onCloseAll = useCallback(() => {
-		const route = closeAllModal(searchParams);
-		router.push(route);
+		const clone = new URLSearchParams(searchParams);
+		for (const [key] of clone.entries()) {
+			if (isModalByName(key)) {
+				clone.delete(key);
+			}
+		}
+		router.push(`?${clone.toString()}`);
 	}, [searchParams, router]);
 
 	const memoized = useMemo(

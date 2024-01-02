@@ -1,25 +1,17 @@
 'use client';
-import { IModal } from '@/types/view';
 import { useCallback } from 'react';
 import Aside from '@/components/Modal/Side';
-import withModal, { TModalState } from '@/components/Modal';
+import withModal, { type IModal } from '@/components/Modal';
 import Button from '@/components/Button';
 import { HiCog, HiLogout } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { HOME, MODALS } from '@/routes';
+import { HOME } from '@/routes';
 import { signOut } from '@/actions/auth';
 import User from '@/components/Header/User';
 import { useNWStore } from '@/hooks/store';
 
-export type TAsideSettingsProps = null;
-
-function AsideSettings({
-	name,
-	params,
-	onConfirm,
-	onDismiss,
-}: IModal<TAsideSettingsProps> & TModalState) {
+function AsideSettings({ name, onConfirm, onDismiss }: IModal) {
 	const user = useNWStore((state) => state.user);
 	const t = useTranslations('common');
 	const route = useRouter();
@@ -62,4 +54,4 @@ function AsideSettings({
 	);
 }
 
-export default withModal<TAsideSettingsProps>(AsideSettings, 20);
+export default withModal(AsideSettings, 20);

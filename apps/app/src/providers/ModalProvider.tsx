@@ -8,8 +8,9 @@ import {
 	useContext,
 } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { hasModal, pureModalName } from '@/utils/modal';
+import { isModalByName, pureModalName } from '@/utils/modal';
 import { TModalState } from '@/components/Modal';
+import { decodeParams } from '@/utils/modal';
 
 type Unit = TModalState['state'];
 
@@ -36,13 +37,9 @@ const filterModals = (
 		return acc;
 	}, modals);
 
-export const ModalContext = createContext<Record<string, Unit>>({});
-
-export function useModal(name: string) {
-	const modals = useContext(ModalContext);
-	const state = modals[name];
-	return state;
-}
+export const ModalContext = createContext<
+	Record<string, { state: Unit; params: any }>
+>({});
 
 function ModalProvider({
 	list,
@@ -52,17 +49,21 @@ function ModalProvider({
 	const searchParams = useSearchParams();
 	const timers = useRef<Record<string, NodeJS.Timeout>>({});
 	const [modalsList, setList] = useState<string[]>([]);
+	const [modalProps, setModalProps] = useState<Record<string, any>>({});
 	const [modals, setModals] = useState<Record<string, Unit>>({});
 
 	useEffect(() => {
 		const newList: Array<string> = [];
-		for (const [key] of searchParams.entries()) {
-			const name = pureModalName(key);
-			if (hasModal(name, searchParams)) {
+		const modalParams: Record<string, any> = {};
+		for (const [key, value] of searchParams.entries()) {
+			if (isModalByName(key)) {
+				const name = pureModalName(key);
 				newList.push(name);
+				modalParams[name] = decodeParams(value);
 			}
 		}
 		setList(newList);
+		setModalProps((params) => ({ ...params, ...modalParams }));
 	}, [searchParams]);
 
 	// Initialize mounting and closing state
@@ -126,8 +127,21 @@ function ModalProvider({
 
 	const memoModals = useMemo(() => Object.keys(modals), [modals]);
 
+	const modalsValue = useMemo(() => {
+		return Object.entries(modals).reduce(
+			(acc: Record<string, { state: Unit; params: any }>, [name, state]) => {
+				acc[name] = {
+					state,
+					params: modalProps[name],
+				};
+				return acc;
+			},
+			{},
+		);
+	}, [modalProps, modals]);
+
 	return (
-		<ModalContext.Provider value={modals}>
+		<ModalContext.Provider value={modalsValue}>
 			<div className='absolute' id='modal-provider'>
 				{memoModals.map((name) => {
 					const Component = list[name];

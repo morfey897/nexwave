@@ -1,22 +1,12 @@
 'use client';
-import { IModal } from '@/types/view';
-import { useCallback } from 'react';
 import Aside from '@/components/Modal/Side';
 import Button from '@/components/Button';
 import { HiOutlinePlus, HiChevronDown } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
-import { HiCog, HiLogout } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { HOME, MODALS } from '@/routes';
-import { signOut } from '@/actions/auth';
-import User from '@/components/Header/User';
-import { useNWStore } from '@/hooks/store';
 import Accordion from '@/components/Accordion';
 import Branch, { Marker } from '@/components/Sidebar/Branch';
-import withModal, { TModalState } from '@/components/Modal';
-
-export type TAsideProjectsProps = null;
+import withModal, { type IModal } from '@/components/Modal';
 
 const PROJECTS = [
 	{
@@ -43,12 +33,7 @@ const PROJECTS = [
 	},
 ];
 
-function AsideProjects({
-	name,
-	params,
-	onConfirm,
-	onDismiss,
-}: IModal<TAsideProjectsProps> & TModalState) {
+function AsideProjects({ name, onConfirm, onDismiss }: IModal) {
 	const t = useTranslations('common');
 
 	return (

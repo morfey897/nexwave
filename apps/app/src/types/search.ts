@@ -10,7 +10,6 @@ export enum EnumSearchParams {
 	SORT = 'sort',
 	VIEW = 'view',
 	DAY = 'day',
-	DIALOG = 'dlg',
 }
 
 export type TFilterParams = {
