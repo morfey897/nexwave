@@ -1,7 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import Aside from '@/components/Modal/Side';
-import withModal, { type IModal } from '@/components/Modal';
+import { type IModal, withModal, ModalPosition, OverlayBlur } from '@nw/modal';
 import Button from '@/components/Button';
 import { HiCog, HiLogout } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
@@ -10,8 +9,9 @@ import { HOME } from '@/routes';
 import { signOut } from '@/actions/auth';
 import User from '@/components/Header/User';
 import { useNWStore } from '@/hooks/store';
+import clsx from 'clsx';
 
-function AsideSettings({ name, onConfirm, onDismiss }: IModal) {
+function AsideSettings(props: IModal) {
 	const user = useNWStore((state) => state.user);
 	const t = useTranslations('common');
 	const route = useRouter();
@@ -29,7 +29,13 @@ function AsideSettings({ name, onConfirm, onDismiss }: IModal) {
 	}, []);
 
 	return (
-		<Aside position='right' name={name}>
+		<aside
+			className={clsx(
+				'mt-[86px] px-4 py-8',
+				'h-screen w-64 overflow-y-auto',
+				'bg-white dark:bg-gray-800 dark:border-gray-700 border-l',
+			)}
+		>
 			<div>
 				<User user={user} size='md' />
 				<Button
@@ -50,8 +56,15 @@ function AsideSettings({ name, onConfirm, onDismiss }: IModal) {
 					className='w-full'
 				/>
 			</div>
-		</Aside>
+		</aside>
 	);
 }
 
-export default withModal(AsideSettings, 20);
+export default withModal(AsideSettings, {
+	zIndex: 20,
+	position: ModalPosition.RIGHT,
+	overlay: {
+		blur: OverlayBlur.MD,
+		className: 'bg-gray-100/20 dark:bg-black/60',
+	},
+});

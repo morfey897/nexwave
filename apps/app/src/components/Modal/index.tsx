@@ -15,7 +15,6 @@ export interface IModal {
 	onConfirm: (pathname: string, type?: RedirectType) => void;
 }
 
-
 export default function withModal(
 	Component: React.FC<IModal>,
 	zIndex: 20 | 30 | 40 = 30,
@@ -86,13 +85,7 @@ export default function withModal(
 					blur='sm'
 					onClick={onClickOverlay}
 				/>
-				<Component
-					// state={state}
-					name={name}
-					onDismiss={onDismiss}
-					onConfirm={onConfirm}
-					// params={params}
-				/>
+				<Component name={name} onDismiss={onDismiss} onConfirm={onConfirm} />
 			</section>
 		);
 	}

@@ -1,19 +1,9 @@
-export enum EnumStore {
-	QUERY = 'query',
-	STORAGE = 'localStorage',
-}
+import { searchParams } from '@nw/config';
 
-export enum EnumSearchParams {
-	PAGE = 'page',
-	FILTER = 'filter',
-	SEARCH = 'search',
-	SORT = 'sort',
-	VIEW = 'view',
-	DAY = 'day',
-}
+export type UnionSearchParams = Exclude<(typeof searchParams.SEARCH_PARAMS)[number], typeof searchParams.DIALOG>;
 
 export type TFilterParams = {
 	prefix?: string;
 	defaultValue?: string | number;
-	name: EnumSearchParams;
+	name: UnionSearchParams;
 };

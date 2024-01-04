@@ -13,16 +13,18 @@ import Container from '@/components/Containers';
 import { useNWStore } from '@/hooks/store';
 import { abbrev, fullname } from '@/utils';
 import Button from '../Button';
-import { useModals } from '@/hooks/modal';
+import { useOpenModal } from '@nw/modal';
 
 function Header() {
-	const { onOpen } = useModals();
+	const openModal = useOpenModal();
 	const user = useNWStore((state) => state.user);
 	const t = useTranslations('common');
 
 	const onOpenSettings = useCallback(() => {
-		onOpen(MODALS.SETTINGS);
-	}, [onOpen]);
+		openModal({
+			name: MODALS.SETTINGS,
+		});
+	}, [openModal]);
 
 	return (
 		<>

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { cookies as cookiesConfig } from 'config';
+import { cookies as cookiesConfig } from '@nw/config';
 
 function ThemeProvider() {
 	useEffect(() => {

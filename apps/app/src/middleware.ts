@@ -4,7 +4,7 @@ import {
 	cookies as cookiesConfig,
 	headers as headersConfig,
 	locales,
-} from 'config';
+} from '@nw/config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';

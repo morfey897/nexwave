@@ -1,11 +1,7 @@
-import { EnumSearchParams } from './search';
-export enum EnumStore {
-	QUERY = 'query',
-	STORAGE = 'localStorage',
-}
+import { UnionSearchParams } from './search';
 
 export type TFilterParams = {
 	prefix?: string;
 	defaultValue?: string | number;
-	name: EnumSearchParams;
+	name: UnionSearchParams;
 };

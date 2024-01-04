@@ -13,8 +13,10 @@
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.7.2",
     "@formatjs/intl-localematcher": "^0.4.2",
+    "@nw/config": "*",
+    "@nw/modal": "*",
+    "@nw/storage": "*",
     "clsx": "^2.0.0",
-    "config": "*",
     "date-fns": "^2.30.0",
     "google-auth-library": "^9.4.1",
     "human-id": "^4.1.0",
@@ -31,7 +33,6 @@
     "react-icons": "^4.11.0",
     "react-intersection-observer": "^9.5.2",
     "react-use": "^17.4.0",
-    "storage": "*",
     "ua-parser-js": "^1.0.37",
     "zustand": "^4.4.7"
   },

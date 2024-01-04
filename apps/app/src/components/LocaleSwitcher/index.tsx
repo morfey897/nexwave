@@ -1,6 +1,6 @@
 'use client';
 import { useLocale, useTranslations } from 'next-intl';
-import { locales, cookies as cookiesConfig } from 'config';
+import { locales, cookies as cookiesConfig } from '@nw/config';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import DropDown from '@/components/DropDown';

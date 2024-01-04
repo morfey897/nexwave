@@ -1,4 +1,4 @@
-import { createDB, schemas as innerSchemas, orm as innerOrm } from 'storage';
+import { createDB, schemas as innerSchemas, orm as innerOrm } from '@nw/storage';
 
 export const schemas = innerSchemas;
 export const orm = innerOrm;

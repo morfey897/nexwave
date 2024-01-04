@@ -1,6 +1,5 @@
 'use client';
 import { useFilter, useView, useDay } from '@/hooks/filter';
-import { EnumSearchParams } from '@/types/search';
 import Filter from '@/components/Controls/Filter';
 import ChangeDate from '@/components/Controls/ChangeDate';
 import { useTranslations } from 'next-intl';
@@ -23,6 +22,7 @@ import clsx from 'clsx';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import { IEvent } from '@/types/event';
 import { EnumDevice } from '@/types/view';
+import { searchParams } from '@nw/config';
 
 const getFirstDay = () => {
 	const now = new Date();
@@ -49,17 +49,17 @@ function TimetableView({
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 
 	const { onFilter, filter } = useFilter({
-		name: EnumSearchParams.FILTER,
+		name: searchParams.FILTER,
 		defaultValue: EnumFilter.ALL,
 	});
 
 	const { onView, view } = useView({
-		name: EnumSearchParams.VIEW,
+		name: searchParams.VIEW,
 		defaultValue: device === EnumDevice.MOBILE ? EnumView.DAY : EnumView.WEEK,
 	});
 
 	const { onDay, day } = useDay({
-		name: EnumSearchParams.DAY,
+		name: searchParams.DAY,
 		defaultValue: getFirstDay(),
 	});
 

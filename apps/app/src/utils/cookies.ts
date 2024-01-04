@@ -1,5 +1,5 @@
 import { ICurrentUser } from '@/models/user';
-import { cookies as cookiesConfig } from 'config';
+import { cookies as cookiesConfig } from '@nw/config';
 import { signAuth } from '@/lib/jwt';
 
 export const sessionCookie = (user: ICurrentUser | null) => ({

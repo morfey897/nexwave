@@ -2,7 +2,7 @@ import { cookies, headers } from 'next/headers';
 import {
 	cookies as cookiesConfig,
 	headers as headersConfig,
-} from 'config';
+} from '@nw/config';
 import { EnumDevice } from './types/view';
 
 export const getLocale = (): string =>

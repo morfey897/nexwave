@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import { getSession, getTrail, getRefreshToken } from '@/headers';
-import Login from '@/views/auth/Login';
+import AuthView from '@/views/auth';
 import Loading from './Loading';
 import { verifyAuth } from '@/lib/jwt';
 import { ICurrentUser } from '@/models/user';
@@ -44,21 +44,20 @@ export default async function AppLayout({
 
 	return (
 		<StoreProvider store={{ user, projects }}>
-			<Header />
-			<main className='flex w-full'>
-				{!!user ? (
-					<>
-						{children}
-						<ModalsContainer />
-					</>
-				) : (
-					<>
-						<Loading amount={4} />
-						<Login params={hasTrail ? null : { mode: 'new' }} />
-					</>
-				)}
-			</main>
-			{!!refreshToken && <RefreshToken />}
+			<ModalsContainer>
+				<Header />
+				<main className='flex w-full'>
+					{!!user ? (
+						children
+					) : (
+						<>
+							<Loading amount={4} />
+							<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
+						</>
+					)}
+				</main>
+				{!!refreshToken && <RefreshToken />}
+			</ModalsContainer>
 		</StoreProvider>
 	);
 }

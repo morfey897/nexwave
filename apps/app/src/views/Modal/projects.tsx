@@ -1,12 +1,12 @@
 'use client';
-import Aside from '@/components/Modal/Side';
 import Button from '@/components/Button';
 import { HiOutlinePlus, HiChevronDown } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import Accordion from '@/components/Accordion';
 import Branch, { Marker } from '@/components/Sidebar/Branch';
-import withModal, { type IModal } from '@/components/Modal';
+import { type IModal, ModalPosition, OverlayBlur, withModal } from '@nw/modal';
+import clsx from 'clsx';
 
 const PROJECTS = [
 	{
@@ -33,11 +33,17 @@ const PROJECTS = [
 	},
 ];
 
-function AsideProjects({ name, onConfirm, onDismiss }: IModal) {
+function AsideProjects(props: IModal) {
 	const t = useTranslations('common');
 
 	return (
-		<Aside position='left' name={name}>
+		<aside
+			className={clsx(
+				'mt-[86px] px-4 py-8',
+				'h-screen w-64 overflow-y-auto',
+				'bg-white dark:bg-gray-800 dark:border-gray-700 border-r',
+			)}
+		>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
 					<BsDiagram2 size={32} />
@@ -83,8 +89,15 @@ function AsideProjects({ name, onConfirm, onDismiss }: IModal) {
 					</Accordion>
 				))}
 			</div>
-		</Aside>
+		</aside>
 	);
 }
 
-export default withModal(AsideProjects, 20);
+export default withModal(AsideProjects, {
+	zIndex: 20,
+	position: ModalPosition.LEFT,
+	overlay: {
+		blur: OverlayBlur.MD,
+		className: 'bg-gray-100/20 dark:bg-black/60',
+	},
+});

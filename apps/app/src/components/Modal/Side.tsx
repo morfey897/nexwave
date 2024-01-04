@@ -17,8 +17,8 @@ function Aside({
 		<div className='absolute'>
 			<aside
 				className={clsx(
-					'fixed top-0 bottom-0 z-30 mt-[86px]',
-					'overflow-y-auto transition-transform duration-300',
+					'fixed top-0 bottom-0 z-30 ',
+					'transition-transform duration-300',
 					{
 						'right-0 border-l': position === 'right',
 						'left-0 border-r': position === 'left',
@@ -31,8 +31,7 @@ function Aside({
 					state === 'closing' && position === 'left' && '-translate-x-full',
 					// state === 'close' && 'hidden',
 
-					'max-w-[90%] px-4 py-8 w-[256px]',
-					'bg-white dark:bg-gray-800 dark:border-gray-700',
+					
 					className,
 				)}
 			>

@@ -2,7 +2,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { HiMoon, HiSun } from 'react-icons/hi';
 import clsx from 'clsx';
-import { cookies as cookiesConfig } from 'config';
+import { cookies as cookiesConfig } from '@nw/config';
 
 type ThemeType = 'dark' | 'light' | 'none';
 

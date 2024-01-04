@@ -5,7 +5,6 @@ import {
 	useMemo,
 	useRef,
 	createContext,
-	useContext,
 } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { isModalByName, pureModalName } from '@/utils/modal';

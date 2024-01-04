@@ -10,12 +10,12 @@ import {
 import { HiMiniBuildingStorefront } from 'react-icons/hi2';
 import React, { useCallback } from 'react';
 import * as routes from '@/routes';
+import { MODALS } from '@/routes';
 import NavItem from '@/components/Sidebar/NavItem';
 import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
 import { dynamicHref } from '@/utils';
 import { CurrentBranch } from './Branch';
-import { useModals } from '@/hooks/modal';
+import { useOpenModal } from '@nw/modal';
 
 const LINKS = [
 	{ href: routes.ROOT, label: 'breadcrumbs.app', Icon: HiHome },
@@ -39,13 +39,13 @@ const isActive = (pathName: string, route: string) =>
 	pathName.replace(/\/+$/, '') === route.replace(/\/+$/, '');
 
 function Sidebar({ params }: { params: Record<string, string> }) {
-	const { onOpen } = useModals();
+	const openModal = useOpenModal();
 
 	const pathName = usePathname();
 	const t = useTranslations('common');
 
 	const onOpenProjects = useCallback(() => {
-		onOpen(routes.MODALS.PROJECTS);
+		openModal({ name: MODALS.PROJECTS });
 	}, []);
 
 	return (

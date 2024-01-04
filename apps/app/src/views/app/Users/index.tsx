@@ -16,7 +16,6 @@ import withGenerator, {
 import { EnumFilter } from '@/types/client';
 import Caption from '@/components/Caption';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
-import { EnumSearchParams } from '@/types/search';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useMemo } from 'react';
@@ -32,6 +31,7 @@ import Container, {
 import clsx from 'clsx';
 import { useView } from '@/hooks/filter';
 import { EnumView } from '@/types/table';
+import { searchParams } from '@nw/config';
 
 function UsersView({ clients }: { clients: IClient[] }) {
 	const t = useTranslations();
@@ -39,23 +39,23 @@ function UsersView({ clients }: { clients: IClient[] }) {
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 	const { onFilter, filter } = useFilter({
-		name: EnumSearchParams.FILTER,
+		name: searchParams.FILTER,
 		defaultValue: EnumFilter.ALL,
 	});
 	const { onView, view } = useView({
-		name: EnumSearchParams.VIEW,
+		name: searchParams.VIEW,
 		defaultValue: EnumView.TABLE,
 	});
 	const { onSearch, search } = useSearch({
-		name: EnumSearchParams.SEARCH,
+		name: searchParams.SEARCH,
 	});
 	const { onSort, sort } = useSort({
-		name: EnumSearchParams.SORT,
+		name: searchParams.SORT,
 		defaultValue: 'name',
 	});
 	const { onPage, page, maxPage } = usePage({
 		pages: 1,
-		name: EnumSearchParams.PAGE,
+		name: searchParams.PAGE,
 	});
 
 	const filters = useMemo(() => {
