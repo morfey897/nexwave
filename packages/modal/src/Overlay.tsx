@@ -1,23 +1,8 @@
 import * as React from "react";
-import styled, { keyframes, css } from "styled-components";
-import { ModalState, OverlayBlur, type UnionAnimation } from "./types";
-import {
-  DURATION,
-  TIMING_FUNCTION,
-  opacity,
-  opacityAnimation,
-} from "./animations";
-
-const BLURS = {
-  none: "0",
-  xs: "2px",
-  sm: "4px",
-  md: "8px",
-  lg: "12px",
-  xl: "16px",
-  xxl: "20px",
-  xxxl: "24px",
-};
+import styled from "styled-components";
+import { ModalState, Blur, type UnionAnimation } from "./types";
+import { StyledOverlay } from "@nw/ui";
+import { opacity, opacityAnimation } from "./animations";
 
 const ANIMATIONS: Record<UnionAnimation, any> = {
   mounted: opacity("show", "from"),
@@ -26,12 +11,10 @@ const ANIMATIONS: Record<UnionAnimation, any> = {
   unmounted: opacity("hide", "to"),
 };
 
-const StyledOverlay = styled.div<{ $blur?: OverlayBlur; $state?: ModalState }>`
-  inset: 0;
-  position: fixed;
-  background-color: transparent;
-  backdrop-filter: ${(props) =>
-    `blur(${BLURS[(props.$blur || OverlayBlur.NONE) as keyof typeof BLURS]})`};
+const AnimatedOverlay = styled(StyledOverlay)<{
+  $blur?: Blur;
+  $state?: ModalState;
+}>`
   ${(props) => props.$state === ModalState.MOUNTED && ANIMATIONS.mounted}
   ${(props) => props.$state === ModalState.OPEN && ANIMATIONS.show}
   ${(props) => props.$state === ModalState.CLOSING && ANIMATIONS.hide}
@@ -41,11 +24,11 @@ const StyledOverlay = styled.div<{ $blur?: OverlayBlur; $state?: ModalState }>`
 const Overlay = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & {
-    blur?: OverlayBlur;
+    blur?: Blur;
     state: ModalState;
   }
 >(function Component({ blur, state, ...props }, ref) {
-  return <StyledOverlay ref={ref} $blur={blur} $state={state} {...props} />;
+  return <AnimatedOverlay ref={ref} $blur={blur} $state={state} {...props} />;
 });
 
 export default Overlay;

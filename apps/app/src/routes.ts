@@ -1,18 +1,18 @@
 /// Public routes ///
 export const HOME = '/';
-export const HANDSHAKE = '/handshake';
-export const ACCEPT_INVITE = '/handshake/[uuid]/accept-invite';
-export const VERIFY_EMAIL = '/handshake/[uuid]/verify-email';
+export const HANDSHAKE = '/_handshake';
+export const ACCEPT_INVITE = '/_handshake/[uuid]/accept-invite';
+export const VERIFY_EMAIL = '/_handshake/[uuid]/verify-email';
 
 /// Protected routes ///
 export const APP = '/app';
-export const ROOT = '/app/[slug]';
-export const CLIENTS = '/app/[slug]/clients';
-export const USERS = '/app/[slug]/users';
-export const SERVICES = '/app/[slug]/services';
-export const PRODUCTS = '/app/[slug]/products';
-export const TIMETABLE = '/app/[slug]/timetable';
-export const SETTINGS = '/app/[slug]/settings';
+export const ROOT = '/[slug]';
+export const CLIENTS = '/[slug]/clients';
+export const USERS = '/[slug]/users';
+export const SERVICES = '/[slug]/services';
+export const PRODUCTS = '/[slug]/products';
+export const TIMETABLE = '/[slug]/timetable';
+export const SETTINGS = '/[slug]/settings';
 export const DYNAMIC = [
 	ROOT,
 	CLIENTS,

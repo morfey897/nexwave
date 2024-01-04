@@ -1,11 +1,15 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
-import Overlay from '@/components/Overlay';
+import {
+	ComponentOverlay,
+	ComponentContainer,
+	Blur,
+	Position,
+} from '@nw/ui';
 import { useTranslations } from 'next-intl';
 import { useCallback, useState } from 'react';
 import Button from '@/components/Button';
-import Modal from '@/components/Modal/Central';
 import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
 import SignIn from './SignIn';
@@ -29,38 +33,36 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 	}, []);
 
 	return (
-		<Overlay blur='sm' className='bg-gray-100/20 dark:bg-black/60 z-50'>
-			<div className='mt-[100px]'>
-				<Modal className={'mx-auto max-w-[375px] relative'} name={''}>
-					<Button
-						variant='text'
-						className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
-						icon={<HiX size={28} />}
-						onClick={() => onDismiss()}
-					/>
-					<Headline
-						headline={t('headline')}
-						subheadline={t('subheadline')}
-						className='text-lg md:text-xl font-semibold text-center'
-						bodyClassName='text-center'
-					/>
-					{localMode === 'signUp' && (
-						<SignUp
-							name='signUp'
-							changeMode={onToggleView}
-							confirm={onConfirm}
-						/>
-					)}
-					{localMode === 'signIn' && (
-						<SignIn
-							name='signIn'
-							changeMode={onToggleView}
-							confirm={onConfirm}
-						/>
-					)}
-				</Modal>
-			</div>
-		</Overlay>
+		<ComponentOverlay
+			blur={Blur.MD}
+			className='bg-gray-100/20 dark:bg-black/60 z-50'
+		>
+			<ComponentContainer
+				position={Position.CENTER}
+				className={
+					'mx-auto max-w-[375px] relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600'
+				}
+			>
+				<Button
+					variant='text'
+					className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+					icon={<HiX size={28} />}
+					onClick={() => onDismiss()}
+				/>
+				<Headline
+					headline={t('headline')}
+					subheadline={t('subheadline')}
+					className='text-lg md:text-xl font-semibold text-center'
+					bodyClassName='text-center'
+				/>
+				{localMode === 'signUp' && (
+					<SignUp name='signUp' changeMode={onToggleView} confirm={onConfirm} />
+				)}
+				{localMode === 'signIn' && (
+					<SignIn name='signIn' changeMode={onToggleView} confirm={onConfirm} />
+				)}
+			</ComponentContainer>
+		</ComponentOverlay>
 	);
 }
 

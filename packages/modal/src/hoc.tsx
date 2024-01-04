@@ -3,8 +3,8 @@ import {
   IModal,
   IModalWrapper,
   ModalState,
-  OverlayBlur,
-  ModalPosition,
+  Blur,
+  Position,
 } from "./types";
 import Overlay from "./Overlay";
 import Container from "./Container";
@@ -25,26 +25,18 @@ const ModalWrapper = styled.section<{
 
 function withModal(
   Component: React.FC<IModal>,
-  props: {
-    zIndex: number;
-    as?: "aside" | "dialog";
-    position?: ModalPosition;
+  props?: {
+    zIndex?: number;
+    position?: Position;
     wrapper?: {
       className?: string;
       style?: React.CSSProperties;
     };
     overlay?: {
-      blur?: OverlayBlur;
+      blur?: Blur;
       className?: string;
       style?: React.CSSProperties;
     };
-  } = {
-    zIndex: 30,
-    as: "dialog",
-    position: ModalPosition.CENTER,
-    overlay: {
-      blur: OverlayBlur.MD,
-    },
   },
 ) {
   function Wrapper({ name, state, params }: IModalWrapper) {
@@ -80,20 +72,23 @@ function withModal(
 
     return (
       <ModalWrapper
-        $zIndex={props.zIndex}
+        $zIndex={props?.zIndex || 30}
         $state={state}
-        className={clsx(props.wrapper?.className)}
-        style={props.wrapper?.style}
+        className={clsx(props?.wrapper?.className)}
+        style={props?.wrapper?.style}
       >
         <Overlay
           ref={refOverlay}
           state={state}
-          blur={props.overlay?.blur || OverlayBlur.MD}
-          style={props.overlay?.style}
-          className={clsx(props.overlay?.className)}
+          blur={props?.overlay?.blur || Blur.MD}
+          style={props?.overlay?.style}
+          className={clsx(props?.overlay?.className)}
           onClick={onClickOverlay}
         />
-        <Container position={props.position} state={state}>
+        <Container
+          position={props?.position || Position.CENTER}
+          state={state}
+        >
           <Component
             name={name}
             state={state}

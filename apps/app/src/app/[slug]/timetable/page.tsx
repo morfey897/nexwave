@@ -1,4 +1,4 @@
-import events from '../../../../../__mock__/timetable.json';
+import events from '../../../../__mock__/timetable.json';
 import TimetableView from '@/views/app/Timetable';
 import { IEvent } from '@/types/event';
 import { addDays } from 'date-fns';

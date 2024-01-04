@@ -15,6 +15,7 @@
     "@formatjs/intl-localematcher": "^0.4.2",
     "@nw/config": "*",
     "@nw/modal": "*",
+    "@nw/ui": "*",
     "@nw/storage": "*",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",

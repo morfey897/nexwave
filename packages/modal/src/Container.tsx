@@ -1,64 +1,44 @@
 import * as React from "react";
-import styled, { css } from "styled-components";
-import { ModalPosition, ModalState, type UnionAnimation } from "./types";
-import {
-  move,
-  moveAnimation,
-  opacity,
-  opacityAnimation,
-  DURATION,
-  TIMING_FUNCTION,
-} from "./animations";
+import styled from "styled-components";
+import { Position, ModalState, type UnionAnimation } from "./types";
+import { move, moveAnimation, opacity, opacityAnimation } from "./animations";
+import { StyledContainer } from "@nw/ui";
 
-const ANIMATIONS: Record<UnionAnimation, Record<ModalPosition, any>> = {
+const ANIMATIONS: Record<UnionAnimation, Record<Position, any>> = {
   mounted: {
-    [ModalPosition.LEFT]: move("X", "0", "show", "from"),
-    [ModalPosition.RIGHT]: move("X", "1", "show", "from"),
-    [ModalPosition.TOP]: move("X", "0", "show", "from"),
-    [ModalPosition.BOTTOM]: move("X", "1", "show", "from"),
-    [ModalPosition.CENTER]: opacity("show", "from"),
+    [Position.LEFT]: move("X", "0", "show", "from"),
+    [Position.RIGHT]: move("X", "1", "show", "from"),
+    [Position.TOP]: move("X", "0", "show", "from"),
+    [Position.BOTTOM]: move("X", "1", "show", "from"),
+    [Position.CENTER]: opacity("show", "from"),
   },
   show: {
-    [ModalPosition.LEFT]: moveAnimation("X", "0", "show"),
-    [ModalPosition.RIGHT]: moveAnimation("X", "1", "show"),
-    [ModalPosition.TOP]: moveAnimation("Y", "0", "show"),
-    [ModalPosition.BOTTOM]: moveAnimation("Y", "1", "show"),
-    [ModalPosition.CENTER]: opacityAnimation("show"),
+    [Position.LEFT]: moveAnimation("X", "0", "show"),
+    [Position.RIGHT]: moveAnimation("X", "1", "show"),
+    [Position.TOP]: moveAnimation("Y", "0", "show"),
+    [Position.BOTTOM]: moveAnimation("Y", "1", "show"),
+    [Position.CENTER]: opacityAnimation("show"),
   },
   hide: {
-    [ModalPosition.LEFT]: moveAnimation("X", "0", "hide"),
-    [ModalPosition.RIGHT]: moveAnimation("X", "1", "hide"),
-    [ModalPosition.TOP]: moveAnimation("Y", "0", "hide"),
-    [ModalPosition.BOTTOM]: moveAnimation("Y", "1", "hide"),
-    [ModalPosition.CENTER]: opacityAnimation("hide"),
+    [Position.LEFT]: moveAnimation("X", "0", "hide"),
+    [Position.RIGHT]: moveAnimation("X", "1", "hide"),
+    [Position.TOP]: moveAnimation("Y", "0", "hide"),
+    [Position.BOTTOM]: moveAnimation("Y", "1", "hide"),
+    [Position.CENTER]: opacityAnimation("hide"),
   },
   unmounted: {
-    [ModalPosition.LEFT]: move("X", "0", "hide", "to"),
-    [ModalPosition.RIGHT]: move("X", "1", "hide", "to"),
-    [ModalPosition.TOP]: move("X", "0", "hide", "to"),
-    [ModalPosition.BOTTOM]: move("X", "1", "hide", "to"),
-    [ModalPosition.CENTER]: opacity("hide", "to"),
+    [Position.LEFT]: move("X", "0", "hide", "to"),
+    [Position.RIGHT]: move("X", "1", "hide", "to"),
+    [Position.TOP]: move("X", "0", "hide", "to"),
+    [Position.BOTTOM]: move("X", "1", "hide", "to"),
+    [Position.CENTER]: opacity("hide", "to"),
   },
 };
 
-const StyledContainer = styled.div<{
-  $position: ModalPosition;
+const AnimatedContainer = styled(StyledContainer)<{
+  $position: Position;
   $state: ModalState;
 }>`
-  position: absolute;
-  ${(props) =>
-    props.$position === ModalPosition.CENTER &&
-    "top: 50%; left: 50%; transform: translate(-50%, -50%);"}
-  ${(props) =>
-    props.$position === ModalPosition.RIGHT && "right: 0; top: 0; bottom: 0;"}
-  ${(props) =>
-    props.$position === ModalPosition.LEFT && "left: 0; top: 0; bottom: 0;"}
-  ${(props) =>
-    props.$position === ModalPosition.TOP && "left: 0; right:0; top: 0;"}
-  ${(props) =>
-    props.$position === ModalPosition.BOTTOM && "left: 0; right:0; bottom: 0;"}
-
-  /*Animations*/ 
   ${(props) =>
     props.$state === ModalState.MOUNTED && ANIMATIONS.mounted[props.$position]}
   ${(props) =>
@@ -74,10 +54,10 @@ function Container({
   state,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
-  position?: ModalPosition;
+  position: Position;
   state: ModalState;
 }) {
-  return <StyledContainer $position={position} $state={state} {...props} />;
+  return <AnimatedContainer $position={position} $state={state} {...props} />;
 }
 
 export default Container;

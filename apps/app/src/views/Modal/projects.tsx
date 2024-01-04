@@ -5,7 +5,7 @@ import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import Accordion from '@/components/Accordion';
 import Branch, { Marker } from '@/components/Sidebar/Branch';
-import { type IModal, ModalPosition, OverlayBlur, withModal } from '@nw/modal';
+import { type IModal, Position, Blur, withModal } from '@nw/modal';
 import clsx from 'clsx';
 
 const PROJECTS = [
@@ -95,9 +95,9 @@ function AsideProjects(props: IModal) {
 
 export default withModal(AsideProjects, {
 	zIndex: 20,
-	position: ModalPosition.LEFT,
+	position: Position.LEFT,
 	overlay: {
-		blur: OverlayBlur.MD,
+		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',
 	},
 });

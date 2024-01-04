@@ -1,3 +1,5 @@
+export { Blur, Position } from "@nw/ui";
+
 export type UnionAnimation = "mounted" | "show" | "hide" | "unmounted";
 
 export type TModalParams =
@@ -6,25 +8,6 @@ export type TModalParams =
   | number
   | boolean
   | null;
-
-export enum ModalPosition {
-  CENTER = "center",
-  LEFT = "left",
-  RIGHT = "right",
-  TOP = "top",
-  BOTTOM = "bottom",
-}
-
-export enum OverlayBlur {
-  NONE = "none",
-  XS = "xs",
-  SM = "sm",
-  MD = "md",
-  LG = "lg",
-  XL = "xl",
-  XXL = "2xl",
-  XXXL = "3xl",
-}
 
 export enum ModalState {
   MOUNTED = "mounted",
