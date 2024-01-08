@@ -1,7 +1,4 @@
-import { createDB, schemas as innerSchemas, orm as innerOrm } from '@nw/storage';
-
-export const schemas = innerSchemas;
-export const orm = innerOrm;
+import { createDB } from '@nw/storage';
 
 const { db } = createDB({
 	connectionString: process.env.NEXT_PRIVATE_POSTGRES_URL,

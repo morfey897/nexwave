@@ -21,10 +21,11 @@ function Header() {
 	const t = useTranslations('common');
 
 	const onOpenSettings = useCallback(() => {
+		if (!user) return;
 		openModal({
 			name: MODALS.SETTINGS,
 		});
-	}, [openModal]);
+	}, [openModal, user]);
 
 	return (
 		<>

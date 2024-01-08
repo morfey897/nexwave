@@ -1,14 +1,7 @@
-import db, { schemas, orm } from '@/lib/storage';
+import db from '@/lib/storage';
+import { schemas, orm, EnumColor, EnumStatus } from '@nw/storage';
 import { TUID } from '@/types/common';
-import { or } from 'drizzle-orm';
 import { humanId } from 'human-id';
-
-enum EnumStatus {
-	draft = 'draft',
-	on = 'on',
-	off = 'off',
-	pause = 'pause',
-}
 
 enum EnumRole {
 	super = 'super',
@@ -16,6 +9,7 @@ enum EnumRole {
 	user = 'user',
 	guest = 'guest',
 }
+
 const ROLES = {
 	[EnumRole.super]:
 		2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048 | 4096 | 8192,
@@ -24,40 +18,41 @@ const ROLES = {
 	[EnumRole.guest]: 2 | 4 | 8 | 16 | 32 | 64,
 } as const;
 
+export interface IBranch extends TUID {
+	projectId: number;
+	name: string;
+	image: string | null;
+	createdAt: Date;
+	status: EnumStatus;
+}
+
 export interface IProject extends TUID {
 	ownerId: number;
 	createdAt: Date;
-	slug: string;
+	vistedAt: Date | null;
+	color: EnumColor;
 	name: string;
 	image: string | null;
-	status: keyof typeof EnumStatus;
+	status: EnumStatus;
 	roles: Record<string, number>;
+	branches: IBranch[];
 }
 
 export type TProjectToUser = Omit<IProject, 'ownerId'> & {
 	role: keyof typeof EnumRole;
 };
 
-async function generateUniqSlug(): Promise<string> {
-	let existList: Array<{ id: number }> = [];
-	let slug: string = '';
-	do {
-		slug = humanId({
-			separator: '-',
-			capitalize: false,
-			adjectiveCount: 2,
-		});
+function generateName() {
+	return humanId({
+		separator: ' ',
+		capitalize: true,
+	});
+}
 
-		existList = await db
-			.select({
-				id: schemas.project.id,
-			})
-			.from(schemas.project)
-			.where(orm.eq(schemas.project.slug, slug))
-			.execute();
-	} while (existList.length > 0);
-
-	return slug;
+function generateColor() {
+	const colors = Object.values(EnumColor);
+	const randomIndex = Math.floor(Math.random() * colors.length);
+	return colors[randomIndex];
 }
 
 /**
@@ -68,19 +63,12 @@ async function generateUniqSlug(): Promise<string> {
 export async function deployNewProject({
 	ownerId,
 	name,
-	slug,
 }: {
 	name?: string;
-	slug?: string;
 	ownerId: number;
 }): Promise<IProject | null> {
-	const slugValue = slug || (await generateUniqSlug());
-	const nameValue =
-		name ||
-		slugValue
-			.split('-')
-			.map((v) => v[0].toUpperCase() + v.slice(1))
-			.join(' ');
+	const nameValue = name || generateName();
+	const color = generateColor();
 
 	const project = await db.transaction(async (trx) => {
 		const [project] = await trx
@@ -88,7 +76,7 @@ export async function deployNewProject({
 			.values({
 				ownerId,
 				name: nameValue,
-				slug: slugValue,
+				color,
 				roles: ROLES,
 			})
 			.returning({
@@ -97,12 +85,31 @@ export async function deployNewProject({
 				ownerId: schemas.project.ownerId,
 				createdAt: schemas.project.createdAt,
 				roles: schemas.project.roles,
-				slug: schemas.project.slug,
+				color: schemas.project.color,
 				name: schemas.project.name,
 				image: schemas.project.image,
 				status: schemas.project.status,
 			});
 		if (!project) {
+			trx.rollback();
+			return null;
+		}
+
+		const [branch] = await trx
+			.insert(schemas.branch)
+			.values({
+				projectId: project.id,
+				name: generateName(),
+			})
+			.returning({
+				id: schemas.branch.id,
+				uuid: schemas.branch.uuid,
+				name: schemas.branch.name,
+				projectId: schemas.branch.projectId,
+				createdAt: schemas.branch.createdAt,
+			});
+
+		if (!branch) {
 			trx.rollback();
 			return null;
 		}
@@ -124,10 +131,10 @@ export async function deployNewProject({
 			return null;
 		}
 
-		return project || null;
+		return project ? { ...project, branches: [branch] } : null;
 	});
 
-	return project || null;
+	return project as IProject;
 }
 
 /**
@@ -135,7 +142,7 @@ export async function deployNewProject({
  * @param userId - number
  * @param projectId - number
  * @param role - EnumRole
- * @returns
+ * @returns boolean
  */
 export async function addUserToProjectOrUpdate({
 	userId,
@@ -172,7 +179,7 @@ export async function addUserToProjectOrUpdate({
  * Remove user from project
  * @param userId - number
  * @param projectId - number
- * @returns
+ * @returns boolean
  */
 export async function removeUserFromProject({
 	userId,
@@ -203,22 +210,25 @@ export async function removeUserFromProject({
  * @param userId - number
  * @returns
  */
-export async function getProjectByUserId({
-	userId,
-}: {
-	userId: number;
+export async function getProjectByUserId(props?: {
+	id?: number;
+	uuid?: string;
+	userId: number | null | undefined;
 }): Promise<TProjectToUser[] | null> {
+	if (!props?.userId) return null;
+	const { id, uuid } = props;
 	const projects = await db
 		.select({
 			id: schemas.project.id,
 			uuid: schemas.project.uuid,
 			createdAt: schemas.project.createdAt,
 			roles: schemas.project.roles,
-			slug: schemas.project.slug,
+			color: schemas.project.color,
 			name: schemas.project.name,
 			image: schemas.project.image,
 			status: schemas.project.status,
 			role: schemas.projectToUser.role,
+			_branch: schemas.branch,
 		})
 		.from(schemas.user)
 		.leftJoin(
@@ -229,62 +239,43 @@ export async function getProjectByUserId({
 			schemas.project,
 			orm.eq(schemas.projectToUser.projectId, schemas.project.id),
 		)
+		.leftJoin(
+			schemas.branch,
+			orm.eq(schemas.branch.projectId, schemas.project.id),
+		)
 		.where(
 			orm.and(
-				orm.eq(schemas.user.id, userId),
+				orm.eq(schemas.user.id, props.userId),
 				orm.isNotNull(schemas.projectToUser),
+				id != undefined
+					? orm.eq(schemas.project.id, id)
+					: uuid != undefined
+					? orm.eq(schemas.project.uuid, uuid)
+					: undefined,
 			),
 		)
 		.execute();
 
-	const filteredProjects = projects.filter(
-		(item) => item.role !== null,
-	) as TProjectToUser[];
+	// @ts-ignore
+	const filteredProjects = projects
+		.filter((item) => item.role !== null)
+		.reduce((acc: TProjectToUser[], row) => {
+			const { _branch, ...proj } = row;
+			const project = acc.find((item) => item.id === row.id);
+			const branch = _branch as IBranch;
+			if (project) {
+				if (!!branch) {
+					project.branches.push(branch);
+				}
+			} else {
+				const project = {
+					...proj,
+					branches: !!branch ? [branch] : [],
+				} as TProjectToUser;
+				acc.push(project);
+			}
+			return acc;
+		}, []);
+
 	return filteredProjects.length > 0 ? filteredProjects : null;
-}
-
-/**
- * Get project by slug
- * @param slug - string
- * @returns
- */
-export async function getProjectBySlug({
-	slug,
-	userId,
-}: {
-	slug: string;
-	userId: number;
-}): Promise<TProjectToUser | null> {
-	const [project] = await db
-		.select({
-			id: schemas.project.id,
-			uuid: schemas.project.uuid,
-			createdAt: schemas.project.createdAt,
-			roles: schemas.project.roles,
-			slug: schemas.project.slug,
-			name: schemas.project.name,
-			image: schemas.project.image,
-			status: schemas.project.status,
-			role: schemas.projectToUser.role,
-		})
-		.from(schemas.project)
-		.leftJoin(
-			schemas.projectToUser,
-			orm.eq(schemas.projectToUser.projectId, schemas.project.id),
-		)
-		.leftJoin(
-			schemas.user,
-			orm.eq(schemas.projectToUser.userId, schemas.user.id),
-		)
-		.where(
-			orm.and(
-				orm.eq(schemas.user.id, userId),
-				orm.eq(schemas.project.slug, slug),
-				orm.isNotNull(schemas.projectToUser),
-				orm.isNotNull(schemas.projectToUser.role),
-			),
-		)
-		.execute();
-
-	return project ? (project as TProjectToUser) : null;
 }

@@ -11,7 +11,7 @@ const Block = ({ className }: { className: string }) => (
 
 export default function Loading() {
 	return (
-		<div className='text-center'>
+		<div className='text-center mx-auto'>
 			<section className='bg-white dark:bg-gray-900'>
 				<div className='container px-6 py-10 mx-auto animate-pulse'>
 					<h1 className='w-48 h-2 mx-auto bg-gray-200 rounded-lg dark:bg-gray-700'></h1>

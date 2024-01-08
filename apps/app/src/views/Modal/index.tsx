@@ -8,7 +8,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { searchParams as cfg } from '@nw/config';
 
 const COMPONENTS = {
-	// [MODALS.LOGIN]: LoginView,
 	[MODALS.SETTINGS]: AsideSettings,
 	[MODALS.PROJECTS]: AsideProjects,
 };

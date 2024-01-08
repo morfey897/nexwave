@@ -9,7 +9,7 @@ import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
 import { EnumDevice } from './types/view';
-import { API } from '@/routes';
+import { API, APP } from '@/routes';
 import { getSession, getRefreshToken } from '@/headers';
 
 type LangType = typeof locales.LOCALES & undefined;
@@ -111,25 +111,27 @@ export async function middleware(request: NextRequest) {
 		]);
 	}
 
-	try {
-		const refreshResponse = await fetch(
-			new URL(API.AUTH_REFRESH_TOKEN, request.nextUrl.origin),
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${getRefreshToken()}`,
+	if (pathname.startsWith(APP)) {
+		try {
+			const refreshResponse = await fetch(
+				new URL(API.AUTH_REFRESH_TOKEN, request.nextUrl.origin),
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${getRefreshToken()}`,
+					},
+					body: getSession(),
 				},
-				body: getSession(),
-			},
-		);
-		const json = await refreshResponse.json();
+			);
+			const json = await refreshResponse.json();
 
-		if (json.success && !!json.session && typeof json.session === 'object') {
-			setCookie(response, [json.session]);
+			if (json.success && !!json.session && typeof json.session === 'object') {
+				setCookie(response, [json.session]);
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	} catch (error) {
-		console.error(error);
 	}
 
 	response.headers.set(headersConfig.PATHNAME, pathname);

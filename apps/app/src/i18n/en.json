@@ -8,6 +8,7 @@
 		"import": "Import",
 		"export": "Export",
 		"add": "Add",
+		"create": "Create",
 		"prev": "Previous",
 		"page_of": "{page} / {maxPage}",
 		"next": "Next",
@@ -113,5 +114,10 @@
 			"active": "Active",
 			"inactive": "Inactive"
 		}
+	},
+	"projects_page": {
+		"headline": "Ready to get started on <span>a project</span>?",
+		"subheadline": "Click the button below to start a new project and organize both your tasks and team members. Alternatively, you can select a project from the existing list.",
+		"subheadline_empty": "You can add new project by clicking on the button below"
 	}
 }

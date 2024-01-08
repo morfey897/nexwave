@@ -1,18 +1,18 @@
 /// Public routes ///
 export const HOME = '/';
-export const HANDSHAKE = '/_handshake';
-export const ACCEPT_INVITE = '/_handshake/[uuid]/accept-invite';
-export const VERIFY_EMAIL = '/_handshake/[uuid]/verify-email';
+export const HANDSHAKE = '/handshake';
+export const ACCEPT_INVITE = '/handshake/[uuid]/accept-invite';
+export const VERIFY_EMAIL = '/handshake/[uuid]/verify-email';
 
 /// Protected routes ///
-export const APP = '/app';
-export const ROOT = '/[slug]';
-export const CLIENTS = '/[slug]/clients';
-export const USERS = '/[slug]/users';
-export const SERVICES = '/[slug]/services';
-export const PRODUCTS = '/[slug]/products';
-export const TIMETABLE = '/[slug]/timetable';
-export const SETTINGS = '/[slug]/settings';
+export const APP = '/project';
+export const ROOT = '/project/[uuid]';
+export const CLIENTS = '/project/[uuid]/clients';
+export const USERS = '/project/[uuid]/users';
+export const SERVICES = '/project/[uuid]/services';
+export const PRODUCTS = '/project/[uuid]/products';
+export const TIMETABLE = '/project/[uuid]/timetable';
+export const SETTINGS = '/project/[uuid]/settings';
 export const DYNAMIC = [
 	ROOT,
 	CLIENTS,
@@ -21,7 +21,7 @@ export const DYNAMIC = [
 	PRODUCTS,
 	TIMETABLE,
 	SETTINGS,
-];
+] as const;
 
 /// API routes ///
 export const API = {
@@ -31,7 +31,7 @@ export const API = {
 
 /// Modal windows ///
 export const MODALS = {
-	LOGIN: 'login',
 	SETTINGS: 'settings',
 	PROJECTS: 'projects',
+	ADD_PROJECT: 'add-project',
 } as const;

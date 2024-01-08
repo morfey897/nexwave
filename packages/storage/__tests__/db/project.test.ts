@@ -1,6 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { schemas, orm } from '../../src';
 import * as utils from '../../__utils__/utils';
+import { EnumColor } from '../../src/types';
 
 let cfg: ReturnType<typeof utils.configDB>;
 
@@ -160,13 +161,12 @@ describe('project module', () => {
 		 * Create new project
 		 */
 		test('createNewProject', async () => {
-			const slug = utils.generateTestSlug('project');
 			const [project] = await cfg.db
 				.insert(schemas.project)
 				.values({
 					ownerId: data.user_id,
 					name: 'Jest-project',
-					slug: slug,
+					color: EnumColor.GREN,
 					roles: {
 						super: SUPER,
 						admin: ADMIN,
@@ -177,7 +177,7 @@ describe('project module', () => {
 			data.project_id = project.id;
 			expect(project).toBeTruthy();
 			expect(project.id).toBeTruthy();
-			expect(project.slug).toBe(slug);
+			expect(project.color).toBe(EnumColor.GREN);
 			expect(project.name).toBe('Jest-project');
 			expect(project.ownerId).toBe(data.user_id);
 			expect(project.roles).toEqual({
@@ -225,10 +225,13 @@ describe('project module', () => {
 					role: 'admin',
 				})
 				.onConflictDoUpdate({
-					target: [schemas.projectToUser.userId, schemas.projectToUser.projectId],
+					target: [
+						schemas.projectToUser.userId,
+						schemas.projectToUser.projectId,
+					],
 					set: {
 						role: 'admin',
-					}
+					},
 				})
 				.returning({
 					userId: schemas.projectToUser.userId,

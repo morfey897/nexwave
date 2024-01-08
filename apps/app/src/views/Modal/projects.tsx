@@ -4,7 +4,8 @@ import { HiOutlinePlus, HiChevronDown } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import Accordion from '@/components/Accordion';
-import Branch, { Marker } from '@/components/Sidebar/Branch';
+import Branch from '@/components/Sidebar/Branch';
+import Marker from '@/components/Project/Marker';
 import { type IModal, Position, Blur, withModal } from '@nw/modal';
 import clsx from 'clsx';
 

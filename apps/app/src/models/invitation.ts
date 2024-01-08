@@ -1,4 +1,5 @@
-import db, { schemas, orm } from '@/lib/storage';
+import db from '@/lib/storage';
+import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
 
 export interface IInvitation extends TUID {

@@ -4,10 +4,23 @@ import {
 	createContext,
 	useLayoutEffect,
 	useRef,
+	useContext,
 } from 'react';
 import createNWStore, { type NWStore } from '@/lib/store';
 
 export const StoreContext = createContext<NWStore | null>(null);
+
+export function UpdateStore({
+	state,
+}: {
+	state: Parameters<typeof createNWStore>[0];
+}) {
+	const storeCtx = useContext(StoreContext);
+	useLayoutEffect(() => {
+		storeCtx?.setState({ ...storeCtx?.getState(), ...state });
+	}, [storeCtx]);
+	return null;
+}
 
 function StoreProvider({
 	children,

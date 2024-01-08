@@ -3,7 +3,7 @@ import Link from 'next/link';
 // import { openModal } from '@/utils/modal';
 import { MODALS } from '@/routes';
 
-const openModal = (name: string, params: any) => {
+const openModal = (name: string, params?: any) => {
 	return `/${MODALS}/${name}?${new URLSearchParams(params).toString()}`;
 };
 
@@ -19,14 +19,14 @@ function Home() {
 
 					<div className='space-x-4 text-xl'>
 						<Link
-							href={openModal(MODALS.LOGIN, { mode: 'new' })}
+							href={openModal('MODALS.LOGIN', { mode: 'new' })}
 							className='text-blue-500 dark:text-blue-400 hover:underline'
 						>
 							Sign up
 						</Link>
 						<span className='text-lg'>/</span>
 						<Link
-							href={openModal(MODALS.LOGIN)}
+							href={openModal('MODALS.LOGIN')}
 							className='text-blue-500 dark:text-blue-400 hover:underline'
 						>
 							Sign in

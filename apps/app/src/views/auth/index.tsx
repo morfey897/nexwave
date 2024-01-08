@@ -1,12 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
-import {
-	ComponentOverlay,
-	ComponentContainer,
-	Blur,
-	Position,
-} from '@nw/ui';
+import { ComponentOverlay, ComponentContainer, Blur, Position } from '@nw/ui';
 import { useTranslations } from 'next-intl';
 import { useCallback, useState } from 'react';
 import Button from '@/components/Button';
@@ -14,6 +9,7 @@ import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+export { default as RefreshToken } from './RefreshToken';
 
 function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 	const [localMode, setLocalMode] = useState(mode);

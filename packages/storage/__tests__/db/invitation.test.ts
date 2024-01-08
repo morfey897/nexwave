@@ -1,6 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { schemas, orm } from '../../src';
 import * as utils from '../../__utils__/utils';
+import { EnumColor } from '../../src/types';
 
 let cfg: ReturnType<typeof utils.configDB>;
 
@@ -110,13 +111,12 @@ describe('invitation module', () => {
 		 * Create new project
 		 */
 		test('createNewProject', async () => {
-			const slug = utils.generateTestSlug('invitation');
 			const [project] = await cfg.db
 				.insert(schemas.project)
 				.values({
 					ownerId: data.user_id,
 					name: 'Jest-project',
-					slug: slug,
+					color: EnumColor.PURPLE,
 					roles: {
 						super: SUPER,
 						admin: ADMIN,
@@ -128,7 +128,7 @@ describe('invitation module', () => {
 			data.project_id = project.id;
 			expect(project).toBeTruthy();
 			expect(project.id).toBeTruthy();
-			expect(project.slug).toBe(slug);
+			expect(project.color).toBe(EnumColor.PURPLE);
 			expect(project.name).toBe('Jest-project');
 			expect(project.ownerId).toBe(data.user_id);
 			expect(project.roles).toEqual({
@@ -197,7 +197,7 @@ describe('invitation module', () => {
 		test('selectInvitations', async () => {
 			const response = await cfg.db
 				.select({
-					slug: schemas.project.slug,
+					uuid: schemas.project.uuid,
 					email: schemas.invitation.email,
 					role: schemas.invitation.role,
 				})
@@ -217,7 +217,7 @@ describe('invitation module', () => {
 			console.info('selectInvitations', response);
 			expect(response).toBeTruthy();
 			expect(response.length).toBe(2);
-			expect(response[0].slug).toBe(response[1].slug);
+			expect(response[0].uuid).toBe(response[1].uuid);
 		});
 	});
 });

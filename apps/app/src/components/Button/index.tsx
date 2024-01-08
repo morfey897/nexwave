@@ -1,5 +1,12 @@
 import clsx from 'clsx';
-import { IButtonProps } from '@/types/view';
+
+export interface IButtonProps {
+	message?: string | number | undefined;
+	variant?: 'primary' | 'default' | 'text' | 'secondary';
+	size?: 'sm' | 'md' | 'lg';
+	icon?: React.ReactNode;
+	iconAfter?: React.ReactNode;
+}
 
 export function Button({
 	variant = 'default',
@@ -22,7 +29,8 @@ export function Button({
 						variant === 'default',
 					'text-white bg-green-700 hover:bg-green-800 dark:hover:bg-green-700 dark:bg-green-800 disabled:dark:text-gray-700 disabled:text-gray-300 disabled:bg-green-400 disabled:dark:bg-green-700':
 						variant === 'secondary',
-					'text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300 disabled:dark:text-gray-700 disabled:text-gray-300': variant === 'text',
+					'text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300 disabled:dark:text-gray-700 disabled:text-gray-300':
+						variant === 'text',
 				},
 				{
 					'px-4 py-1 text-sm gap-x-2': size === 'sm',

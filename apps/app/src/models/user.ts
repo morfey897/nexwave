@@ -1,5 +1,8 @@
-import db, { schemas, orm } from '@/lib/storage';
+import db from '@/lib/storage';
+import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
+import { verifyAuth } from '@/lib/jwt';
+import { getSession } from '@/headers';
 
 export interface ICurrentUser extends TUID {
 	email: string;
@@ -7,6 +10,30 @@ export interface ICurrentUser extends TUID {
 	name?: string | null;
 	surname?: string | null;
 	avatar?: string | null;
+}
+
+/**
+ * Get current user from session
+ * @param session
+ * @returns {ICurrentUser | null}
+ */
+export async function getUserFromSession(
+	session?: string | null | undefined,
+): Promise<ICurrentUser | null> {
+	let user: ICurrentUser | null = null;
+
+	session = session || getSession();
+	try {
+		if (!session) throw new Error('Invalid session');
+
+		const payload = await verifyAuth<{ user: ICurrentUser }>(session);
+		user = payload?.user || null;
+		const isValidUser = !!user && !!user.id && !!user.uuid && !!user.email;
+		if (!isValidUser || user === null) throw new Error('Invalid user');
+	} catch (error) {
+		user = null;
+	}
+	return user;
 }
 
 /**
