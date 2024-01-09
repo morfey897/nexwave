@@ -15,8 +15,8 @@
     "@formatjs/intl-localematcher": "^0.4.2",
     "@nw/config": "*",
     "@nw/modal": "*",
-    "@nw/ui": "*",
     "@nw/storage": "*",
+    "@nw/ui": "*",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "google-auth-library": "^9.4.1",
@@ -38,6 +38,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/jest": "^29.5.11",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.201",

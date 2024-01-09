@@ -1,41 +1,40 @@
 import clsx from 'clsx';
 import React from 'react';
 import { EnumColor } from '@packages/storage/dist';
+import { RxDotFilled } from 'react-icons/rx';
 
 function Marker({
-	size = 'sm',
+	size = 24,
 	color,
 	className,
 	...props
 }: {
-	size?: 'sm' | 'md' | 'lg';
+	animate?: boolean;
+	size?: number;
 	color?: string;
 } & React.HTMLAttributes<HTMLSpanElement>) {
 	return (
 		<span
 			className={clsx(
-				'rounded-full shrink-0 animate-pulse',
+				'shrink-0',
 				{
-					'bg-pink-500': color === EnumColor.PINK,
-					'bg-green-500': color === EnumColor.GREN,
-					'bg-yellow-500': color === EnumColor.YELLOW,
-					'bg-indigo-500': color === EnumColor.INDIGO,
-					'bg-blue-500': color === EnumColor.BLUR,
-					'bg-slate-500': color === EnumColor.GRAY,
-					'bg-red-500': color === EnumColor.RED,
-					'bg-orange-500': color === EnumColor.ORANGE,
-					'bg-sky-500': color === EnumColor.SKYBLUE,
-					'bg-purple-500': color === EnumColor.PURPLE,
-				},
-				{
-					'w-1.5 h-1.5': size === 'sm',
-					'w-2.5 h-2.5': size === 'md',
-					'w-3 h-3': size === 'lg',
+					'text-pink-500 dark:text-pink-300': color === EnumColor.PINK,
+					'text-green-500 dark:text-green-300': color === EnumColor.GREN,
+					'text-yellow-500 dark:text-yellow-300': color === EnumColor.YELLOW,
+					'text-indigo-500 dark:text-indigo-300': color === EnumColor.INDIGO,
+					'text-blue-500 dark:text-blue-300': color === EnumColor.BLUR,
+					'text-slate-500 dark:text-slate-300': color === EnumColor.GRAY,
+					'text-red-500 dark:text-red-300': color === EnumColor.RED,
+					'text-orange-500 dark:text-orange-300': color === EnumColor.ORANGE,
+					'text-sky-500 dark:text-sky-300': color === EnumColor.SKYBLUE,
+					'text-purple-500 dark:text-purple-300': color === EnumColor.PURPLE,
 				},
 				className,
 			)}
 			{...props}
-		/>
+		>
+			<RxDotFilled size={size} />
+		</span>
 	);
 }
 

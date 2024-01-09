@@ -2,9 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
 	darkMode: 'class',
-	content: [
-		'./src/**/*.{js,ts,jsx,tsx,mdx}',
-	],
+	content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
 	theme: {
 		extend: {
 			backgroundImage: {
@@ -15,8 +13,9 @@ const config: Config = {
 			transitionProperty: {
 				'max-height': 'max-height',
 				'max-width': 'max-width',
-			}
+			},
 		},
 	},
+	plugins: [require('@tailwindcss/forms')],
 };
 export default config;

@@ -9,6 +9,7 @@
 		"export": "Export",
 		"add": "Add",
 		"create": "Create",
+		"cancel": "Cancel",
 		"prev": "Previous",
 		"page_of": "{page} / {maxPage}",
 		"next": "Next",
@@ -33,6 +34,27 @@
 				"title": "English",
 				"abr": "Eng"
 			}
+		},
+		"colors": {
+			"red": "Red",
+			"pink": "Pink",
+			"purple": "Purple",
+			"deep-purple": "Deep purple",
+			"indigo": "Indigo",
+			"blue": "Blue",
+			"light-blue": "Light blue",
+			"cyan": "Cyan",
+			"teal": "Teal",
+			"green": "Green",
+			"light-green": "Light green",
+			"lime": "Lime",
+			"yellow": "Yellow",
+			"amber": "Amber",
+			"orange": "Orange",
+			"deep-orange": "Deep orange",
+			"brown": "Brown",
+			"gray": "Gray",
+			"skyblue": "Sky blue"
 		},
 		"breadcrumbs": {
 			"app": "Root",
@@ -119,5 +141,13 @@
 		"headline": "Ready to get started on <span>a project</span>?",
 		"subheadline": "Click the button below to start a new project and organize both your tasks and team members. Alternatively, you can select a project from the existing list.",
 		"subheadline_empty": "You can add new project by clicking on the button below"
+	},
+	"add_project_page": {
+		"headline": "Add new project",
+		"subheadline": "Here you can add new project",
+		"name": "Name",
+		"color": "Color",
+		"submit": "Create",
+		"cancel": "Cancel"
 	}
 }

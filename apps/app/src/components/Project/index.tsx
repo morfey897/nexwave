@@ -17,6 +17,7 @@ function Project({
 		<Link
 			href={dynamicHref(ROOT, { uuid: project.uuid })}
 			className={clsx(
+				'bg-white dark:bg-gray-800',
 				'group p-8 space-y-3 border-2 rounded-xl',
 				'border-blue-400 dark:border-blue-300',
 				'hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
@@ -25,7 +26,7 @@ function Project({
 			<ProjectIcon image={project.image} size={32} Fallback={BsDiagram2} />
 
 			<div className='flex items-center gap-x-2 '>
-				<Marker color={project.color} />
+				<Marker color={project.color} className='animate-pulse'/>
 				<h2 className='text-xl font-semibold text-gray-700 capitalize dark:text-white'>
 					{project.name}
 				</h2>

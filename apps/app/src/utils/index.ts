@@ -34,3 +34,6 @@ export const fullname = (
 		| null
 		| undefined,
 ) => [user?.name, user?.surname].filter((v) => !!v).join(' ');
+
+export const random = <T>(array: Array<T>) =>
+	array[Math.floor(Math.random() * array.length)];

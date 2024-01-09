@@ -2,6 +2,7 @@ import db from '@/lib/storage';
 import { schemas, orm, EnumColor, EnumStatus } from '@nw/storage';
 import { TUID } from '@/types/common';
 import { humanId } from 'human-id';
+import { random } from '@/utils';
 
 enum EnumRole {
 	super = 'super',
@@ -50,9 +51,7 @@ function generateName() {
 }
 
 function generateColor() {
-	const colors = Object.values(EnumColor);
-	const randomIndex = Math.floor(Math.random() * colors.length);
-	return colors[randomIndex];
+	return random<EnumColor>(Object.values(EnumColor));
 }
 
 /**
