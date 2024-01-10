@@ -1,153 +1,168 @@
 {
-	"common": {
-		"search": "Search",
-		"sort_by": "Sort by",
-		"clear_search": "Clear search",
-		"clear": "Clear",
-		"del": "Delete",
-		"import": "Import",
-		"export": "Export",
+	"error": {
+		"wrong": "Something went wrong. Please try again later.",
+		"invalid_email_or_pass": "Invalid email or password",
+		"invalid_email": "Invalid email",
+		"missing_email": "Missing email",
+		"invalid_password": "Invalid password",
+		"missing_password": "Missing password",
+		"weak_password": "At least 6 characters, a number, a capital letter and the special character @$!%*?&.",
+		"email_in_use_rt": "This email is already in use. Do you want <button>Sign in?</button>",
+		"unauthorized_rt": "You are not authorized to perform this action. <button>Sign in?</button>",
+		"not_found": "Not found"
+	},
+	"form": {
+		"name": "Name",
+		"first_name": "First name",
+		"last_name": "Last name",
+		"email": "Email",
+		"phone": "Phone number",
+		"password": "Password",
+		"confirm_password": "Comfirm Password",
+		"image": "Image",
+		"select_image": "Select image",
+		"color": "Color",
+		"select_color": "Select color",
+		"project_name": "Project name",
+		"image_hint": "Upload or darg & drop your file PNG or JPG"
+	},
+	"button": {
+		"sign_in": "Sign in",
+		"sign_up": "Sign up",
+		"sign_out": "Sign out",
+		"submit": "Submit",
+		"cancel": "Cancel",
 		"add": "Add",
 		"create": "Create",
-		"cancel": "Cancel",
-		"prev": "Previous",
-		"page_of": "{page} / {maxPage}",
-		"next": "Next",
-		"settings": "Settings",
-		"projects": "Projects",
 		"edit": "Edit",
-		"sign_out": "Sign out",
+		"delete": "Delete",
+		"import": "Import",
+		"export": "Export",
+		"clear": "Clear",
+		"search": "Search",
+		"reset": "Reset",
+		"close": "Close",
+		"next": "Next",
+		"prev": "Previous",
+		"save": "Save",
+		"upload": "Upload",
+		"download": "Download",
+		"try_again": "Try again",
+		"yes": "Yes",
+		"no": "No",
+		"ok": "Ok",
+		"go_back": "Go back",
+		"go_home": "Take me home",
+		"select": "Select",
+		"select_file": "Select file",
+		"select_image": "Select image",
+		"sort_by": "Sort by"
+	},
+	"i18n": {
+		"uk": {
+			"title": "Українська",
+			"abr": "Укр"
+		},
+		"ru": {
+			"title": "Русский",
+			"abr": "Рус"
+		},
+		"en": {
+			"title": "English",
+			"abr": "Eng"
+		}
+	},
+	"color": {
+		"red": "Red",
+		"pink": "Pink",
+		"purple": "Purple",
+		"deep-purple": "Deep purple",
+		"indigo": "Indigo",
+		"blue": "Blue",
+		"light-blue": "Light blue",
+		"cyan": "Cyan",
+		"teal": "Teal",
+		"green": "Green",
+		"light-green": "Light green",
+		"lime": "Lime",
+		"yellow": "Yellow",
+		"amber": "Amber",
+		"orange": "Orange",
+		"deep-orange": "Deep orange",
+		"brown": "Brown",
+		"gray": "Gray",
+		"skyblue": "Sky blue"
+	},
+	"filter": {
+		"all":"All",
+		"active":"Active",
+		"inactive":"Inactive",
+
+		"week": "Week",
+		"day":"Day",
+
+		"table": "Table",
+		"list": "List",
+		"of_period_":"{period, select, week {Week} day {Day} other {View}}",
+		"of_represent_": "{represent, select, table {Table} list {List} other {View}}",
+		"of_status_": "{status, select, all {All} active {Active} inactive {Inactive} other {Filter}}"
+	},
+	"general": {
 		"today": "Today",
 		"yesterday": "Yesterday",
 		"before_yesterday": "Before yesterday",
-		"days_ago": "{count, plural, =0 {Today} =1 {Yesterday} =2 {Before yesterday} other {# days ago}}",
-		"i18n": {
-			"uk": {
-				"title": "Українська",
-				"abr": "Укр"
-			},
-			"ru": {
-				"title": "Русский",
-				"abr": "Рус"
-			},
-			"en": {
-				"title": "English",
-				"abr": "Eng"
-			}
+		"page_of_": "{page} / {maxPage}",
+		"days_ago_": "{count, plural, =0 {Today} =1 {Yesterday} =2 {Before yesterday} other {# days ago}}",
+		"app":"Root",
+		"timetable": "Timetable",
+		"users": "Users",
+		"products": "Products",
+		"settings": "Settings",
+		"projects": "Projects",
+		"clients": "Clients"
+	},
+
+	"page": {
+		"error": {
+			"headline": "Something went wrong!",
+			"subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again."
 		},
-		"colors": {
-			"red": "Red",
-			"pink": "Pink",
-			"purple": "Purple",
-			"deep-purple": "Deep purple",
-			"indigo": "Indigo",
-			"blue": "Blue",
-			"light-blue": "Light blue",
-			"cyan": "Cyan",
-			"teal": "Teal",
-			"green": "Green",
-			"light-green": "Light green",
-			"lime": "Lime",
-			"yellow": "Yellow",
-			"amber": "Amber",
-			"orange": "Orange",
-			"deep-orange": "Deep orange",
-			"brown": "Brown",
-			"gray": "Gray",
-			"skyblue": "Sky blue"
+		"not_found": {
+			"headline": "We lost this page",
+			"subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go."
 		},
-		"breadcrumbs": {
-			"app": "Root",
-			"clients": "Clients",
-			"services": "Services",
-			"timetable": "Timetable",
-			"users": "Users",
-			"products": "Products"
+		"auth": {
+			"headline": "Session expired",
+			"subheadline": "Please sign in again to continue"
+		},
+		"sign_in": {
+			"with_google": "Sign in with Google",
+			"with_email": "or sign in with email",
+			"forgot_password": "Forgot password?",
+			"dont_have_account": "Don't have an account yet? Sign up"
+		},
+		"sign_up": {
+			"with_google": "Sign up with Google",
+			"with_email": "or sign up with email",
+			"have_account": "Already have an account? Sign in?"
+		},
+		"add_project": {
+			"headline": "Add new project",
+			"subheadline": "Here you can add new project"
+		},
+		"projects": {
+			"headline_rt": "Ready to get started on <span>a project</span>?",
+			"subheadline": "Click the button below to start a new project and organize both your tasks and team members. Alternatively, you can select a project from the existing list."
+		},
+		"clients": {
+			"headline": "Clients",
+			"subheadline": "Here you can find all clients",
+			"headline_empty": "No clients yet",
+			"subheadline_empty": "You can add new client by clicking on the button below"
+		},
+		"timetable": {
+			"headline": "Timetable",
+			"subheadline": "Here you can find all events"
 		}
-	},
-	"calendar_views": {
-		"_": "{view, select, week {Week} day {Day} other {View}}",
-		"week": "Week",
-		"day": "Day"
-	},
-	"table_views": {
-		"_": "{view, select, table {Table} list {List} other {View}}",
-		"table": "Table",
-		"list": "List"
-	},
-	"not_found_page": {
-		"headline": "We lost this page",
-		"subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go.",
-		"go_back": "Go back",
-		"go_home": "Take me home"
-	},
-	"error_page": {
-		"headline": "Something went wrong!",
-		"subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again.",
-		"reset": "Try again"
-	},
-	"sign_in_page": {
-		"with_google": "Sign in with Google",
-		"with_email": "or sign in with email",
-		"email": "Email",
-		"password": "Password",
-		"forgot_password": "Forgot password?",
-		"invalid_credential": "Invalid email or password",
-		"submit": "Sign in",
-		"dont_have_account": "Don't have an account yet? Sign up"
-	},
-	"sign_up_page": {
-		"with_google": "Sign up with Google",
-		"with_email": "or sign up with email",
-		"name": "Name",
-		"email": "Email",
-		"invalid_email": "Invalid email",
-		"password": "Password",
-		"weak_password": "At least 6 characters, a number, a capital letter and the special character @$!%*?&.",
-		"confirm_password": "Comfirm Password",
-		"invalid_password": "Invalid password",
-		"submit": "Sign up",
-		"have_account": "Already have an account? Sign in?",
-		"email_in_use": "This email is already in use",
-		"sign_in": "Sign in?"
-	},
-	"auth_page": {
-		"headline": "Session expired",
-		"subheadline": "Please sign in again to continue"
-	},
-	"clients_page": {
-		"headline": "Clients",
-		"subheadline": "Here you can find all clients",
-		"headline_empty": "No clients yet",
-		"subheadline_empty": "You can add new client by clicking on the button below",
-		"filter": {
-			"_": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
-			"all": "All",
-			"active": "Active",
-			"inactive": "Inactive"
-		}
-	},
-	"timetable_page": {
-		"headline": "Timetable",
-		"subheadline": "Here you can find all events",
-		"filter": {
-			"_": "{filter, select, all {All} active {Active} inactive {Inactive} other {Filter}}",
-			"all": "All",
-			"active": "Active",
-			"inactive": "Inactive"
-		}
-	},
-	"projects_page": {
-		"headline": "Ready to get started on <span>a project</span>?",
-		"subheadline": "Click the button below to start a new project and organize both your tasks and team members. Alternatively, you can select a project from the existing list.",
-		"subheadline_empty": "You can add new project by clicking on the button below"
-	},
-	"add_project_page": {
-		"headline": "Add new project",
-		"subheadline": "Here you can add new project",
-		"name": "Name",
-		"color": "Color",
-		"submit": "Create",
-		"cancel": "Cancel"
 	}
 }

@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import Button from '../Button';
 
 function LocaleSwitcher() {
-	const t = useTranslations('common');
+	const t = useTranslations();
 	const active = useLocale();
 	const router = useRouter();
 

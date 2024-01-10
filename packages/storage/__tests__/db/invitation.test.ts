@@ -1,7 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { schemas, orm } from '../../src';
 import * as utils from '../../__utils__/utils';
-import { EnumColor } from '../../src/types';
 
 let cfg: ReturnType<typeof utils.configDB>;
 
@@ -116,7 +115,7 @@ describe('invitation module', () => {
 				.values({
 					ownerId: data.user_id,
 					name: 'Jest-project',
-					color: EnumColor.PURPLE,
+					color: 'purple',
 					roles: {
 						super: SUPER,
 						admin: ADMIN,
@@ -128,8 +127,9 @@ describe('invitation module', () => {
 			data.project_id = project.id;
 			expect(project).toBeTruthy();
 			expect(project.id).toBeTruthy();
-			expect(project.color).toBe(EnumColor.PURPLE);
+			expect(project.color).toBe('purple');
 			expect(project.name).toBe('Jest-project');
+			expect(project.status).toBeNull();
 			expect(project.ownerId).toBe(data.user_id);
 			expect(project.roles).toEqual({
 				super: SUPER,

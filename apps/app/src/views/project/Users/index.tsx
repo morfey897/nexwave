@@ -13,14 +13,13 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { EnumFilter } from '@/types/client';
+import { EnumStatus, EnumLevel, EnumSortBy, EnumRepresent } from '@/enums';
 import Caption from '@/components/Caption';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useMemo } from 'react';
-import { EnumLevel } from '@/types/common';
-import { EnumSort, ITableProps } from '@/types/table';
+import { ITableProps } from '@/types/table';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import Container, {
 	ContainerBody,
@@ -30,7 +29,6 @@ import Container, {
 } from '@/components/Containers';
 import clsx from 'clsx';
 import { useView } from '@/hooks/filter';
-import { EnumView } from '@/types/table';
 import { searchParams } from '@nw/config';
 
 function UsersView({ clients }: { clients: IClient[] }) {
@@ -38,13 +36,13 @@ function UsersView({ clients }: { clients: IClient[] }) {
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
-	const { onFilter, filter } = useFilter({
+	const { onFilter, filter: status } = useFilter({
 		name: searchParams.FILTER,
-		defaultValue: EnumFilter.ALL,
+		defaultValue: 'all',
 	});
-	const { onView, view } = useView({
+	const { onView, view: represent } = useView({
 		name: searchParams.VIEW,
-		defaultValue: EnumView.TABLE,
+		defaultValue: EnumRepresent.TABLE,
 	});
 	const { onSearch, search } = useSearch({
 		name: searchParams.SEARCH,
@@ -58,21 +56,35 @@ function UsersView({ clients }: { clients: IClient[] }) {
 		name: searchParams.PAGE,
 	});
 
-	const filters = useMemo(() => {
-		return Object.values(EnumFilter).map((uid) => ({
-			uid: uid,
-			title: t(`clients_page.filter.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const statuses = useMemo(() => {
+		return [
+			{
+				uid: 'all',
+				title: t(`filter.all`),
+			},
+			{
+				uid: EnumStatus.ACTIVE,
+				title: t(`filter.active`),
+			},
+			{
+				uid: EnumStatus.INACTIVE,
+				title: t(`filter.inactive`),
+			}
+		];
+	}, [t]);
 
-	const views = useMemo(() => {
-		return Object.values(EnumView).map((uid) => ({
-			uid: uid,
-			title: t(`table_views.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const represents = useMemo(() => {
+		return [
+			{
+				uid: EnumRepresent.TABLE,
+				title: t(`filter.table`),
+			},
+			{
+				uid: EnumRepresent.LIST,
+				title: t(`filter.list`),
+			},
+		];
+	}, [t]);
 
 	const getHead = useMemo(() => {
 		return [
@@ -80,7 +92,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 				flex: 2,
 				token: 'name',
 				title: 'Name',
-				type: EnumSort.SYMBOLIC,
+				type: EnumSortBy.SYMBOLIC,
 				comparator: sort.asc === 'name' ? 1 : sort.desc === 'name' ? -1 : 0,
 				onSort: onSort,
 				Generator: AvatarGenerator,
@@ -89,14 +101,14 @@ function UsersView({ clients }: { clients: IClient[] }) {
 				flex: 2,
 				token: 'badges',
 				title: 'Badges',
-				type: EnumSort.NONE,
+				type: EnumSortBy.NONE,
 				Generator: withGenerator('badges', BadgesGenerator),
 			},
 			{
 				flex: 1,
 				token: 'lastVisit',
 				title: 'LastVisit',
-				type: EnumSort.NUMERIC,
+				type: EnumSortBy.NUMERIC,
 				comparator:
 					sort.asc === 'lastVisit' ? 1 : sort.desc === 'lastVisit' ? -1 : 0,
 				onSort: onSort,
@@ -123,17 +135,17 @@ function UsersView({ clients }: { clients: IClient[] }) {
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
 					<Caption
 						isScrolled={isScrolled}
-						headline={t('clients_page.headline')}
-						subheadline={t('clients_page.subheadline')}
+						headline={t('page.clients.headline')}
+						subheadline={t('page.clients.subheadline')}
 						amount={0}
 						add={{
-							title: t('common.add'),
+							title: t('button.add'),
 							onClick: () => {
 								console.log('onAdd');
 							},
 						}}
 						imprt={{
-							title: t('common.import'),
+							title: t('button.import'),
 							onClick: () => {
 								console.log('onImport');
 							},
@@ -149,30 +161,30 @@ function UsersView({ clients }: { clients: IClient[] }) {
 							as='dropdown'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('clients_page.filter._', { filter: filter })}
-							filters={filters}
+							message={t('filter.of_status_', { status })}
+							filters={statuses}
 							onChange={onFilter}
-							value={filter}
+							value={status}
 						/>
 						<Search
 							onChange={onSearch}
 							defaultValue={search || ''}
-							placeholder={t('common.search')}
+							placeholder={t('button.search')}
 							wrapperClassName='flex items-center w-full max-w-[380px]'
 						/>
 						<Filter
 							as='auto:md'
 							className='flex shrink-0'
 							icon={<HiOutlineViewGrid size={16} />}
-							message={t('calendar_views._', { view })}
-							filters={views}
+							message={t('filter.of_represent_', { represent })}
+							filters={represents}
 							onChange={onView}
-							value={view}
+							value={represent}
 						/>
 					</div>
 				</div>
 				<ContainerScrollableHeader ref={refHeader} onScroll={onScroll}>
-					{view === EnumView.TABLE && (
+					{represent === EnumRepresent.TABLE && (
 						<WideTableHead
 							head={getHead}
 							className={clsx(
@@ -181,7 +193,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 							)}
 						/>
 					)}
-					{view === EnumView.LIST && (
+					{represent === EnumRepresent.LIST && (
 						<ListTableHead
 							head={getHead}
 							className={clsx(
@@ -194,7 +206,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 			</ContainerHeader>
 
 			<ContainerBody ref={refBody} onScroll={onScroll}>
-				{view === EnumView.TABLE && (
+				{represent === EnumRepresent.TABLE && (
 					<WideTableBody
 						head={getHead}
 						body={getBody}
@@ -205,7 +217,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 						)}
 					/>
 				)}
-				{view === EnumView.LIST && (
+				{represent === EnumRepresent.LIST && (
 					<ListTableBody
 						head={getHead}
 						body={getBody}

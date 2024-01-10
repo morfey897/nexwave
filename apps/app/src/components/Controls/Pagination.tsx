@@ -27,7 +27,7 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const t = useTranslations('common');
+	const t = useTranslations();
 
 	const listPages = useMemo(() => {
 		const pagesList: TPages = [
@@ -59,7 +59,7 @@ export default function Pagination({
 			{...props}
 		>
 			<Button
-				message={t('prev')}
+				message={t('button.prev')}
 				icon={<HiOutlineArrowLongLeft size={24} />}
 				onClick={() => typeof onPage === 'function' && onPage(page - 1)}
 				disabled={page === 1}
@@ -88,11 +88,11 @@ export default function Pagination({
 				))}
 			</div>
 			<div className='items-center flex md:hidden gap-x-3'>
-				{t('page_of', { page, maxPage })}
+				{t('general.page_of_', { page, maxPage })}
 			</div>
 
 			<Button
-				message={t('next')}
+				message={t('button.next')}
 				iconAfter={<HiOutlineArrowLongRight size={24} />}
 				onClick={() => typeof onPage === 'function' && onPage(page + 1)}
 				disabled={page >= maxPage}

@@ -11,7 +11,7 @@ import { TProjectToUser } from '@/models/project';
 
 function Breadcrumbs() {
 	const pathname = usePathname();
-	const t = useTranslations('common.breadcrumbs');
+	const t = useTranslations();
 	const projects = useNWStore((state) => state.projects);
 
 	const parts = useMemo(() => {
@@ -33,7 +33,7 @@ function Breadcrumbs() {
 					if (index === 0) return inc;
 					let project: TProjectToUser | undefined;
 					if (index === 1 && projects?.length) {
-						project = projects.find((p) => p.slug === path);
+						project = projects.find((p) => p.uuid === path);
 					}
 
 					inc.push({
@@ -64,7 +64,7 @@ function Breadcrumbs() {
 					)}
 					{active ? (
 						<span className='text-blue-600 dark:text-blue-400 cursor-default'>
-							{name || t(token)}
+							{name || t(`general.${token}`)}
 						</span>
 					) : (
 						<Link
@@ -73,7 +73,7 @@ function Breadcrumbs() {
 								'hover:underline text-gray-600 dark:text-gray-200',
 							)}
 						>
-							{name || t(token)}
+							{name || t(`general.${token}`)}
 						</Link>
 					)}
 				</Fragment>

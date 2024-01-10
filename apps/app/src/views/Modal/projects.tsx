@@ -35,7 +35,7 @@ const PROJECTS = [
 ];
 
 function AsideProjects(props: IModal) {
-	const t = useTranslations('common');
+	const t = useTranslations();
 
 	return (
 		<aside
@@ -48,7 +48,7 @@ function AsideProjects(props: IModal) {
 			<div className='flex items-center justify-between'>
 				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
 					<BsDiagram2 size={32} />
-					<span className='ml-2'>{t('projects')}</span>
+					<span className='ml-2'>{t('general.projects')}</span>
 				</h2>
 
 				<Button

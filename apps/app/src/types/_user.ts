@@ -1,11 +1,5 @@
 import { TUID } from '@/types/common';
 
-export enum EnumFilter {
-	ALL = 'all',
-	ACTIVE = 'active',
-	INACTIVE = 'inactive',
-}
-
 export interface IUser extends TUID {
 	email: string;
 	emailVerified: boolean;

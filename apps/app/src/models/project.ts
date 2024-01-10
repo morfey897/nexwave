@@ -1,15 +1,8 @@
 import db from '@/lib/storage';
-import { schemas, orm, EnumColor, EnumStatus } from '@nw/storage';
+import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
-import { humanId } from 'human-id';
-import { random } from '@/utils';
-
-enum EnumRole {
-	super = 'super',
-	admin = 'admin',
-	user = 'user',
-	guest = 'guest',
-}
+import { generateColor, generateName } from '@/utils';
+import { EnumRole, EnumColor, EnumStatus } from '@/enums';
 
 const ROLES = {
 	[EnumRole.super]:
@@ -24,17 +17,17 @@ export interface IBranch extends TUID {
 	name: string;
 	image: string | null;
 	createdAt: Date;
-	status: EnumStatus;
+	status: EnumStatus | null;
 }
 
 export interface IProject extends TUID {
 	ownerId: number;
 	createdAt: Date;
 	vistedAt: Date | null;
-	color: EnumColor;
+	color: EnumColor | null;
 	name: string;
 	image: string | null;
-	status: EnumStatus;
+	status: EnumStatus | null;
 	roles: Record<string, number>;
 	branches: IBranch[];
 }
@@ -42,17 +35,6 @@ export interface IProject extends TUID {
 export type TProjectToUser = Omit<IProject, 'ownerId'> & {
 	role: keyof typeof EnumRole;
 };
-
-function generateName() {
-	return humanId({
-		separator: ' ',
-		capitalize: true,
-	});
-}
-
-function generateColor() {
-	return random<EnumColor>(Object.values(EnumColor));
-}
 
 /**
  * Deploy new project
@@ -62,12 +44,17 @@ function generateColor() {
 export async function deployNewProject({
 	ownerId,
 	name,
+	color,
 }: {
+	color?: string;
 	name?: string;
 	ownerId: number;
 }): Promise<IProject | null> {
 	const nameValue = name || generateName();
-	const color = generateColor();
+	const colorValue =
+		color && Object.values(EnumColor).includes(color as EnumColor)
+			? (color as EnumColor)
+			: generateColor();
 
 	const project = await db.transaction(async (trx) => {
 		const [project] = await trx
@@ -75,7 +62,8 @@ export async function deployNewProject({
 			.values({
 				ownerId,
 				name: nameValue,
-				color,
+				color: colorValue,
+				status: EnumStatus.DRAFT,
 				roles: ROLES,
 			})
 			.returning({
@@ -249,8 +237,8 @@ export async function getProjectByUserId(props?: {
 				id != undefined
 					? orm.eq(schemas.project.id, id)
 					: uuid != undefined
-					? orm.eq(schemas.project.uuid, uuid)
-					: undefined,
+						? orm.eq(schemas.project.uuid, uuid)
+						: undefined,
 			),
 		)
 		.execute();

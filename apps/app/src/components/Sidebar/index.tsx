@@ -18,21 +18,21 @@ import { CurrentBranch } from './Branch';
 import { useOpenModal } from '@nw/modal';
 
 const LINKS = [
-	{ href: routes.ROOT, label: 'breadcrumbs.app', Icon: HiHome },
-	{ href: routes.TIMETABLE, label: 'breadcrumbs.timetable', Icon: HiCalendar },
-	{ href: routes.CLIENTS, label: 'breadcrumbs.clients', Icon: HiUsers },
+	{ href: routes.ROOT, label: 'general.app', Icon: HiHome },
+	{ href: routes.TIMETABLE, label: 'general.timetable', Icon: HiCalendar },
+	{ href: routes.CLIENTS, label: 'general.clients', Icon: HiUsers },
 	{
 		href: routes.SERVICES,
-		label: 'breadcrumbs.services',
+		label: 'general.services',
 		Icon: HiLightningBolt,
 	},
 	{
 		href: routes.PRODUCTS,
-		label: 'breadcrumbs.products',
+		label: 'general.products',
 		Icon: HiMiniBuildingStorefront,
 	},
 	null,
-	{ href: routes.USERS, label: 'breadcrumbs.users', Icon: HiUserCircle },
+	{ href: routes.USERS, label: 'general.users', Icon: HiUserCircle },
 ];
 
 const isActive = (pathName: string, route: string) =>
@@ -42,7 +42,7 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 	const openModal = useOpenModal();
 
 	const pathName = usePathname();
-	const t = useTranslations('common');
+	const t = useTranslations();
 
 	const onOpenProjects = useCallback(() => {
 		openModal({ name: MODALS.PROJECTS });

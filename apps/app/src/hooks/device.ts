@@ -1,5 +1,5 @@
 'use client';
-import { EnumDevice } from '@/types/view';
+import { EnumDeviceType } from '@/enums';
 import { useCallback, useState, useEffect } from 'react';
 
 const MIN_WIDTH = {
@@ -48,10 +48,10 @@ export const useBreakpoint = () => {
 	};
 };
 
-export const useDevice = (): EnumDevice => {
+export const useDevice = (): EnumDeviceType => {
 	const { xs, sm, md, lg, xl, xxl } = useBreakpoint();
-	if (xxl || xl || lg) return EnumDevice.DESKTOP;
-	if (md) return EnumDevice.TABLET;
-	if (sm || xs) return EnumDevice.MOBILE;
-	return EnumDevice.NONE;
+	if (xxl || xl || lg) return EnumDeviceType.DESKTOP;
+	if (md) return EnumDeviceType.TABLET;
+	if (sm || xs) return EnumDeviceType.MOBILE;
+	return EnumDeviceType.NONE;
 };

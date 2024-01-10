@@ -2,32 +2,21 @@
 import { redirect } from 'next/navigation';
 import { signAuth } from '@/lib/jwt';
 import { validate } from '@/utils/validation';
-import ErrorCodes from '@/errorCodes';
-import { TError } from '@/types/auth';
-import { EnumStatus } from '@/types/status';
+import * as ErrorCodes from '@/errorCodes';
+import { IResponse } from '@/types';
+import { EnumResponse } from '@/enums';
 import { cookies } from 'next/headers';
 import googleOAuthClient from '@/lib/googleOAuth';
 import * as users from '@/models/user';
 import { start } from '@/models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '@/utils/cookies';
 import { API } from '@/routes';
-
-type Response = {
-	status: EnumStatus;
-	error?: TError;
-};
-
-function getError(error: any): TError {
-	return {
-		code: String(error?.code || error?.cause?.code || 'unknown'),
-		message: String(error.message || ''),
-	};
-}
+import { getError } from '@/utils';
 
 export async function signOut() {
 	cookies().set(sessionCookie(null));
 	cookies().set(refreshCookie(null));
-	return { status: EnumStatus.SUCCESS, user: null };
+	return { status: EnumResponse.SUCCESS, user: null };
 }
 
 export async function signInWithOauth(formData: FormData): Promise<never> {
@@ -67,7 +56,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 
 export async function signInWithEmailAndPassword(
 	formData: FormData,
-): Promise<Response> {
+): Promise<IResponse> {
 	try {
 		const { email, password } = {
 			email: (formData.get('email')?.toString() || '').trim().toLowerCase(),
@@ -88,19 +77,19 @@ export async function signInWithEmailAndPassword(
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));
 			cookies().set(refreshCookie(result));
-			return { status: EnumStatus.SUCCESS };
+			return { status: EnumResponse.SUCCESS };
 		} else {
 			throw { code: ErrorCodes.CREDENTIAL_MISMATCH };
 		}
 	} catch (error) {
 		console.log('ERROR', error);
-		return { status: EnumStatus.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: getError(error) };
 	}
 }
 
 export async function signUpWithEmailAndPassword(
 	formData: FormData,
-): Promise<Response> {
+): Promise<IResponse> {
 	try {
 		const { name, email, password, confirmPassword } = {
 			name: (formData.get('name')?.toString() || '').trim(),
@@ -137,7 +126,7 @@ export async function signUpWithEmailAndPassword(
 		cookies().set(refreshCookie(user));
 		//TODO if user has project redirect to project page
 		//TODO if user has invitations redirect to invitations page
-		return { status: EnumStatus.SUCCESS };
+		return { status: EnumResponse.SUCCESS };
 	} catch (error) {
 		const er = error as unknown as any;
 		if (er.constraint === 'users_email_unique') {
@@ -148,6 +137,6 @@ export async function signUpWithEmailAndPassword(
 		}
 
 		console.log('ERROR', error);
-		return { status: EnumStatus.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: getError(error) };
 	}
 }

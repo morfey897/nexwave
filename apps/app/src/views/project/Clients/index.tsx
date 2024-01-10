@@ -13,14 +13,13 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { EnumFilter } from '@/types/client';
+import { EnumStatus, EnumLevel, EnumSortBy, EnumRepresent } from '@/enums';
 import Caption from '@/components/Caption';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import Search from '@/components/Controls/Search';
 import Filter from '@/components/Controls/Filter';
 import { useMemo } from 'react';
-import { EnumLevel } from '@/types/common';
-import { EnumSort, ITableProps } from '@/types/table';
+import { ITableProps } from '@/types/table';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import Container, {
 	ContainerBody,
@@ -30,7 +29,6 @@ import Container, {
 } from '@/components/Containers';
 import clsx from 'clsx';
 import { useView } from '@/hooks/filter';
-import { EnumView } from '@/types/table';
 import { searchParams } from '@nw/config';
 
 function ClintsView({ clients }: { clients: IClient[] }) {
@@ -40,11 +38,11 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 	const { onFilter, filter } = useFilter({
 		name: searchParams.FILTER,
-		defaultValue: EnumFilter.ALL,
+		defaultValue: 'all',
 	});
 	const { onView, view } = useView({
 		name: searchParams.VIEW,
-		defaultValue: EnumView.TABLE,
+		defaultValue: EnumRepresent.TABLE,
 	});
 	const { onSearch, search } = useSearch({
 		name: searchParams.SEARCH,
@@ -58,21 +56,35 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 		name: searchParams.PAGE,
 	});
 
-	const filters = useMemo(() => {
-		return Object.values(EnumFilter).map((uid) => ({
-			uid: uid,
-			title: t(`clients_page.filter.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const statuses = useMemo(() => {
+		return [
+			{
+				uid: 'all',
+				title: t(`filter.all`),
+			},
+			{
+				uid: EnumStatus.ACTIVE,
+				title: t(`filter.active`),
+			},
+			{
+				uid: EnumStatus.INACTIVE,
+				title: t(`filter.inactive`),
+			},
+		];
+	}, [t]);
 
-	const views = useMemo(() => {
-		return Object.values(EnumView).map((uid) => ({
-			uid: uid,
-			title: t(`table_views.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const represents = useMemo(() => {
+		return [
+			{
+				uid: EnumRepresent.TABLE,
+				title: t(`filter.table`),
+			},
+			{
+				uid: EnumRepresent.LIST,
+				title: t(`filter.list`),
+			},
+		];
+	}, [t]);
 
 	const getHead = useMemo(() => {
 		return [
@@ -80,7 +92,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 				flex: 2,
 				token: 'name',
 				title: 'Name',
-				type: EnumSort.SYMBOLIC,
+				type: EnumSortBy.SYMBOLIC,
 				comparator: sort.asc === 'name' ? 1 : sort.desc === 'name' ? -1 : 0,
 				onSort: onSort,
 				Generator: AvatarGenerator,
@@ -89,14 +101,14 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 				flex: 2,
 				token: 'badges',
 				title: 'Badges',
-				type: EnumSort.NONE,
+				type: EnumSortBy.NONE,
 				Generator: withGenerator('badges', BadgesGenerator),
 			},
 			{
 				flex: 1,
 				token: 'lastVisit',
 				title: 'LastVisit',
-				type: EnumSort.NUMERIC,
+				type: EnumSortBy.NUMERIC,
 				comparator:
 					sort.asc === 'lastVisit' ? 1 : sort.desc === 'lastVisit' ? -1 : 0,
 				onSort: onSort,
@@ -150,7 +162,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
 							message={t('clients_page.filter._', { filter: filter })}
-							filters={filters}
+							filters={statuses}
 							onChange={onFilter}
 							value={filter}
 						/>
@@ -165,14 +177,14 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 							className='flex shrink-0'
 							icon={<HiOutlineViewGrid size={16} />}
 							message={t('calendar_views._', { view })}
-							filters={views}
+							filters={represents}
 							onChange={onView}
 							value={view}
 						/>
 					</div>
 				</div>
 				<ContainerScrollableHeader ref={refHeader} onScroll={onScroll}>
-					{view === EnumView.TABLE && (
+					{view === EnumRepresent.TABLE && (
 						<WideTableHead
 							head={getHead}
 							className={clsx(
@@ -181,7 +193,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 							)}
 						/>
 					)}
-					{view === EnumView.LIST && (
+					{view === EnumRepresent.LIST && (
 						<ListTableHead
 							head={getHead}
 							className={clsx(
@@ -194,7 +206,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 			</ContainerHeader>
 
 			<ContainerBody ref={refBody} onScroll={onScroll}>
-				{view === EnumView.TABLE && (
+				{view === EnumRepresent.TABLE && (
 					<WideTableBody
 						head={getHead}
 						body={getBody}
@@ -205,7 +217,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 						)}
 					/>
 				)}
-				{view === EnumView.LIST && (
+				{view === EnumRepresent.LIST && (
 					<ListTableBody
 						head={getHead}
 						body={getBody}

@@ -6,17 +6,8 @@ export const INVALID_PASSWORD = 'auth/wrong-password';
 export const WEAK_PASSWORD = 'auth/weak-password';
 export const EMAIL_EXISTS = 'auth/email-already-in-use';
 export const CREDENTIAL_MISMATCH = 'auth/custom-token-mismatch';
-
-export default {
-	WENT_WRONG,
-	MISSING_EMAIL,
-	MISSING_PASSWORD,
-	INVALID_EMAIL,
-	INVALID_PASSWORD,
-	WEAK_PASSWORD,
-	EMAIL_EXISTS,
-	CREDENTIAL_MISMATCH,
-}
+export const USER_UNAUTHORIZED = 'user/unauthorized';
+export const PROJECT_CREATE_FAILED = 'project/create-failed';
 
 // ADMIN_ONLY_OPERATION = 'auth/admin-restricted-operation';
 // ARGUMENT_ERROR = 'auth/argument-error';

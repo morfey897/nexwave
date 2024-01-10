@@ -8,7 +8,7 @@ import {
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
-import { EnumDevice } from './types/view';
+import { EnumDeviceType } from '@/enums';
 import { API, APP } from '@/routes';
 import { getSession, getRefreshToken } from '@/headers';
 
@@ -16,18 +16,18 @@ type LangType = typeof locales.LOCALES & undefined;
 
 const getDevice = (userAgent: string | null | undefined) => {
 	const ua = UAParser(userAgent || undefined);
-	let device: EnumDevice = EnumDevice.NONE;
+	let device: EnumDeviceType = EnumDeviceType.NONE;
 	switch (ua.device.type) {
 		case 'mobile': {
-			device = EnumDevice.MOBILE;
+			device = EnumDeviceType.MOBILE;
 			break;
 		}
 		case 'tablet': {
-			device = EnumDevice.TABLET;
+			device = EnumDeviceType.TABLET;
 			break;
 		}
 		default: {
-			device = EnumDevice.DESKTOP;
+			device = EnumDeviceType.DESKTOP;
 			break;
 		}
 	}

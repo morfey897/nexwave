@@ -9,8 +9,7 @@ import {
 	timeToMinutes,
 } from '@/utils/datetime';
 import { addZiro } from '@/utils/str';
-import { cellStyle, detectCollisions, groupRectangles } from '@/utils/view';
-import { TRect } from '@/types/view';
+import { cellStyle, detectCollisions, groupRectangles, TRect } from '@/utils/view';
 
 /**
  * Calculate min, max and step for times

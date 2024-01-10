@@ -1,6 +1,6 @@
 import { TUID } from '@/types/common';
 import { ITableProps } from '@/types/table';
-import { EnumDevice } from '@/types/view';
+import { EnumDeviceType } from '@/enums';
 import clsx from 'clsx';
 import { BiChevronDown } from 'react-icons/bi';
 import Accordion from '@/components/Accordion';
@@ -22,7 +22,7 @@ function Body<T extends TUID>({
 									<Generator
 										key={`generator_${item.uuid}_${token}`}
 										item={item}
-										device={EnumDevice.MOBILE}
+										device={EnumDeviceType.MOBILE}
 									/>
 								))}
 								<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
@@ -44,7 +44,7 @@ function Body<T extends TUID>({
 									<Generator
 										key={`generator_${item.uuid}_${token}`}
 										item={item}
-										device={EnumDevice.MOBILE}
+										device={EnumDeviceType.MOBILE}
 									/>
 								</div>
 							))}

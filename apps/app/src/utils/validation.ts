@@ -1,4 +1,4 @@
-import ErrorCodes from '@/errorCodes';
+import * as ErrorCodes from '@/errorCodes';
 
 export const validate = (
 	props: Array<{ value: any; key: 'email' | 'password' }>,

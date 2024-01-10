@@ -15,7 +15,7 @@ export function TimeGenerator({
 }: {
 	item: { uuid: string; value: string };
 }) {
-	const t = useTranslations('common');
+	const t = useTranslations();
 	const NOW = new Date(new Date().toISOString().split('T')[0]);
 	const dateLocale = useDateLocale();
 
@@ -25,7 +25,7 @@ export function TimeGenerator({
 	if (!isValid) return '';
 	const days = differenceInDays(NOW, date);
 
-	if (days <= 7) return t('days_ago', { count: days });
+	if (days <= 7) return t('general.days_ago_', { count: days });
 
 	return (
 		<span>

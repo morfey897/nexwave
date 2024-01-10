@@ -1,54 +1,9 @@
-import { RedirectType } from 'next/navigation';
-export type TWrapperProps = {
-	wrapperClassName?: string;
-};
-
-export type TBadgeProps = {
-	count: string | number | undefined;
-};
-
-export enum EnumDevice {
-	NONE = '_none',
-	MOBILE = 'mobile',
-	DESKTOP = 'desktop',
-	TABLET = 'tablet',
-}
-
-export type TDeviceProps = {
-	device?: EnumDevice;
-};
-
-type Union = string | number | undefined;
-
-export type TMessage = {
-	message?: Union;
-};
-
-export type TMessages = {
-	messages?: Record<string, Union>;
-};
-
-export interface IButtonProps extends TMessage {
-	variant?: 'primary' | 'default' | 'text' | 'secondary';
-	size?: 'sm' | 'md' | 'lg';
-	icon?: React.ReactNode;
-	iconAfter?: React.ReactNode;
-}
+import { EnumDeviceType } from '@/enums';
 
 export type TGenerator<T> = React.FC<
 	{
 		item: T;
-	} & TDeviceProps
+	} & {
+		device?: EnumDeviceType;
+	}
 >;
-
-export type TPosition = {
-	x: number;
-	y: number;
-};
-
-export type TSize = {
-	width: number;
-	height: number;
-};
-
-export interface TRect extends TPosition, TSize {}

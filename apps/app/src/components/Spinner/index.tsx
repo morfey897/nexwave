@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import { IButtonProps } from '@/types/view';
+import { IButtonProps } from '@/components/Button';
 
 function Spinner({
 	variant = 'default',

@@ -1,14 +1,16 @@
 import clsx from 'clsx';
 import React from 'react';
-import { TWrapperProps, TBadgeProps } from '@/types/view';
 
 export function CountBadge({
 	count,
-  wrapperClassName,
+	wrapperClassName,
 	className,
 	children,
 	...props
-}: TBadgeProps & TWrapperProps & React.HTMLAttributes<HTMLSpanElement>) {
+}: {
+	count: string | number | undefined;
+	wrapperClassName?: string;
+} & React.HTMLAttributes<HTMLSpanElement>) {
 	return (
 		<div className={clsx('relative', wrapperClassName)}>
 			{children}
@@ -17,7 +19,7 @@ export function CountBadge({
 					'absolute inline-flex items-center justify-center h-6 min-w-[24px] text-xs p-1 rounded-full -top-1 -end-6',
 					'border-2 border-white dark:border-gray-900',
 					'text-blue-600 bg-blue-100 dark:bg-gray-800 dark:text-blue-400',
-          typeof count === 'undefined' && 'hidden',
+					typeof count === 'undefined' && 'hidden',
 					className,
 				)}
 				{...props}

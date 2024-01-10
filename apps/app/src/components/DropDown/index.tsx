@@ -1,4 +1,3 @@
-import { TWrapperProps } from '@/types/view';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 
@@ -11,8 +10,8 @@ function DropDown({
 }: {
 	element: ReactNode;
 	direction: { y: 'top' | 'bottom'; x?: 'left' | 'right' };
-} & TWrapperProps &
-	React.HTMLAttributes<HTMLDivElement>) {
+	wrapperClassName?: string;
+} & React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div className={clsx('group relative', wrapperClassName)}>
 			{element}

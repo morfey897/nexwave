@@ -1,5 +1,4 @@
-import { IButtonProps } from '@/types/view';
-import Button from '../Button';
+import {type IButtonProps, Button } from '@/components/Button';
 import { PiImage } from 'react-icons/pi';
 import { HiOutlineCheck } from 'react-icons/hi';
 import clsx from 'clsx';
@@ -33,11 +32,11 @@ export function CurrentBranch({
 			icon={
 				<span className='relative'>
 					<BranchIcon image={image} />
-					<Marker
+					{/* <Marker
 						color={color}
 						size='md'
 						className='absolute -top-1 -right-1'
-					/>
+					/> */}
 				</span>
 			}
 			{...props}

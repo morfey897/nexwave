@@ -1,13 +1,14 @@
 import clsx from 'clsx';
 import { PiNoteBlankLight } from 'react-icons/pi';
-import { TMessages } from '@/types/view';
 
 function Empty({
 	messages,
 	className,
 	children,
 	...props
-}: TMessages & React.HTMLAttributes<HTMLDivElement>) {
+}: {
+	messages?: Record<string, string | number | undefined>;
+} & React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
 			className={clsx(

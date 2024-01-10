@@ -15,7 +15,7 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 	const [localMode, setLocalMode] = useState(mode);
 
 	const route = useRouter();
-	const t = useTranslations('auth_page');
+	const t = useTranslations();
 	const onConfirm = useCallback(() => {
 		route.refresh();
 	}, [route]);
@@ -46,8 +46,8 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 					onClick={() => onDismiss()}
 				/>
 				<Headline
-					headline={t('headline')}
-					subheadline={t('subheadline')}
+					headline={t('page.auth.headline')}
+					subheadline={t('page.auth.subheadline')}
 					className='text-lg md:text-xl font-semibold text-center'
 					bodyClassName='text-center'
 				/>

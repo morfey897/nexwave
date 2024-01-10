@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import { EnumColor } from '@packages/storage/dist';
+import { EnumColor } from '@/enums';
 import { RxDotFilled } from 'react-icons/rx';
 
 function Marker({

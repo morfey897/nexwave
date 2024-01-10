@@ -56,9 +56,9 @@ export const project = pgTable('projects', {
 	name: varchar('name', { length: 255 }).notNull(),
 	visitedAt: timestamp('visited_at').defaultNow().notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	status: enums.statusEnum('status').default('draft').notNull(),
+	status: varchar('status', { length: 32 }),
 	image: text('image'),
-	color: enums.colorEnum('color').default('gray').notNull(),
+	color: varchar('color', { length: 32 }),
 	roles: jsonb('roles')
 		.$type<Record<string, number>>() // Record<string, number> is the same as { [key: string]: 1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|... }
 		.default({})
@@ -76,7 +76,7 @@ export const branch = pgTable('branches', {
 	name: varchar('name', { length: 255 }).notNull(),
 	image: text('image'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	status: enums.statusEnum('status').default('draft').notNull(),
+	status: varchar('status', { length: 32 }),
 	projectId: integer('project_id')
 		.notNull()
 		.references(() => project.id),

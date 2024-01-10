@@ -1,3 +1,6 @@
+import { humanId } from 'human-id';
+import { EnumColor } from '@/enums';
+
 export function isNotNull<T>(key: string) {
 	return (item: any): item is T => item[key] !== null;
 }
@@ -37,3 +40,22 @@ export const fullname = (
 
 export const random = <T>(array: Array<T>) =>
 	array[Math.floor(Math.random() * array.length)];
+
+export function generateName() {
+	return humanId({
+		separator: ' ',
+		capitalize: true,
+	});
+}
+
+export function generateColor() {
+	return random<EnumColor>(Object.values(EnumColor));
+}
+
+
+export function getError(error: any) {
+	return {
+		code: String(error?.code || error?.cause?.code || 'unknown'),
+		message: String(error.message || ''),
+	};
+}

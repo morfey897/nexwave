@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 
 export default function NotFound() {
 	const router = useRouter();
-	const t = useTranslations('not_found_page');
+	const t = useTranslations();
 
 	const onBack = useCallback(() => {
 		router.back();
@@ -26,20 +26,20 @@ export default function NotFound() {
 						404
 					</p>
 					<h1 className='mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl'>
-						{t('headline')}
+						{t('page.not_found.headline')}
 					</h1>
 					<p className='mt-4 text-gray-500 dark:text-gray-400'>
-						{t('subheadline')}
+						{t('page.not_found.subheadline')}
 					</p>
 
 					<div className='flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>
 						<Button
 							onClick={onBack}
-							message={t('go_back')}
+							message={t('button.go_back')}
 							icon={<HiOutlineArrowLongLeft size={24} />}
 						/>
 
-						<Button variant='primary' onClick={onHome} message={t('go_home')} />
+						<Button variant='primary' onClick={onHome} message={t('button.go_home')} />
 					</div>
 				</div>
 

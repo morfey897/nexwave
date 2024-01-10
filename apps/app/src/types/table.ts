@@ -1,23 +1,12 @@
 import { TUID } from './common';
 import { TGenerator } from './view';
-
-export enum EnumView {
-	TABLE = 'table',
-	LIST = 'list',
-}
-
-export enum EnumSort {
-	NONE = 'none',
-	SR_ONLY = 'sr-only',
-	SYMBOLIC = 'symbolic',
-	NUMERIC = 'numeric',
-}
+import { EnumSortBy } from '@/enums';
 
 interface IHeadProps<T extends TUID> {
 	flex?: number;
 	token: string;
 	title: string;
-	type?: EnumSort | EnumSort[];
+	type?: EnumSortBy | EnumSortBy[];
 	onSort?: (uid: string) => void;
 	comparator?: number;
 	Generator: TGenerator<T>;

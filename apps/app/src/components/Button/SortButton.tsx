@@ -6,7 +6,7 @@ import {
 	BiSolidSortAlt,
 } from 'react-icons/bi';
 import Button from '.';
-import { IButtonProps } from '@/types/view';
+import { IButtonProps } from '@/components/Button';
 import clsx from 'clsx';
 
 function SortButton({

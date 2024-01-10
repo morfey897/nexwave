@@ -1,6 +1,6 @@
 import { TUID } from '@/types/common';
 import { ITableProps } from '@/types/table';
-import { EnumDevice } from '@/types/view';
+import { EnumDeviceType } from '@/enums';
 import clsx from 'clsx';
 
 function Body<T extends TUID>({
@@ -18,7 +18,7 @@ function Body<T extends TUID>({
 							className='w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-left text-ellipsis'
 							style={{ flex: flex || 1 }}
 						>
-							<Generator item={item} device={EnumDevice.DESKTOP} />
+							<Generator item={item} device={EnumDeviceType.DESKTOP} />
 						</div>
 					))}
 				</div>

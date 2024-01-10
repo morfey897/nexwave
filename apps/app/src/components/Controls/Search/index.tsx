@@ -1,8 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import { HiOutlineSearch, HiX } from 'react-icons/hi';
-import { TWrapperProps } from '@/types/view';
-import { useMemo, useEffect, useCallback, useRef, ChangeEvent } from 'react';
+import { useMemo, useEffect, useCallback, useRef } from 'react';
 import { throttle } from 'lodash';
 
 function Search({
@@ -12,7 +11,7 @@ function Search({
 	className,
 	type,
 	...props
-}: { onChange?: (input: string) => void; wait?: number } & TWrapperProps &
+}: { onChange?: (input: string) => void; wait?: number; wrapperClassName?: string } &
 	Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
 	const ref = useRef<HTMLInputElement>(null);
 	const onClear = useCallback(() => {

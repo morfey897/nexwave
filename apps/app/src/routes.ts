@@ -33,5 +33,5 @@ export const API = {
 export const MODALS = {
 	SETTINGS: 'settings',
 	PROJECTS: 'projects',
-	ADD_PROJECT: 'add-project',
+	CREATE_PROJECT: 'new-project',
 } as const;

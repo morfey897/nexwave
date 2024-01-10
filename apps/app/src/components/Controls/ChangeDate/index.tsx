@@ -19,7 +19,7 @@ function ChangeDate({
 	onChange?: (index: number) => void;
 } & Omit<React.HTMLProps<HTMLDivElement>, 'onChange'>) {
 	const now = useNow();
-	const t = useTranslations('common');
+	const t = useTranslations();
 	const locale = useDateLocale();
 
 	const title = useMemo(() => {
@@ -68,10 +68,10 @@ function ChangeDate({
 				{showToday && (
 					<Button
 						variant='text'
-						aria-label={t('today')}
+						aria-label={t('general.today')}
 						onClick={onToday}
 						className='text-blue-500 dark:text-blue-400 !p-0 mx-auto hover:underline'
-						message={t('today')}
+						message={t('general.today')}
 					/>
 				)}
 			</div>

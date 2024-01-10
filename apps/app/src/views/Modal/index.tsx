@@ -3,14 +3,14 @@ import { MODALS } from '@/routes';
 import { ModalProvider } from '@nw/modal';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { searchParams as cfg } from '@nw/config';
-import AsideSettings from '@/views/Modal/settings';
-import AsideProjects from '@/views/Modal/projects';
-import AddProject from './AddProject';
+import AsideSettings from '@/views/Modal/Settings';
+import AsideProjects from '@/views/Modal/Projects';
+import CreateProject from '@/views/Modal/CreateProject';
 
 const COMPONENTS = {
 	[MODALS.SETTINGS]: AsideSettings,
 	[MODALS.PROJECTS]: AsideProjects,
-	[MODALS.ADD_PROJECT]: AddProject,
+	[MODALS.CREATE_PROJECT]: CreateProject,
 };
 
 function ModalsContainer({ children }: { children: React.ReactNode }) {

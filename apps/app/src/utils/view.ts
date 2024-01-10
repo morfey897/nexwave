@@ -1,5 +1,14 @@
-import { TTimes } from '@/types/calendar';
-import { TSize, TRect } from '@/types/view';
+export type TPosition = {
+	x: number;
+	y: number;
+};
+
+export type TSize = {
+	width: number;
+	height: number;
+};
+
+export interface TRect extends TPosition, TSize {}
 
 export function intersection(rect1: TRect, rect2: TRect) {
 	const xOverlap = Math.max(

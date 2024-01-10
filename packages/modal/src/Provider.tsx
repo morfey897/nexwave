@@ -49,6 +49,7 @@ function Provider({
   const [modals, setModals] = React.useState<Record<string, ModalState>>({});
 
   React.useEffect(() => {
+    console.log("searchParams", Object.fromEntries(searchParams.entries()));
     const newList: Array<string> = [];
     const modalParams: Record<string, TModalParams> = {};
 
@@ -62,6 +63,8 @@ function Provider({
     setList(newList);
     setModalProps((params) => ({ ...params, ...modalParams }));
   }, [searchParams, Components, prefix]);
+
+  console.log("MODALS:=>", modalsList, modalProps, modals);
 
   // Initialize mounting and closing state
   React.useEffect(() => {
@@ -151,7 +154,7 @@ function Provider({
       const url = `${payload.href || ""}?${params}`;
       navigate(url, replace === true);
     },
-    [navigate, searchParams],
+    [prefix, navigate, searchParams],
   );
 
   const memoModals = React.useMemo(() => Object.keys(modals), [modals]);
@@ -162,7 +165,7 @@ function Provider({
       <ProviderWrapper id={id}>
         {memoModals.map((name) => {
           const Component = Components[name];
-          return !!Component ? (
+          return Component ? (
             <Component
               key={name}
               name={name}

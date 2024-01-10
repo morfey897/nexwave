@@ -5,8 +5,7 @@ import ChangeDate from '@/components/Controls/ChangeDate';
 import { useTranslations } from 'next-intl';
 import Caption from '@/components/Caption';
 import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
-import { EnumView } from '@/types/calendar';
-import { EnumFilter } from '@/types/event';
+import { EnumStatus, EnumPeriod } from '@/enums';
 import { useEffect, useMemo } from 'react';
 import { WeekCalendarHead, WeekCalendarBody } from '@/components/Calendar/Week';
 import { previousMonday, addDays } from 'date-fns';
@@ -21,7 +20,7 @@ import Container, {
 import clsx from 'clsx';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import { IEvent } from '@/types/event';
-import { EnumDevice } from '@/types/view';
+import { EnumDeviceType } from '@/enums';
 import { searchParams } from '@nw/config';
 
 const getFirstDay = () => {
@@ -41,21 +40,21 @@ function TimetableView({
 	events: IEvent[];
 	cellHeight: number;
 	timeStep: number;
-	device?: EnumDevice;
+	device?: EnumDeviceType;
 }) {
 	const t = useTranslations();
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 
-	const { onFilter, filter } = useFilter({
+	const { onFilter, filter: status } = useFilter({
 		name: searchParams.FILTER,
-		defaultValue: EnumFilter.ALL,
+		defaultValue: 'all',
 	});
 
-	const { onView, view } = useView({
+	const { onView, view: period } = useView({
 		name: searchParams.VIEW,
-		defaultValue: device === EnumDevice.MOBILE ? EnumView.DAY : EnumView.WEEK,
+		defaultValue: device === EnumDeviceType.MOBILE ? EnumPeriod.DAY : EnumPeriod.WEEK,
 	});
 
 	const { onDay, day } = useDay({
@@ -63,42 +62,56 @@ function TimetableView({
 		defaultValue: getFirstDay(),
 	});
 
-	const views = useMemo(() => {
-		return Object.values(EnumView).map((uid) => ({
-			uid: uid,
-			title: t(`calendar_views.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const periods = useMemo(() => {
+		return [
+			{
+				uid: EnumPeriod.WEEK,
+				title: t(`filter.week`),
+			},
+			{
+				uid: EnumPeriod.DAY,
+				title: t(`filter.day`),
+			},
+		];
+	}, [t]);
 
-	const filters = useMemo(() => {
-		return Object.values(EnumFilter).map((uid) => ({
-			uid: uid,
-			title: t(`timetable_page.filter.${uid}`),
-		}));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const statuses = useMemo(() => {
+		return [
+			{
+				uid: 'all',
+				title: t(`filter.all`),
+			},
+			{
+				uid: EnumStatus.ACTIVE,
+				title: t(`filter.active`),
+			},
+			{
+				uid: EnumStatus.INACTIVE,
+				title: t(`filter.inactive`),
+			}
+		];
+	}, [t]);
 
 	const getEvents = useMemo(() => {
 		return events;
 	}, [events]);
 
 	const getDates = useMemo(() => {
-		if (view === EnumView.WEEK) {
+		if (period === EnumPeriod.WEEK) {
 			return new Array(7)
 				.fill(0)
 				.map((_, index) => toIsoDate(addDays(new Date(day), index)));
 		} else {
 			return [day];
 		}
-	}, [view, day]);
+	}, [period, day]);
 
 	useEffect(() => {
 		document.getElementById('marker-now')?.scrollIntoView({
 			behavior: 'auto',
 			block: 'center',
 		});
-	}, [day, view]);
+	}, [day, period]);
 
 	return (
 		<Container className='overflow-x-clip'>
@@ -106,11 +119,11 @@ function TimetableView({
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
 					<Caption
 						isScrolled={isScrolled}
-						headline={t('timetable_page.headline')}
-						subheadline={t('timetable_page.subheadline')}
+						headline={t('page.timetable.headline')}
+						subheadline={t('page.timetable.subheadline')}
 						amount={0}
 						add={{
-							title: t('common.add'),
+							title: t('button.add'),
 							onClick: () => {
 								console.log('onAdd');
 							},
@@ -127,14 +140,14 @@ function TimetableView({
 							as='dropdown'
 							className='flex shrink-0 order-1'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('timetable_page.filter._', { filter })}
-							filters={filters}
+							message={t('filter.of_status', { status })}
+							filters={statuses}
 							onChange={onFilter}
-							value={filter}
+							value={status}
 						/>
 						<ChangeDate
 							onChange={(index: number) =>
-								onDay(index * (view === EnumView.WEEK ? 7 : 1))
+								onDay(index * (period === EnumPeriod.WEEK ? 7 : 1))
 							}
 							dates={[getDates[0], getDates[getDates.length - 1]]}
 							className='order-last md:order-2 md:w-auto w-full'
@@ -143,10 +156,10 @@ function TimetableView({
 							as='auto:md'
 							className='flex shrink-0 order-3'
 							icon={<HiOutlineViewGrid size={16} />}
-							message={t('calendar_views._', { view })}
-							filters={views}
+							message={t('filter.of_period_', { period })}
+							filters={periods}
 							onChange={onView}
-							value={view}
+							value={period}
 						/>
 					</div>
 				</div>
@@ -157,7 +170,7 @@ function TimetableView({
 							'bg-gray-50 dark:bg-gray-800',
 							'border border-gray-200 dark:border-gray-700 border-b-0 rounded-t-md md:rounded-t-lg',
 							'w-full',
-							view === EnumView.WEEK && 'min-w-[600px]',
+							period === EnumPeriod.WEEK && 'min-w-[600px]',
 						)}
 						dates={getDates}
 					/>
@@ -169,7 +182,7 @@ function TimetableView({
 						'bg-white dark:bg-gray-900',
 						'border border-gray-200 dark:border-gray-700 border-b-0 rounded-b-md md:rounded-b-lg',
 						'w-full',
-						view === EnumView.WEEK && 'min-w-[600px]',
+						period === EnumPeriod.WEEK && 'min-w-[600px]',
 					)}
 					dates={getDates}
 					events={getEvents}

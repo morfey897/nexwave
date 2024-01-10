@@ -1,10 +1,9 @@
 'use client';
 import clsx from 'clsx';
-import DropDown from '../../DropDown';
-import { Button, GroupButton } from '../../Button';
-import { TMessage } from '@/types/view';
+import DropDown from '@/components/DropDown';
+import { Button, GroupButton } from '@/components/Button';
 
-interface IFilter extends TMessage {
+interface IFilter {
 	onChange?: (uid: string) => void;
 	value?: string | null;
 	filters?: Array<{
@@ -12,6 +11,7 @@ interface IFilter extends TMessage {
 		uid: string;
 	}>;
 	icon?: React.ReactNode;
+	message?: string | number | undefined,
 	as?: 'dropdown' | 'group' | 'auto:lg' | 'auto:md';
 }
 

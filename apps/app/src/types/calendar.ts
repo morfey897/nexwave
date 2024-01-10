@@ -1,9 +1,5 @@
 import { TUID } from './common';
 import { TGenerator } from './view';
-export enum EnumView {
-	WEEK = 'week',
-	DAY = 'day',
-}
 
 export type TTimes = {
 	min: number;

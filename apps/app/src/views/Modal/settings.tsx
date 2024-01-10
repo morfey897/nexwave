@@ -13,7 +13,7 @@ import clsx from 'clsx';
 
 function AsideSettings(props: IModal) {
 	const user = useNWStore((state) => state.user);
-	const t = useTranslations('common');
+	const t = useTranslations();
 	const route = useRouter();
 
 	const onExit = useCallback(async () => {
@@ -42,7 +42,7 @@ function AsideSettings(props: IModal) {
 					variant='text'
 					size='lg'
 					icon={<HiCog size={32} />}
-					message={t('settings')}
+					message={t('general.settings')}
 					onClick={onSettings}
 					className='w-full'
 				/>
@@ -51,7 +51,7 @@ function AsideSettings(props: IModal) {
 					variant='text'
 					size='lg'
 					icon={<HiLogout size={32} />}
-					message={t('sign_out')}
+					message={t('button.sign_out')}
 					onClick={onExit}
 					className='w-full'
 				/>

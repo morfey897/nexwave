@@ -50,6 +50,13 @@
       "when": 1704741150034,
       "tag": "0006_misty_spacker_dave",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1704905622394,
+      "tag": "0007_massive_swordsman",
+      "breakpoints": true
     }
   ]
 }

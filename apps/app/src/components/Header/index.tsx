@@ -18,7 +18,7 @@ import { useOpenModal } from '@nw/modal';
 function Header() {
 	const openModal = useOpenModal();
 	const user = useNWStore((state) => state.user);
-	const t = useTranslations('common');
+	const t = useTranslations();
 
 	const onOpenSettings = useCallback(() => {
 		if (!user) return;
@@ -46,7 +46,7 @@ function Header() {
 						<div className='py-4 mx-auto'>
 							<div className='flex items-center justify-between'>
 								<div className='mr-10'>
-									<Search placeholder={t('search')} />
+									<Search placeholder={t('button.search')} />
 								</div>
 								{/* <!-- Mobile menu button --> */}
 								<div className='flex gap-2'>
