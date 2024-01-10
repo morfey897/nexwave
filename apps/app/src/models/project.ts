@@ -24,10 +24,10 @@ export interface IProject extends TUID {
 	ownerId: number;
 	createdAt: Date;
 	vistedAt: Date | null;
-	color: EnumColor | null;
+	color: string | null;
 	name: string;
 	image: string | null;
-	status: EnumStatus | null;
+	status: string | null;
 	roles: Record<string, number>;
 	branches: IBranch[];
 }
@@ -41,19 +41,17 @@ export type TProjectToUser = Omit<IProject, 'ownerId'> & {
  * @param ownerId - number
  * @returns
  */
-export async function deployNewProject({
-	ownerId,
-	name,
-	color,
-}: {
-	color?: string;
-	name?: string;
-	ownerId: number;
-}): Promise<IProject | null> {
-	const nameValue = name || generateName();
+export async function deployNewProject(
+	ownerId: number,
+	props?: {
+		color?: string;
+		name?: string;
+	},
+): Promise<IProject | null> {
+	const nameValue = props?.name || generateName();
 	const colorValue =
-		color && Object.values(EnumColor).includes(color as EnumColor)
-			? (color as EnumColor)
+		props?.color && Object.values(EnumColor).includes(props?.color as EnumColor)
+			? (props?.color as EnumColor)
 			: generateColor();
 
 	const project = await db.transaction(async (trx) => {
@@ -197,13 +195,15 @@ export async function removeUserFromProject({
  * @param userId - number
  * @returns
  */
-export async function getProjectByUserId(props?: {
-	id?: number;
-	uuid?: string;
-	userId: number | null | undefined;
-}): Promise<TProjectToUser[] | null> {
-	if (!props?.userId) return null;
-	const { id, uuid } = props;
+export async function getProjectByUserId(
+	userId: number | null | undefined,
+	props?: {
+		id?: number;
+		uuid?: string;
+	},
+): Promise<TProjectToUser[] | null> {
+	if (!userId) return null;
+	const { id, uuid } = props || {};
 	const projects = await db
 		.select({
 			id: schemas.project.id,
@@ -232,7 +232,7 @@ export async function getProjectByUserId(props?: {
 		)
 		.where(
 			orm.and(
-				orm.eq(schemas.user.id, props.userId),
+				orm.eq(schemas.user.id, userId),
 				orm.isNotNull(schemas.projectToUser),
 				id != undefined
 					? orm.eq(schemas.project.id, id)

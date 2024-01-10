@@ -42,10 +42,32 @@ export function Button({
 			{...props}
 		>
 			{icon}
-			{!!message && <span>{message}</span>}
+			{!!message && (
+				<span className='message'>{message}</span>
+			)}
 			{iconAfter}
 			{children}
 		</button>
+	);
+}
+
+export function ButtonSkeleton({
+	size = 'md',
+	className,
+}: IButtonProps & { className?: string }) {
+	return (
+		<div
+			className={clsx(
+				'animate-pulse rounded-lg shrink-0 bg-gray-300 dark:bg-gray-600',
+				'border !border-l !border-r border-gray-400 dark:border-gray-700',
+				{
+					'h-[30px]': size === 'sm',
+					'h-[42px]': size === 'md',
+					'h-[54px]': size === 'lg',
+				},
+				className,
+			)}
+		/>
 	);
 }
 

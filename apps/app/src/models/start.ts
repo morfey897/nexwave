@@ -43,9 +43,7 @@ export async function start({
 		// TODO think about inactive projects
 		const invitations = await getInvitations({ email: user.email });
 		if (invitations.length == 0) {
-			const project = await deployNewProject({
-				ownerId: user.id,
-			});
+			const project = await deployNewProject(user.id);
 			return { user, project, invitations: null };
 		} else {
 			return { user, project: null, invitations };

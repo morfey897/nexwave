@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Button from '.';
-import { signInWithOauth } from '@/actions/auth';
+import { signInWithOauth } from '@/actions/auth-action';
 
 function OAuthButton({
 	redirect_to,

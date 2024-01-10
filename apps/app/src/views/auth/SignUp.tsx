@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import Spinner from '@/components/Spinner';
 import * as ErrorCodes from '@/errorCodes';
 import { RiLockPasswordFill, RiFileUserLine } from 'react-icons/ri';
-import { signUpWithEmailAndPassword } from '@/actions/auth';
+import { signUpWithEmailAndPassword } from '@/actions/auth-action';
 import { APP } from '@/routes';
 
 import { useAction } from '@/hooks/action';

@@ -18,4 +18,4 @@ function BranchIcon({ image, size }: { image?: string | null; size: number }) {
 	);
 }
 
-export default ProjectIcon;
+export default BranchIcon;

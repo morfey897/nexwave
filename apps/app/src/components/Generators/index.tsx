@@ -2,7 +2,7 @@
 
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { TGenerator } from '@/types/view';
-import { EnumLevel } from '@/types/common';
+import { EnumLevel } from '@/enums';
 import { TUID } from '@/types/common';
 
 import { useTranslations } from 'next-intl';

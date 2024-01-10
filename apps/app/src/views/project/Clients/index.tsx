@@ -135,17 +135,17 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
 					<Caption
 						isScrolled={isScrolled}
-						headline={t('clients_page.headline')}
-						subheadline={t('clients_page.subheadline')}
+						headline={t('page.clients.headline')}
+						subheadline={t('page.clients.subheadline')}
 						amount={0}
 						add={{
-							title: t('common.add'),
+							title: t('button.add'),
 							onClick: () => {
 								console.log('onAdd');
 							},
 						}}
 						imprt={{
-							title: t('common.import'),
+							title: t('button.import'),
 							onClick: () => {
 								console.log('onImport');
 							},
@@ -161,7 +161,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 							as='dropdown'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('clients_page.filter._', { filter: filter })}
+							message={t('filter.of_status_', { status: filter })}
 							filters={statuses}
 							onChange={onFilter}
 							value={filter}
@@ -169,14 +169,14 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 						<Search
 							onChange={onSearch}
 							defaultValue={search || ''}
-							placeholder={t('common.search')}
+							placeholder={t('button.search')}
 							wrapperClassName='flex items-center w-full max-w-[380px]'
 						/>
 						<Filter
 							as='auto:md'
 							className='flex shrink-0'
 							icon={<HiOutlineViewGrid size={16} />}
-							message={t('calendar_views._', { view })}
+							message={t('filter.of_represent_', { represent: view })}
 							filters={represents}
 							onChange={onView}
 							value={view}

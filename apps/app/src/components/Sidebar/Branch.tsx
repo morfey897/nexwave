@@ -1,11 +1,12 @@
-import {type IButtonProps, Button } from '@/components/Button';
+import { type IButtonProps, Button } from '@/components/Button';
 import { PiImage } from 'react-icons/pi';
 import { HiOutlineCheck } from 'react-icons/hi';
 import clsx from 'clsx';
 import NavItem from './NavItem';
 import Marker from '@/components/Project/Marker';
+import { EnumColor } from '@/enums';
 
-function BranchIcon({ image }: { image?: string }) {
+function BranchIcon({ image }: { image?: string | null }) {
 	return image ? (
 		<picture className='shrink-0'>
 			<img
@@ -32,11 +33,11 @@ export function CurrentBranch({
 			icon={
 				<span className='relative'>
 					<BranchIcon image={image} />
-					{/* <Marker
+					<Marker
 						color={color}
-						size='md'
+						size={24}
 						className='absolute -top-1 -right-1'
-					/> */}
+					/>
 				</span>
 			}
 			{...props}
@@ -52,12 +53,12 @@ function Branch({
 	className,
 	color,
 	...props
-}: IButtonProps &
-	React.ButtonHTMLAttributes<HTMLButtonElement> & {
-		image?: string;
-		active?: boolean;
-		color?: string;
-	}) {
+}: {
+	image?: string | null;
+	active?: boolean;
+	color: string | null;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'> &
+	Omit<IButtonProps, 'color'>) {
 	return (
 		<Button
 			className={clsx('w-full !justify-start', className)}

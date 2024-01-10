@@ -11,12 +11,13 @@ function Marker({
 }: {
 	animate?: boolean;
 	size?: number;
-	color?: string;
-} & React.HTMLAttributes<HTMLSpanElement>) {
+	color?: string | null;
+} & Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>) {
 	return (
 		<span
 			className={clsx(
 				'shrink-0',
+				'text-black dark:text-white',
 				{
 					'text-pink-500 dark:text-pink-300': color === EnumColor.PINK,
 					'text-green-500 dark:text-green-300': color === EnumColor.GREN,

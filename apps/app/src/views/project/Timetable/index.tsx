@@ -140,7 +140,7 @@ function TimetableView({
 							as='dropdown'
 							className='flex shrink-0 order-1'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('filter.of_status', { status })}
+							message={t('filter.of_status_', { status })}
 							filters={statuses}
 							onChange={onFilter}
 							value={status}

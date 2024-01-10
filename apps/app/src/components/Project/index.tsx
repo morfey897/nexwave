@@ -26,7 +26,7 @@ function Project({
 			<ProjectIcon image={project.image} size={32} Fallback={BsDiagram2} />
 
 			<div className='flex items-center gap-x-2 '>
-				<Marker color={project.color} className='animate-pulse'/>
+				<Marker color={project.color} className='animate-pulse' />
 				<h2 className='text-xl font-semibold text-gray-700 capitalize dark:text-white'>
 					{project.name}
 				</h2>
@@ -43,11 +43,9 @@ function Project({
 					className={clsx(
 						'block p-2 h-8 w-8 rounded-full',
 						'bg-blue-100 dark:bg-blue-500',
-						'transition-all duration-500 ease-linear',
-						'group-hover:w-full',
 					)}
 				>
-					<span className='origin-left dark:text-white text-blue-500 block transition-all duration-500 ease-linear group-hover:translate-x-[45%] group-hover:text-green-500 dark:group-hover:text-green-300'>
+					<span className='dark:text-white text-blue-500 block transition-all duration-500 ease-linear group-hover:text-green-500 dark:group-hover:text-green-300'>
 						<MdOutlineArrowCircleRight sie={24} />
 					</span>
 				</span>

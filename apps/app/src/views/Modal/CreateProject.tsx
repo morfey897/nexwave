@@ -12,7 +12,7 @@ import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import { useCallback, useMemo, useState } from 'react';
 import { generateColor } from '@/utils';
 import { useAction } from '@/hooks/action';
-import { createProject } from '@/actions/project';
+import { createProject } from '@/actions/project-action';
 import * as ErrorCodes from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';

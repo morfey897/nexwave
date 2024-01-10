@@ -8,7 +8,7 @@ import {
 	toTime,
 	timeToMinutes,
 } from '@/utils/datetime';
-import { addZiro } from '@/utils/str';
+import { addZiro } from '@/utils';
 import { cellStyle, detectCollisions, groupRectangles, TRect } from '@/utils/view';
 
 /**

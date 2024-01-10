@@ -7,12 +7,12 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import Container from '../Containers';
 import { useNWStore } from '@/hooks/store';
-import { TProjectToUser } from '@/models/project';
+import { isUUID } from '@/utils/validation';
 
 function Breadcrumbs() {
 	const pathname = usePathname();
 	const t = useTranslations();
-	const projects = useNWStore((state) => state.projects);
+	const project = useNWStore((state) => state.activeProject);
 
 	const parts = useMemo(() => {
 		return pathname
@@ -31,27 +31,28 @@ function Breadcrumbs() {
 					array,
 				) => {
 					if (index === 0) return inc;
-					let project: TProjectToUser | undefined;
-					if (index === 1 && projects?.length) {
-						project = projects.find((p) => p.uuid === path);
+					let name: string | undefined;
+
+					if (isUUID(path)) {
+						name = project?.name || t('general.app');
+					} else {
+						name = t(`general.${path}`);
 					}
 
 					inc.push({
 						active: index === array.length - 1,
 						path: `/` + array.slice(0, index + 1).join('/'),
-						token: path,
-						name: project?.name,
+						name: name,
 					});
 					return inc;
 				},
 				[],
 			);
-	}, [pathname, projects]);
+	}, [pathname, project, t]);
 
 	return parts.length <= 0 ? null : (
-		//  flex  my-4 mx-auto
 		<Container className='flex my-4 items-center overflow-x-auto whitespace-nowrap flex-wrap'>
-			{parts.map(({ path, token, name, active }, index) => (
+			{parts.map(({ path, name, active }, index) => (
 				<Fragment key={path}>
 					{index === 0 ? (
 						<span className='mr-2 text-gray-600 dark:text-gray-200 rtl:-scale-x-100'>
@@ -64,7 +65,7 @@ function Breadcrumbs() {
 					)}
 					{active ? (
 						<span className='text-blue-600 dark:text-blue-400 cursor-default'>
-							{name || t(`general.${token}`)}
+							{name}
 						</span>
 					) : (
 						<Link
@@ -73,7 +74,7 @@ function Breadcrumbs() {
 								'hover:underline text-gray-600 dark:text-gray-200',
 							)}
 						>
-							{name || t(`general.${token}`)}
+							{name}
 						</Link>
 					)}
 				</Fragment>

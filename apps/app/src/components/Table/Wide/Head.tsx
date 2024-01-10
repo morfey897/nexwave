@@ -1,7 +1,8 @@
 'use client';
-import { EnumSort, ITableProps } from '@/types/table';
+import { ITableProps } from '@/types/table';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
+import { EnumSortBy } from '@/enums';
 
 import SortButton from '@/components/Button/SortButton';
 import clsx from 'clsx';
@@ -22,7 +23,7 @@ function Head<T extends TUID>({
 					)}
 					style={{ flex: flex || 1 }}
 				>
-					{!!type && hasType(type, EnumSort.SYMBOLIC) && (
+					{!!type && hasType(type, EnumSortBy.SYMBOLIC) && (
 						<SortButton
 							variant='text'
 							comparator={comparator || 0}
@@ -32,7 +33,7 @@ function Head<T extends TUID>({
 							className='!p-0 text-xs lg:text-sm'
 						/>
 					)}
-					{!!type && hasType(type, EnumSort.NUMERIC) && (
+					{!!type && hasType(type, EnumSortBy.NUMERIC) && (
 						<SortButton
 							variant='text'
 							comparator={comparator || 0}
@@ -42,11 +43,11 @@ function Head<T extends TUID>({
 							className='!p-0 text-xs lg:text-sm'
 						/>
 					)}
-					{!!type && hasType(type, EnumSort.SR_ONLY) && (
+					{!!type && hasType(type, EnumSortBy.SR_ONLY) && (
 						<span className='sr-only'>{title}</span>
 					)}
 					{!type ||
-						(hasType(type, EnumSort.NONE) && (
+						(hasType(type, EnumSortBy.NONE) && (
 							<span className='cursor-default'>{title}</span>
 						))}
 				</div>

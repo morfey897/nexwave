@@ -8,6 +8,10 @@ import Branch from '@/components/Sidebar/Branch';
 import Marker from '@/components/Project/Marker';
 import { type IModal, Position, Blur, withModal } from '@nw/modal';
 import clsx from 'clsx';
+import { useNWStore } from '@/hooks/store';
+import { useAction } from '@/hooks/action';
+import { getProjects } from '@/actions/project-action';
+import { useEffect } from 'react';
 
 const PROJECTS = [
 	{
@@ -35,7 +39,30 @@ const PROJECTS = [
 ];
 
 function AsideProjects(props: IModal) {
+	const activeProject = useNWStore((state) => state.activeProject);
 	const t = useTranslations();
+
+	const { submit, action, result } = useAction(getProjects);
+
+	useEffect(() => {
+		console.log('FETCH PROJECTS');
+	}, []);
+
+	useEffect(() => {
+		if (props.state === 'open') {
+			// submit();
+			// action(new FormData());
+			console.log('FETCH PROJECTS: open');
+		}
+	}, [props]);
+
+	// useEffect(() => {
+	// 	if (props.state === 'mounted') {
+	// 		console.log('FETCH PROJECTS: mounted');
+	// 	}
+	// }, [props]);
+
+	// console.log('FETCH PROJECTS: ', result);
 
 	return (
 		<aside
@@ -78,14 +105,15 @@ function AsideProjects(props: IModal) {
 						}
 					>
 						<div className='space-y-2'>
-							{project.branches.map((branch, index) => (
-								<Branch
-									key={branch.slug}
-									image={branch.image}
-									message={branch.title}
-									active={index === 0}
-								/>
-							))}
+							{project.branches.map(
+								(branch, index) => null,
+								// <Branch
+								// 	key={branch.slug}
+								// 	image={branch.image}
+								// 	message={branch.title}
+								// 	active={index === 0}
+								// />
+							)}
 						</div>
 					</Accordion>
 				))}

@@ -18,7 +18,7 @@ export function UpdateStore({
 	const storeCtx = useContext(StoreContext);
 	useLayoutEffect(() => {
 		storeCtx?.setState({ ...storeCtx?.getState(), ...state });
-	}, [storeCtx]);
+	}, [storeCtx, state]);
 	return null;
 }
 

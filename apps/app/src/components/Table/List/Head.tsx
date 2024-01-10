@@ -1,4 +1,5 @@
-import { EnumSort, ITableProps } from '@/types/table';
+import { ITableProps } from '@/types/table';
+import { EnumSortBy } from '@/enums';
 import { TUID } from '@/types/common';
 import { hasType } from '@/utils/table';
 
@@ -23,7 +24,7 @@ function Head<T extends TUID>({
 			<p className='text-lg w-2'>{title}</p>
 			<div className='flex gap-x-4'>
 				{head.map(({ token, type, title, comparator, onSort }) => {
-					if (!!type && hasType(type, EnumSort.SYMBOLIC))
+					if (!!type && hasType(type, EnumSortBy.SYMBOLIC))
 						return (
 							<SortButton
 								key={token}
@@ -35,7 +36,7 @@ function Head<T extends TUID>({
 								className='!p-0 text-xs md:text-sm'
 							/>
 						);
-					if (!!type && hasType(type, EnumSort.NUMERIC))
+					if (!!type && hasType(type, EnumSortBy.NUMERIC))
 						return (
 							<SortButton
 								key={token}

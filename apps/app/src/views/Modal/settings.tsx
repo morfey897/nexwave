@@ -6,7 +6,7 @@ import { HiCog, HiLogout } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
-import { signOut } from '@/actions/auth';
+import { signOut } from '@/actions/auth-action';
 import User from '@/components/Header/User';
 import { useNWStore } from '@/hooks/store';
 import clsx from 'clsx';

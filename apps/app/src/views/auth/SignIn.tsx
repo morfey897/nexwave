@@ -9,7 +9,7 @@ import { Input, Select, File } from '@/components/Controls/Form';
 import { useTranslations } from 'next-intl';
 import Spinner from '@/components/Spinner';
 import * as ErrorCodes from '@/errorCodes';
-import { signInWithEmailAndPassword } from '@/actions/auth';
+import { signInWithEmailAndPassword } from '@/actions/auth-action';
 import { APP } from '@/routes';
 
 import { useAction } from '@/hooks/action';

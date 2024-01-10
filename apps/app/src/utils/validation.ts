@@ -40,3 +40,6 @@ export const isPassword = (password?: string) =>
 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_\-#@$!%*?&])[A-Za-z\d_\-#@$!%*?&]{6,}$/.test(
 		password,
 	);
+
+export const isUUID = (uuid?: string) =>
+	!!uuid && /^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i.test(uuid);

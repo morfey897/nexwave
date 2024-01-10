@@ -20,7 +20,6 @@ export default async function ProjectLayout({
 				<>
 					{children}
 					<UpdateStore state={{ user }} />
-					{!!refreshToken && <RefreshToken />}
 				</>
 			) : (
 				<>
@@ -28,6 +27,7 @@ export default async function ProjectLayout({
 					<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
 				</>
 			)}
+			{!!refreshToken && <RefreshToken />}
 		</div>
 	);
 }

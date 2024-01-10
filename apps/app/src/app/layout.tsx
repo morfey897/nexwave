@@ -7,14 +7,7 @@ import clsx from 'clsx';
 import ThemeProvider from '@/providers/ThemeProvider';
 import { generateViewport, getMetadata } from '@/utils/seo';
 import Header from '@/components/Header';
-import { getSession, getTrail, getRefreshToken } from '@/headers';
-import AuthView from '@/views/auth';
-import Loading from './loading';
-import { verifyAuth } from '@/lib/jwt';
-import { ICurrentUser } from '@/models/user';
 import StoreProvider from '@/providers/StoreProvider';
-import { getProjectByUserId, type TProjectToUser } from '@/models/project';
-import { getPathname } from '@/headers';
 import ModalsContainer from '@/views/Modal';
 
 const inter = Inter({ subsets: ['latin'] });

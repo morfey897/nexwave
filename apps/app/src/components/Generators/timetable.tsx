@@ -1,6 +1,6 @@
 import { IEvent } from '@/types/event';
 import { toIsoDate, toTime } from '@/utils/datetime';
-import { addZiro } from '@/utils/str';
+import { addZiro } from '@/utils';
 import clsx from 'clsx';
 
 // export const code = `import { INode, ICalendarProps } from '@/types/calendar';

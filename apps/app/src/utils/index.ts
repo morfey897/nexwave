@@ -1,6 +1,8 @@
 import { humanId } from 'human-id';
 import { EnumColor } from '@/enums';
 
+export const addZiro = (str: string | number) => `0${str}`.slice(-2);
+
 export function isNotNull<T>(key: string) {
 	return (item: any): item is T => item[key] !== null;
 }
