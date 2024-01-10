@@ -39,10 +39,10 @@ const PROJECTS = [
 ];
 
 function AsideProjects(props: IModal) {
-	const activeProject = useNWStore((state) => state.activeProject);
+	// const activeProject = useNWStore((state) => state.activeProject);
 	const t = useTranslations();
 
-	const { submit, action, result } = useAction(getProjects);
+	// const { submit, action, result } = useAction(getProjects);
 
 	useEffect(() => {
 		console.log('FETCH PROJECTS');
@@ -54,7 +54,7 @@ function AsideProjects(props: IModal) {
 			// action(new FormData());
 			console.log('FETCH PROJECTS: open');
 		}
-	}, [props]);
+	}, [props.state]);
 
 	// useEffect(() => {
 	// 	if (props.state === 'mounted') {

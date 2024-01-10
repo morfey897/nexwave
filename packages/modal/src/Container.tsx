@@ -1,10 +1,10 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { RuleSet } from "styled-components";
 import { Position, ModalState, type UnionAnimation } from "./types";
 import { move, moveAnimation, opacity, opacityAnimation } from "./animations";
 import { StyledContainer } from "@nw/ui";
 
-const ANIMATIONS: Record<UnionAnimation, Record<Position, any>> = {
+const ANIMATIONS: Record<UnionAnimation, Record<Position, RuleSet | string>> = {
   mounted: {
     [Position.LEFT]: move("X", "0", "show", "from"),
     [Position.RIGHT]: move("X", "1", "show", "from"),

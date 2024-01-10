@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  IModal,
-  IModalWrapper,
-  ModalState,
-  Blur,
-  Position,
-} from "./types";
+import { IModal, IModalWrapper, ModalState, Blur, Position } from "./types";
 import Overlay from "./Overlay";
 import Container from "./Container";
 import clsx from "clsx";
@@ -85,10 +79,7 @@ function withModal(
           className={clsx(props?.overlay?.className)}
           onClick={onClickOverlay}
         />
-        <Container
-          position={props?.position || Position.CENTER}
-          state={state}
-        >
+        <Container position={props?.position || Position.CENTER} state={state}>
           <Component
             name={name}
             state={state}

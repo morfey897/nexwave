@@ -6,14 +6,7 @@ import {
   TModalParams,
   ModalActionType,
 } from "./types";
-import {
-  // decodeParams,
-  // isModalByName,
-  // pureModalName,
-  encodeParams,
-  decodeParams,
-  filterModals,
-} from "./utils";
+import { encodeParams, decodeParams, filterModals } from "./utils";
 
 import styled from "styled-components";
 
@@ -49,7 +42,6 @@ function Provider({
   const [modals, setModals] = React.useState<Record<string, ModalState>>({});
 
   React.useEffect(() => {
-    console.log("searchParams", Object.fromEntries(searchParams.entries()));
     const newList: Array<string> = [];
     const modalParams: Record<string, TModalParams> = {};
 
@@ -63,8 +55,6 @@ function Provider({
     setList(newList);
     setModalProps((params) => ({ ...params, ...modalParams }));
   }, [searchParams, Components, prefix]);
-
-  console.log("MODALS:=>", modalsList, modalProps, modals);
 
   // Initialize mounting and closing state
   React.useEffect(() => {
@@ -112,10 +102,10 @@ function Provider({
   // Unmount
   React.useEffect(() => {
     if (Object.values(modals).some((state) => state === ModalState.OPEN)) {
-      // document.body.classList.add('overflow-hidden', 'h-screen');
+      document.body.classList.add("no-scroll");
     } else {
       console.log("close");
-      // document.body.classList.remove('overflow-hidden', 'h-screen');
+      document.body.classList.remove("no-scroll");
     }
     setModals(filterModals(modals, ModalState.CLOSED, null));
   }, [modals]);
@@ -157,24 +147,20 @@ function Provider({
     [prefix, navigate, searchParams],
   );
 
-  const memoModals = React.useMemo(() => Object.keys(modals), [modals]);
+  const memoChildren = React.useMemo(() => {
+    return Object.entries(modals).map(([name, state]) => {
+      const Component = Components[name];
+      const params = modalProps[name];
+      return Component ? (
+        <Component key={name} name={name} state={state} params={params} />
+      ) : null;
+    });
+  }, [modals, Components, modalProps]);
 
   return (
     <Context.Provider value={{ action: onAction, prefix }}>
       {children}
-      <ProviderWrapper id={id}>
-        {memoModals.map((name) => {
-          const Component = Components[name];
-          return Component ? (
-            <Component
-              key={name}
-              name={name}
-              state={modals[name]}
-              params={modalProps[name]}
-            />
-          ) : null;
-        })}
-      </ProviderWrapper>
+      <ProviderWrapper id={id}>{memoChildren}</ProviderWrapper>
     </Context.Provider>
   );
 }

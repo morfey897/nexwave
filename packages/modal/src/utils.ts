@@ -5,8 +5,8 @@ export function encodeParams(params: TModalParams) {
   let str = "";
   try {
     str = JSON.stringify(typeof params === "object" ? params : null);
-  } catch (e) {
-    console.log("ERROR", e);
+  } catch (error) {
+    console.log("ERROR", error);
     return "";
   }
   return encode(str);
@@ -15,7 +15,10 @@ export function encodeParams(params: TModalParams) {
 export function decodeParams(str: string | null | undefined) {
   try {
     return !str ? null : (JSON.parse(decode(str)) as TModalParams);
-  } catch (e) {}
+  } catch (error) {
+    console.log("ERROR", error);
+    return null;
+  }
   return null;
 }
 

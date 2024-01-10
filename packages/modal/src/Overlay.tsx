@@ -1,10 +1,10 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { type RuleSet } from "styled-components";
 import { ModalState, Blur, type UnionAnimation } from "./types";
 import { StyledOverlay } from "@nw/ui";
 import { opacity, opacityAnimation } from "./animations";
 
-const ANIMATIONS: Record<UnionAnimation, any> = {
+const ANIMATIONS: Record<UnionAnimation, RuleSet | string> = {
   mounted: opacity("show", "from"),
   show: opacityAnimation("show"),
   hide: opacityAnimation("hide"),

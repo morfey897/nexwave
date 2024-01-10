@@ -27,6 +27,11 @@ td {
   display: none;
 }
 
+.no-scroll {
+  overflow-y: hidden;
+  height: 100%;
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

@@ -6,6 +6,7 @@ import { searchParams as cfg } from '@nw/config';
 import AsideSettings from '@/views/Modal/Settings';
 import AsideProjects from '@/views/Modal/Projects';
 import CreateProject from '@/views/Modal/CreateProject';
+import { useCallback } from 'react';
 
 const COMPONENTS = {
 	[MODALS.SETTINGS]: AsideSettings,
@@ -17,14 +18,19 @@ function ModalsContainer({ children }: { children: React.ReactNode }) {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
+	const navigate = useCallback(
+		(href: string, replace: boolean) => {
+			replace ? router.replace(href) : router.push(href);
+		},
+		[router],
+	);
+
 	return (
 		<ModalProvider
 			prefix={cfg.DIALOG}
 			searchParams={searchParams}
 			Components={COMPONENTS}
-			navigate={(href, replace) =>
-				replace ? router.replace(href) : router.push(href)
-			}
+			navigate={navigate}
 		>
 			{children}
 		</ModalProvider>
