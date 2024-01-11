@@ -31,7 +31,7 @@ function AsideSettings(props: IModal) {
 	return (
 		<aside
 			className={clsx(
-				'mt-[86px] px-4 py-8',
+				'mt-[86px] pb-[100px] px-4 py-8',
 				'h-screen w-64 overflow-y-auto',
 				'bg-white dark:bg-gray-800 dark:border-gray-700 border-l',
 			)}
