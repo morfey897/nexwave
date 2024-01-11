@@ -23,7 +23,6 @@ export interface IBranch extends TUID {
 export interface IProject extends TUID {
 	ownerId: number;
 	createdAt: Date;
-	vistedAt: Date | null;
 	color: string | null;
 	name: string;
 	image: string | null;

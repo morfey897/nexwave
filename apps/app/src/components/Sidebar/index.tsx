@@ -17,9 +17,7 @@ import { dynamicHref } from '@/utils';
 import { useOpenModal } from '@nw/modal';
 import { useNWStore } from '@/hooks/store';
 import { Button, ButtonSkeleton } from '@/components/Button';
-import clsx from 'clsx';
-import BranchIcon from '@/components/Project/BranchIcon';
-import Marker from '@/components/Project/Marker';
+import BranchIcon from '@/components/Project/Icon';
 
 const LINKS = [
 	{ href: routes.ROOT, label: 'general.app', Icon: HiHome },
@@ -64,15 +62,16 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 							'flex-col lg:flex-row [&>.message]:hidden md:[&>.message]:inline-block'
 						}
 						icon={
-							<span className='relative'>
-								<BranchIcon image={activeProject.image} size={24} />
-								<span className='absolute -top-2 -right-2'>
-									<Marker
-										size={24}
-										color={activeProject.color}
-										className='animate-pulse'
-									/>
-								</span>
+							<span className='relative mt-1.5'>
+								<BranchIcon
+									image={activeProject.image}
+									size={24}
+									marker={{
+										color: activeProject.color,
+										size: 10,
+									}}
+									altFallback='project'
+								/>
 							</span>
 						}
 					/>

@@ -43,7 +43,6 @@ export async function createProject(formData: FormData): Promise<IResponse> {
 export async function getProjects(): Promise<
 	IResponse<TProjectToUser[] | null>
 > {
-	console.log('getProjects_SERVER_ACTION');
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };

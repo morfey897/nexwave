@@ -6,28 +6,34 @@ import { ROOT } from '@/routes';
 import { dynamicHref } from '@/utils';
 import clsx from 'clsx';
 import ProjectIcon from '@/components/Project/Icon';
-import Marker from './Marker';
 import Branch from './Branch';
-import { BsDiagram2 } from 'react-icons/bs';
 
 function Project({
 	project,
-}: React.HTMLAttributes<HTMLDivElement> & { project: TProjectToUser }) {
+	className,
+	...props
+}: React.HTMLAttributes<HTMLAnchorElement> & { project: TProjectToUser }) {
 	return (
 		<Link
 			href={dynamicHref(ROOT, { uuid: project.uuid })}
 			className={clsx(
+				'block',
 				'bg-white dark:bg-gray-800',
 				'group p-8 space-y-3 border-2 rounded-xl',
 				'border-blue-400 dark:border-blue-300',
 				'hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
+				className,
 			)}
+			{...props}
 		>
-			<ProjectIcon image={project.image} size={32} Fallback={BsDiagram2} />
-
-			<div className='flex items-center gap-x-2 '>
-				<Marker color={project.color} className='animate-pulse' />
-				<h2 className='text-xl font-semibold text-gray-700 capitalize dark:text-white'>
+			<div className='flex items-center gap-x-2 text-xl font-semibold text-gray-700 capitalize dark:text-white'>
+				<ProjectIcon
+					image={project.image}
+					size={32}
+					altFallback='project'
+					marker={{ color: project.color }}
+				/>
+				<h2>
 					{project.name}
 				</h2>
 			</div>

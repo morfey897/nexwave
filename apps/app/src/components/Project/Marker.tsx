@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import React from 'react';
 import { EnumColor } from '@/enums';
-import { RxDotFilled } from 'react-icons/rx';
+
+const colors = Object.values(EnumColor);
 
 function Marker({
-	size = 24,
+	size = 12,
 	color,
 	className,
 	...props
@@ -15,26 +16,29 @@ function Marker({
 } & Omit<React.HTMLAttributes<HTMLSpanElement>, 'color'>) {
 	return (
 		<span
+			style={{ width: size, height: size }}
 			className={clsx(
+				'inline-block',
 				'shrink-0',
-				'text-black dark:text-white',
+				'rounded-full',
 				{
-					'text-pink-500 dark:text-pink-300': color === EnumColor.PINK,
-					'text-green-500 dark:text-green-300': color === EnumColor.GREN,
-					'text-yellow-500 dark:text-yellow-300': color === EnumColor.YELLOW,
-					'text-indigo-500 dark:text-indigo-300': color === EnumColor.INDIGO,
-					'text-blue-500 dark:text-blue-300': color === EnumColor.BLUR,
-					'text-slate-500 dark:text-slate-300': color === EnumColor.GRAY,
-					'text-red-500 dark:text-red-300': color === EnumColor.RED,
-					'text-orange-500 dark:text-orange-300': color === EnumColor.ORANGE,
-					'text-sky-500 dark:text-sky-300': color === EnumColor.SKYBLUE,
-					'text-purple-500 dark:text-purple-300': color === EnumColor.PURPLE,
+					'bg-pink-500 dark:bg-pink-300': color === EnumColor.PINK,
+					'bg-green-500 dark:bg-green-300': color === EnumColor.GREN,
+					'bg-yellow-500 dark:bg-yellow-300': color === EnumColor.YELLOW,
+					'bg-indigo-500 dark:bg-indigo-300': color === EnumColor.INDIGO,
+					'bg-blue-500 dark:bg-blue-300': color === EnumColor.BLUR,
+					'bg-slate-500 dark:bg-slate-300': color === EnumColor.GRAY,
+					'bg-red-500 dark:bg-red-300': color === EnumColor.RED,
+					'bg-orange-500 dark:bg-orange-300': color === EnumColor.ORANGE,
+					'bg-sky-500 dark:bg-sky-300': color === EnumColor.SKYBLUE,
+					'bg-purple-500 dark:bg-purple-300': color === EnumColor.PURPLE,
+					'bg-black dark:bg-white': !colors.includes(color as EnumColor),
 				},
 				className,
 			)}
 			{...props}
 		>
-			<RxDotFilled size={size} />
+			{/* <RxDotFilled size={size} /> */}
 		</span>
 	);
 }

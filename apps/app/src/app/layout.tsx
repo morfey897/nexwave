@@ -8,7 +8,7 @@ import ThemeProvider from '@/providers/ThemeProvider';
 import { generateViewport, getMetadata } from '@/utils/seo';
 import Header from '@/components/Header';
 import StoreProvider from '@/providers/StoreProvider';
-import ModalsContainer from '@/views/Modal';
+import ModalsContainer from '@/windows';
 
 const inter = Inter({ subsets: ['latin'] });
 

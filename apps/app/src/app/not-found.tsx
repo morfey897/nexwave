@@ -1,4 +1,4 @@
-import NotFound from '@/views/NotFound';
+import NotFound from '@/views/notFound';
 
 export default async function Page() {
 	return (

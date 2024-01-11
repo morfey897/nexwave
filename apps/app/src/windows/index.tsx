@@ -3,9 +3,9 @@ import { MODALS } from '@/routes';
 import { ModalProvider } from '@nw/modal';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { searchParams as cfg } from '@nw/config';
-import AsideSettings from '@/views/Modal/Settings';
-import AsideProjects from '@/views/Modal/Projects';
-import CreateProject from '@/views/Modal/CreateProject';
+import AsideSettings from '@/windows/WndSettings';
+import AsideProjects from '@/windows/WndProjects';
+import CreateProject from '@/windows/WndCreateProject';
 import { useCallback } from 'react';
 
 const COMPONENTS = {
