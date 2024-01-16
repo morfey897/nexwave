@@ -13,7 +13,7 @@ import withGenerator, {
 	BadgesGenerator,
 } from '@/components/Generators';
 
-import { EnumStatus, EnumLevel, EnumSortBy, EnumRepresent } from '@/enums';
+import { EnumState, EnumLevel, EnumSortBy, EnumRepresent } from '@/enums';
 import Caption from '@/components/Caption';
 import { useFilter, useSearch, useSort, usePage } from '@/hooks/filter';
 import Search from '@/components/Controls/Search';
@@ -36,7 +36,7 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
-	const { onFilter, filter } = useFilter({
+	const { onFilter, filter: state } = useFilter({
 		name: searchParams.FILTER,
 		defaultValue: 'all',
 	});
@@ -56,18 +56,18 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 		name: searchParams.PAGE,
 	});
 
-	const statuses = useMemo(() => {
+	const states = useMemo(() => {
 		return [
 			{
 				uid: 'all',
 				title: t(`filter.all`),
 			},
 			{
-				uid: EnumStatus.ACTIVE,
+				uid: EnumState.ACTIVE,
 				title: t(`filter.active`),
 			},
 			{
-				uid: EnumStatus.INACTIVE,
+				uid: EnumState.INACTIVE,
 				title: t(`filter.inactive`),
 			},
 		];
@@ -161,10 +161,10 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 							as='dropdown'
 							className='flex shrink-0'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('filter.of_status_', { status: filter })}
-							filters={statuses}
+							message={t('filter.of_state_', { state: state })}
+							filters={states}
 							onChange={onFilter}
-							value={filter}
+							value={state}
 						/>
 						<Search
 							onChange={onSearch}

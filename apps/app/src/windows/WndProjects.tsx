@@ -4,23 +4,27 @@ import { HiOutlinePlus } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import InnerProject, { SkeletonProject } from '@/components/Project/Inner';
-import { type IModal, Position, Blur, withModal } from '@nw/modal';
+import {
+	type IModal,
+	Position,
+	Blur,
+	withModal,
+	useOpenModal,
+} from '@nw/modal';
 import clsx from 'clsx';
 import { useNWStore } from '@/hooks/store';
 import { useAction } from '@/hooks/action';
-import { getProjects } from '@/actions/project-action';
-import { useEffect, useMemo } from 'react';
+import { actionGetProjects } from '@/actions/project-action';
+import { useEffect, useMemo, useCallback } from 'react';
 import { EnumResponse } from '@/enums';
+import { MODALS } from '@/routes';
 
 function AsideProjects(props: IModal) {
-	const activeProject = useNWStore((state) => state.activeProject);
+	const openModal = useOpenModal();
+	const activeProject = useNWStore((state) => state.project);
 	const t = useTranslations();
 
-	const { submit, action, result, pending } = useAction(getProjects);
-
-	useEffect(() => {
-		console.log('FETCH PROJECTS');
-	}, []);
+	const { submit, action, result, pending } = useAction(actionGetProjects);
 
 	useEffect(() => {
 		if (props.state === 'open') {
@@ -36,6 +40,10 @@ function AsideProjects(props: IModal) {
 				: [],
 		[result],
 	);
+
+	const onAddProject = useCallback(() => {
+		openModal({ name: MODALS.CREATE_PROJECT });
+	}, [openModal]);
 
 	return (
 		<aside
@@ -55,6 +63,7 @@ function AsideProjects(props: IModal) {
 					variant='default'
 					size='md'
 					className='!p-1'
+					onClick={onAddProject}
 					icon={<HiOutlinePlus size={16} />}
 				/>
 			</div>

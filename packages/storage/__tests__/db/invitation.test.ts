@@ -129,7 +129,7 @@ describe('invitation module', () => {
 			expect(project.id).toBeTruthy();
 			expect(project.color).toBe('purple');
 			expect(project.name).toBe('Jest-project');
-			expect(project.status).toBeNull();
+			expect(project.state).toBeNull();
 			expect(project.ownerId).toBe(data.user_id);
 			expect(project.roles).toEqual({
 				super: SUPER,

@@ -6,25 +6,31 @@ import { type IModal, Position, Blur, withModal } from '@nw/modal';
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
-import { Input, Select, File } from '@/components/Controls/Form';
+import { Input, Select, File, TextArea } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import { useCallback, useMemo, useState } from 'react';
 import { generateColor } from '@/utils';
 import { useAction } from '@/hooks/action';
-import { createProject } from '@/actions/project-action';
-import * as ErrorCodes from '@/errorCodes';
+import { actionCreateNewProject } from '@/actions/project-action';
+import { CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
-import { EnumResponse, EnumColor } from '@/enums';
+import { EnumResponse, EnumColor, EnumCurrency } from '@/enums';
+import { MdOutlineCurrencyExchange } from 'react-icons/md';
+
+const COLORS = Object.values(EnumColor);
+const CURRENCIES = Object.values(EnumCurrency);
 
 function CreateProject(props: IModal) {
 	const router = useRouter();
-	const { action, submit, reset, pending, result } = useAction(createProject);
+	const { action, submit, reset, pending, result } = useAction(
+		actionCreateNewProject,
+	);
+	const responseError = result?.error?.code;
 
 	const t = useTranslations();
 	const [color, setColor] = useState(generateColor());
-	const colors = useMemo(() => Object.values(EnumColor), []);
 
 	const signIn = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,7 +43,7 @@ function CreateProject(props: IModal) {
 	return (
 		<div
 			className={clsx(
-				'relative max-w-[375px] bg-gray-100 dark:bg-gray-900 px-12 py-6 rounded-lg border shadow dark:border-gray-600',
+				'relative md:w-[475px] w-[95vw] bg-gray-100 dark:bg-gray-900 px-12 py-6 rounded-lg border shadow dark:border-gray-600',
 			)}
 		>
 			<Button
@@ -68,17 +74,27 @@ function CreateProject(props: IModal) {
 						type='text'
 						placeholder={t('form.project_name')}
 					/>
+					<TextArea name='info' placeholder={t('form.info')} />
 					<Select
 						onChange={(event) => setColor(event.target.value as EnumColor)}
-						autoComplete='name'
-						icon={<Marker size={32} color={color} className='block -ml-1.5' />}
+						icon={<Marker size={12} color={color} className='block' />}
 						name='color'
-						type='text'
 						placeholder={t('form.select_color')}
 					>
-						{colors.map((clr) => (
+						{COLORS.map((clr) => (
 							<option selected={color === clr} key={clr} value={clr}>
 								{t(`color.${clr}`)}
+							</option>
+						))}
+					</Select>
+					<Select
+						icon={<MdOutlineCurrencyExchange size={24} />}
+						name='currency'
+						placeholder={t('form.select_currency')}
+					>
+						{CURRENCIES.map((currency) => (
+							<option key={currency} value={currency}>
+								{t(`currency.${currency}`)}
 							</option>
 						))}
 					</Select>
@@ -92,7 +108,7 @@ function CreateProject(props: IModal) {
 				</div>
 
 				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto mt-4'>
-					{result?.error?.code?.includes(ErrorCodes.USER_UNAUTHORIZED) &&
+					{responseError?.includes(USER_UNAUTHORIZED) &&
 						t.rich('error.unauthorized_rt', {
 							button: (chunks) => (
 								<button
@@ -103,10 +119,14 @@ function CreateProject(props: IModal) {
 								</button>
 							),
 						})}
-					{result?.status === EnumResponse.FAILED && t('error.wrong')}
+					{responseError?.includes(CREATE_FAILED) && t('error.create_failed')}
+					{result?.status === EnumResponse.FAILED &&
+						!responseError?.includes(USER_UNAUTHORIZED) &&
+						!responseError?.includes(CREATE_FAILED) &&
+						t('error.wrong')}
 				</p>
 
-				<div className='flex justify-between mt-6'>
+				<div className='flex justify-end mt-6 gap-x-2'>
 					<Button
 						onClick={props.closeMe}
 						variant='default'

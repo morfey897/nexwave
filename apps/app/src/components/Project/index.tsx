@@ -1,5 +1,5 @@
 import React from 'react';
-import { type TProjectToUser } from '@/models/project';
+import { type IProject } from '@/models/project';
 import { MdOutlineArrowCircleRight } from 'react-icons/md';
 import Link from 'next/link';
 import { ROOT } from '@/routes';
@@ -12,7 +12,7 @@ function Project({
 	project,
 	className,
 	...props
-}: React.HTMLAttributes<HTMLAnchorElement> & { project: TProjectToUser }) {
+}: React.HTMLAttributes<HTMLAnchorElement> & { project: IProject }) {
 	return (
 		<Link
 			href={dynamicHref(ROOT, { uuid: project.uuid })}

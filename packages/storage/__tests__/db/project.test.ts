@@ -177,7 +177,7 @@ describe('project module', () => {
 			expect(project).toBeTruthy();
 			expect(project.id).toBeTruthy();
 			expect(project.color).toBe('green');
-			expect(project.status).toBeNull();
+			expect(project.state).toBeNull();
 			expect(project.name).toBe('Jest-project');
 			expect(project.ownerId).toBe(data.user_id);
 			expect(project.roles).toEqual({

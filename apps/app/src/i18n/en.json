@@ -9,7 +9,11 @@
 		"weak_password": "At least 6 characters, a number, a capital letter and the special character @$!%*?&.",
 		"email_in_use_rt": "This email is already in use. Do you want <button>Sign in?</button>",
 		"unauthorized_rt": "You are not authorized to perform this action. <button>Sign in?</button>",
-		"not_found": "Not found"
+		"not_found": "Not found",
+		"access_denied": "Access denied to this resource",
+		"update_failed": "Update failed due to server error. Please try again later.",
+		"create_failed": "Create failed due to server error. Please try again later.",
+		"delete_failed": "Delete failed due to server error. Please try again later."
 	},
 	"form": {
 		"name": "Name",
@@ -23,8 +27,13 @@
 		"select_image": "Select image",
 		"color": "Color",
 		"select_color": "Select color",
+		"currency": "Currency",
+		"select_currency": "Select currency",
 		"project_name": "Project name",
-		"image_hint": "Upload or darg & drop your file PNG or JPG"
+		"image_hint": "Upload or darg & drop your file PNG or JPG",
+		"info": "Short info...",
+		"bio": "Bio...",
+		"state": "State"
 	},
 	"button": {
 		"sign_in": "Sign in",
@@ -48,6 +57,8 @@
 		"upload": "Upload",
 		"download": "Download",
 		"try_again": "Try again",
+		"publish": "Publish",
+		"unpublish": "Unpublish",
 		"yes": "Yes",
 		"no": "No",
 		"ok": "Ok",
@@ -56,7 +67,8 @@
 		"select": "Select",
 		"select_file": "Select file",
 		"select_image": "Select image",
-		"sort_by": "Sort by"
+		"sort_by": "Sort by",
+		"discard": "Discard"
 	},
 	"i18n": {
 		"uk": {
@@ -71,6 +83,18 @@
 			"title": "English",
 			"abr": "Eng"
 		}
+	},
+	"currency": {
+		"UAH": "Ukrainian hryvnia (UAH)",
+		"EUR": "Euro (EUR)",
+		"USD": "United States dollar (USD)"
+	},
+	"state": {
+		"draft": "Draft",
+		"active": "Active",
+		"inactive": "Inactive",
+		"published": "Published",
+		"unpublished": "Unpublished"
 	},
 	"color": {
 		"red": "Red",
@@ -94,18 +118,18 @@
 		"skyblue": "Sky blue"
 	},
 	"filter": {
-		"all":"All",
-		"active":"Active",
-		"inactive":"Inactive",
+		"all": "All",
+		"active": "Active",
+		"inactive": "Inactive",
 
 		"week": "Week",
-		"day":"Day",
+		"day": "Day",
 
 		"table": "Table",
 		"list": "List",
-		"of_period_":"{period, select, week {Week} day {Day} other {View}}",
+		"of_period_": "{period, select, week {Week} day {Day} other {View}}",
 		"of_represent_": "{represent, select, table {Table} list {List} other {View}}",
-		"of_status_": "{status, select, all {All} active {Active} inactive {Inactive} other {Filter}}"
+		"of_state_": "{state, select, all {All} active {Active} inactive {Inactive} other {Filter}}"
 	},
 	"general": {
 		"today": "Today",
@@ -113,7 +137,7 @@
 		"before_yesterday": "Before yesterday",
 		"page_of_": "{page} / {maxPage}",
 		"days_ago_": "{count, plural, =0 {Today} =1 {Yesterday} =2 {Before yesterday} other {# days ago}}",
-		"app":"Root",
+		"app": "Root",
 		"timetable": "Timetable",
 		"users": "Users",
 		"products": "Products",
@@ -164,6 +188,15 @@
 		"timetable": {
 			"headline": "Timetable",
 			"subheadline": "Here you can find all events"
+		},
+		"settings": {
+			"headline": "Settings",
+			"subheadline": "Here you can change settings of your project",
+			"tab_general": "General",
+			"tab_branches": "Branches",
+			"tab_groups": "Groups",
+			"tab_access": "Access",
+			"tab_state": "State"
 		}
 	}
 }

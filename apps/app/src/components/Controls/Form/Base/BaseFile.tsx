@@ -11,6 +11,7 @@ function File({
 	icon,
 	hint,
 	onChange,
+	errorCopy,
 	...props
 }: InputProps<HTMLInputElement>) {
 	const ref = useRef<HTMLInputElement>(null);

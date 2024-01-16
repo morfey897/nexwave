@@ -36,7 +36,7 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 			<ComponentContainer
 				position={Position.CENTER}
 				className={
-					'mx-auto max-w-[375px] relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600'
+					'mx-auto md:w-[475px] w-[95vw] relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600'
 				}
 			>
 				<Button

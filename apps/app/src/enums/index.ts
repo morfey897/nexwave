@@ -11,11 +11,10 @@ export enum EnumLevel {
 	INFO = 'info',
 }
 
-export enum EnumStatus {
+export enum EnumState {
   DRAFT = 'draft',
   ACTIVE = 'active',
   INACTIVE = 'inactive',
-	ARCIVED = 'archived',
 }
 
 export enum EnumRepresent {
@@ -62,4 +61,10 @@ export enum EnumColor {
   PURPLE = "purple",
   PINK = "pink",
   GRAY = "gray"
+}
+
+export enum EnumCurrency {
+	UAH = 'UAH',
+	USD = 'USD',
+	EUR = 'EUR',
 }

@@ -3,6 +3,7 @@ import styled, { RuleSet } from "styled-components";
 import { Position, ModalState, type UnionAnimation } from "./types";
 import { move, moveAnimation, opacity, opacityAnimation } from "./animations";
 import { StyledContainer } from "@nw/ui";
+import clsx from "clsx";
 
 const ANIMATIONS: Record<UnionAnimation, Record<Position, RuleSet | string>> = {
   mounted: {
@@ -52,12 +53,20 @@ const AnimatedContainer = styled(StyledContainer)<{
 function Container({
   position,
   state,
+  className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & {
   position: Position;
   state: ModalState;
 }) {
-  return <AnimatedContainer $position={position} $state={state} {...props} />;
+  return (
+    <AnimatedContainer
+      $position={position}
+      $state={state}
+      className={clsx("box", className)}
+      {...props}
+    />
+  );
 }
 
 export default Container;

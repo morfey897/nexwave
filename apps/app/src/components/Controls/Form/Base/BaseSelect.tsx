@@ -16,7 +16,7 @@ function BaseSelect({
 }: InputProps<HTMLSelectElement>) {
 	const ref = useRef<HTMLSelectElement>(null);
 	const bgClassName = clsx('bg-white dark:bg-gray-900');
-	const txtLabelClassName = clsx('text-gray-300 dark:text-gray-500');
+	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');
 	const txtInputClassName = clsx('text-gray-700 dark:text-gray-300');
 
 	const handleChange = useCallback(

@@ -12,7 +12,7 @@ import { isUUID } from '@/utils/validation';
 function Breadcrumbs() {
 	const pathname = usePathname();
 	const t = useTranslations();
-	const project = useNWStore((state) => state.activeProject);
+	const project = useNWStore((state) => state.project);
 
 	const parts = useMemo(() => {
 		return pathname

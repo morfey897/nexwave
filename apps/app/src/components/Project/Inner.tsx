@@ -1,5 +1,5 @@
 import React from 'react';
-import { type TProjectToUser } from '@/models/project';
+import { type IProject } from '@/models/project';
 import { MdOutlineArrowCircleRight, MdCheck } from 'react-icons/md';
 import Link from 'next/link';
 import { ROOT } from '@/routes';
@@ -31,7 +31,7 @@ function InnerProject({
 	className,
 	...props
 }: React.HTMLAttributes<HTMLAnchorElement> & {
-	project: TProjectToUser;
+	project: IProject;
 	active?: boolean;
 }) {
 	return (

@@ -7,7 +7,11 @@ export const WEAK_PASSWORD = 'auth/weak-password';
 export const EMAIL_EXISTS = 'auth/email-already-in-use';
 export const CREDENTIAL_MISMATCH = 'auth/custom-token-mismatch';
 export const USER_UNAUTHORIZED = 'user/unauthorized';
-export const PROJECT_CREATE_FAILED = 'project/create-failed';
+export const ACCESS_DENIED = 'action/access-denied';
+export const UPDATE_FAILED = 'action/update-failed';
+export const DELETE_FAILED = 'action/delete-failed';
+export const CREATE_FAILED = 'action/create-failed';
+export const UNSUPPORTED_ACTION = 'action/unsupported-action';
 
 // ADMIN_ONLY_OPERATION = 'auth/admin-restricted-operation';
 // ARGUMENT_ERROR = 'auth/argument-error';

@@ -1,13 +1,13 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { type TProjectToUser } from '@/models/project';
+import { type IProject } from '@/models/project';
 import ProjectItem from '@/components/Project';
 import AddProject from '@/components/Project/Add';
 import { useOpenModal } from '@nw/modal';
 import { useCallback } from 'react';
 import { MODALS } from '@/routes';
 
-function ListOfProjects({ projects }: { projects: TProjectToUser[] | null }) {
+function ListOfProjects({ projects }: { projects: IProject[] | null }) {
 	const openModal = useOpenModal();
 	const t = useTranslations();
 

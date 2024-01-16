@@ -5,5 +5,6 @@ export const SORT = 'sort';
 export const VIEW = 'view';
 export const DAY = 'day';
 export const DIALOG = 'dlg';
+export const TAB = 'tab';
 
-export const SEARCH_PARAMS = [PAGE, FILTER, SEARCH, SORT, VIEW, DAY, DIALOG] as const;
+export const SEARCH_PARAMS = [PAGE, FILTER, SEARCH, SORT, VIEW, DAY, DIALOG, TAB] as const;

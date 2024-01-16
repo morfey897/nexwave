@@ -12,14 +12,15 @@ function BaseInput({
 	...props
 }: InputProps<HTMLInputElement>) {
 	const bgClassName = clsx('bg-white dark:bg-gray-900');
-	const txtLabelClassName = clsx('text-gray-300 dark:text-gray-500');
+	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');
 	const txtInputClassName = clsx('text-gray-700 dark:text-gray-300');
 	return (
 		<>
 			<div className={clsx('relative', className)}>
 				{!!icon && (
 					<span
-						className={clsx('icon',
+						className={clsx(
+							'icon',
 							'absolute inset-y-0 start-0 top-0 flex items-center ps-1 pointer-events-none mx-3',
 							txtLabelClassName,
 						)}
@@ -51,8 +52,12 @@ function BaseInput({
 						txtLabelClassName,
 						bgClassName,
 						'transform transition-all',
-						hidePlaceholder ? 'peer-focus:!opacity-0' : 'peer-focus:!-top-2 peer-focus:!text-xs peer-focus:!ml-4',
-						hidePlaceholder ? 'peer-[&:not(:placeholder-shown)]:!opacity-0' : 'peer-[&:not(:placeholder-shown)]:!-top-2 peer-[&:not(:placeholder-shown)]:!text-xs peer-[&:not(:placeholder-shown)]:!ml-4',
+						hidePlaceholder
+							? 'peer-focus:!opacity-0'
+							: 'peer-focus:!-top-2 peer-focus:!text-xs peer-focus:!ml-4',
+						hidePlaceholder
+							? 'peer-[&:not(:placeholder-shown)]:!opacity-0'
+							: 'peer-[&:not(:placeholder-shown)]:!-top-2 peer-[&:not(:placeholder-shown)]:!text-xs peer-[&:not(:placeholder-shown)]:!ml-4',
 					)}
 				>
 					{getPlaceholder(placeholder, !!required)}

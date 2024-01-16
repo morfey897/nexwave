@@ -5,7 +5,7 @@ import ChangeDate from '@/components/Controls/ChangeDate';
 import { useTranslations } from 'next-intl';
 import Caption from '@/components/Caption';
 import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
-import { EnumStatus, EnumPeriod } from '@/enums';
+import { EnumState, EnumPeriod } from '@/enums';
 import { useEffect, useMemo } from 'react';
 import { WeekCalendarHead, WeekCalendarBody } from '@/components/Calendar/Week';
 import { previousMonday, addDays } from 'date-fns';
@@ -47,7 +47,7 @@ function TimetableView({
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 
-	const { onFilter, filter: status } = useFilter({
+	const { onFilter, filter: state } = useFilter({
 		name: searchParams.FILTER,
 		defaultValue: 'all',
 	});
@@ -75,18 +75,18 @@ function TimetableView({
 		];
 	}, [t]);
 
-	const statuses = useMemo(() => {
+	const states = useMemo(() => {
 		return [
 			{
 				uid: 'all',
 				title: t(`filter.all`),
 			},
 			{
-				uid: EnumStatus.ACTIVE,
+				uid: EnumState.ACTIVE,
 				title: t(`filter.active`),
 			},
 			{
-				uid: EnumStatus.INACTIVE,
+				uid: EnumState.INACTIVE,
 				title: t(`filter.inactive`),
 			}
 		];
@@ -140,10 +140,10 @@ function TimetableView({
 							as='dropdown'
 							className='flex shrink-0 order-1'
 							icon={<HiOutlineFilter size={16} />}
-							message={t('filter.of_status_', { status })}
-							filters={statuses}
+							message={t('filter.of_state_', { state })}
+							filters={states}
 							onChange={onFilter}
-							value={status}
+							value={state}
 						/>
 						<ChangeDate
 							onChange={(index: number) =>

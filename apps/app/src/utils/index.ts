@@ -54,10 +54,12 @@ export function generateColor() {
 	return random<EnumColor>(Object.values(EnumColor));
 }
 
-
 export function getError(error: any) {
 	return {
 		code: String(error?.code || error?.cause?.code || 'unknown'),
 		message: String(error.message || ''),
 	};
 }
+
+export const hasAccess = (permission: number | undefined, role: number) =>
+	((permission || 0) & role) === role;

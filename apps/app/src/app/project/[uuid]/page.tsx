@@ -3,7 +3,7 @@ import { RiDashboardFill } from 'react-icons/ri';
 export default function Home() {
 	return (
 		//  ml-0 lg:ml-64
-		<div className='flex flex-col items-center justify-between'>
+		<div className='flex flex-col items-center'>
 			<h1 className='text-3xl'>DASHBOARD</h1>
 			<RiDashboardFill size={54} />
 			<p>
