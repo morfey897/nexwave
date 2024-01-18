@@ -61,14 +61,14 @@ function CreateProject(props: IModal) {
 			/>
 
 			<form
-				className='w-full max-w-md'
+				className='w-full'
 				onSubmit={submit}
 				action={action}
 				onChange={reset}
 			>
 				<div className='space-y-4 mt-6'>
 					<Input
-						autoComplete='name'
+						autoComplete='project-name'
 						icon={<MdLabelOutline size={32} />}
 						name='name'
 						type='text'

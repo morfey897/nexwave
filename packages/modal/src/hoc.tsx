@@ -44,8 +44,8 @@ function withModal(
     }, [closeModal, name]);
 
     const onClickOverlay: React.MouseEventHandler = React.useCallback(
-      (e) => {
-        if (e.target === refOverlay.current) {
+      (event) => {
+        if (event.target === refOverlay.current) {
           closeMe();
         }
       },

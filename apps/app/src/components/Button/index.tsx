@@ -30,15 +30,14 @@ export function Button({
 }: IButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
 		<button
-			// !border-l !border-r
 			className={clsx(
 				'flex items-center justify-center rounded-lg tracking-wide shrink-0 transition-all duration-200 font-semibold border',
 				// Size
 				{
-					'px-2 py-0.5 text-xs gap-x-1': size === 'xs',
-					'px-4 py-1 text-sm gap-x-2': size === 'sm',
-					'px-5 py-2 text-base gap-x-4': size === 'md',
-					'px-6 py-3 text-xl gap-x-6': size === 'lg',
+					'px-2 py-1 text-xs space-x-1': size === 'xs',
+					'px-4 py-1.5 text-sm space-x-2': size === 'sm',
+					'px-5 py-2 text-base space-x-2.5': size === 'md',
+					'px-6 py-3 text-xl space-x-3': size === 'lg',
 				},
 				// Text color
 				{
@@ -138,16 +137,13 @@ export function GroupButton({
 	children,
 	...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-	const len = Array.isArray(children)
-		? children.filter((el) => Boolean(el)).length
-		: 1;
-
 	return (
 		<div
 			className={clsx(
-				'inline-flex',
-				len > 1 &&
-					'[&>*:first-child]:rounded-r-none [&>*:not(:first-child):not(:last-child)]:rounded-none [&>*:last-child]:rounded-l-none',
+				'flex items-center',
+				'[&>*:first-child:not(:only-child)]:rounded-r-none',
+				'[&>*:not(:first-child):not(:last-child)]:rounded-none',
+				'[&>*:last-child:not(:only-child)]:rounded-l-none',
 				className,
 			)}
 			{...props}

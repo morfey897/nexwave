@@ -7,7 +7,7 @@ import Skeleton from '@/components/Skeleton';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import Marker from '@/components/Project/Marker';
 import { EnumResponse, EnumColor, EnumCurrency } from '@/enums';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { MdOutlineCurrencyExchange } from 'react-icons/md';
 import { useNWStore } from '@/hooks/store';
 import Button from '@/components/Button';
@@ -18,6 +18,8 @@ import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
 import StateSettings from './state';
+import { hasAccess } from '@/utils';
+import { UPDATE } from '@/crud';
 
 const COLORS = Object.values(EnumColor);
 const CURRENCIES = Object.values(EnumCurrency);
@@ -34,7 +36,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 
 	const responseError = result?.error?.code;
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setProject(project);
 		setChanged(false);
 	}, [project]);
@@ -84,7 +86,9 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 		setChanged(false);
 	}, [project]);
 
-	const state = active?.state;
+	const permission = active?.roles[project?.role || ''] || 0;
+
+	const disabledForm = !hasAccess(permission, UPDATE.PROJECT_INFO);
 
 	return (
 		<div className='w-full max-w-3xl mx-auto mt-6 space-y-4'>
@@ -92,7 +96,12 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			<StateSettings project={project} />
 
 			{/* Form */}
-			<form onSubmit={submit} action={action} onChange={reset}>
+			<form
+				onSubmit={submit}
+				action={action}
+				onChange={reset}
+				aria-disabled={disabledForm}
+			>
 				<div className='space-y-4'>
 					{/*  ProjectId */}
 					{active && (
@@ -102,8 +111,9 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					{/*  Name */}
 					{active ? (
 						<Input
+							disabled={disabledForm}
 							onChange={onChange}
-							autoComplete='name'
+							autoComplete='project-name'
 							icon={<MdLabelOutline size={32} />}
 							name='name'
 							type='text'
@@ -117,6 +127,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					{/* Info */}
 					{active ? (
 						<TextArea
+							disabled={disabledForm}
 							onChange={onChange}
 							name='info'
 							placeholder={t('form.info')}
@@ -129,6 +140,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					{/* Color */}
 					{active ? (
 						<Select
+							disabled={disabledForm}
 							onChange={onChange}
 							icon={<Marker size={12} color={active.color} className='block' />}
 							name='color'
@@ -153,6 +165,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					{/* Currency */}
 					{active ? (
 						<Select
+							disabled={disabledForm}
 							onChange={onChange}
 							icon={<MdOutlineCurrencyExchange size={24} />}
 							name='currency'
@@ -175,6 +188,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					)}
 					{active ? (
 						<File
+							disabled={disabledForm}
 							onChange={onChange}
 							icon={<MdOutlineCloudUpload size={24} />}
 							name='image'
@@ -215,7 +229,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 							variant='default'
 							className='capitalize'
 							message={t('button.discard')}
-							disabled={pending}
+							disabled={disabledForm || pending}
 						/>
 
 						<Button
@@ -223,7 +237,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 							type='submit'
 							className='capitalize'
 							message={t('button.save')}
-							disabled={pending}
+							disabled={disabledForm || pending}
 							icon={pending && <Spinner variant='primary' />}
 						/>
 					</div>

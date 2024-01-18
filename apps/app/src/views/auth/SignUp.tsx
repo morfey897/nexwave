@@ -56,7 +56,7 @@ const SignUp = ({
 				<span className='w-1/5 border-b dark:border-gray-600'></span>
 			</div>
 			<form
-				className='w-full max-w-md'
+				className='w-full'
 				onSubmit={submit}
 				action={action}
 				onChange={reset}

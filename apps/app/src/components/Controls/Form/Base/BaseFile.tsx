@@ -12,6 +12,7 @@ function File({
 	hint,
 	onChange,
 	errorCopy,
+	disabled,
 	...props
 }: InputProps<HTMLInputElement>) {
 	const ref = useRef<HTMLInputElement>(null);
@@ -36,9 +37,11 @@ function File({
 		<div className={clsx('relative', className)}>
 			<label
 				className={clsx(
-					'flex flex-col items-center text-center border-2 border-dashed cursor-pointer dark:hover:border-blue-300 hover:ring-blue-300',
+					'flex flex-col items-center text-center border-2 border-dashed',
 					'bg-white dark:bg-gray-900',
-					'rounded-lg py-4 px-3'
+					'rounded-lg py-4 px-3',
+					!disabled && 'dark:hover:border-blue-300 hover:border-blue-300 cursor-pointer'
+					// 'disabled:opacity-50 disabled:pointer-events-none'
 				)}
 			>
 				<span className='text-gray-300 dark:text-gray-500 mx-3 relative'>
