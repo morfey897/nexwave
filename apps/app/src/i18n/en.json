@@ -30,10 +30,16 @@
 		"currency": "Currency",
 		"select_currency": "Select currency",
 		"project_name": "Project name",
+		"branch_name": "Branch name",	
 		"image_hint": "Upload or darg & drop your file PNG or JPG",
 		"info": "Short info...",
 		"bio": "Bio...",
-		"state": "State"
+		"state": "State",
+		"address": "Address",
+		"country": "Country",
+		"city": "City",
+		"address_line": "Address line",
+		"address_line_2": "Address line 2"
 	},
 	"button": {
 		"sign_in": "Sign in",

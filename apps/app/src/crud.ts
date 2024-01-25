@@ -10,11 +10,12 @@ export const CREATE = {
 export const UPDATE = {
   // Project section
   PROJECT: 1,
-  PROJECT_INFO: 8,
+  VISIBILITY_PROJECT: 8,
   PROJECT_GROUPS: 16,
   PROJECT_ACCESS: 32,
   // Branch section
   BRANCH: 64,
+  VISIBILITY_BRANCH: 2048,
 };
 
 // Delete

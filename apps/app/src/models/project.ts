@@ -8,7 +8,7 @@ import { C, R, U, D } from '@/crud';
 
 const ROLE_GUEST = 0;
 const ROLE_USER = 0 | ROLE_GUEST;
-const ROLE_ADMIN = U.PROJECT_INFO | ROLE_USER;
+const ROLE_ADMIN = U.PROJECT | ROLE_USER;
 const ROLE_SUPER = U.PROJECT_ACCESS | ROLE_ADMIN;
 
 const ROLES = {
@@ -46,13 +46,9 @@ export interface IFullBranch extends IBranch {
 	info: string | null;
 	address: {
 		country?: string;
-		state_region?: string;
 		city?: string;
-		area?: string;
-		street?: string;
-		house?: string;
-		flat?: string;
-		apt?: string;
+		address_line?: string;
+		address_line_2?: string;
 	};
 	contacts: Record<string, string>;
 	spaces: Array<{ id: number; name: string; state: string }>;
@@ -501,6 +497,51 @@ export async function updateProject(
 		.returning({
 			id: schemas.project.id,
 			uuid: schemas.project.uuid,
+		});
+
+	return result.length > 0;
+}
+
+/**
+ * Update branch
+ * @param userId - number
+ * @returns
+ */
+export async function updateBranch(
+	props: {
+		id?: number;
+		uuid?: string;
+	},
+	value?: {
+		name?: string;
+		info?: string;
+		address?: Object,
+		state?: 'active' | 'inactive';
+	},
+) {
+	const { id, uuid } = props || {};
+	if (!id && !uuid) return false;
+
+	const result = await db
+		.update(schemas.branch)
+		.set({
+			...(value?.name ? { name: value?.name } : {}),
+			...(typeof value?.info != 'undefined'
+				? { info: value?.info || null }
+				: {}),
+			...(value?.state ? { state: value?.state } : {}),
+			...(value?.address ? { address: value?.address } : {})
+		})
+		.where(
+			id != undefined
+				? orm.eq(schemas.branch.id, id)
+				: uuid != undefined
+					? orm.eq(schemas.branch.uuid, uuid)
+					: undefined,
+		)
+		.returning({
+			id: schemas.branch.id,
+			uuid: schemas.branch.uuid,
 		});
 
 	return result.length > 0;

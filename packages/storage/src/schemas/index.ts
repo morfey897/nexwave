@@ -87,13 +87,9 @@ export const branch = pgTable('branches', {
 	address: jsonb('address')
 		.$type<{
 			country?: string;
-			state_region?: string;
 			city?: string;
-			area?: string;
-			street?: string;
-			house?: string;
-			flat?: string;
-			apt?: string;
+			address_line?: string;
+			address_line_2?: string;
 		}>()
 		.default({})
 		.notNull(),

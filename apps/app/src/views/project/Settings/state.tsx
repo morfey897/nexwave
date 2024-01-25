@@ -10,19 +10,17 @@ import { MdWarningAmber } from 'react-icons/md';
 import { EnumState } from '@/enums';
 import Button, { GroupButton } from '@/components/Button';
 import Skeleton from '@/components/Skeleton';
-import { UPDATE, DELETE } from '@/crud';
 import { hasAccess } from '@/utils';
 import { useEffect, useCallback, useState, useLayoutEffect } from 'react';
 import { useAction } from '@/hooks/action';
-import { actionUpdateVisibilityProject } from '@/actions/project-action';
 import Spinner from '@/components/Spinner';
 import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
 import { EnumResponse } from '@/enums';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
-import { useNWStore } from '@/hooks/store';
+import { IResponse } from '@/types';
 
-type UnitAction = 'publish' | 'unpublish' | 'delete';
+export type UnitAction = 'publish' | 'unpublish' | 'delete';
 const WrapButton = ({
 	permission,
 	brole,
@@ -50,27 +48,43 @@ const WrapButton = ({
 	);
 };
 
-function StateSettings({
-	project,
-	...props
-}: { project: IFullProject | null } & React.HTMLAttributes<HTMLDivElement>) {
-	const router = useRouter();
+type TProps = {
+	id: number | string;
+	state: string | null | undefined;
+	permission: number | undefined;
+};
 
-	const updateProject = useNWStore((state) => state.updateProject);
+type TActions<T> = {
+	serverAction: (formData: FormData) => Promise<IResponse<T> | never>;
+	postProcess: (data: T) => TProps;
+	onUpdate?: (data: T) => void;
+};
+
+function StateSettings<T>({
+	item,
+	roles,
+	serverAction,
+	postProcess,
+	onUpdate,
+	...rest
+}: { item: T | null } & TActions<T> & {
+		roles: Record<UnitAction, number>;
+	} & React.HTMLAttributes<HTMLDivElement>) {
+	const { action, submit, reset, pending, result } = useAction(serverAction);
+
+	const router = useRouter();
 
 	const t = useTranslations();
 
-	const [active, setProject] = useState<IFullProject | null>(null);
+	const [activeItem, setActiveItem] = useState<TProps | null>(null);
 
 	const [currentAction, setCurrenAction] = useState<UnitAction | ''>('');
-	const { action, submit, reset, pending, result } = useAction(
-		actionUpdateVisibilityProject,
-	);
+
 	const responseError = result?.error?.code;
 
 	useLayoutEffect(() => {
-		setProject(project);
-	}, [project]);
+		!!item && setActiveItem(postProcess(item));
+	}, [item, postProcess]);
 
 	const signIn = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -89,16 +103,16 @@ function StateSettings({
 
 	const onChangeState: React.MouseEventHandler<HTMLButtonElement> = useCallback(
 		(event) => {
-			const active = event.currentTarget.name;
-			setCurrenAction(active as UnitAction);
+			const activeAction = event.currentTarget.name;
+			setCurrenAction(activeAction as UnitAction);
 			const formData = new FormData();
-			formData.append('action', active);
-			formData.append('projectId', (project?.id || '').toString());
+			formData.append('id', (activeItem?.id || '').toString());
+			formData.append('action', activeAction);
 			reset();
 			submit();
 			onSubmit(formData);
 		},
-		[project, action, reset],
+		[activeItem, action, reset],
 	);
 
 	useEffect(() => {
@@ -110,25 +124,17 @@ function StateSettings({
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
 			const newProject = result.data;
-			setProject(newProject);
-			updateProject({
-				id: newProject.id,
-				uuid: newProject.uuid,
-				name: newProject.name,
-				color: newProject.color,
-				currency: newProject.currency,
-				state: newProject.state,
-				image: newProject.image,
-			});
+			setActiveItem(postProcess(newProject));
+			typeof onUpdate === 'function' && onUpdate(newProject);
 		}
-	}, [result, updateProject]);
+	}, [result, postProcess, onUpdate]);
 
-	const state = active?.state;
-	const permission = active?.roles[project?.role || ''] || 0;
+	const state = activeItem?.state;
+	const permission = activeItem?.permission || 0;
 
 	return (
-		<div {...props}>
-			{active ? (
+		<div {...rest}>
+			{activeItem ? (
 				<div className='grid grid-cols-12 grid-rows-1 gap-2'>
 					<div className='col-span-12 md:col-span-7'>
 						<p className='text-3xl font-semibold text-gray-500 dark:text-gray-400'>
@@ -165,7 +171,7 @@ function StateSettings({
 								<>
 									<WrapButton
 										permission={permission}
-										brole={UPDATE.PROJECT}
+										brole={roles['publish']}
 										name='publish'
 										active={currentAction}
 										disabled={pending}
@@ -176,7 +182,7 @@ function StateSettings({
 									/>
 									<WrapButton
 										permission={permission}
-										brole={DELETE.PROJECT}
+										brole={roles['delete']}
 										name='delete'
 										variant='warn'
 										active={currentAction}
@@ -192,7 +198,7 @@ function StateSettings({
 									<WrapButton
 										active={currentAction}
 										permission={permission}
-										brole={UPDATE.PROJECT}
+										brole={roles['unpublish']}
 										onClick={onChangeState}
 										name='unpublish'
 										variant='dark'
@@ -207,7 +213,7 @@ function StateSettings({
 									<WrapButton
 										active={currentAction}
 										permission={permission}
-										brole={UPDATE.PROJECT}
+										brole={roles['publish']}
 										onClick={onChangeState}
 										name='publish'
 										variant='secondary'
@@ -219,7 +225,7 @@ function StateSettings({
 									<WrapButton
 										active={currentAction}
 										permission={permission}
-										brole={DELETE.PROJECT}
+										brole={roles['delete']}
 										onClick={onChangeState}
 										name='delete'
 										variant='danger'

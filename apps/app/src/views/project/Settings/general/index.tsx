@@ -7,7 +7,13 @@ import Skeleton from '@/components/Skeleton';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import Marker from '@/components/Project/Marker';
 import { EnumResponse, EnumColor, EnumCurrency } from '@/enums';
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useState,
+} from 'react';
 import { MdOutlineCurrencyExchange } from 'react-icons/md';
 import { useNWStore } from '@/hooks/store';
 import Button from '@/components/Button';
@@ -17,9 +23,17 @@ import { IFullProject } from '@/models/project';
 import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
-import StateSettings from './state';
+import StateSettings, { type UnitAction } from '../state';
 import { hasAccess } from '@/utils';
-import { UPDATE } from '@/crud';
+import { UPDATE, DELETE } from '@/crud';
+import { actionUpdateVisibilityProject } from '@/actions/project-action';
+import { cloneDeep } from 'lodash';
+
+const ROLES: Record<UnitAction, number> = {
+	publish: UPDATE.PROJECT,
+	unpublish: UPDATE.VISIBILITY_PROJECT,
+	delete: DELETE.PROJECT,
+};
 
 const COLORS = Object.values(EnumColor);
 const CURRENCIES = Object.values(EnumCurrency);
@@ -28,7 +42,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 	const t = useTranslations();
 	const updateProject = useNWStore((state) => state.updateProject);
 	const router = useRouter();
-	const [active, setProject] = useState<IFullProject | null>(null);
+	const [activeProject, setActiveProject] = useState<IFullProject | null>(null);
 	const [changed, setChanged] = useState(false);
 
 	const { action, submit, reset, pending, result } =
@@ -36,16 +50,12 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 
 	const responseError = result?.error?.code;
 
-	useLayoutEffect(() => {
-		setProject(project);
-		setChanged(false);
-	}, [project]);
+	const permission = activeProject?.roles[activeProject?.role || ''] || 0;
 
-	useEffect(() => {
-		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			const newProject = result.data;
-			setProject(newProject);
-			setChanged(false);
+	const disabledForm = !hasAccess(permission, UPDATE.PROJECT);
+
+	const onUpdated = useCallback(
+		(newProject: IFullProject) => {
 			updateProject({
 				id: newProject.id,
 				uuid: newProject.uuid,
@@ -55,8 +65,23 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 				state: newProject.state,
 				image: newProject.image,
 			});
+		},
+		[updateProject],
+	);
+
+	useLayoutEffect(() => {
+		setActiveProject(cloneDeep(project));
+		setChanged(false);
+	}, [project]);
+
+	useEffect(() => {
+		if (result?.status === EnumResponse.SUCCESS && result.data) {
+			const newProject = result.data;
+			setActiveProject(cloneDeep(newProject));
+			setChanged(false);
+			onUpdated(newProject);
 		}
-	}, [result, updateProject]);
+	}, [result, onUpdated]);
 
 	const signIn = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -75,41 +100,47 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			const target = event.target as HTMLInputElement;
 			const name = target.name;
 			const value = target.value;
-			setProject((project) => (project ? { ...project, [name]: value } : null));
+			setActiveProject((prev) => (prev ? { ...prev, [name]: value } : null));
 			setChanged(true);
 		},
 		[],
 	);
 
 	const onDiscard = useCallback(() => {
-		setProject(project);
+		setActiveProject(cloneDeep(project));
 		setChanged(false);
 	}, [project]);
 
-	const permission = active?.roles[project?.role || ''] || 0;
-
-	const disabledForm = !hasAccess(permission, UPDATE.PROJECT_INFO);
+	const postProcess = useMemo(
+		() => (newProject: IFullProject) => ({
+			id: newProject.id,
+			state: newProject.state,
+			permission: newProject.roles[newProject.role || ''],
+		}),
+		[],
+	);
 
 	return (
 		<div className='w-full max-w-3xl mx-auto mt-6 space-y-4'>
 			{/* State */}
-			<StateSettings project={project} />
+			<StateSettings<IFullProject>
+				serverAction={actionUpdateVisibilityProject}
+				postProcess={postProcess}
+				onUpdate={onUpdated}
+				item={activeProject}
+				roles={ROLES}
+			/>
 
 			{/* Form */}
-			<form
-				onSubmit={submit}
-				action={action}
-				onChange={reset}
-				aria-disabled={disabledForm}
-			>
+			<form onSubmit={submit} action={action} onChange={reset}>
 				<div className='space-y-4'>
 					{/*  ProjectId */}
-					{active && (
-						<input name='projectId' type='hidden' value={project?.id} />
+					{activeProject && (
+						<input name='id' type='hidden' value={activeProject?.id} />
 					)}
 
 					{/*  Name */}
-					{active ? (
+					{activeProject ? (
 						<Input
 							disabled={disabledForm}
 							onChange={onChange}
@@ -117,37 +148,43 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 							icon={<MdLabelOutline size={32} />}
 							name='name'
 							type='text'
-							placeholder={t('form.project_name')}
-							value={active?.name}
+							placeholder={t('form.name')}
+							value={activeProject.name}
 						/>
 					) : (
 						<Skeleton className='h-[58px]' />
 					)}
 
 					{/* Info */}
-					{active ? (
+					{activeProject ? (
 						<TextArea
 							disabled={disabledForm}
 							onChange={onChange}
 							name='info'
 							placeholder={t('form.info')}
-							value={active.info || ''}
+							value={activeProject.info || ''}
 						/>
 					) : (
 						<Skeleton className='h-[82px]' />
 					)}
 
 					{/* Color */}
-					{active ? (
+					{activeProject ? (
 						<Select
 							disabled={disabledForm}
 							onChange={onChange}
-							icon={<Marker size={12} color={active.color} className='block' />}
+							icon={
+								<Marker
+									size={12}
+									color={activeProject.color}
+									className='block'
+								/>
+							}
 							name='color'
 							placeholder={t('form.select_color')}
 							value={
-								COLORS.includes(active.color as EnumColor)
-									? (active.color as string)
+								COLORS.includes(activeProject.color as EnumColor)
+									? (activeProject.color as string)
 									: ''
 							}
 						>
@@ -163,7 +200,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					)}
 
 					{/* Currency */}
-					{active ? (
+					{activeProject ? (
 						<Select
 							disabled={disabledForm}
 							onChange={onChange}
@@ -171,8 +208,8 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 							name='currency'
 							placeholder={t('form.select_currency')}
 							value={
-								CURRENCIES.includes(active.currency as EnumCurrency)
-									? (active.currency as string)
+								CURRENCIES.includes(activeProject.currency as EnumCurrency)
+									? (activeProject.currency as string)
 									: ''
 							}
 						>
@@ -186,7 +223,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					) : (
 						<Skeleton className='h-[48px]' />
 					)}
-					{active ? (
+					{activeProject ? (
 						<File
 							disabled={disabledForm}
 							onChange={onChange}
@@ -201,47 +238,49 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					)}
 				</div>
 
-				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto mt-4'>
-					{responseError?.includes(USER_UNAUTHORIZED) &&
-						t.rich('error.unauthorized_rt', {
-							button: (chunks) => (
-								<button
-									onClick={signIn}
-									className='text-blue-500 underline dark:text-blue-400'
-								>
-									{chunks}
-								</button>
-							),
-						})}
-					{responseError?.includes(ACCESS_DENIED) && t('error.access_denied')}
-					{responseError?.includes(UPDATE_FAILED) && t('error.update_failed')}
-					{result?.status === EnumResponse.FAILED &&
-						!responseError?.includes(USER_UNAUTHORIZED) &&
-						!responseError?.includes(ACCESS_DENIED) &&
-						!responseError?.includes(UPDATE_FAILED) &&
-						t('error.wrong')}
-				</p>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
+					<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
+						{responseError?.includes(USER_UNAUTHORIZED) &&
+							t.rich('error.unauthorized_rt', {
+								button: (chunks) => (
+									<button
+										onClick={signIn}
+										className='text-blue-500 underline dark:text-blue-400'
+									>
+										{chunks}
+									</button>
+								),
+							})}
+						{responseError?.includes(ACCESS_DENIED) && t('error.access_denied')}
+						{responseError?.includes(UPDATE_FAILED) && t('error.update_failed')}
+						{result?.status === EnumResponse.FAILED &&
+							!responseError?.includes(USER_UNAUTHORIZED) &&
+							!responseError?.includes(ACCESS_DENIED) &&
+							!responseError?.includes(UPDATE_FAILED) &&
+							t('error.wrong')}
+					</p>
 
-				{changed && (
-					<div className='flex justify-end my-6 gap-x-2'>
-						<Button
-							onClick={onDiscard}
-							variant='default'
-							className='capitalize'
-							message={t('button.discard')}
-							disabled={disabledForm || pending}
-						/>
+					{changed && (
+						<div className='flex justify-end gap-x-2'>
+							<Button
+								onClick={onDiscard}
+								variant='default'
+								className='capitalize'
+								message={t('button.discard')}
+								disabled={disabledForm || pending}
+							/>
 
-						<Button
-							variant='primary'
-							type='submit'
-							className='capitalize'
-							message={t('button.save')}
-							disabled={disabledForm || pending}
-							icon={pending && <Spinner variant='primary' />}
-						/>
-					</div>
-				)}
+							<Button
+								variant='primary'
+								type='submit'
+								className='capitalize'
+								message={t('button.save')}
+								disabled={disabledForm || pending}
+								icon={pending && <Spinner variant='primary' />}
+							/>
+						</div>
+					)}
+				</div>
 			</form>
 		</div>
 	);

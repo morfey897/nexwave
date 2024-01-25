@@ -1,9 +1,10 @@
 'use client';
 import GeneralSettings from './general';
+import BranchesSettings from './branches';
 import { GroupButton, Button } from '@/components/Button';
 import { HiOutlineInformationCircle, HiOutlinePuzzle } from 'react-icons/hi';
 import { HiMiniRectangleGroup } from 'react-icons/hi2';
-import { MdOutlineLockPerson, MdWarningAmber } from 'react-icons/md';
+import { MdOutlineLockPerson } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
 import Container, {
 	ContainerBody,
@@ -21,7 +22,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { searchParams as searchParamsConfig } from '@nw/config';
 import { EnumState } from '@/enums';
 
-const TAB_INFO = 'info';
+const TAB_GENERAL = 'general';
 const TAB_BRANCHES = 'branches';
 const TAB_GROUPS = 'groups';
 const TAB_ACCESS = 'access';
@@ -33,13 +34,13 @@ function Settings({ project }: { project: IFullProject | null }) {
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 	const [activeTab, setActiveTab] = useState(
-		searchParams.get(searchParamsConfig.TAB) || TAB_INFO,
+		searchParams.get(searchParamsConfig.TAB) || TAB_GENERAL,
 	);
 
 	const tabs = useMemo(
 		() => [
 			{
-				id: TAB_INFO,
+				id: TAB_GENERAL,
 				message: t('page.settings.tab_general'),
 				icon: <HiOutlineInformationCircle size={24} />,
 			},
@@ -66,11 +67,12 @@ function Settings({ project }: { project: IFullProject | null }) {
 		(tab: string) => {
 			setActiveTab(tab);
 			const clone = new URLSearchParams(searchParams);
-			if (tab === TAB_INFO) {
+			if (tab === TAB_GENERAL) {
 				clone.delete(searchParamsConfig.TAB);
 			} else {
 				clone.set(searchParamsConfig.TAB, tab);
 			}
+			clone.delete(searchParamsConfig.ACTIVE);
 			const str = clone.toString();
 			router.push(`?${str}`);
 		},
@@ -121,7 +123,8 @@ function Settings({ project }: { project: IFullProject | null }) {
 
 			<ContainerBody ref={refBody} onScroll={onScroll}>
 				<div className='border-t dark:border-gray-700'>
-					{activeTab === TAB_INFO && <GeneralSettings project={project} />}
+					{activeTab === TAB_GENERAL && <GeneralSettings project={project} />}
+					{activeTab === TAB_BRANCHES && <BranchesSettings project={project} />}
 				</div>
 			</ContainerBody>
 		</Container>

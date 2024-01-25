@@ -63,3 +63,7 @@ export function getError(error: any) {
 
 export const hasAccess = (permission: number | undefined, role: number) =>
 	((permission || 0) & role) === role;
+
+export const throwRedirect = (url: string) => {
+	throw { redirect: true, url };
+};

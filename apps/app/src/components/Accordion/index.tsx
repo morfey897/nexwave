@@ -9,7 +9,7 @@ function Accordion({
 	...props
 }: React.HtmlHTMLAttributes<HTMLDivElement> & {
 	id: string;
-	head?: React.ReactNode;
+	head: React.ReactNode;
 	active?: boolean;
 }) {
 	return (

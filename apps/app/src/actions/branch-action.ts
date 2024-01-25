@@ -1,11 +1,8 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { dynamicHref } from '@/utils';
-import { ROOT, APP } from '@/routes';
+import { APP } from '@/routes';
 import {
-	deployNewProject,
-	updateProject,
-	getProjectsByUserId,
+	updateBranch,
 	IFullProject,
 	hasProjectAccess,
 	getFullProjectByUserId,
@@ -18,80 +15,24 @@ import { getError, throwRedirect } from '@/utils';
 import { IResponse } from '@/types';
 
 /**
- * Create project
+ * Update branch
  * @param formData
  * @returns IResponse
  */
-export async function actionCreateNewProject(
-	formData: FormData,
-): Promise<IResponse | never> {
-	try {
-		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
-		const file = formData.get('image');
-		const name = formData.get('name')?.toString();
-		const color = formData.get('color')?.toString();
-		const currency = formData.get('currency')?.toString();
-		const info = formData.get('info')?.toString();
-
-		// TODO: upload image to cloudinary
-		const project = await deployNewProject(user.id, {
-			name: name,
-			color: color,
-			currency: currency,
-			info: info,
-			// image: file,
-		});
-
-		if (!project) throw { code: ErrorCodes.CREATE_FAILED };
-		throwRedirect(dynamicHref(ROOT, { uuid: project.uuid }));
-	} catch (error: any) {
-		if (error.redirect && error.url) {
-			return redirect(error.url);
-		}
-		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
-	}
-	return { status: EnumResponse.SUCCESS };
-}
-
-/**
- * Get projects
- * @returns IResponse
- */
-export async function actionGetProjects(): Promise<
-	IResponse<Awaited<ReturnType<typeof getProjectsByUserId>>>
-> {
-	try {
-		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
-
-		const projects = await getProjectsByUserId(user.id);
-
-		return { status: EnumResponse.SUCCESS, data: projects };
-	} catch (error) {
-		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
-	}
-}
-
-/**
- * Update project
- * @param formData
- * @returns IResponse
- */
-export async function actionUpdateProject(
+// TODO: update branch
+export async function actionUpdateBranch(
 	formData: FormData,
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
-		const projectIdValue = formData.get('id')?.toString();
+		const [projectIdValue, branchUuid] =
+			formData.get('id')?.toString().split('/') || [];
 		const projectId = projectIdValue
 			? Number.parseInt(projectIdValue)
 			: undefined;
 
-		const access = await hasProjectAccess(UPDATE.PROJECT, {
+		const access = await hasProjectAccess(UPDATE.BRANCH, {
 			userId: user.id,
 			projectId,
 		});
@@ -100,18 +41,24 @@ export async function actionUpdateProject(
 
 		const file = formData.get('image');
 		const name = formData.get('name')?.toString();
-		const color = formData.get('color')?.toString();
-		const currency = formData.get('currency')?.toString();
 		const info = formData.get('info')?.toString();
+		const addressCountry = formData.get('address.country')?.toString();
+		const addressCity = formData.get('address.city')?.toString();
+		const addressLine = formData.get('address.address_line')?.toString();
+		const addressLine2 = formData.get('address.address_line_2')?.toString();
 
 		// TODO: upload image to cloudinary
-		const success = await updateProject(
-			{ id: projectId },
+		const success = await updateBranch(
+			{ uuid: branchUuid },
 			{
 				name: name,
-				color: color?.toString(),
-				currency: currency?.toString(),
 				info: info?.toString(),
+				address: {
+					country: addressCountry,
+					city: addressCity,
+					address_line: addressLine,
+					address_line_2: addressLine2,
+				},
 				// image: file,
 			},
 		);
@@ -127,17 +74,18 @@ export async function actionUpdateProject(
 }
 
 /**
- * Update project visibility
+ * Update branch visibility
  * @param formData
  * @returns IResponse
  */
-export async function actionUpdateVisibilityProject(
+export async function actionUpdateVisibilityBranch(
 	formData: FormData,
 ): Promise<IResponse<IFullProject> | never> {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
-		const projectIdValue = formData.get('id')?.toString();
+		const [projectIdValue, branchUuid] =
+			formData.get('id')?.toString().split('/') || [];
 		const action = formData.get('action')?.toString();
 
 		if (action != 'delete' && action != 'publish' && action != 'unpublish')
@@ -149,18 +97,18 @@ export async function actionUpdateVisibilityProject(
 
 		// Delete project
 		if (action == 'delete') {
-			const access = await hasProjectAccess(DELETE.PROJECT, {
+			const access = await hasProjectAccess(DELETE.BRANCH, {
 				userId: user.id,
 				projectId,
 			});
 
 			if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
-			// DELETE junctions & project & branches
+			// DELETE branche and return to project
 			throwRedirect(APP);
 		}
 
 		const access = await hasProjectAccess(
-			action === 'publish' ? UPDATE.PROJECT : UPDATE.VISIBILITY_PROJECT,
+			action === 'publish' ? UPDATE.BRANCH : UPDATE.VISIBILITY_BRANCH,
 			{
 				userId: user.id,
 				projectId,
@@ -169,8 +117,8 @@ export async function actionUpdateVisibilityProject(
 
 		if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
 
-		const success = await updateProject(
-			{ id: projectId },
+		const success = await updateBranch(
+			{ uuid: branchUuid },
 			{
 				state:
 					action == 'publish'
