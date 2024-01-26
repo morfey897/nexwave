@@ -14,7 +14,7 @@ import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
 import { UPDATE, DELETE } from '@/crud';
 import { EnumResponse } from '@/enums';
-import { getError, throwRedirect } from '@/utils';
+import { parseError, parseRedirect, doRedirect, doError } from '@/utils';
 import { IResponse } from '@/types';
 
 /**
@@ -27,7 +27,7 @@ export async function actionCreateNewProject(
 ): Promise<IResponse | never> {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const file = formData.get('image');
 		const name = formData.get('name')?.toString();
 		const color = formData.get('color')?.toString();
@@ -43,14 +43,13 @@ export async function actionCreateNewProject(
 			// image: file,
 		});
 
-		if (!project) throw { code: ErrorCodes.CREATE_FAILED };
-		throwRedirect(dynamicHref(ROOT, { uuid: project.uuid }));
+		if (!project) throw doError(ErrorCodes.CREATE_FAILED);
+		throw doRedirect(dynamicHref(ROOT, { uuid: project.uuid }));
 	} catch (error: any) {
-		if (error.redirect && error.url) {
-			return redirect(error.url);
-		}
+		const { shouldRedirect, url } = parseRedirect(error);
+		if (shouldRedirect && url) return redirect(error.url);
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 	return { status: EnumResponse.SUCCESS };
 }
@@ -64,14 +63,14 @@ export async function actionGetProjects(): Promise<
 > {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projects = await getProjectsByUserId(user.id);
 
 		return { status: EnumResponse.SUCCESS, data: projects };
 	} catch (error) {
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }
 
@@ -85,7 +84,7 @@ export async function actionUpdateProject(
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const projectIdValue = formData.get('id')?.toString();
 		const projectId = projectIdValue
 			? Number.parseInt(projectIdValue)
@@ -96,7 +95,7 @@ export async function actionUpdateProject(
 			projectId,
 		});
 
-		if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 		const file = formData.get('image');
 		const name = formData.get('name')?.toString();
@@ -116,13 +115,13 @@ export async function actionUpdateProject(
 			},
 		);
 
-		if (!success) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
 		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!project) throw doError(ErrorCodes.UPDATE_FAILED);
 		return { status: EnumResponse.SUCCESS, data: project };
 	} catch (error) {
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }
 
@@ -136,12 +135,12 @@ export async function actionUpdateVisibilityProject(
 ): Promise<IResponse<IFullProject> | never> {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const projectIdValue = formData.get('id')?.toString();
 		const action = formData.get('action')?.toString();
 
 		if (action != 'delete' && action != 'publish' && action != 'unpublish')
-			throw { code: ErrorCodes.UNSUPPORTED_ACTION };
+			throw doError(ErrorCodes.UNSUPPORTED_ACTION);
 
 		const projectId = projectIdValue
 			? Number.parseInt(projectIdValue)
@@ -154,9 +153,9 @@ export async function actionUpdateVisibilityProject(
 				projectId,
 			});
 
-			if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
+			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 			// DELETE junctions & project & branches
-			throwRedirect(APP);
+			throw doRedirect(APP);
 		}
 
 		const access = await hasProjectAccess(
@@ -167,7 +166,7 @@ export async function actionUpdateVisibilityProject(
 			},
 		);
 
-		if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 		const success = await updateProject(
 			{ id: projectId },
@@ -181,15 +180,14 @@ export async function actionUpdateVisibilityProject(
 			},
 		);
 
-		if (!success) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
 		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!project) throw doError(ErrorCodes.UPDATE_FAILED);
 		return { status: EnumResponse.SUCCESS, data: project };
 	} catch (error: any) {
-		if (error.redirect && error.url) {
-			return redirect(error.url);
-		}
+		const { shouldRedirect, url } = parseRedirect(error);
+		if (shouldRedirect && url) return redirect(error.url);
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }

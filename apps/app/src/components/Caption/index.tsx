@@ -1,6 +1,6 @@
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { HiOutlineCloudArrowUp } from 'react-icons/hi2';
-import { Button, GroupButton } from '@/components/Button';
+import { Button, Group } from '@/components/Button';
 import { CountBadge } from '@/components/Badge';
 import clsx from 'clsx';
 
@@ -27,8 +27,8 @@ function Caption({
 	className,
 	isScrolled = false,
 	...props
-}: { isScrolled?: boolean } & TCaption &
-	React.HTMLAttributes<HTMLDivElement>) {
+}: { isScrolled?: boolean } & TCaption & React.HTMLAttributes<HTMLDivElement>) {
+	isScrolled = false;
 	return (
 		<div
 			className={clsx('flex items-center justify-between gap-x-3', className)}
@@ -44,6 +44,7 @@ function Caption({
 
 					{!!add && (
 						<Button
+							size='xs'
 							onClick={add.onClick}
 							variant='primary'
 							icon={<HiOutlinePlusCircle size={16} />}
@@ -67,9 +68,10 @@ function Caption({
 			</div>
 
 			<div className='hidden md:flex items-center mt-4 gap-x-3 gap-y-2'>
-				<GroupButton>
+				<Group>
 					{!!add && (
 						<Button
+							size='sm'
 							onClick={add.onClick}
 							variant='primary'
 							icon={<HiOutlinePlusCircle size={20} />}
@@ -78,12 +80,13 @@ function Caption({
 					)}
 					{!!imprt && (
 						<Button
+							size='sm'
 							onClick={imprt.onClick}
 							icon={<HiOutlineCloudArrowUp size={20} />}
 							message={imprt.title}
 						/>
 					)}
-				</GroupButton>
+				</Group>
 			</div>
 		</div>
 	);

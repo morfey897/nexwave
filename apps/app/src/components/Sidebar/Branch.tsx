@@ -4,7 +4,6 @@ import { HiOutlineCheck } from 'react-icons/hi';
 import clsx from 'clsx';
 import NavItem from './NavItem';
 import Marker from '@/components/Project/Marker';
-import { EnumColor } from '@/enums';
 
 function BranchIcon({ image }: { image?: string | null }) {
 	return image ? (

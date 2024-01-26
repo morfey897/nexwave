@@ -1,5 +1,4 @@
 'use client';
-import { IFullProject } from '@/models/project';
 import { useTranslations } from 'next-intl';
 import {
 	HiMiniPencilSquare,
@@ -8,13 +7,13 @@ import {
 } from 'react-icons/hi2';
 import { MdWarningAmber } from 'react-icons/md';
 import { EnumState } from '@/enums';
-import Button, { GroupButton } from '@/components/Button';
+import { Group, Button, IButtonProps } from '@/components/Button';
 import Skeleton from '@/components/Skeleton';
 import { hasAccess } from '@/utils';
 import { useEffect, useCallback, useState, useLayoutEffect } from 'react';
 import { useAction } from '@/hooks/action';
 import Spinner from '@/components/Spinner';
-import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
+import * as ErrorCodes from '@/errorCodes';
 import { EnumResponse } from '@/enums';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
@@ -34,7 +33,8 @@ const WrapButton = ({
 	brole: number;
 	name: UnitAction;
 	active: UnitAction | '';
-} & Parameters<typeof Button>[0]) => {
+} & IButtonProps &
+	React.ButtonHTMLAttributes<HTMLButtonElement>) => {
 	if (!hasAccess(permission, brole)) return null;
 
 	return (
@@ -57,7 +57,6 @@ type TProps = {
 type TActions<T> = {
 	serverAction: (formData: FormData) => Promise<IResponse<T> | never>;
 	postProcess: (data: T) => TProps;
-	onUpdate?: (data: T) => void;
 };
 
 function StateSettings<T>({
@@ -65,7 +64,6 @@ function StateSettings<T>({
 	roles,
 	serverAction,
 	postProcess,
-	onUpdate,
 	...rest
 }: { item: T | null } & TActions<T> & {
 		roles: Record<UnitAction, number>;
@@ -123,11 +121,9 @@ function StateSettings<T>({
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			const newProject = result.data;
-			setActiveItem(postProcess(newProject));
-			typeof onUpdate === 'function' && onUpdate(newProject);
+			router.refresh();
 		}
-	}, [result, postProcess, onUpdate]);
+	}, [result, router]);
 
 	const state = activeItem?.state;
 	const permission = activeItem?.permission || 0;
@@ -166,7 +162,7 @@ function StateSettings<T>({
 					</div>
 					{/* Actions */}
 					<div className='col-span-12 md:col-span-5 flex flex-col items-start md:items-end'>
-						<GroupButton>
+						<Group>
 							{(state === EnumState.DRAFT || !state) && (
 								<>
 									<WrapButton
@@ -235,11 +231,11 @@ function StateSettings<T>({
 									/>
 								</>
 							)}
-						</GroupButton>
+						</Group>
 						{result?.status === EnumResponse.FAILED && (
 							<div className='flex justify-end my-2'>
 								<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-									{responseError?.includes(USER_UNAUTHORIZED) &&
+									{responseError?.includes(ErrorCodes.USER_UNAUTHORIZED) &&
 										t.rich('error.unauthorized_rt', {
 											button: (chunks) => (
 												<button
@@ -250,14 +246,20 @@ function StateSettings<T>({
 												</button>
 											),
 										})}
-									{responseError?.includes(ACCESS_DENIED) &&
+									{responseError?.includes(ErrorCodes.ACCESS_DENIED) &&
 										t('error.access_denied')}
-									{responseError?.includes(UPDATE_FAILED) &&
+									{responseError?.includes(ErrorCodes.UPDATE_FAILED) &&
 										t('error.update_failed')}
+									{responseError?.includes(ErrorCodes.DELETE_FAILED) &&
+										t('error.delete_failed')}
+									{responseError?.includes(ErrorCodes.DELETE_LAST_FAILED) &&
+										t('error.delete_last_failed')}
 									{result?.status === EnumResponse.FAILED &&
-										!responseError?.includes(USER_UNAUTHORIZED) &&
-										!responseError?.includes(ACCESS_DENIED) &&
-										!responseError?.includes(UPDATE_FAILED) &&
+										!responseError?.includes(ErrorCodes.USER_UNAUTHORIZED) &&
+										!responseError?.includes(ErrorCodes.ACCESS_DENIED) &&
+										!responseError?.includes(ErrorCodes.UPDATE_FAILED) &&
+										!responseError?.includes(ErrorCodes.DELETE_FAILED) &&
+										!responseError?.includes(ErrorCodes.DELETE_LAST_FAILED) &&
 										t('error.wrong')}
 								</p>
 							</div>

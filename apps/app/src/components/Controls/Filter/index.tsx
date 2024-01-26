@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import DropDown from '@/components/DropDown';
-import { Button, GroupButton } from '@/components/Button';
+import { Button, Group } from '@/components/Button';
 
 interface IFilter {
 	onChange?: (uid: string) => void;
@@ -53,7 +53,7 @@ const AsGroup = ({
 	filters,
 	className,
 }: { className?: string } & IFilter) => (
-	<GroupButton className={clsx(className)}>
+	<Group className={clsx(className)}>
 		{filters?.map(({ uid, title }) => (
 			<Button
 				key={uid}
@@ -68,7 +68,7 @@ const AsGroup = ({
 				{title}
 			</Button>
 		))}
-	</GroupButton>
+	</Group>
 );
 
 function Filter({

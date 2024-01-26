@@ -34,4 +34,5 @@ export const MODALS = {
 	SETTINGS: 'settings',
 	PROJECTS: 'projects',
 	CREATE_PROJECT: 'new-project',
+	CREATE_BRANCH: 'new-branch',
 } as const;

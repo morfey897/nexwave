@@ -515,10 +515,10 @@ export async function updateBranch(
 	value?: {
 		name?: string;
 		info?: string;
-		address?: Object,
+		address?: Object;
 		state?: 'active' | 'inactive';
 	},
-) {
+): Promise<boolean> {
 	const { id, uuid } = props || {};
 	if (!id && !uuid) return false;
 
@@ -530,7 +530,7 @@ export async function updateBranch(
 				? { info: value?.info || null }
 				: {}),
 			...(value?.state ? { state: value?.state } : {}),
-			...(value?.address ? { address: value?.address } : {})
+			...(value?.address ? { address: value?.address } : {}),
 		})
 		.where(
 			id != undefined
@@ -545,4 +545,40 @@ export async function updateBranch(
 		});
 
 	return result.length > 0;
+}
+
+/**
+ * Delete branch
+ * @param userId - number
+ * @returns
+ */
+
+export async function deleteBranch(props: {
+	id?: number;
+	uuid?: string;
+}): Promise<boolean> {
+	const { id, uuid } = props || {};
+	if (!id && !uuid) return false;
+
+	const filter = id != undefined ? `id = ${id}` : `uuid = ${uuid}`;
+
+	const result = await db.execute(
+		id != undefined
+			? orm.sql`DELETE FROM branches WHERE id = ${id}
+		AND (
+			SELECT COUNT(*) FROM branches WHERE project_id = (
+				SELECT project_id FROM branches WHERE id = ${id}
+			)
+		) > 1
+		RETURNING id, uuid
+		`
+			: orm.sql`DELETE FROM branches WHERE uuid = ${uuid}
+		AND (
+			SELECT COUNT(*) FROM branches WHERE project_id = (
+				SELECT project_id FROM branches WHERE uuid = ${uuid}
+			)
+		) > 1`,
+	);
+
+	return result.rowCount > 0;
 }

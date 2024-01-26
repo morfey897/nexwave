@@ -13,7 +13,8 @@
 		"access_denied": "Access denied to this resource",
 		"update_failed": "Update failed due to server error. Please try again later.",
 		"create_failed": "Create failed due to server error. Please try again later.",
-		"delete_failed": "Delete failed due to server error. Please try again later."
+		"delete_failed": "Delete failed due to server error. Please try again later.",
+		"delete_last_failed": "You can't delete last item"
 	},
 	"form": {
 		"name": "Name",
@@ -30,7 +31,7 @@
 		"currency": "Currency",
 		"select_currency": "Select currency",
 		"project_name": "Project name",
-		"branch_name": "Branch name",	
+		"branch_name": "Branch name",
 		"image_hint": "Upload or darg & drop your file PNG or JPG",
 		"info": "Short info...",
 		"bio": "Bio...",
@@ -180,6 +181,10 @@
 		"add_project": {
 			"headline": "Add new project",
 			"subheadline": "Here you can add new project"
+		},
+		"add_branch": {
+			"headline": "Add new branch",
+			"subheadline": "Here you can add new branch"
 		},
 		"projects": {
 			"headline_rt": "Ready to get started on <span>a project</span>?",

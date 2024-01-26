@@ -9,9 +9,9 @@ function Headline({
 	children,
 	className,
 	bodyClassName,
-	as,
+	tag,
 }: {
-	as?: HeadingType;
+	tag?: HeadingType;
 	headline: string;
 	subheadline?: string;
 	children?: React.ReactNode;
@@ -21,7 +21,7 @@ function Headline({
 	return (
 		<>
 			<Heading
-				as={as || 'h2'}
+				tag={tag || 'h2'}
 				className={clsx('text-gray-800 dark:text-white', className)}
 			>
 				{headline}

@@ -1,4 +1,5 @@
 export const WENT_WRONG = 'error/went-wrong';
+export const INVALID_PROVIDER = 'auth/invalid-provider';
 export const MISSING_EMAIL = 'auth/missing-email';
 export const MISSING_PASSWORD = 'auth/missing-password';
 export const INVALID_EMAIL = 'auth/invalid-email';
@@ -7,11 +8,12 @@ export const WEAK_PASSWORD = 'auth/weak-password';
 export const EMAIL_EXISTS = 'auth/email-already-in-use';
 export const CREDENTIAL_MISMATCH = 'auth/custom-token-mismatch';
 export const USER_UNAUTHORIZED = 'user/unauthorized';
+export const UNSUPPORTED_ACTION = 'action/unsupported-action';
 export const ACCESS_DENIED = 'action/access-denied';
 export const UPDATE_FAILED = 'action/update-failed';
 export const DELETE_FAILED = 'action/delete-failed';
 export const CREATE_FAILED = 'action/create-failed';
-export const UNSUPPORTED_ACTION = 'action/unsupported-action';
+export const DELETE_LAST_FAILED = 'action/delete-last-failed';
 
 // ADMIN_ONLY_OPERATION = 'auth/admin-restricted-operation';
 // ARGUMENT_ERROR = 'auth/argument-error';

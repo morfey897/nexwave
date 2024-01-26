@@ -3,9 +3,9 @@ import React, { memo } from "react";
 
 export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4';
 
-function Heading({ className, children, as }: { as: HeadingType } & React.HTMLAttributes<HTMLHeadingElement>) {
+function Heading({ className, children, tag }: { tag: HeadingType } & React.HTMLAttributes<HTMLHeadingElement>) {
   const extendClassName = clsx(className);
-  switch (as) {
+  switch (tag) {
     case 'h1': return <h1 className={extendClassName}>{children}</h1>;
     case 'h2': return <h2 className={extendClassName}>{children}</h2>;
     case 'h3': return <h3 className={extendClassName}>{children}</h3>;

@@ -1,7 +1,7 @@
 'use client';
-import GeneralSettings from './general';
-import BranchesSettings from './branches';
-import { GroupButton, Button } from '@/components/Button';
+import GeneralSettings from './GeneralSettings';
+import BranchesSettings from './BranchesSettings';
+import { Group, Button } from '@/components/Button';
 import { HiOutlineInformationCircle, HiOutlinePuzzle } from 'react-icons/hi';
 import { HiMiniRectangleGroup } from 'react-icons/hi2';
 import { MdOutlineLockPerson } from 'react-icons/md';
@@ -20,7 +20,8 @@ import clsx from 'clsx';
 import { IFullProject } from '@/models/project';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { searchParams as searchParamsConfig } from '@nw/config';
-import { EnumState } from '@/enums';
+import { useOpenModal } from '@nw/modal';
+import { MODALS } from '@/routes';
 
 const TAB_GENERAL = 'general';
 const TAB_BRANCHES = 'branches';
@@ -29,6 +30,7 @@ const TAB_ACCESS = 'access';
 
 function Settings({ project }: { project: IFullProject | null }) {
 	const t = useTranslations();
+	const openModal = useOpenModal();
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const isScrolled = useScrollDetect(0.07);
@@ -79,7 +81,12 @@ function Settings({ project }: { project: IFullProject | null }) {
 		[router, searchParams],
 	);
 
-	const addBranch = useCallback(() => {}, []);
+	const addBranch = useCallback(() => {
+		openModal({
+			name: MODALS.CREATE_BRANCH,
+			params: { projectId: project?.id },
+		});
+	}, [openModal, project]);
 
 	return (
 		<Container>
@@ -89,15 +96,14 @@ function Settings({ project }: { project: IFullProject | null }) {
 						isScrolled={isScrolled}
 						headline={t('page.settings.headline')}
 						subheadline={t('page.settings.subheadline')}
-						amount={activeTab === TAB_BRANCHES ? 2 : undefined}
-						// add={
-						// 	activeTab === TAB_BRANCHES
-						// 		? {
-						// 				title: t('button.add'),
-						// 				onClick: addBranch,
-						// 			}
-						// 		: undefined
-						// }
+						add={
+							activeTab === TAB_BRANCHES
+								? {
+										title: t('button.add'),
+										onClick: addBranch,
+									}
+								: undefined
+						}
 						// imprt={{
 						// 	title: t('button.import'),
 						// 	onClick: () => {
@@ -106,19 +112,27 @@ function Settings({ project }: { project: IFullProject | null }) {
 						// }}
 					/>
 				</div>
-				<ContainerScrollableHeader ref={refHeader} onScroll={onScroll}>
-					<GroupButton className='[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none'>
-						{tabs.map(({ id, ...tab }) => (
-							<Button
-								key={id}
-								variant={activeTab === id ? 'primary' : 'dark'}
-								onClick={() => onTabChange(id)}
-								className={clsx(activeTab === id && 'pointer-events-none')}
-								{...tab}
-							/>
-						))}
-					</GroupButton>
-				</ContainerScrollableHeader>
+				<Group
+					className={clsx(
+						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none pt-4 bg-gray-100 dark:bg-gray-900',
+						'overflow-x-scroll hide-scroll',
+						// isScrolled && 'pt-0.5',
+					)}
+				>
+					{tabs.map(({ id, ...tab }) => (
+						<Button
+							size='sm'
+							key={id}
+							variant={activeTab === id ? 'primary' : 'dark'}
+							onClick={() => onTabChange(id)}
+							className={clsx(activeTab === id && 'pointer-events-none')}
+							{...tab}
+						/>
+					))}
+				</Group>
+				{/* <ContainerScrollableHeader ref={refHeader} onScroll={onScroll}>
+					
+				</ContainerScrollableHeader> */}
 			</ContainerHeader>
 
 			<ContainerBody ref={refBody} onScroll={onScroll}>

@@ -17,11 +17,11 @@ import { usePathname } from 'next/navigation';
 import { dynamicHref } from '@/utils';
 import { useOpenModal } from '@nw/modal';
 import { useNWStore } from '@/hooks/store';
-import { Button, ButtonSkeleton } from '@/components/Button';
+import { Button } from '@/components/Button';
 import BranchIcon from '@/components/Project/Icon';
-import { HiMiniPencilSquare } from 'react-icons/hi2';
 import clsx from 'clsx';
 import { EnumState } from '@/enums';
+import Skeleton from '@/components/Skeleton';
 
 const LINKS = [
 	{ href: routes.ROOT, label: 'general.app', Icon: HiHome },
@@ -95,7 +95,7 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 						// }
 					/>
 				) : (
-					<ButtonSkeleton />
+					<Skeleton className='h-[54px]'/>
 				)}
 				<hr className='my-4 border-gray-200 dark:border-gray-600' />
 

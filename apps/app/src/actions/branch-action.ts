@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { APP } from '@/routes';
 import {
+	deleteBranch,
 	updateBranch,
 	IFullProject,
 	hasProjectAccess,
@@ -11,7 +12,7 @@ import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
 import { UPDATE, DELETE } from '@/crud';
 import { EnumResponse } from '@/enums';
-import { getError, throwRedirect } from '@/utils';
+import { parseError, doError } from '@/utils';
 import { IResponse } from '@/types';
 
 /**
@@ -25,7 +26,8 @@ export async function actionUpdateBranch(
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
+
 		const [projectIdValue, branchUuid] =
 			formData.get('id')?.toString().split('/') || [];
 		const projectId = projectIdValue
@@ -37,7 +39,7 @@ export async function actionUpdateBranch(
 			projectId,
 		});
 
-		if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 		const file = formData.get('image');
 		const name = formData.get('name')?.toString();
@@ -63,13 +65,13 @@ export async function actionUpdateBranch(
 			},
 		);
 
-		if (!success) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
 		const project = await getFullProjectByUserId(user.id, { id: projectId });
 		if (!project) throw { code: ErrorCodes.UPDATE_FAILED };
 		return { status: EnumResponse.SUCCESS, data: project };
 	} catch (error) {
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }
 
@@ -83,61 +85,63 @@ export async function actionUpdateVisibilityBranch(
 ): Promise<IResponse<IFullProject> | never> {
 	try {
 		const user = await getUserFromSession();
-		if (!user) throw { code: ErrorCodes.USER_UNAUTHORIZED };
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const [projectIdValue, branchUuid] =
 			formData.get('id')?.toString().split('/') || [];
 		const action = formData.get('action')?.toString();
 
 		if (action != 'delete' && action != 'publish' && action != 'unpublish')
-			throw { code: ErrorCodes.UNSUPPORTED_ACTION };
+			throw doError(ErrorCodes.UNSUPPORTED_ACTION);
 
 		const projectId = projectIdValue
 			? Number.parseInt(projectIdValue)
 			: undefined;
 
-		// Delete project
 		if (action == 'delete') {
 			const access = await hasProjectAccess(DELETE.BRANCH, {
 				userId: user.id,
 				projectId,
 			});
 
-			if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
-			// DELETE branche and return to project
-			throwRedirect(APP);
+			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
+			const success = await deleteBranch({ uuid: branchUuid });
+			if (!success) throw doError(ErrorCodes.DELETE_LAST_FAILED);
+		} else {
+			const access = await hasProjectAccess(
+				action === 'publish' ? UPDATE.BRANCH : UPDATE.VISIBILITY_BRANCH,
+				{
+					userId: user.id,
+					projectId,
+				},
+			);
+
+			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
+
+			const success = await updateBranch(
+				{ uuid: branchUuid },
+				{
+					state:
+						action == 'publish'
+							? 'active'
+							: action == 'unpublish'
+								? 'inactive'
+								: undefined,
+				},
+			);
+
+			if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
 		}
 
-		const access = await hasProjectAccess(
-			action === 'publish' ? UPDATE.BRANCH : UPDATE.VISIBILITY_BRANCH,
-			{
-				userId: user.id,
-				projectId,
-			},
-		);
-
-		if (!access) throw { code: ErrorCodes.ACCESS_DENIED };
-
-		const success = await updateBranch(
-			{ uuid: branchUuid },
-			{
-				state:
-					action == 'publish'
-						? 'active'
-						: action == 'unpublish'
-							? 'inactive'
-							: undefined,
-			},
-		);
-
-		if (!success) throw { code: ErrorCodes.UPDATE_FAILED };
 		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project) throw { code: ErrorCodes.UPDATE_FAILED };
+		if (!project)
+			throw doError(
+				action === 'delete'
+					? ErrorCodes.DELETE_FAILED
+					: ErrorCodes.UPDATE_FAILED,
+			);
 		return { status: EnumResponse.SUCCESS, data: project };
 	} catch (error: any) {
-		if (error.redirect && error.url) {
-			return redirect(error.url);
-		}
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }

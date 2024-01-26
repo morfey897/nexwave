@@ -1,36 +1,30 @@
 'use client';
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
-import Marker from '@/components/Project/Marker';
 import { type IModal, Position, Blur, withModal } from '@nw/modal';
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
-import { Input, Select, File, TextArea } from '@/components/Controls/Form';
+import { Input, TextArea } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
-import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
-import { useCallback, useMemo, useState } from 'react';
-import { generateColor } from '@/utils';
+import { useCallback } from 'react';
 import { useAction } from '@/hooks/action';
 import { actionCreateNewProject } from '@/actions/project-action';
 import { CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
-import { EnumResponse, EnumColor, EnumCurrency } from '@/enums';
-import { MdOutlineCurrencyExchange } from 'react-icons/md';
+import { EnumResponse } from '@/enums';
+import { BiChevronDown } from 'react-icons/bi';
+import Accordion from '@/components/Accordion';
 
-const COLORS = Object.values(EnumColor);
-const CURRENCIES = Object.values(EnumCurrency);
-
-function CreateProject(props: IModal) {
+function CreateBranch(props: IModal) {
 	const router = useRouter();
 	const { action, submit, reset, pending, result } = useAction(
 		actionCreateNewProject,
 	);
-	const responseError = CREATE_FAILED; // result?.error?.code;
+	const responseError = result?.error?.code;
 
 	const t = useTranslations();
-	const [color, setColor] = useState(generateColor());
 
 	const signIn = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,7 +37,7 @@ function CreateProject(props: IModal) {
 	return (
 		<div
 			className={clsx(
-				'relative md:w-[475px] w-[95vw] bg-gray-100 dark:bg-gray-900 px-12 py-6 rounded-lg border shadow dark:border-gray-600',
+				'relative md:w-[475px] w-[95vw] bg-gray-100 dark:bg-gray-900 px-12 py-6 my-4 rounded-lg border shadow dark:border-gray-600',
 			)}
 		>
 			<Button
@@ -54,12 +48,11 @@ function CreateProject(props: IModal) {
 			/>
 
 			<Headline
-				headline={t('page.add_project.headline')}
-				subheadline={t('page.add_project.subheadline')}
+				headline={t('page.add_branch.headline')}
+				subheadline={t('page.add_branch.subheadline')}
 				className='text-lg md:text-xl font-semibold text-center'
 				bodyClassName='text-center'
 			/>
-
 			<form
 				className='w-full'
 				onSubmit={submit}
@@ -68,46 +61,59 @@ function CreateProject(props: IModal) {
 			>
 				<div className='space-y-4 mt-6'>
 					<Input
-						autoComplete='project-name'
-						icon={<MdLabelOutline size={32} />}
+						autoComplete='branch-name'
 						name='name'
 						type='text'
-						placeholder={t('form.project_name')}
+						placeholder={t('form.name')}
 					/>
 					<TextArea name='info' placeholder={t('form.info')} />
-					<Select
-						onChange={(event) => setColor(event.target.value as EnumColor)}
-						icon={<Marker size={12} color={color} className='block' />}
-						name='color'
-						placeholder={t('form.select_color')}
+					<Accordion
+						id='branch-settings-new'
+						head={
+							<Button
+								tag='div'
+								variant='dark'
+								message={t('form.address')}
+								className='justify-between text-gray-400 dark:text-gray-500'
+								iconAfter={
+									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+										<BiChevronDown size={24} className={''} />
+									</span>
+								}
+							/>
+						}
 					>
-						{COLORS.map((clr) => (
-							<option selected={color === clr} key={clr} value={clr}>
-								{t(`color.${clr}`)}
-							</option>
-						))}
-					</Select>
-					<Select
-						icon={<MdOutlineCurrencyExchange size={24} />}
-						name='currency'
-						placeholder={t('form.select_currency')}
-					>
-						{CURRENCIES.map((currency) => (
-							<option key={currency} value={currency}>
-								{t(`currency.${currency}`)}
-							</option>
-						))}
-					</Select>
-					<File
-						icon={<MdOutlineCloudUpload size={24} />}
-						name='image'
-						placeholder={t('form.select_image')}
-						hint={t('form.image_hint')}
-						accept='image/png, image/jpeg'
-					/>
+						<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+							<Input
+								disabled={pending}
+								autoComplete='country'
+								placeholder={t('form.country')}
+								name='address.country'
+								type='text'
+							/>
+							<Input
+								disabled={pending}
+								autoComplete='city'
+								placeholder={t('form.city')}
+								name='address.city'
+								type='text'
+							/>
+							<Input
+								disabled={pending}
+								placeholder={t('form.address_line')}
+								name='address.address_line'
+								type='text'
+							/>
+							<Input
+								disabled={pending}
+								placeholder={t('form.address_line_2')}
+								name='address.address_line_2'
+								type='text'
+							/>
+						</div>
+					</Accordion>
 				</div>
-
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-x-4 mt-6'>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
 					<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
 						{responseError?.includes(USER_UNAUTHORIZED) &&
 							t.rich('error.unauthorized_rt', {
@@ -152,9 +158,12 @@ function CreateProject(props: IModal) {
 	);
 }
 
-export default withModal(CreateProject, {
+export default withModal(CreateBranch, {
 	zIndex: 30,
 	position: Position.CENTER,
+	wrapper: {
+		className: '[&>.box]:max-h-[100vh] [&>.box]:overflow-y-auto',
+	},
 	overlay: {
 		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',

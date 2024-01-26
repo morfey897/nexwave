@@ -54,16 +54,25 @@ export function generateColor() {
 	return random<EnumColor>(Object.values(EnumColor));
 }
 
-export function getError(error: any) {
+export function parseError(error: any) {
 	return {
 		code: String(error?.code || error?.cause?.code || 'unknown'),
 		message: String(error.message || ''),
 	};
 }
 
+export function parseRedirect(error: any) {
+	return {
+		shouldRedirect: (error?.redirect || error?.cause?.redirect) === true,
+		url: String(error?.url || error?.cause?.url || ''),
+	};
+}
+
 export const hasAccess = (permission: number | undefined, role: number) =>
 	((permission || 0) & role) === role;
 
-export const throwRedirect = (url: string) => {
-	throw { redirect: true, url };
-};
+export const doRedirect = (url: string) =>
+	new Error('Redirect', { cause: { redirect: true, url } });
+
+export const doError = (code: string, message?: string) =>
+	new Error(message || 'InternalError', { cause: { code } });

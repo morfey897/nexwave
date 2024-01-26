@@ -15,7 +15,6 @@ import {
 	useState,
 } from 'react';
 import { MdOutlineCurrencyExchange } from 'react-icons/md';
-import { useNWStore } from '@/hooks/store';
 import Button from '@/components/Button';
 import Spinner from '@/components/Spinner';
 import { actionUpdateProject } from '@/actions/project-action';
@@ -23,7 +22,7 @@ import { IFullProject } from '@/models/project';
 import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
-import StateSettings, { type UnitAction } from '../state';
+import StateSettings, { type UnitAction } from './StateSettings';
 import { hasAccess } from '@/utils';
 import { UPDATE, DELETE } from '@/crud';
 import { actionUpdateVisibilityProject } from '@/actions/project-action';
@@ -40,7 +39,6 @@ const CURRENCIES = Object.values(EnumCurrency);
 
 function GeneralSettings({ project }: { project: IFullProject | null }) {
 	const t = useTranslations();
-	const updateProject = useNWStore((state) => state.updateProject);
 	const router = useRouter();
 	const [activeProject, setActiveProject] = useState<IFullProject | null>(null);
 	const [changed, setChanged] = useState(false);
@@ -54,21 +52,6 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 
 	const disabledForm = !hasAccess(permission, UPDATE.PROJECT);
 
-	const onUpdated = useCallback(
-		(newProject: IFullProject) => {
-			updateProject({
-				id: newProject.id,
-				uuid: newProject.uuid,
-				name: newProject.name,
-				color: newProject.color,
-				currency: newProject.currency,
-				state: newProject.state,
-				image: newProject.image,
-			});
-		},
-		[updateProject],
-	);
-
 	useLayoutEffect(() => {
 		setActiveProject(cloneDeep(project));
 		setChanged(false);
@@ -76,12 +59,9 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			const newProject = result.data;
-			setActiveProject(cloneDeep(newProject));
-			setChanged(false);
-			onUpdated(newProject);
+			router.refresh();
 		}
-	}, [result, onUpdated]);
+	}, [result, router]);
 
 	const signIn = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -126,7 +106,6 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			<StateSettings<IFullProject>
 				serverAction={actionUpdateVisibilityProject}
 				postProcess={postProcess}
-				onUpdate={onUpdated}
 				item={activeProject}
 				roles={ROLES}
 			/>

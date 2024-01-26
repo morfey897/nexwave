@@ -1,7 +1,6 @@
 'use client';
 import { IFullProject } from '@/models/project';
-// import BranchSetting from './branch';
-import { GroupButton, Button } from '@/components/Button';
+import { Group, Button } from '@/components/Button';
 import clsx from 'clsx';
 import {
 	useState,
@@ -14,12 +13,11 @@ import Icon from '@/components/Project/Icon';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { searchParams as searchParamsConfig } from '@nw/config';
 import { Input, TextArea } from '@/components/Controls/Form';
-import StateSettings, { type UnitAction } from '../state';
+import StateSettings, { type UnitAction } from './StateSettings';
 import {
 	actionUpdateVisibilityBranch,
 	actionUpdateBranch,
 } from '@/actions/branch-action';
-import { useNWStore } from '@/hooks/store';
 import { UPDATE, DELETE } from '@/crud';
 import { useTranslations } from 'next-intl';
 import Accordion from '@/components/Accordion';
@@ -32,6 +30,7 @@ import { APP } from '@/routes';
 import { EnumResponse } from '@/enums';
 import Skeleton from '@/components/Skeleton';
 import { cloneDeep } from 'lodash';
+import { MdAdd } from 'react-icons/md';
 
 const ROLES: Record<UnitAction, number> = {
 	publish: UPDATE.BRANCH,
@@ -49,17 +48,12 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 
 	const responseError = result?.error?.code;
 
-	const updateProject = useNWStore((state) => state.updateProject);
-
 	const [activeTab, setActiveTab] = useState('');
 
 	const [activeProject, setActiveProject] = useState<IFullProject | null>(null);
 	const [changed, setChanged] = useState(false);
 
-	const permission =
-		Number.MAX_SAFE_INTEGER ||
-		activeProject?.roles[activeProject?.role || ''] ||
-		0;
+	const permission = activeProject?.roles[activeProject?.role || ''] || 0;
 	const disabledForm = !hasAccess(permission, UPDATE.BRANCH);
 
 	const activeBranch = activeProject?.branches.find(
@@ -93,23 +87,6 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 			router.push(`?${str}`);
 		},
 		[router, searchParams],
-	);
-
-	const onUpdated = useCallback(
-		(newProject: IFullProject) => {
-			updateProject({
-				branches: newProject.branches.map((branch) => ({
-					id: branch.id,
-					uuid: branch.uuid,
-					projectId: branch.projectId,
-					createdAt: branch.createdAt,
-					name: branch.name,
-					state: branch.state,
-					image: branch.image,
-				})),
-			});
-		},
-		[updateProject],
 	);
 
 	const signIn = useCallback(
@@ -180,19 +157,16 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			const newProject = result.data;
-			setActiveProject(cloneDeep(newProject));
-			setChanged(false);
-			onUpdated(newProject);
+			router.refresh();
 		}
-	}, [result, onUpdated]);
+	}, [result, router]);
 
 	console.log('activeBranch', activeBranch);
 
 	return (
 		<div className='w-full max-w-3xl mx-auto mt-6'>
 			{activeProject ? (
-				<GroupButton className='relative [&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none ml-2 z-10'>
+				<Group className='relative [&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none ml-2 overflow-x-scroll hide-scroll'>
 					{project?.branches.map((item) => (
 						<Button
 							size='xs'
@@ -211,16 +185,28 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							}
 						/>
 					))}
-				</GroupButton>
+					{/* <Button
+						size='xs'
+						icon={
+							<span
+								className={clsx(
+									'rounded-full p-0.5',
+									'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white',
+								)}
+							>
+								<MdAdd size={18} />
+							</span>
+						}
+					/> */}
+				</Group>
 			) : (
 				<Skeleton className='h-[42px] w-[120px] !rounded-ee-none !rounded-es-none ml-2' />
 			)}
 
-			<div className='relative z-20 '>
+			<div className='relative'>
 				<StateSettings<IFullProject>
 					serverAction={actionUpdateVisibilityBranch}
 					postProcess={postProcess}
-					onUpdate={onUpdated}
 					item={activeProject}
 					roles={ROLES}
 					className='border border-b-0 rounded-ss-lg rounded-se-lg dark:border-gray-600 p-4 pb-2 bg-gray-900'
@@ -263,10 +249,10 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 						)}
 						{activeBranch ? (
 							<Accordion
-								id='branch-settings'
+								id={`branch-settings-${activeBranch.uuid}`}
 								head={
 									<Button
-										as='div'
+										tag='div'
 										variant='dark'
 										message={t('form.address')}
 										className='justify-between text-gray-400 dark:text-gray-500'

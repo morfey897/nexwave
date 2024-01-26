@@ -11,7 +11,7 @@ import * as users from '@/models/user';
 import { start } from '@/models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '@/utils/cookies';
 import { API } from '@/routes';
-import { getError } from '@/utils';
+import { parseError, doError } from '@/utils';
 
 export async function signOut() {
 	cookies().set(sessionCookie(null));
@@ -51,7 +51,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 		return redirect(redirectUrl);
 	}
 
-	throw new Error('Invalid provider');
+	throw doError(ErrorCodes.INVALID_PROVIDER);
 }
 
 export async function signInWithEmailAndPassword(
@@ -67,7 +67,7 @@ export async function signInWithEmailAndPassword(
 			{ value: password, key: 'password' },
 		]);
 		if (invalid.length) {
-			throw { code: invalid.join(',') };
+			throw doError(invalid.join(','));
 		}
 
 		const result = await users.getUser({ email, password });
@@ -79,11 +79,11 @@ export async function signInWithEmailAndPassword(
 			cookies().set(refreshCookie(result));
 			return { status: EnumResponse.SUCCESS };
 		} else {
-			throw { code: ErrorCodes.CREDENTIAL_MISMATCH };
+			throw doError(ErrorCodes.CREDENTIAL_MISMATCH);
 		}
 	} catch (error) {
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }
 
@@ -107,7 +107,7 @@ export async function signUpWithEmailAndPassword(
 			invalid.push(ErrorCodes.INVALID_PASSWORD);
 		}
 		if (invalid.length) {
-			throw { code: invalid.join(',') };
+			throw doError(invalid.join(','));
 		}
 
 		const { user } = await start({
@@ -117,9 +117,7 @@ export async function signUpWithEmailAndPassword(
 			password: password,
 		});
 
-		if (!user) {
-			throw { code: ErrorCodes.WENT_WRONG };
-		}
+		if (!user) throw doError(ErrorCodes.WENT_WRONG);
 		await users.updateUser(user.uuid, { lastLoginAt: new Date() });
 		cookies().set(sessionCookie(user));
 		cookies().set(trailCookie('1'));
@@ -137,6 +135,6 @@ export async function signUpWithEmailAndPassword(
 		}
 
 		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: getError(error) };
+		return { status: EnumResponse.FAILED, error: parseError(error) };
 	}
 }
