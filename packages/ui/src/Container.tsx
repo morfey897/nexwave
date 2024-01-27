@@ -13,8 +13,7 @@ export const StyledContainer = styled.div<{
     props.$position === Position.RIGHT && "right: 0; top: 0; bottom: 0;"}
   ${(props) =>
     props.$position === Position.LEFT && "left: 0; top: 0; bottom: 0;"}
-  ${(props) =>
-    props.$position === Position.TOP && "left: 0; right:0; top: 0;"}
+  ${(props) => props.$position === Position.TOP && "left: 0; right:0; top: 0;"}
   ${(props) =>
     props.$position === Position.BOTTOM && "left: 0; right:0; bottom: 0;"}
 `;

@@ -1,6 +1,18 @@
-export { Blur, Position } from "@nw/ui";
+import { Blur, Position } from "@nw/ui";
+export { Blur, Position };
 
-export type UnionAnimation = "mounted" | "show" | "hide" | "unmounted";
+export type PositionX = Position.LEFT | Position.RIGHT | Position.CENTER;
+export type PositionY =
+  | Position.TOP
+  | Position.BOTTOM
+  | Position.CENTER
+  | `-${Position.TOP}`
+  | `-${Position.BOTTOM}`;
+export type LitPosition = Exclude<
+  `${PositionX}x${PositionY}`,
+  "leftx-top" | "leftx-bottom" | "rightx-top" | "rightx-bottom"
+>;
+export type UnionAnimation = "mounted" | "show" | "hide";
 
 export type TModalParams =
   | Record<string, string | number | boolean | null | undefined>

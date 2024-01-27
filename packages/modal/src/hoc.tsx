@@ -1,5 +1,14 @@
 import * as React from "react";
-import { IModal, IModalWrapper, ModalState, Blur, Position } from "./types";
+import {
+  IModal,
+  IModalWrapper,
+  ModalState,
+  Blur,
+  Position,
+  PositionX,
+  PositionY,
+  LitPosition,
+} from "./types";
 import Overlay from "./Overlay";
 import Container from "./Container";
 import clsx from "clsx";
@@ -15,14 +24,23 @@ const ModalWrapper = styled.section<{
   display: ${(props) =>
     `${props.$state === ModalState.CLOSED ? "none" : "block"}`};
   z-index: ${(props) => props.$zIndex};
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100vh;
+  width: 100vw;
 `;
 
 function withModal(
   Component: React.FC<IModal>,
   props?: {
     zIndex?: number;
-    position?: Position;
+    noanimation?: boolean;
+    position?: Position | [PositionX, PositionY];
     wrapper?: {
+      className?: string;
+      style?: React.CSSProperties;
+    };
+    container?: {
       className?: string;
       style?: React.CSSProperties;
     };
@@ -33,6 +51,15 @@ function withModal(
     };
   },
 ) {
+  const positionX = ((Array.isArray(props?.position)
+    ? props?.position[0]
+    : props?.position) || Position.CENTER) as PositionX;
+
+  const positionY = ((Array.isArray(props?.position) && props?.position[1]) ||
+    Position.CENTER) as PositionY;
+
+  const FinalPosition = `${positionX}x${positionY}` as LitPosition;
+
   function Wrapper({ name, state, params }: IModalWrapper) {
     const closeModal = useCloseModal();
     const refOverlay = React.useRef(null);
@@ -70,6 +97,7 @@ function withModal(
         $state={state}
         className={clsx(props?.wrapper?.className)}
         style={props?.wrapper?.style}
+        role="dialog"
       >
         <Overlay
           ref={refOverlay}
@@ -79,7 +107,13 @@ function withModal(
           className={clsx(props?.overlay?.className)}
           onClick={onClickOverlay}
         />
-        <Container position={props?.position || Position.CENTER} state={state}>
+        <Container
+          position={FinalPosition}
+          noanimation={props?.noanimation}
+          state={state}
+          className={clsx(props?.container?.className)}
+          style={props?.container?.style}
+        >
           <Component
             name={name}
             state={state}

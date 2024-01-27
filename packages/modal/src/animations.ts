@@ -1,93 +1,88 @@
 import { keyframes, css } from "styled-components";
+import { Keyframes } from "styled-components/dist/types";
+import { DURATION_SEC } from "./config";
 
-type State = "show" | "hide";
-type Transition = "from" | "to";
+const ANIM_PROPS = `1 normal forwards`;
+type AnimFunc =
+  | "ease"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out"
+  | "linear"
+  | "step-start"
+  | "step-end"
+  | "steps"
+  | "cubic-bezier"
+  | "initial"
+  | "inherit";
 
-const OPACITY = {
-  show: {
-    from: 0.3,
-    to: 1,
-  },
-  hide: {
-    from: 1,
-    to: 0.3,
-  },
-};
+export const concat = (...args: string[]) => args.join(" ");
 
-const MOVE = {
-  "0": {
-    show: {
-      from: "-100%",
-      to: 0,
-    },
-    hide: {
-      from: 0,
-      to: "-100%",
-    },
-  },
-  "1": {
-    show: {
-      from: "100%",
-      to: 0,
-    },
-    hide: {
-      from: 0,
-      to: "100%",
-    },
-  },
-};
+export const build = (...args: Array<[Keyframes, string[]]>) =>
+  args.length === 1
+    ? css`
+        animation: ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS};
+      `
+    : args.length === 2
+      ? css`
+          animation:
+            ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS},
+            ${args[1][0]} ${args[1][1].join(" ")} ${ANIM_PROPS};
+        `
+      : css`
+          animation:
+            ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS},
+            ${args[1][0]} ${args[1][1].join(" ")} ${ANIM_PROPS},
+            ${args[2][0]} ${args[2][1].join(" ")} ${ANIM_PROPS};
+        `;
 
-export const DURATION = "0.3s";
-export const TIMING_FUNCTION = "ease-in-out";
+export const opacity = (value: string) => `opacity: ${value};`;
 
-export const opacity = (state: State, tr: Transition) =>
-  `opacity: ${OPACITY[state][tr]};`;
-
-export const opacityKeyframes = (state: State) => keyframes`
-  from {
-    ${opacity(state, "from")}
-  }
-  to {
-    ${opacity(state, "to")}
-  }
+export const opacityKeyframes = (
+  ...args: Array<Parameters<typeof opacity>[0]>
+) => keyframes`
+${args.map(
+  (value, index) => `${(index * 100) / (args.length - 1)}% {${opacity(value)}}`,
+)}
 `;
 
-export const opacityAnimation = (
-  state: State,
-  duration?: string,
-  timingFunc?: string,
-) => css`
-  animation: ${opacityKeyframes(state)} ${duration || DURATION}
-    ${timingFunc || TIMING_FUNCTION};
-`;
+export const toOpacity = (
+  values: Array<Parameters<typeof opacity>[0]>,
+  duration: string = `${DURATION_SEC}s`,
+  timingFunc: AnimFunc = "ease-in-out",
+): [Keyframes, Array<string>] => [
+  opacityKeyframes(...values),
+  [duration, timingFunc],
+];
 
-export const move = (
-  direction: "X" | "Y",
-  pos: "0" | "1",
-  state: State,
-  tr: Transition,
-) => `transform: translate${direction}(${MOVE[pos][state][tr]});`;
+export const opacityAnim = (
+  values: Array<Parameters<typeof opacity>[0]>,
+  duration: string = `${DURATION_SEC}s`,
+  timingFunc: AnimFunc = "ease-in-out",
+) => build(toOpacity(values, duration, timingFunc));
+
+export const move = ({ x, y }: { x: string; y: string }) =>
+  `transform: translate(${x}, ${y});`;
 
 export const moveKeyframes = (
-  direction: "X" | "Y",
-  pos: "0" | "1",
-  state: State,
+  ...args: Array<Parameters<typeof move>[0] | undefined>
 ) => keyframes`
-  from {
-    ${move(direction, pos, state, "from")}
-  }
-  to {
-    ${move(direction, pos, state, "to")}
-  }
+${args.map(
+  (value, index) => `${(index * 100) / (args.length - 1)}% {${move(value)}}`,
+)}
 `;
 
-export const moveAnimation = (
-  direction: "X" | "Y",
-  pos: "0" | "1",
-  state: State,
-  duration?: string,
-  timingFunc?: string,
-) => css`
-  animation: ${moveKeyframes(direction, pos, state)} ${duration || DURATION}
-    ${timingFunc || TIMING_FUNCTION};
-`;
+export const toMove = (
+  values: Array<Parameters<typeof move>[0]>,
+  duration: string = `${DURATION_SEC}s`,
+  timingFunc: AnimFunc = "ease-in-out",
+): [Keyframes, Array<string>] => [
+  moveKeyframes(...values),
+  [duration, timingFunc],
+];
+
+export const moveAnim = (
+  values: Array<Parameters<typeof move>[0]>,
+  duration: string = `${DURATION_SEC}s`,
+  timingFunc: AnimFunc = "ease-in-out",
+) => build(toMove(values, duration, timingFunc));

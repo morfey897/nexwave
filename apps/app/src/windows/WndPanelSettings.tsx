@@ -31,8 +31,8 @@ function AsideSettings(props: IModal) {
 	return (
 		<aside
 			className={clsx(
-				'mt-[86px] pb-[100px] px-4 py-8',
-				'h-screen w-64 overflow-y-auto',
+				'pt-[calc(86px+2rem)] pb-[100px] px-4 py-8',
+				'min-h-screen w-64',
 				'bg-white dark:bg-gray-800 dark:border-gray-700 border-l',
 			)}
 		>
@@ -62,7 +62,7 @@ function AsideSettings(props: IModal) {
 
 export default withModal(AsideSettings, {
 	zIndex: 20,
-	position: Position.RIGHT,
+	position: [Position.RIGHT, Position.TOP],
 	overlay: {
 		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',

@@ -2,13 +2,12 @@ import * as React from "react";
 import styled, { type RuleSet } from "styled-components";
 import { ModalState, Blur, type UnionAnimation } from "./types";
 import { StyledOverlay } from "@nw/ui";
-import { opacity, opacityAnimation } from "./animations";
+import { opacity, opacityAnim } from "./animations";
 
 const ANIMATIONS: Record<UnionAnimation, RuleSet | string> = {
-  mounted: opacity("show", "from"),
-  show: opacityAnimation("show"),
-  hide: opacityAnimation("hide"),
-  unmounted: opacity("hide", "to"),
+  mounted: opacity("0.3"),
+  show: opacityAnim(["0.3", "1"]),
+  hide: opacityAnim(["1", "0.3"]),
 };
 
 const AnimatedOverlay = styled(StyledOverlay)<{
@@ -18,7 +17,6 @@ const AnimatedOverlay = styled(StyledOverlay)<{
   ${(props) => props.$state === ModalState.MOUNTED && ANIMATIONS.mounted}
   ${(props) => props.$state === ModalState.OPEN && ANIMATIONS.show}
   ${(props) => props.$state === ModalState.CLOSING && ANIMATIONS.hide}
-  ${(props) => props.$state === ModalState.CLOSED && ANIMATIONS.unmounted}
 `;
 
 const Overlay = React.forwardRef<

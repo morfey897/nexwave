@@ -37,7 +37,8 @@ function CreateBranch(props: IModal) {
 	return (
 		<div
 			className={clsx(
-				'relative md:w-[475px] w-[95vw] bg-gray-100 dark:bg-gray-900 px-12 py-6 my-4 rounded-lg border shadow dark:border-gray-600',
+				'px-12 py-6 rounded-lg border shadow dark:border-gray-600 bg-gray-100 dark:bg-gray-900',
+				// 'relative md:w-[475px] w-[95vw] my-4 ',
 			)}
 		>
 			<Button
@@ -160,10 +161,14 @@ function CreateBranch(props: IModal) {
 
 export default withModal(CreateBranch, {
 	zIndex: 30,
-	position: Position.CENTER,
-	wrapper: {
-		className: '[&>.box]:max-h-[100vh] [&>.box]:overflow-y-auto',
-	},
+	position: [Position.CENTER, `-${Position.BOTTOM}`],
+	// noanimation: true,
+	// wrapper: {
+	// 	className: '[&>.box]:max-h-[100vh] [&>.box]:overflow-y-auto',
+	// },
+	// container: {
+	// 	className: '!h-screen',
+	// },
 	overlay: {
 		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',

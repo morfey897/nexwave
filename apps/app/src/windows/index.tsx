@@ -7,7 +7,7 @@ import AsideSettings from '@/windows/WndPanelSettings';
 import AsideProjects from '@/windows/WndPanelProjects';
 import CreateProject from '@/windows/WndCreateProject';
 import CreateBranch from '@/windows/WndCreateBranch';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 const COMPONENTS = {
 	[MODALS.SETTINGS]: AsideSettings,

@@ -60,6 +60,10 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		(branch) => branch.uuid === activeTab,
 	);
 
+	useEffect(() => {
+		console.log('RERENDERRRRRRR');
+	});
+
 	/**
 	 * Prepopulate the form with the project data
 	 */
@@ -161,7 +165,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		}
 	}, [result, router]);
 
-	console.log('activeBranch', activeBranch);
+	// console.log('activeBranch', activeBranch);
 
 	return (
 		<div className='w-full max-w-3xl mx-auto mt-6'>

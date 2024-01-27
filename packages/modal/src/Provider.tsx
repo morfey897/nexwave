@@ -7,11 +7,14 @@ import {
   ModalActionType,
 } from "./types";
 import { encodeParams, decodeParams, filterModals } from "./utils";
+import { DURATION_MS } from "./config";
 
 import styled from "styled-components";
 
 const ProviderWrapper = styled.div`
   position: absolute;
+  left: 0;
+  top: 0;
 `;
 
 export const Context = React.createContext<{
@@ -88,7 +91,7 @@ function Provider({
     clearTimeout(timers.current["open"]);
     timers.current["open"] = setTimeout(() => {
       setModals(filterModals(modals, ModalState.MOUNTED, ModalState.OPEN));
-    }, 10);
+    }, 100);
   }, [modals]);
 
   // To close state
@@ -96,7 +99,7 @@ function Provider({
     clearTimeout(timers.current["close"]);
     timers.current["close"] = setTimeout(() => {
       setModals(filterModals(modals, ModalState.CLOSING, ModalState.CLOSED));
-    }, 300);
+    }, DURATION_MS);
   }, [modals]);
 
   // Unmount
@@ -104,7 +107,6 @@ function Provider({
     if (Object.values(modals).some((state) => state === ModalState.OPEN)) {
       document.body.classList.add("no-scroll");
     } else {
-      console.log("close");
       document.body.classList.remove("no-scroll");
     }
     setModals(filterModals(modals, ModalState.CLOSED, null));
