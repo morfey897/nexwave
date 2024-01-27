@@ -37,30 +37,32 @@ function CreateBranch(props: IModal) {
 	return (
 		<div
 			className={clsx(
-				'px-12 py-6 rounded-lg border shadow dark:border-gray-600 bg-gray-100 dark:bg-gray-900',
-				// 'relative md:w-[475px] w-[95vw] my-4 ',
+				'relative rounded-lg border shadow dark:border-gray-600 bg-gray-100 dark:bg-gray-900',
+				'md:w-[475px] w-[95vw]',
 			)}
 		>
-			<Button
-				variant='text'
-				className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
-				icon={<HiX size={28} />}
-				onClick={props.closeMe}
-			/>
+			<div className='sticky top-0 z-10 pt-6 pb-3 w-full bg-gray-100 dark:bg-gray-900 rounded-lg'>
+				<Button
+					variant='text'
+					className='absolute top-2.5 right-1 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+					icon={<HiX size={28} />}
+					onClick={props.closeMe}
+				/>
 
-			<Headline
-				headline={t('page.add_branch.headline')}
-				subheadline={t('page.add_branch.subheadline')}
-				className='text-lg md:text-xl font-semibold text-center'
-				bodyClassName='text-center'
-			/>
+				<Headline
+					headline={t('page.add_branch.headline')}
+					subheadline={t('page.add_branch.subheadline')}
+					className='text-lg md:text-xl font-semibold text-center'
+					bodyClassName='text-center'
+				/>
+			</div>
 			<form
-				className='w-full'
+				className='w-full px-6 md:px-12 my-6'
 				onSubmit={submit}
 				action={action}
 				onChange={reset}
 			>
-				<div className='space-y-4 mt-6'>
+				<div className='space-y-4'>
 					<Input
 						autoComplete='branch-name'
 						name='name'
@@ -114,7 +116,7 @@ function CreateBranch(props: IModal) {
 						</div>
 					</Accordion>
 				</div>
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
 					<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
 						{responseError?.includes(USER_UNAUTHORIZED) &&
 							t.rich('error.unauthorized_rt', {
@@ -161,14 +163,10 @@ function CreateBranch(props: IModal) {
 
 export default withModal(CreateBranch, {
 	zIndex: 30,
-	position: [Position.CENTER, `-${Position.BOTTOM}`],
-	// noanimation: true,
-	// wrapper: {
-	// 	className: '[&>.box]:max-h-[100vh] [&>.box]:overflow-y-auto',
-	// },
-	// container: {
-	// 	className: '!h-screen',
-	// },
+	position: [Position.CENTER, `-${Position.TOP}`],
+	container: {
+		className: 'mt-20 mb-0 md:mb-12',
+	},
 	overlay: {
 		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',

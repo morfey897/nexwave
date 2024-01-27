@@ -27,7 +27,7 @@ function CreateProject(props: IModal) {
 	const { action, submit, reset, pending, result } = useAction(
 		actionCreateNewProject,
 	);
-	const responseError = CREATE_FAILED; // result?.error?.code;
+	const responseError = result?.error?.code;
 
 	const t = useTranslations();
 	const [color, setColor] = useState(generateColor());
@@ -43,30 +43,32 @@ function CreateProject(props: IModal) {
 	return (
 		<div
 			className={clsx(
-				'relative md:w-[475px] w-[95vw] bg-gray-100 dark:bg-gray-900 px-12 py-6 rounded-lg border shadow dark:border-gray-600',
+				'relative rounded-lg border shadow dark:border-gray-600 bg-gray-100 dark:bg-gray-900',
+				'md:w-[475px] w-[95vw]',
 			)}
 		>
-			<Button
-				variant='text'
-				className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
-				icon={<HiX size={28} />}
-				onClick={props.closeMe}
-			/>
+			<div className='sticky top-0 z-10 pt-6 pb-3 w-full bg-gray-100 dark:bg-gray-900 rounded-lg'>
+				<Button
+					variant='text'
+					className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+					icon={<HiX size={28} />}
+					onClick={props.closeMe}
+				/>
 
-			<Headline
-				headline={t('page.add_project.headline')}
-				subheadline={t('page.add_project.subheadline')}
-				className='text-lg md:text-xl font-semibold text-center'
-				bodyClassName='text-center'
-			/>
-
+				<Headline
+					headline={t('page.add_project.headline')}
+					subheadline={t('page.add_project.subheadline')}
+					className='text-lg md:text-xl font-semibold text-center'
+					bodyClassName='text-center'
+				/>
+			</div>
 			<form
-				className='w-full'
+				className='w-full px-6 md:px-12 my-6'
 				onSubmit={submit}
 				action={action}
 				onChange={reset}
 			>
-				<div className='space-y-4 mt-6'>
+				<div className='space-y-4'>
 					<Input
 						autoComplete='project-name'
 						icon={<MdLabelOutline size={32} />}
@@ -154,7 +156,10 @@ function CreateProject(props: IModal) {
 
 export default withModal(CreateProject, {
 	zIndex: 30,
-	position: Position.CENTER,
+	position: [Position.CENTER, `-${Position.TOP}`],
+	container: {
+		className: 'mt-20 mb-0 md:mb-12',
+	},
 	overlay: {
 		blur: Blur.MD,
 		className: 'bg-gray-100/20 dark:bg-black/60',
