@@ -11,7 +11,7 @@ import {
 } from 'react';
 import Icon from '@/components/Project/Icon';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { searchParams as searchParamsConfig } from '@nw/config';
+import { S_PARAMS } from '@nw/config';
 import { Input, TextArea } from '@/components/Controls/Form';
 import StateSettings, { type UnitAction } from './StateSettings';
 import {
@@ -26,15 +26,14 @@ import { hasAccess } from '@/utils';
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
 import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
-import { APP } from '@/routes';
 import { EnumResponse } from '@/enums';
 import Skeleton from '@/components/Skeleton';
 import { cloneDeep } from 'lodash';
-import { MdAdd } from 'react-icons/md';
+import ErrorCopy from '@/components/ErrorCopy';
 
 const ROLES: Record<UnitAction, number> = {
 	publish: UPDATE.BRANCH,
-	unpublish: UPDATE.VISIBILITY_BRANCH,
+	unpublish: UPDATE.UNPUBLISH_BRANCH,
 	delete: DELETE.BRANCH,
 };
 
@@ -45,8 +44,6 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 
 	const { action, submit, reset, pending, result } =
 		useAction(actionUpdateBranch);
-
-	const responseError = result?.error?.code;
 
 	const [activeTab, setActiveTab] = useState('');
 
@@ -60,24 +57,33 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		(branch) => branch.uuid === activeTab,
 	);
 
-	useEffect(() => {
-		console.log('RERENDERRRRRRR');
-	});
+	/**
+	 * Initialize the form with the project data
+	 */
+	useLayoutEffect(() => {
+		setActiveProject(cloneDeep(project));
+		setChanged(false);
+	}, [project]);
 
 	/**
 	 * Prepopulate the form with the project data
 	 */
 	useLayoutEffect(() => {
-		setActiveProject(cloneDeep(project));
-		setChanged(false);
+		if (!activeProject) return;
 
-		let activeTab = searchParams.get(searchParamsConfig.ACTIVE);
-		if (activeTab && project?.branches.find((br) => br.uuid === activeTab)) {
-			setActiveTab(activeTab);
+		const branches = activeProject.branches;
+
+		const searchTab = searchParams.get(S_PARAMS.ACTIVE);
+		if (searchTab && branches.find((br) => br.uuid === searchTab)) {
+			setActiveTab(searchTab);
 		} else {
-			setActiveTab(project?.branches[0]?.uuid || '');
+			const [first] =
+				branches?.toSorted(
+					(a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+				) || [];
+			setActiveTab(first?.uuid || '');
 		}
-	}, [project, searchParams]);
+	}, [activeProject, activeTab, searchParams]);
 
 	/**
 	 * Update the active tab when the url changes
@@ -86,19 +92,11 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		(tab: string) => {
 			setActiveTab(tab);
 			const clone = new URLSearchParams(searchParams);
-			clone.set(searchParamsConfig.ACTIVE, tab);
+			clone.set(S_PARAMS.ACTIVE, tab);
 			const str = clone.toString();
 			router.push(`?${str}`);
 		},
 		[router, searchParams],
-	);
-
-	const signIn = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
-			event.preventDefault();
-			router.push(APP);
-		},
-		[router],
 	);
 
 	const postProcess = useMemo(
@@ -165,8 +163,6 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		}
 	}, [result, router]);
 
-	// console.log('activeBranch', activeBranch);
-
 	return (
 		<div className='w-full max-w-3xl mx-auto mt-6'>
 			{activeProject ? (
@@ -179,6 +175,8 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							onClick={() => onTabChange(item.uuid)}
 							className={clsx(
 								'relative',
+								'max-w-[100px]',
+								'[&>.message]:truncate',
 								activeTab === item.uuid
 									? 'pointer-events-none'
 									: 'translate-y-1',
@@ -189,22 +187,9 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							}
 						/>
 					))}
-					{/* <Button
-						size='xs'
-						icon={
-							<span
-								className={clsx(
-									'rounded-full p-0.5',
-									'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white',
-								)}
-							>
-								<MdAdd size={18} />
-							</span>
-						}
-					/> */}
 				</Group>
 			) : (
-				<Skeleton className='h-[42px] w-[120px] !rounded-ee-none !rounded-es-none ml-2' />
+				<Skeleton className='h-[42px] !w-[120px] !rounded-ee-none !rounded-es-none ml-2' />
 			)}
 
 			<div className='relative'>
@@ -310,28 +295,14 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 						)}
 					</div>
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
-						<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-							{responseError?.includes(USER_UNAUTHORIZED) &&
-								t.rich('error.unauthorized_rt', {
-									button: (chunks) => (
-										<button
-											onClick={signIn}
-											className='text-blue-500 underline dark:text-blue-400'
-										>
-											{chunks}
-										</button>
-									),
-								})}
-							{responseError?.includes(ACCESS_DENIED) &&
-								t('error.access_denied')}
-							{responseError?.includes(UPDATE_FAILED) &&
-								t('error.update_failed')}
-							{result?.status === EnumResponse.FAILED &&
-								!responseError?.includes(USER_UNAUTHORIZED) &&
-								!responseError?.includes(ACCESS_DENIED) &&
-								!responseError?.includes(UPDATE_FAILED) &&
-								t('error.wrong')}
-						</p>
+						<ErrorCopy
+							code={result?.error?.code}
+							codes={{
+								[USER_UNAUTHORIZED]: true,
+								[ACCESS_DENIED]: true,
+								[UPDATE_FAILED]: true,
+							}}
+						/>
 						{changed && (
 							<div className='flex justify-end gap-x-2'>
 								<Button

@@ -1,5 +1,5 @@
-export * as cookies from './cookies';
-export * as headers from './headers';
-export * as currencies from './currencies';
-export * as locales from './locales';
-export * as searchParams from './searchParams';
+export * as COOKIES from './cookies';
+export * as HEADERS from './headers';
+export * as CURRENCIES from './currencies';
+export * as LOCALES from './locales';
+export * as S_PARAMS from './searchParams';

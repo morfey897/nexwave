@@ -18,6 +18,7 @@ import { EnumResponse } from '@/enums';
 import { useRouter } from 'next/navigation';
 import { APP } from '@/routes';
 import { IResponse } from '@/types';
+import ErrorCopy from '@/components/ErrorCopy';
 
 export type UnitAction = 'publish' | 'unpublish' | 'delete';
 const WrapButton = ({
@@ -234,34 +235,18 @@ function StateSettings<T>({
 						</Group>
 						{result?.status === EnumResponse.FAILED && (
 							<div className='flex justify-end my-2'>
-								<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-									{responseError?.includes(ErrorCodes.USER_UNAUTHORIZED) &&
-										t.rich('error.unauthorized_rt', {
-											button: (chunks) => (
-												<button
-													onClick={signIn}
-													className='text-blue-500 underline dark:text-blue-400'
-												>
-													{chunks}
-												</button>
-											),
-										})}
-									{responseError?.includes(ErrorCodes.ACCESS_DENIED) &&
-										t('error.access_denied')}
-									{responseError?.includes(ErrorCodes.UPDATE_FAILED) &&
-										t('error.update_failed')}
-									{responseError?.includes(ErrorCodes.DELETE_FAILED) &&
-										t('error.delete_failed')}
-									{responseError?.includes(ErrorCodes.DELETE_LAST_FAILED) &&
-										t('error.delete_last_failed')}
-									{result?.status === EnumResponse.FAILED &&
-										!responseError?.includes(ErrorCodes.USER_UNAUTHORIZED) &&
-										!responseError?.includes(ErrorCodes.ACCESS_DENIED) &&
-										!responseError?.includes(ErrorCodes.UPDATE_FAILED) &&
-										!responseError?.includes(ErrorCodes.DELETE_FAILED) &&
-										!responseError?.includes(ErrorCodes.DELETE_LAST_FAILED) &&
-										t('error.wrong')}
-								</p>
+								<ErrorCopy
+									code={result?.error?.code}
+									codes={{
+										[ErrorCodes.USER_UNAUTHORIZED]: true,
+										[ErrorCodes.ACCESS_DENIED]: true,
+										[ErrorCodes.UPDATE_FAILED]: true,
+										[ErrorCodes.DELETE_FAILED]: true,
+										[ErrorCodes.DELETE_LAST_FAILED]: t(
+											'error.delete_last_failed',
+										),
+									}}
+								/>
 							</div>
 						)}
 					</div>

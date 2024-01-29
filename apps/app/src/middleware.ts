@@ -1,10 +1,6 @@
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
-import {
-	cookies as cookiesConfig,
-	headers as headersConfig,
-	locales,
-} from '@nw/config';
+import { COOKIES, HEADERS, LOCALES } from '@nw/config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
@@ -12,7 +8,7 @@ import { EnumDeviceType } from '@/enums';
 import { API, APP } from '@/routes';
 import { getSession, getRefreshToken } from '@/headers';
 
-type LangType = typeof locales.LOCALES & undefined;
+type LangType = typeof LOCALES.LIST[number];
 
 const getDevice = (userAgent: string | null | undefined) => {
 	const ua = UAParser(userAgent || undefined);
@@ -78,7 +74,7 @@ function getLocale(request: NextRequest) {
 		.map((lang) => lang.split('-')[0]);
 	return match(
 		[...new Set(languages)],
-		locales.LOCALES,
+		LOCALES.LIST,
 		process.env.NEXT_PUBLIC_DEFAULT_LOCALE!,
 	) as unknown as LangType;
 }
@@ -88,8 +84,8 @@ export async function middleware(request: NextRequest) {
 	if (/\.(!?json|xml|txt|js|css|ico|png|jpg|jpeg)$/.test(pathname))
 		return NextResponse.next();
 
-	const cookieValue = request.cookies.get(cookiesConfig.LOCALE)?.value;
-	const locale = locales.LOCALES.includes(cookieValue as LangType)
+	const cookieValue = request.cookies.get(COOKIES.LOCALE)?.value;
+	const locale = LOCALES.LIST.includes(cookieValue as LangType)
 		? cookieValue
 		: getLocale(request);
 
@@ -98,14 +94,14 @@ export async function middleware(request: NextRequest) {
 	const response = NextResponse.next();
 
 	setCookie(response, [
-		{ name: cookiesConfig.DEVICE, value: device },
-		{ name: cookiesConfig.DEVICE_INFO, value: info },
+		{ name: COOKIES.DEVICE, value: device },
+		{ name: COOKIES.DEVICE_INFO, value: info },
 	]);
 
 	if (cookieValue != locale) {
 		setCookie(response, [
 			{
-				name: cookiesConfig.LOCALE,
+				name: COOKIES.LOCALE,
 				value: locale,
 			},
 		]);
@@ -134,7 +130,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
-	response.headers.set(headersConfig.PATHNAME, pathname);
+	response.headers.set(HEADERS.PATHNAME, pathname);
 	return response;
 }
 

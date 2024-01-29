@@ -4,18 +4,36 @@ import { TUID } from '@/types/common';
 import { generateColor, generateName } from '@/utils';
 import { EnumRole, EnumColor, EnumState, EnumCurrency } from '@/enums';
 import { hasAccess } from '@/utils';
-import { C, R, U, D } from '@/crud';
+import { CREATE, READ, UPDATE, DELETE } from '@/crud';
 
-const ROLE_GUEST = 0;
-const ROLE_USER = 0 | ROLE_GUEST;
-const ROLE_ADMIN = U.PROJECT | ROLE_USER;
-const ROLE_SUPER = U.PROJECT_ACCESS | ROLE_ADMIN;
+const ALL_ACCESS = [
+	...(Object.values(CREATE) as number[]),
+	...(Object.values(UPDATE) as number[]),
+	...(Object.values(READ) as number[]),
+	...(Object.values(DELETE) as number[]),
+].reduce((acc, item) => acc | item, 0);
+
+const ROLE_SUPER = ALL_ACCESS;
+const ROLE_ADMIN = ROLE_SUPER & ~UPDATE.PROJECT_ACCESS;
+const ROLE_MANAGER =
+	ROLE_ADMIN &
+	~(
+		DELETE.PROJECT |
+		DELETE.PROJECT_GROUP |
+		DELETE.BRANCH |
+		UPDATE.UNPUBLISH_BRANCH |
+		UPDATE.UNPUBLISH_PROJECT |
+		CREATE.BRANCH
+	);
+const ROLE_USER =
+	ROLE_MANAGER & ~(UPDATE.PROJECT_GROUP | UPDATE.PROJECT | UPDATE.BRANCH);
 
 const ROLES = {
+	[EnumRole.owner]: ALL_ACCESS,
 	[EnumRole.super]: ROLE_SUPER,
 	[EnumRole.admin]: ROLE_ADMIN,
 	[EnumRole.user]: ROLE_USER,
-	[EnumRole.guest]: ROLE_GUEST,
+	[EnumRole.manager]: ROLE_MANAGER,
 } as const;
 
 interface IAccess {
@@ -61,6 +79,9 @@ export interface IFullProject
 	groups: Record<string, string>;
 	branches: IFullBranch[];
 }
+
+const compareBranches = (a: IBranch, b: IBranch) =>
+	a.name > b.name ? -1 : a.name < b.name ? 1 : 0;
 
 const _executeSelectProject = async (
 	userId: number,
@@ -191,7 +212,7 @@ export async function deployNewProject(
 				.values({
 					userId: ownerId,
 					projectId: newProject.id,
-					role: EnumRole.super,
+					role: EnumRole.owner,
 				})
 				.returning({
 					userId: schemas.projectToUser.userId,
@@ -344,6 +365,10 @@ export async function getProjectsByUserId(
 			return acc;
 		}, []);
 
+	filteredProjects.forEach((project) => {
+		project.branches.sort(compareBranches);
+	});
+
 	return filteredProjects.length > 0 ? filteredProjects : null;
 }
 
@@ -394,6 +419,9 @@ export async function getFullProjectByUserId(
 			return acc;
 		}, []);
 
+	filteredProjects.forEach((project) => {
+		project.branches.sort(compareBranches);
+	});
 	return filteredProjects[0] || null;
 }
 
@@ -470,7 +498,8 @@ export async function updateProject(
 		name?: string;
 		currency?: string;
 		info?: string;
-		state?: 'active' | 'inactive';
+		state?: EnumState.ACTIVE | EnumState.INACTIVE;
+		roles?: Record<string, number>;
 	},
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
@@ -479,13 +508,21 @@ export async function updateProject(
 	const result = await db
 		.update(schemas.project)
 		.set({
-			...(value?.name ? { name: value?.name } : {}),
-			...(value?.color ? { color: value?.color } : {}),
-			...(value?.currency ? { currency: value?.currency } : {}),
+			...(value?.name ? { name: value.name } : {}),
+			...(value?.color ? { color: value.color } : {}),
+			...(value?.currency ? { currency: value.currency } : {}),
 			...(typeof value?.info != 'undefined'
 				? { info: value?.info || null }
 				: {}),
-			...(value?.state ? { state: value?.state } : {}),
+			...(value?.state ? { state: value.state } : {}),
+			...(value?.roles
+				? {
+						roles: {
+							...value.roles,
+							[EnumRole.owner]: ALL_ACCESS,
+						},
+					}
+				: {}),
 		})
 		.where(
 			id != undefined
@@ -503,6 +540,47 @@ export async function updateProject(
 }
 
 /**
+ * Create a new branch
+ * @param value
+ * @returns
+ */
+export async function createBranch(value: {
+	projectId: number;
+	name?: string;
+	info?: string;
+	address?: Object;
+}): Promise<IFullBranch | null> {
+	const nameValue = value?.name || generateName();
+
+	const result = await db
+		.insert(schemas.branch)
+		.values({
+			projectId: value.projectId,
+			name: nameValue,
+			...(typeof value?.info != 'undefined'
+				? { info: value?.info || null }
+				: {}),
+			state: EnumState.DRAFT,
+			...(value?.address ? { address: value?.address } : {}),
+		})
+		.returning({
+			id: schemas.branch.id,
+			uuid: schemas.branch.uuid,
+			name: schemas.branch.name,
+			image: schemas.branch.image,
+			state: schemas.branch.state,
+			projectId: schemas.branch.projectId,
+			createdAt: schemas.branch.createdAt,
+			address: schemas.branch.address,
+			info: schemas.branch.info,
+			contacts: schemas.branch.contacts,
+			spaces: schemas.branch.spaces,
+		});
+
+	return result.length > 0 ? result[0] : null;
+}
+
+/**
  * Update branch
  * @param userId - number
  * @returns
@@ -516,7 +594,7 @@ export async function updateBranch(
 		name?: string;
 		info?: string;
 		address?: Object;
-		state?: 'active' | 'inactive';
+		state?: EnumState.ACTIVE | EnumState.INACTIVE;
 	},
 ): Promise<boolean> {
 	const { id, uuid } = props || {};

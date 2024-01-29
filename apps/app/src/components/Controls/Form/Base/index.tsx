@@ -3,8 +3,9 @@ import File from './BaseFile';
 import Input from './BaseInput';
 import Select from './BaseSelect';
 import Textarea from './BaseTextarea';
+import Checkbox from './BaseCheckbox';
 
-type UnionComponent = 'input' | 'select' | 'textarea' | 'file';
+type UnionComponent = 'input' | 'select' | 'textarea' | 'file' | 'checkbox';
 
 export type InputProps<T> = {
 	hint?: React.ReactNode;
@@ -62,8 +63,15 @@ function Base<
 						{...(props as React.InputHTMLAttributes<HTMLInputElement>)}
 					/>
 				)}
+				{/* Render checkbox */}
+				{component === 'checkbox' && (
+					<Checkbox
+						errorCopy={errorCopy}
+						{...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+					/>
+				)}
 			</div>
-			<p className='text-xs text-gray-400 dark:text-gray-500 break-words hyphens-auto'>
+			<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
 				{errorCopy}
 			</p>
 		</div>

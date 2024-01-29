@@ -21,7 +21,7 @@ import clsx from 'clsx';
 import { useScrollDetect } from '@/hooks/scrollDetect';
 import { IEvent } from '@/types/event';
 import { EnumDeviceType } from '@/enums';
-import { searchParams } from '@nw/config';
+import { S_PARAMS } from '@nw/config';
 
 const getFirstDay = () => {
 	const now = new Date();
@@ -48,17 +48,17 @@ function TimetableView({
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 
 	const { onFilter, filter: state } = useFilter({
-		name: searchParams.FILTER,
+		name: S_PARAMS.FILTER,
 		defaultValue: 'all',
 	});
 
 	const { onView, view: period } = useView({
-		name: searchParams.VIEW,
+		name: S_PARAMS.VIEW,
 		defaultValue: device === EnumDeviceType.MOBILE ? EnumPeriod.DAY : EnumPeriod.WEEK,
 	});
 
 	const { onDay, day } = useDay({
-		name: searchParams.DAY,
+		name: S_PARAMS.DAY,
 		defaultValue: getFirstDay(),
 	});
 

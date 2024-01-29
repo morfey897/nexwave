@@ -1,39 +1,30 @@
 //Create
 export const CREATE = {
-  // Project section
-  PROJECT: 2,
-  // Branch section
-  BRANCH: 4,
-};
+	// Project section
+	// Branch section
+	BRANCH: 4,
+} as const;
 
 // Update
 export const UPDATE = {
-  // Project section
-  PROJECT: 1,
-  VISIBILITY_PROJECT: 8,
-  PROJECT_GROUPS: 16,
-  PROJECT_ACCESS: 32,
-  // Branch section
-  BRANCH: 64,
-  VISIBILITY_BRANCH: 2048,
-};
+	// Project section
+	PROJECT: 1,
+	UNPUBLISH_PROJECT: 8,
+	PROJECT_GROUP: 16,
+	PROJECT_ACCESS: 32,
+	// Branch section
+	BRANCH: 64,
+	UNPUBLISH_BRANCH: 2048,
+} as const;
 
 // Delete
 export const DELETE = {
-  // Project section
-  PROJECT: 128,
-  PROJECT_GROUP: 256,
-  PROJECT_ACCESS: 512,
-  // Branch section
-  BRANCH: 1024,
-};
+	// Project section
+	PROJECT: 128,
+	PROJECT_GROUP: 256,
+	// Branch section
+	BRANCH: 1024,
+} as const;
 
 // Read
-export const READ = {
-
-};
-
-export const C = CREATE;
-export const U = UPDATE;
-export const D = DELETE;
-export const R = READ;
+export const READ = {} as const;

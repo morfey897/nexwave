@@ -14,12 +14,7 @@ export type LitPosition = Exclude<
 >;
 export type UnionAnimation = "mounted" | "show" | "hide";
 
-export type TModalParams =
-  | Record<string, string | number | boolean | null | undefined>
-  | string
-  | number
-  | boolean
-  | null;
+export type TModalParams = Record<string, string | number | boolean>;
 
 export enum ModalState {
   MOUNTED = "mounted",

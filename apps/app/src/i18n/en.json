@@ -138,6 +138,34 @@
 		"of_represent_": "{represent, select, table {Table} list {List} other {View}}",
 		"of_state_": "{state, select, all {All} active {Active} inactive {Inactive} other {Filter}}"
 	},
+	"crud": {
+		"role": {
+			"owner": "Owner",
+			"super": "Super admin",
+			"admin": "Admin",
+			"user": "User",
+			"manager": "Manager",
+			"your_role_rt": "Your role: <span>Unknown</span>"
+		},
+		"create": {
+			"branch": "Create a new branch"
+		},
+		"update": {
+			"branch": "Update branch",
+			"project": "Update project",
+			"unpublish_project": "Unpublish project",
+			"unpublish_branch": "Unpublish branch",
+			"project_group": "Update groups",
+			"project_access": "Update access"
+		},
+		"delete": {
+			"branch": "Delete branch",
+			"project": "Delete project",
+			"project_group": "Delete groups",
+			"project_access": "Delete access"
+		},
+		"read": {}
+	},
 	"general": {
 		"today": "Today",
 		"yesterday": "Yesterday",
@@ -158,6 +186,10 @@
 		"error": {
 			"headline": "Something went wrong!",
 			"subheadline": "We did our best, but we couldn't avoid making a mistake. Let's try again."
+		},
+		"access_denied": {
+			"headline": "Access denied",
+			"subheadline": "You don't have access to this page. Please contact your administrator."
 		},
 		"not_found": {
 			"headline": "We lost this page",

@@ -1,6 +1,6 @@
 'use client';
 import { useLocale, useTranslations } from 'next-intl';
-import { locales, cookies as cookiesConfig } from '@nw/config';
+import { COOKIES, LOCALES } from '@nw/config';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import DropDown from '@/components/DropDown';
@@ -14,7 +14,7 @@ function LocaleSwitcher() {
 
 	const onChangeLocale = useCallback(
 		(newLocale: string) => {
-			document.cookie = `${cookiesConfig.LOCALE}=${newLocale};path=/`;
+			document.cookie = `${COOKIES.LOCALE}=${newLocale};path=/`;
 			router.refresh();
 		},
 		[router],
@@ -30,7 +30,7 @@ function LocaleSwitcher() {
 			}
 		>
 			<div className='px-2 py-4 flex flex-col'>
-				{locales.LOCALES.map((locale) => (
+				{LOCALES.LIST.map((locale) => (
 					<Button
 						key={locale}
 						size='md'

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { cookies as cookiesConfig } from '@nw/config';
+import { COOKIES } from '@nw/config';
 
 function ThemeProvider() {
 	useEffect(() => {
@@ -10,7 +10,7 @@ function ThemeProvider() {
 				? 'dark'
 				: 'light';
 			document.documentElement.classList.add(theme);
-			document.cookie = `${cookiesConfig.THEME}=${theme};path=/`;
+			document.cookie = `${COOKIES.THEME}=${theme};path=/`;
 		}
 	}, []);
 

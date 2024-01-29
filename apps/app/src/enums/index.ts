@@ -30,10 +30,11 @@ export enum EnumPeriod {
 }
 
 export enum EnumRole {
+	owner = 'owner',
 	super = 'super',
 	admin = 'admin',
+	manager = 'manager',
 	user = 'user',
-	guest = 'guest',
 }
 
 export enum EnumSortBy {

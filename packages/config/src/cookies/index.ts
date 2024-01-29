@@ -5,3 +5,13 @@ export const DEVICE_INFO = 'nw_device_info';
 export const SESSION = 'nw_session';
 export const REFRESH_TOKEN = 'nw_refresh_token';
 export const TRAIL = 'nw_trail';
+
+export const LIST = [
+	LOCALE,
+	THEME,
+	DEVICE,
+	DEVICE_INFO,
+	SESSION,
+	REFRESH_TOKEN,
+	TRAIL,
+] as const;

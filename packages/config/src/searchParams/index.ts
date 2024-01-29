@@ -8,4 +8,4 @@ export const DIALOG = 'dlg';
 export const TAB = 'tab';
 export const ACTIVE = 'active';
 
-export const SEARCH_PARAMS = [PAGE, FILTER, SEARCH, SORT, VIEW, DAY, DIALOG, TAB] as const;
+export const LIST = [PAGE, FILTER, SEARCH, SORT, VIEW, DAY, DIALOG, TAB] as const;

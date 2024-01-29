@@ -27,10 +27,11 @@ import { hasAccess } from '@/utils';
 import { UPDATE, DELETE } from '@/crud';
 import { actionUpdateVisibilityProject } from '@/actions/project-action';
 import { cloneDeep } from 'lodash';
+import ErrorCopy from '@/components/ErrorCopy';
 
 const ROLES: Record<UnitAction, number> = {
 	publish: UPDATE.PROJECT,
-	unpublish: UPDATE.VISIBILITY_PROJECT,
+	unpublish: UPDATE.UNPUBLISH_PROJECT,
 	delete: DELETE.PROJECT,
 };
 
@@ -46,8 +47,6 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 	const { action, submit, reset, pending, result } =
 		useAction(actionUpdateProject);
 
-	const responseError = result?.error?.code;
-
 	const permission = activeProject?.roles[activeProject?.role || ''] || 0;
 
 	const disabledForm = !hasAccess(permission, UPDATE.PROJECT);
@@ -62,14 +61,6 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			router.refresh();
 		}
 	}, [result, router]);
-
-	const signIn = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
-			event.preventDefault();
-			router.push(APP);
-		},
-		[router],
-	);
 
 	const onChange = useCallback(
 		(
@@ -218,27 +209,14 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 				</div>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
-					<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-						{responseError?.includes(USER_UNAUTHORIZED) &&
-							t.rich('error.unauthorized_rt', {
-								button: (chunks) => (
-									<button
-										onClick={signIn}
-										className='text-blue-500 underline dark:text-blue-400'
-									>
-										{chunks}
-									</button>
-								),
-							})}
-						{responseError?.includes(ACCESS_DENIED) && t('error.access_denied')}
-						{responseError?.includes(UPDATE_FAILED) && t('error.update_failed')}
-						{result?.status === EnumResponse.FAILED &&
-							!responseError?.includes(USER_UNAUTHORIZED) &&
-							!responseError?.includes(ACCESS_DENIED) &&
-							!responseError?.includes(UPDATE_FAILED) &&
-							t('error.wrong')}
-					</p>
-
+					<ErrorCopy
+						code={result?.error?.code}
+						codes={{
+							[USER_UNAUTHORIZED]: true,
+							[ACCESS_DENIED]: true,
+							[UPDATE_FAILED]: true,
+						}}
+					/>
 					{changed && (
 						<div className='flex justify-end gap-x-2'>
 							<Button

@@ -2,148 +2,129 @@
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
 import { type IModal, Position, Blur, withModal } from '@nw/modal';
-import clsx from 'clsx';
-import { HiX } from 'react-icons/hi';
-import Headline from '@/components/Headline';
-import { Input, TextArea } from '@/components/Controls/Form';
+import { Input, TextArea, File } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
-import { useCallback } from 'react';
 import { useAction } from '@/hooks/action';
-import { actionCreateNewProject } from '@/actions/project-action';
-import { CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
-import { useRouter } from 'next/navigation';
-import { APP } from '@/routes';
-import { EnumResponse } from '@/enums';
+import { actionCreateNewBranch } from '@/actions/branch-action';
+import { ACCESS_DENIED, CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
 import { BiChevronDown } from 'react-icons/bi';
 import Accordion from '@/components/Accordion';
+import {
+	WndWrapper,
+	WndHeader,
+	WndBody,
+	WndFooter,
+} from '@/components/Windows';
+import ErrorCopy from '@/components/ErrorCopy';
+import { MdOutlineCloudUpload } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { EnumResponse } from '@/enums';
 
-function CreateBranch(props: IModal) {
+function CreateBranch({ closeMe, name, params }: IModal) {
 	const router = useRouter();
 	const { action, submit, reset, pending, result } = useAction(
-		actionCreateNewProject,
+		actionCreateNewBranch,
 	);
-	const responseError = result?.error?.code;
-
 	const t = useTranslations();
 
-	const signIn = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
-			event.preventDefault();
-			router.push(APP);
-		},
-		[router],
-	);
+	useEffect(() => {
+		if (result?.status === EnumResponse.SUCCESS && result.data) {
+			if (typeof closeMe === 'function') closeMe();
+			router.refresh();
+		}
+	}, [result, router, closeMe]);
 
+	const projectId = (params && params['projectId']) || '';
 	return (
-		<div
-			className={clsx(
-				'relative rounded-lg border shadow dark:border-gray-600 bg-gray-100 dark:bg-gray-900',
-				'md:w-[475px] w-[95vw]',
-			)}
-		>
-			<div className='sticky top-0 z-10 pt-6 pb-3 w-full bg-gray-100 dark:bg-gray-900 rounded-lg'>
-				<Button
-					variant='text'
-					className='absolute top-2.5 right-1 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
-					icon={<HiX size={28} />}
-					onClick={props.closeMe}
-				/>
-
-				<Headline
-					headline={t('page.add_branch.headline')}
-					subheadline={t('page.add_branch.subheadline')}
-					className='text-lg md:text-xl font-semibold text-center'
-					bodyClassName='text-center'
-				/>
-			</div>
-			<form
-				className='w-full px-6 md:px-12 my-6'
-				onSubmit={submit}
-				action={action}
-				onChange={reset}
-			>
-				<div className='space-y-4'>
-					<Input
-						autoComplete='branch-name'
-						name='name'
-						type='text'
-						placeholder={t('form.name')}
-					/>
-					<TextArea name='info' placeholder={t('form.info')} />
-					<Accordion
-						id='branch-settings-new'
-						head={
-							<Button
-								tag='div'
-								variant='dark'
-								message={t('form.address')}
-								className='justify-between text-gray-400 dark:text-gray-500'
-								iconAfter={
-									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
-										<BiChevronDown size={24} className={''} />
-									</span>
-								}
+		<WndWrapper>
+			<WndHeader
+				headline={t('page.add_branch.headline')}
+				subheadline={t('page.add_branch.subheadline')}
+				onClose={closeMe}
+			/>
+			<WndBody>
+				<form onSubmit={submit} action={action} onChange={reset}>
+					<div className='space-y-4'>
+						<input type='hidden' name='id' value={projectId.toString()} />
+						<Input
+							autoComplete='branch-name'
+							name='name'
+							type='text'
+							placeholder={t('form.name')}
+						/>
+						<TextArea name='info' placeholder={t('form.info')} />
+						<Accordion
+							id='branch-settings-new'
+							head={
+								<Button
+									tag='div'
+									variant='dark'
+									message={t('form.address')}
+									className='justify-between text-gray-400 dark:text-gray-500'
+									iconAfter={
+										<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+											<BiChevronDown size={24} className={''} />
+										</span>
+									}
+								/>
+							}
+						>
+							<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+								<Input
+									disabled={pending}
+									autoComplete='country'
+									placeholder={t('form.country')}
+									name='address.country'
+									type='text'
+								/>
+								<Input
+									disabled={pending}
+									autoComplete='city'
+									placeholder={t('form.city')}
+									name='address.city'
+									type='text'
+								/>
+								<Input
+									disabled={pending}
+									placeholder={t('form.address_line')}
+									name='address.address_line'
+									type='text'
+								/>
+								<Input
+									disabled={pending}
+									placeholder={t('form.address_line_2')}
+									name='address.address_line_2'
+									type='text'
+								/>
+							</div>
+						</Accordion>
+						<File
+							icon={<MdOutlineCloudUpload size={24} />}
+							name='image'
+							placeholder={t('form.select_image')}
+							hint={t('form.image_hint')}
+							accept='image/png, image/jpeg'
+						/>
+					</div>
+					<WndFooter
+						errorCopy={
+							<ErrorCopy
+								code={result?.error?.code}
+								codes={{
+									[USER_UNAUTHORIZED]: true,
+									[CREATE_FAILED]: true,
+									[ACCESS_DENIED]: true,
+								}}
 							/>
 						}
 					>
-						<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
-							<Input
-								disabled={pending}
-								autoComplete='country'
-								placeholder={t('form.country')}
-								name='address.country'
-								type='text'
-							/>
-							<Input
-								disabled={pending}
-								autoComplete='city'
-								placeholder={t('form.city')}
-								name='address.city'
-								type='text'
-							/>
-							<Input
-								disabled={pending}
-								placeholder={t('form.address_line')}
-								name='address.address_line'
-								type='text'
-							/>
-							<Input
-								disabled={pending}
-								placeholder={t('form.address_line_2')}
-								name='address.address_line_2'
-								type='text'
-							/>
-						</div>
-					</Accordion>
-				</div>
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
-					<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-						{responseError?.includes(USER_UNAUTHORIZED) &&
-							t.rich('error.unauthorized_rt', {
-								button: (chunks) => (
-									<button
-										onClick={signIn}
-										className='text-blue-500 underline dark:text-blue-400'
-									>
-										{chunks}
-									</button>
-								),
-							})}
-						{responseError?.includes(CREATE_FAILED) && t('error.create_failed')}
-						{result?.status === EnumResponse.FAILED &&
-							!responseError?.includes(USER_UNAUTHORIZED) &&
-							!responseError?.includes(CREATE_FAILED) &&
-							t('error.wrong')}
-					</p>
-
-					<div className='flex justify-end gap-x-2'>
 						<Button
-							onClick={props.closeMe}
+							onClick={closeMe}
 							variant='default'
 							className='capitalize'
 							message={t('button.cancel')}
 							disabled={pending}
-							icon={pending && <Spinner variant='primary' />}
 						/>
 
 						<Button
@@ -154,10 +135,10 @@ function CreateBranch(props: IModal) {
 							disabled={pending}
 							icon={pending && <Spinner variant='primary' />}
 						/>
-					</div>
-				</div>
-			</form>
-		</div>
+					</WndFooter>
+				</form>
+			</WndBody>
+		</WndWrapper>
 	);
 }
 

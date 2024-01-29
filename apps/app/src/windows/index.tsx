@@ -2,7 +2,7 @@
 import { MODALS } from '@/routes';
 import { ModalProvider } from '@nw/modal';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { searchParams as cfg } from '@nw/config';
+import { S_PARAMS } from '@nw/config';
 import AsideSettings from '@/windows/WndPanelSettings';
 import AsideProjects from '@/windows/WndPanelProjects';
 import CreateProject from '@/windows/WndCreateProject';
@@ -29,7 +29,7 @@ function ModalsContainer({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ModalProvider
-			prefix={cfg.DIALOG}
+			prefix={S_PARAMS.DIALOG}
 			searchParams={searchParams}
 			Components={COMPONENTS}
 			navigate={navigate}

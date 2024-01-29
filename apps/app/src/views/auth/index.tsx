@@ -9,6 +9,7 @@ import { HiX } from 'react-icons/hi';
 import Headline from '@/components/Headline';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import clsx from 'clsx';
 export { default as RefreshToken } from './RefreshToken';
 
 function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
@@ -35,9 +36,10 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 		>
 			<ComponentContainer
 				position={Position.CENTER}
-				className={
-					'mx-auto md:w-[475px] w-[95vw] relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600'
-				}
+				className={clsx(
+					'mx-auto relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600',
+					'md:w-[475px] w-[95vw]',
+				)}
 			>
 				<Button
 					variant='text'

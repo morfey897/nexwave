@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decode, verifyAuth } from '@/lib/jwt';
-import { cookies as cookiesConfig } from '@nw/config';
+import { COOKIES } from '@nw/config';
 import { ICurrentUser } from '@/models/user';
 import { cookies } from 'next/headers';
 import { sessionCookie } from '@/utils/cookies';
@@ -23,10 +23,10 @@ const refreshCookie = async (
 
 export async function GET(request: NextRequest) {
 	const refresh_token =
-		request.cookies.get(cookiesConfig.REFRESH_TOKEN)?.value ||
+		request.cookies.get(COOKIES.REFRESH_TOKEN)?.value ||
 		request.headers.get('Authorization')?.replace('Bearer ', '') ||
 		'';
-	const session = request.cookies.get(cookiesConfig.SESSION)?.value || '';
+	const session = request.cookies.get(COOKIES.SESSION)?.value || '';
 
 	const user = await refreshCookie(refresh_token, session);
 	if (!user) {

@@ -29,7 +29,7 @@ import Container, {
 } from '@/components/Containers';
 import clsx from 'clsx';
 import { useView } from '@/hooks/filter';
-import { searchParams } from '@nw/config';
+import { S_PARAMS } from '@nw/config';
 
 function ClintsView({ clients }: { clients: IClient[] }) {
 	const t = useTranslations();
@@ -37,23 +37,23 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
 	const { onFilter, filter: state } = useFilter({
-		name: searchParams.FILTER,
+		name: S_PARAMS.FILTER,
 		defaultValue: 'all',
 	});
 	const { onView, view } = useView({
-		name: searchParams.VIEW,
+		name: S_PARAMS.VIEW,
 		defaultValue: EnumRepresent.TABLE,
 	});
 	const { onSearch, search } = useSearch({
-		name: searchParams.SEARCH,
+		name: S_PARAMS.SEARCH,
 	});
 	const { onSort, sort } = useSort({
-		name: searchParams.SORT,
+		name: S_PARAMS.SORT,
 		defaultValue: 'name',
 	});
 	const { onPage, page, maxPage } = usePage({
 		pages: 1,
-		name: searchParams.PAGE,
+		name: S_PARAMS.PAGE,
 	});
 
 	const states = useMemo(() => {
