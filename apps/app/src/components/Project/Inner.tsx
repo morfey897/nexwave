@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { type IProject } from '@/models/project';
 import { MdOutlineArrowCircleRight, MdCheck } from 'react-icons/md';
@@ -7,6 +8,11 @@ import { dynamicHref } from '@/utils';
 import clsx from 'clsx';
 import ProjectIcon from '@/components/Project/Icon';
 import Branch from './Branch';
+import Accordion from '../Accordion';
+import Button from '../Button';
+import { BiChevronDown } from 'react-icons/bi';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 export function SkeletonProject({
 	className,
@@ -30,13 +36,26 @@ function InnerProject({
 	active,
 	className,
 	...props
-}: React.HTMLAttributes<HTMLAnchorElement> & {
+}: React.HTMLAttributes<HTMLDivElement> & {
 	project: IProject;
 	active?: boolean;
 }) {
+	const t = useTranslations();
+	const router = useRouter();
+
+	const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
+		const target = event.target as HTMLElement;
+		const isShowMore =
+			target.getAttribute('name') === 'show-more' ||
+			target.parentElement?.getAttribute('name') === 'show-more';
+		if (!isShowMore) {
+			router.push(dynamicHref(ROOT, { uuid: project.uuid }));
+		}
+	};
+
 	return (
-		<Link
-			href={dynamicHref(ROOT, { uuid: project.uuid })}
+		<div
+			onClick={onClick}
 			className={clsx(
 				'block',
 				'bg-white dark:bg-gray-800',
@@ -70,11 +89,39 @@ function InnerProject({
 			</div>
 
 			<div className='divide-y divide-gray-200 dark:divide-gray-700'>
-				{project.branches?.map((branch) => (
+				{project.branches.slice(0, 3).map((branch) => (
 					<Branch key={branch.uuid} branch={branch} className='text-sm' />
 				))}
+
+				{project.branches.length > 3 && (
+					<Accordion
+						id={`branches-${project.uuid}`}
+						name='show-more'
+						head={
+							<Button
+								size='sm'
+								name='show-more'
+								tag='span'
+								variant='text'
+								message={t('button.more_less')}
+								className='justify-between text-gray-400 dark:text-gray-500 w-full'
+								iconAfter={
+									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
+										<BiChevronDown size={24} className={''} />
+									</span>
+								}
+							/>
+						}
+					>
+						<div className='divide-y divide-gray-200 dark:divide-gray-700'>
+							{project.branches.slice(3).map((branch) => (
+								<Branch key={branch.uuid} branch={branch} className='text-sm' />
+							))}
+						</div>
+					</Accordion>
+				)}
 			</div>
-		</Link>
+		</div>
 	);
 }
 

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 function Accordion({
 	id,
+	name,
 	head,
 	className,
 	children,
@@ -9,6 +10,7 @@ function Accordion({
 	...props
 }: React.HtmlHTMLAttributes<HTMLDivElement> & {
 	id: string;
+	name?: string;
 	head: React.ReactNode;
 	active?: boolean;
 }) {
@@ -18,6 +20,7 @@ function Accordion({
 				type='checkbox'
 				defaultChecked={active}
 				id={id}
+				name={name}
 				className={clsx('peer sr-only')}
 			/>
 			<label

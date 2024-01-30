@@ -75,7 +75,8 @@
 		"select_file": "Select file",
 		"select_image": "Select image",
 		"sort_by": "Sort by",
-		"discard": "Discard"
+		"discard": "Discard",
+		"more_less": "More/less"
 	},
 	"i18n": {
 		"uk": {

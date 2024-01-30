@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { MouseEventHandler } from 'react';
 import { type IProject } from '@/models/project';
 import { MdOutlineArrowCircleRight } from 'react-icons/md';
 import Link from 'next/link';
@@ -7,21 +8,40 @@ import { dynamicHref } from '@/utils';
 import clsx from 'clsx';
 import ProjectIcon from '@/components/Project/Icon';
 import Branch from './Branch';
+import Accordion from '../Accordion';
+import Button from '../Button';
+import { BiChevronDown } from 'react-icons/bi';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 function Project({
 	project,
 	className,
 	...props
-}: React.HTMLAttributes<HTMLAnchorElement> & { project: IProject }) {
+}: React.HTMLAttributes<HTMLDivElement> & { project: IProject }) {
+	const t = useTranslations();
+	const router = useRouter();
+
+	const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
+		const target = event.target as HTMLElement;
+		const isShowMore =
+			target.getAttribute('name') === 'show-more' ||
+			target.parentElement?.getAttribute('name') === 'show-more';
+		if (!isShowMore) {
+			router.push(dynamicHref(ROOT, { uuid: project.uuid }));
+		}
+	};
+
 	return (
-		<Link
-			href={dynamicHref(ROOT, { uuid: project.uuid })}
+		<div
+			onClick={onClick}
 			className={clsx(
 				'block',
 				'bg-white dark:bg-gray-800',
 				'group p-8 space-y-3 border-2 rounded-xl',
 				'border-blue-400 dark:border-blue-300',
 				'hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
+				'cursor-pointer',
 				className,
 			)}
 			{...props}
@@ -33,15 +53,40 @@ function Project({
 					altFallback='project'
 					marker={{ color: project.color }}
 				/>
-				<h2>
-					{project.name}
-				</h2>
+				<h2>{project.name}</h2>
 			</div>
 
 			<div className='divide-y divide-gray-200 dark:divide-gray-700'>
-				{project.branches?.map((branch) => (
+				{project.branches.slice(0, 3).map((branch) => (
 					<Branch key={branch.uuid} branch={branch} />
 				))}
+
+				{project.branches.length > 3 && (
+					<Accordion
+						id={`branches-${project.uuid}`}
+						name='show-more'
+						head={
+							<Button
+								name='show-more'
+								tag='span'
+								variant='text'
+								message={t('button.more_less')}
+								className='justify-between text-gray-400 dark:text-gray-500 w-full'
+								iconAfter={
+									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
+										<BiChevronDown size={24} className={''} />
+									</span>
+								}
+							/>
+						}
+					>
+						<div className='divide-y divide-gray-200 dark:divide-gray-700'>
+							{project.branches.slice(3).map((branch) => (
+								<Branch key={branch.uuid} branch={branch} />
+							))}
+						</div>
+					</Accordion>
+				)}
 			</div>
 
 			<div className='w-full'>
@@ -56,7 +101,7 @@ function Project({
 					</span>
 				</span>
 			</div>
-		</Link>
+		</div>
 	);
 }
 
