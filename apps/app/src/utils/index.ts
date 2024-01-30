@@ -1,5 +1,6 @@
 import { humanId } from 'human-id';
 import { EnumColor } from '@/enums';
+import { nanoid } from 'nanoid';
 
 export const addZiro = (str: string | number) => `0${str}`.slice(-2);
 
@@ -43,10 +44,13 @@ export const fullname = (
 export const random = <T>(array: Array<T>) =>
 	array[Math.floor(Math.random() * array.length)];
 
-export function generateName() {
+export const generateShortId = (size: number) => nanoid(size);
+
+export function generateName(adjectiveCount: number = 2) {
 	return humanId({
 		separator: ' ',
 		capitalize: true,
+		adjectiveCount: adjectiveCount,
 	});
 }
 

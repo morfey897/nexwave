@@ -85,14 +85,6 @@ function StateSettings<T>({
 		!!item && setActiveItem(postProcess(item));
 	}, [item, postProcess]);
 
-	const signIn = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
-			event.preventDefault();
-			router.push(APP);
-		},
-		[router],
-	);
-
 	const onSubmit = useCallback(
 		(formData: FormData) => {
 			action(formData);
@@ -111,7 +103,7 @@ function StateSettings<T>({
 			submit();
 			onSubmit(formData);
 		},
-		[activeItem, action, reset],
+		[activeItem, reset, submit, onSubmit],
 	);
 
 	useEffect(() => {

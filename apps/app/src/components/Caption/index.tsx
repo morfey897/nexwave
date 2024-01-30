@@ -1,8 +1,10 @@
+'use client';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { HiOutlineCloudArrowUp } from 'react-icons/hi2';
 import { Button, Group } from '@/components/Button';
 import { CountBadge } from '@/components/Badge';
 import clsx from 'clsx';
+import { useScrollDetect } from '@/hooks/scrollDetect';
 
 type TCaption = {
 	headline?: string;
@@ -25,10 +27,10 @@ function Caption({
 	add,
 	imprt,
 	className,
-	isScrolled = false,
 	...props
 }: { isScrolled?: boolean } & TCaption & React.HTMLAttributes<HTMLDivElement>) {
-	isScrolled = false;
+	const isScrolled = useScrollDetect('86px');
+
 	return (
 		<div
 			className={clsx('flex items-center justify-between gap-x-3', className)}
@@ -44,49 +46,43 @@ function Caption({
 
 					{!!add && (
 						<Button
-							size='xs'
+							// size='xs'
 							onClick={add.onClick}
 							variant='primary'
-							icon={<HiOutlinePlusCircle size={16} />}
-							message={add.title}
-							className='md:hidden text-sm my-1'
+							icon={<HiOutlinePlusCircle size={32} />}
+							className={clsx(
+								'fixed top-[80px] right-0 z-30 !p-2 !rounded-e-none',
+								isScrolled ? 'block' : 'hidden',
+							)}
 						/>
 					)}
+
+					<Group>
+						{!!add && (
+							<Button
+								size='xs'
+								onClick={add.onClick}
+								variant='primary'
+								icon={<HiOutlinePlusCircle size={20} />}
+								message={add.title}
+							/>
+						)}
+						{!!imprt && (
+							<Button
+								size='xs'
+								onClick={imprt.onClick}
+								icon={<HiOutlineCloudArrowUp size={20} />}
+								message={imprt.title}
+							/>
+						)}
+					</Group>
 				</div>
 
 				{!!subheadline && (
-					<p
-						className={clsx(
-							'mt-1 text-sm text-gray-500 dark:text-gray-300',
-							'transition-max-height duration-100 ease-linear overflow-hidden max-h-[100vh]',
-							isScrolled && '!max-h-0',
-						)}
-					>
+					<p className={clsx('mt-1 text-sm text-gray-500 dark:text-gray-300')}>
 						{subheadline}
 					</p>
 				)}
-			</div>
-
-			<div className='hidden md:flex items-center mt-4 gap-x-3 gap-y-2'>
-				<Group>
-					{!!add && (
-						<Button
-							size='sm'
-							onClick={add.onClick}
-							variant='primary'
-							icon={<HiOutlinePlusCircle size={20} />}
-							message={add.title}
-						/>
-					)}
-					{!!imprt && (
-						<Button
-							size='sm'
-							onClick={imprt.onClick}
-							icon={<HiOutlineCloudArrowUp size={20} />}
-							message={imprt.title}
-						/>
-					)}
-				</Group>
 			</div>
 		</div>
 	);

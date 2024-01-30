@@ -3,6 +3,12 @@ import { throttle } from 'lodash';
 
 const isBrowser = () => typeof window === 'object';
 
+const getScrollTop = () => {
+	let h = document.documentElement,
+		b = document.body;
+	return h.scrollTop || b.scrollTop;
+};
+
 const getScrollPercent = () => {
 	let h = document.documentElement,
 		b = document.body;
@@ -12,15 +18,28 @@ const getScrollPercent = () => {
 	);
 };
 
-export function useScrollDetect(threshold: number) {
+const isScroll = (threshold: number | string) => {
+	let h = document.documentElement,
+		b = document.body;
+
+	const top = h.scrollTop || b.scrollTop;
+
+	if (typeof threshold === 'string') {
+		return top > parseInt(threshold);
+	}
+	return (
+		top / ((h.scrollHeight || b.scrollHeight) - h.clientHeight) > threshold
+	);
+};
+
+export function useScrollDetect(threshold: number | string) {
 	const [isScrolling, setIsScrolling] = useState(false);
 
 	const onScroll = useMemo(
 		() =>
 			throttle(
 				() => {
-					const scrollTop = getScrollPercent();
-					setIsScrolling(scrollTop > threshold);
+					setIsScrolling(isScroll(threshold));
 				},
 				400,
 				{ leading: false },
@@ -31,8 +50,7 @@ export function useScrollDetect(threshold: number) {
 
 	useEffect(() => {
 		if (isBrowser()) {
-			const scrollTop = getScrollPercent();
-			setIsScrolling(scrollTop > threshold);
+			setIsScrolling(isScroll(threshold));
 			window.addEventListener('scroll', onScroll);
 			return () => {
 				onScroll.cancel();

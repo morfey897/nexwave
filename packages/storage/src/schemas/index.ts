@@ -98,7 +98,7 @@ export const branch = pgTable('branches', {
 		.default({})
 		.notNull(),
 	spaces: jsonb('spaces')
-		.$type<Array<{ id: number; name: string; state: string }>>()
+		.$type<Array<{ shortId: string; name: string }>>()
 		.default([])
 		.notNull(),
 });
@@ -155,7 +155,7 @@ export const service = pgTable('services', {
 	image: text('image'),
 	state: varchar('state', { length: 32 }),
 	level: smallint('level'),
-	group: varchar('group', { length: 255 }),//from project:groups
+	group: varchar('group', { length: 255 }), //from project:groups
 	price: serial('price'),
 });
 
@@ -176,7 +176,7 @@ export const event = pgTable('events', {
 	duration: integer('duration').notNull(),
 	rrule: varchar('rrule', { length: 511 }),
 	spaceId: smallint('space_id'), //from branch:spaces
-	serviceId: serial('service_id'),//from services
+	serviceId: serial('service_id'), //from services
 	// todo master_id / provider_id - references to users table
 });
 

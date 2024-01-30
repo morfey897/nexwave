@@ -40,7 +40,9 @@
 		"country": "Country",
 		"city": "City",
 		"address_line": "Address line",
-		"address_line_2": "Address line 2"
+		"address_line_2": "Address line 2",
+		"spaces": "Spaces",
+		"space_": "{index, select, 1 {First} 2 {Second} 3 {Third} other {#th}} space"
 	},
 	"button": {
 		"sign_in": "Sign in",

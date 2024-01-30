@@ -114,6 +114,14 @@ export async function actionUpdateBranch(
 		const addressCity = formData.get('address.city')?.toString();
 		const addressLine = formData.get('address.address_line')?.toString();
 		const addressLine2 = formData.get('address.address_line_2')?.toString();
+		const spaces: Array<{ shortId: string; name: string }> = [];
+
+		formData.forEach((value, key) => {
+			if (key.startsWith('spaces')) {
+				const [_, index, shortId] = key.split('.');
+				spaces[parseInt(index)] = { shortId, name: value.toString() };
+			}
+		});
 
 		// TODO: upload image to cloudinary
 		const success = await updateBranch(
@@ -127,6 +135,7 @@ export async function actionUpdateBranch(
 					address_line: addressLine,
 					address_line_2: addressLine2,
 				},
+				spaces: spaces,
 				// image: file,
 			},
 		);

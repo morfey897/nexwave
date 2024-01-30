@@ -104,26 +104,32 @@ function Settings({ project }: { project: IFullProject | null }) {
 	}, [openModal, project]);
 
 	return (
-		<Container>
-			<ContainerHeader>
-				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
-					<Caption
-						isScrolled={isScrolled}
-						headline={t('page.settings.headline')}
-						subheadline={t('page.settings.subheadline')}
-						add={
-							activeTab === TAB_BRANCHES
-								? {
-										title: t('button.add'),
-										onClick: addBranch,
-									}
-								: undefined
-						}
-					/>
-				</div>
+		<Container className='mb-12'>
+			<Caption
+				isScrolled={isScrolled}
+				headline={t('page.settings.headline')}
+				subheadline={t('page.settings.subheadline')}
+				add={
+					activeTab === TAB_BRANCHES
+						? {
+								title: t('button.add'),
+								onClick: addBranch,
+							}
+						: undefined
+				}
+				imprt={
+					activeTab === TAB_BRANCHES
+						? {
+								title: t('button.import'),
+								onClick: () => {},
+							}
+						: undefined
+				}
+			/>
+			<ContainerHeader className='border-b dark:border-gray-700'>
 				<Group
 					className={clsx(
-						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none pt-4 bg-gray-100 dark:bg-gray-900',
+						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900',
 						'overflow-x-scroll hide-scroll',
 						// isScrolled && 'pt-0.5',
 					)}
@@ -151,11 +157,9 @@ function Settings({ project }: { project: IFullProject | null }) {
 			</ContainerHeader>
 
 			<ContainerBody ref={refBody} onScroll={onScroll}>
-				<div className='border-t dark:border-gray-700'>
-					{activeTab === TAB_GENERAL && <GeneralSettings project={project} />}
-					{activeTab === TAB_BRANCHES && <BranchesSettings project={project} />}
-					{activeTab === TAB_ACCESS && <AccessSettings project={project} />}
-				</div>
+				{activeTab === TAB_GENERAL && <GeneralSettings project={project} />}
+				{activeTab === TAB_BRANCHES && <BranchesSettings project={project} />}
+				{activeTab === TAB_ACCESS && <AccessSettings project={project} />}
 			</ContainerBody>
 		</Container>
 	);

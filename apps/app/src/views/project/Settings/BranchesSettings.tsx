@@ -22,7 +22,7 @@ import { UPDATE, DELETE } from '@/crud';
 import { useTranslations } from 'next-intl';
 import Accordion from '@/components/Accordion';
 import { BiChevronDown } from 'react-icons/bi';
-import { hasAccess } from '@/utils';
+import { generateName, generateShortId, hasAccess } from '@/utils';
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
 import { USER_UNAUTHORIZED, ACCESS_DENIED, UPDATE_FAILED } from '@/errorCodes';
@@ -30,6 +30,8 @@ import { EnumResponse } from '@/enums';
 import Skeleton from '@/components/Skeleton';
 import { cloneDeep } from 'lodash';
 import ErrorCopy from '@/components/ErrorCopy';
+import { HiMiniMinus, HiMiniPlus } from 'react-icons/hi2';
+import { unflatten } from '@/utils/flat';
 
 const ROLES: Record<UnitAction, number> = {
 	publish: UPDATE.BRANCH,
@@ -121,22 +123,36 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		) => {
 			if (!activeBranch) return;
 			const target = event.target as HTMLInputElement;
-			const names = target.name.split('.');
+			const names = target.name;
 			const value = target.value;
 
 			let newBranch = { ...activeBranch };
-			let len = names.length;
-
-			let obj = newBranch as any;
-			for (let i = 0; i < len - 1; i++) {
-				let name = names[i];
-				if ((newBranch as any)[name] === undefined) {
-					newBranch = { ...newBranch, [name]: {} };
+			const obj = unflatten<Record<string, any>>({ [names]: value });
+			for (let [key, value] of Object.entries(obj)) {
+				if (key === 'spaces') {
+					const [[i, val]] = Object.entries(value);
+					const [[shortId, name]] = Object.entries(val as Object);
+					const space = { name, shortId };
+					const index = parseInt(i);
+					newBranch = {
+						...newBranch,
+						spaces: newBranch.spaces.map((sp, i) => (i === index ? space : sp)),
+					};
+				} else if (key === 'address') {
+					newBranch = {
+						...newBranch,
+						address: {
+							...newBranch.address,
+							...value,
+						},
+					};
+				} else {
+					newBranch = {
+						...newBranch,
+						[key]: value,
+					};
 				}
-				obj = (newBranch as any)[name];
 			}
-			obj[names[len - 1]] = value;
-
 			setActiveProject((prev) =>
 				prev
 					? {
@@ -156,6 +172,70 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		setActiveProject(cloneDeep(project));
 		setChanged(false);
 	}, [project]);
+
+	/**
+	 * Add a new space to the branch
+	 * @param event
+	 */
+	const onAddSpace = useCallback(
+		(event: React.MouseEvent) => {
+			event.preventDefault();
+			if (!activeBranch) return;
+
+			const newBranch = {
+				...activeBranch,
+				spaces: [
+					...activeBranch.spaces,
+					{
+						shortId: generateShortId(6),
+						name: generateName(0),
+					},
+				],
+			};
+			setActiveProject((prev) =>
+				prev
+					? {
+							...prev,
+							branches: prev.branches.map((br) =>
+								br.uuid === newBranch.uuid ? newBranch : br,
+							),
+						}
+					: null,
+			);
+			setChanged(true);
+		},
+		[activeBranch],
+	);
+
+	/**
+	 * Remove a space from the branch
+	 * @param event
+	 */
+	const onRemoveSpace = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			event.preventDefault();
+			const target = event.target as HTMLButtonElement;
+			const spaceId = target.name;
+			if (!activeBranch) return;
+
+			const newBranch = {
+				...activeBranch,
+				spaces: activeBranch.spaces.filter((sp) => spaceId !== sp.shortId),
+			};
+			setActiveProject((prev) =>
+				prev
+					? {
+							...prev,
+							branches: prev.branches.map((br) =>
+								br.uuid === newBranch.uuid ? newBranch : br,
+							),
+						}
+					: null,
+			);
+			setChanged(true);
+		},
+		[activeBranch],
+	);
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
@@ -236,9 +316,86 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 						) : (
 							<Skeleton className='h-[82px]' />
 						)}
+						{/* Spaces */}
 						{activeBranch ? (
 							<Accordion
-								id={`branch-settings-${activeBranch.uuid}`}
+								id={`branch-spaces-${activeBranch.uuid}`}
+								head={
+									<Button
+										tag='div'
+										variant='dark'
+										message={t('form.spaces')}
+										className='justify-between text-gray-400 dark:text-gray-500'
+										iconAfter={
+											<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+												<BiChevronDown size={24} className={''} />
+											</span>
+										}
+									/>
+								}
+							>
+								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+									{activeBranch.spaces.map((space, index) => (
+										<div
+											className='w-full gap-x-1 flex items-center'
+											key={`space-${space.shortId}`}
+										>
+											<div className='w-full'>
+												<Input
+													onChange={onChange}
+													disabled={disabledForm}
+													placeholder={t('form.space_', { index: index + 1 })}
+													value={space.name}
+													name={`spaces.${index}.${space.shortId}`}
+													type='text'
+												/>
+											</div>
+											<Button
+												name={space.shortId}
+												onClick={onRemoveSpace}
+												variant='light'
+												icon={
+													<span
+														className={clsx(
+															'text-red-500 dark:text-red-500 pointer-events-none',
+														)}
+													>
+														<HiMiniMinus size={24} />
+													</span>
+												}
+												disabled={
+													disabledForm || activeBranch.spaces.length < 2
+												}
+											/>
+										</div>
+									))}
+
+									<Button
+										onClick={onAddSpace}
+										variant='dark'
+										className='w-full'
+										icon={
+											<span
+												className={clsx(
+													'inline-block rounded-full p-0.5',
+													'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white',
+												)}
+											>
+												<HiMiniPlus size={18} />
+											</span>
+										}
+										disabled={disabledForm}
+									/>
+								</div>
+							</Accordion>
+						) : (
+							<Skeleton className='h-[42px]' />
+						)}
+
+						{/* Address */}
+						{activeBranch ? (
+							<Accordion
+								id={`branch-address-${activeBranch.uuid}`}
 								head={
 									<Button
 										tag='div'
@@ -294,7 +451,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							<Skeleton className='h-[42px]' />
 						)}
 					</div>
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
+					<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
 						<ErrorCopy
 							code={result?.error?.code}
 							codes={{
@@ -331,33 +488,3 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 }
 
 export default BranchesSettings;
-
-/* <fieldset className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
-							<legend className='text-xs font-medium text-gray-400 dark:text-gray-500 px-1'>
-								Contacts
-							</legend>
-							<div className='grid w-full grid-cols-2 gap-4'>
-								<Input
-									placeholder='Country'
-									defaultValue={branch?.address.country}
-								/>
-								<Input
-									placeholder='State/Region'
-									defaultValue={branch?.address.state_region}
-								/>
-								<Input
-									placeholder='Country'
-									defaultValue={branch?.address.country}
-								/>
-								<Input
-									placeholder='State/Region'
-									defaultValue={branch?.address.state_region}
-								/>
-								<Button
-									variant='dark'
-									className='col-span-2'
-									message='Add contact'
-									icon={<MdOutlineAdd size={24} />}
-								/>
-							</div>
-						</fieldset> */

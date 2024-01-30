@@ -45,7 +45,7 @@ function Header() {
 					<Container>
 						<div className='py-4 mx-auto'>
 							<div className='flex items-center justify-between'>
-								<div className='mr-10'>
+								<div className='mr-2 md:mr-10'>
 									<Search placeholder={t('button.search')} />
 								</div>
 								{/* <!-- Mobile menu button --> */}

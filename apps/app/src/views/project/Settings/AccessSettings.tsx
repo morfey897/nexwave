@@ -198,7 +198,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 					)}
 				</div>
 
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 my-6'>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
 					<ErrorCopy
 						code={result?.error?.code}
 						codes={{

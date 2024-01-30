@@ -1,7 +1,7 @@
 import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
-import { generateColor, generateName } from '@/utils';
+import { generateColor, generateName, generateShortId } from '@/utils';
 import { EnumRole, EnumColor, EnumState, EnumCurrency } from '@/enums';
 import { hasAccess } from '@/utils';
 import { CREATE, READ, UPDATE, DELETE } from '@/crud';
@@ -69,7 +69,7 @@ export interface IFullBranch extends IBranch {
 		address_line_2?: string;
 	};
 	contacts: Record<string, string>;
-	spaces: Array<{ id: number; name: string; state: string }>;
+	spaces: Array<{ shortId: string; name: string }>;
 }
 
 export interface IFullProject
@@ -191,6 +191,7 @@ export async function deployNewProject(
 					projectId: newProject.id,
 					name: generateName(),
 					state: EnumState.DRAFT,
+					spaces: [{ shortId: generateShortId(6), name: generateName(0) }],
 				})
 				.returning({
 					id: schemas.branch.id,
@@ -549,6 +550,7 @@ export async function createBranch(value: {
 	name?: string;
 	info?: string;
 	address?: Object;
+	spaces?: Array<{ shortId: string; name: string }>;
 }): Promise<IFullBranch | null> {
 	const nameValue = value?.name || generateName();
 
@@ -557,6 +559,11 @@ export async function createBranch(value: {
 		.values({
 			projectId: value.projectId,
 			name: nameValue,
+			spaces:
+				value?.spaces && value.spaces.length > 0
+					? value.spaces
+					: [{ shortId: generateShortId(6), name: generateName(0) }],
+
 			...(typeof value?.info != 'undefined'
 				? { info: value?.info || null }
 				: {}),
@@ -595,6 +602,7 @@ export async function updateBranch(
 		info?: string;
 		address?: Object;
 		state?: EnumState.ACTIVE | EnumState.INACTIVE;
+		spaces?: Array<{ shortId: string; name: string }>;
 	},
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
@@ -609,6 +617,9 @@ export async function updateBranch(
 				: {}),
 			...(value?.state ? { state: value?.state } : {}),
 			...(value?.address ? { address: value?.address } : {}),
+			...(value?.spaces && value.spaces.length > 0
+				? { spaces: value?.spaces }
+				: {}),
 		})
 		.where(
 			id != undefined
