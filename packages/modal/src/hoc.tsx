@@ -8,10 +8,10 @@ import {
   LitPosition,
 } from "./types";
 import clsx from "clsx";
-import { useCloseModal } from "./hook";
 import { ModalWrapper, Container, Overlay } from "./components";
 import throttle from "./throttle";
 import { totalHeight } from "./utils";
+import useModalStore from "./store";
 
 function withModal(
   Component: React.FC<IModal>,
@@ -43,7 +43,7 @@ function withModal(
   const FinalPosition = `${positionX}x${positionY}` as LitPosition;
 
   function Wrapper({ name, state, params }: IModalWrapper) {
-    const closeModal = useCloseModal();
+    const closeModal = useModalStore((state) => state.closeModal);
     const refOverlay = React.useRef(null);
     const refContainer = React.useRef(null);
     const [height, setHeight] = React.useState(0);

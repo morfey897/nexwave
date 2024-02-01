@@ -30,12 +30,12 @@ function Provider({
     const newList: Array<string> = [];
     const modalParams: Record<string, TModalParams> = {};
 
-    for (const [name, value] of Object.entries(listOfModals)) {
-      if (!(name in Components)) continue;
-      newList.push(name);
-      modalParams[name] = value;
+    for (const iModal of listOfModals) {
+      if (!(iModal.name in Components)) continue;
+      newList.push(iModal.name);
+      modalParams[iModal.name] = iModal.params;
     }
-    setModalList((prev) => [...new Set([...prev, ...newList])]);
+    setModalList(newList);
     setModalProps((params) => ({ ...params, ...modalParams }));
   }, [listOfModals, Components]);
 
