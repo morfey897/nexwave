@@ -16,6 +16,7 @@ import { totalHeight } from "./utils";
 function withModal(
   Component: React.FC<IModal>,
   props?: {
+    noCancelByOverlay?: boolean;
     noanimation?: boolean;
     position?: Position | [PositionX, PositionY];
     wrapper?: {
@@ -59,7 +60,7 @@ function withModal(
      */
     const onClickOverlay: React.MouseEventHandler = React.useCallback(
       (event) => {
-        if (event.target === refOverlay.current) {
+        if (event.target === refOverlay.current && !props.noCancelByOverlay) {
           closeMe();
         }
       },
@@ -71,7 +72,7 @@ function withModal(
      */
     const onKeyDown = React.useCallback(
       (e: KeyboardEvent) => {
-        if (e.key === "Escape") closeMe();
+        if (e.key === "Escape" && !props.noCancelByOverlay) closeMe();
       },
       [closeMe],
     );

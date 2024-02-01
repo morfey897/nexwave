@@ -5,6 +5,12 @@ import { DURATION_MS } from "./config";
 import useModalStore from "./store";
 import { ProviderWrapper } from "./components";
 
+/**
+ * Modal Provider
+ * @param param0 - Components: Record<string, React.FC<IModalWrapper>>
+ * @param param1 - HTMLAttributes<HTMLDivElement>
+ * @returns
+ */
 function Provider({
   Components,
   ...props
@@ -89,7 +95,9 @@ function Provider({
   // Clean up all timers
   React.useEffect(() => {
     return () => {
-      Object.values(timers.current).forEach((timer) => clearTimeout(timer));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const currenTimers = Object.values(timers.current);
+      currenTimers.forEach((timer) => clearTimeout(timer));
     };
   }, []);
 

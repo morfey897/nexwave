@@ -8,7 +8,7 @@ import AsideSettings from '@/windows/WndPanelSettings';
 import AsideProjects from '@/windows/WndPanelProjects';
 import CreateProject from '@/windows/WndCreateProject';
 import CreateBranch from '@/windows/WndCreateBranch';
-import { useCallback } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 
 const COMPONENTS = {
 	[MODALS.SETTINGS]: AsideSettings,
@@ -38,10 +38,21 @@ function ModalsContainer() {
 	// 		{children}
 	// 	</ModalProvider>
 	// );
-	return createPortal(
-		<ModalProvider Components={COMPONENTS} data-name='modals' />,
-		document.body,
-	);
+
+	const ref = useRef<Element | null>(null);
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		ref.current = document.body;
+		setMounted(true);
+	}, []);
+
+	return mounted && ref.current
+		? createPortal(
+				<ModalProvider Components={COMPONENTS} data-name='modals' />,
+				ref.current,
+			)
+		: null;
 }
 
 export default ModalsContainer;

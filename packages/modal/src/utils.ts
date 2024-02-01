@@ -22,7 +22,7 @@ export function decodeParams(str: string | null | undefined) {
   return null;
 }
 
-export const totalHeight = (element: HTMLElement | null | undefined) => {
+export const totalHeight = (element: Element | null | undefined) => {
   if (!element || typeof element.getBoundingClientRect != "function") return 0;
   const rect = element.getBoundingClientRect();
   const height = rect.height;
