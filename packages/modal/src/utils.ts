@@ -22,24 +22,16 @@ export function decodeParams(str: string | null | undefined) {
   return null;
 }
 
-// export const openModal = (
-// 	name: string,
-// 	props: Record<string, string | boolean | number> | null = null,
-// 	base?: URLSearchParams,
-// ): `?${string}` => {
-// 	const clone = new URLSearchParams(base);
-// 	clone.set(`${getModalName(name)}`, encodeParams(props));
-// 	return `?${clone.toString()}`;
-// };
-
-// export const closeModal = (
-// 	name: string,
-// 	base?: URLSearchParams,
-// ): `?${string}` => {
-// 	const clone = new URLSearchParams(base);
-// 	clone.delete(`${getModalName(name)}`);
-// 	return `?${clone.toString()}`;
-// };
+export const totalHeight = (element: HTMLElement | null | undefined) => {
+  if (!element || typeof element.getBoundingClientRect != "function") return 0;
+  const rect = element.getBoundingClientRect();
+  const height = rect.height;
+  const style = window.getComputedStyle(element);
+  const totalHeight = ["top", "bottom"]
+    .map((side) => parseInt(style["margin-" + side], 10))
+    .reduce((total, side) => total + side, height);
+  return totalHeight;
+};
 
 export const filterModals = (
   modals: Record<string, ModalState>,

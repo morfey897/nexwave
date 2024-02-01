@@ -52,7 +52,7 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 	const t = useTranslations();
 
 	const onOpenProjects = useCallback(() => {
-		openModal({ name: MODALS.PROJECTS });
+		openModal(MODALS.PROJECTS);
 	}, [openModal]);
 
 	return (
@@ -95,7 +95,7 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 						// }
 					/>
 				) : (
-					<Skeleton className='h-[54px]'/>
+					<Skeleton className='h-[54px]' />
 				)}
 				<hr className='my-4 border-gray-200 dark:border-gray-600' />
 

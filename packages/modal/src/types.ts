@@ -1,5 +1,10 @@
-import { Blur, Position } from "@nw/ui";
-export { Blur, Position };
+export enum Position {
+  CENTER = "center",
+  LEFT = "left",
+  RIGHT = "right",
+  TOP = "top",
+  BOTTOM = "bottom",
+}
 
 export type PositionX = Position.LEFT | Position.RIGHT | Position.CENTER;
 export type PositionY =
@@ -47,5 +52,5 @@ export interface IModalWrapper {
 }
 
 export interface IModal extends IModalWrapper {
-  closeMe?: () => void;
+  closeMe: () => void;
 }

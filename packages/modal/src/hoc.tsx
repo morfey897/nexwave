@@ -2,38 +2,20 @@ import * as React from "react";
 import {
   IModal,
   IModalWrapper,
-  ModalState,
-  Blur,
   Position,
   PositionX,
   PositionY,
   LitPosition,
 } from "./types";
-import Overlay from "./Overlay";
-import Container from "./Container";
 import clsx from "clsx";
-import styled from "styled-components";
 import { useCloseModal } from "./hook";
-
-const ModalWrapper = styled.section<{
-  $state: ModalState;
-  $zIndex: number;
-}>`
-  inset: 0;
-  position: fixed;
-  display: ${(props) =>
-    `${props.$state === ModalState.CLOSED ? "none" : "block"}`};
-  z-index: ${(props) => props.$zIndex};
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: 100vh;
-  width: 100vw;
-`;
+import { ModalWrapper, Container, Overlay } from "./components";
+import throttle from "./throttle";
+import { totalHeight } from "./utils";
 
 function withModal(
   Component: React.FC<IModal>,
   props?: {
-    zIndex?: number;
     noanimation?: boolean;
     position?: Position | [PositionX, PositionY];
     wrapper?: {
@@ -45,7 +27,6 @@ function withModal(
       style?: React.CSSProperties;
     };
     overlay?: {
-      blur?: Blur;
       className?: string;
       style?: React.CSSProperties;
     };
@@ -63,13 +44,19 @@ function withModal(
   function Wrapper({ name, state, params }: IModalWrapper) {
     const closeModal = useCloseModal();
     const refOverlay = React.useRef(null);
+    const refContainer = React.useRef(null);
+    const [height, setHeight] = React.useState(0);
 
+    /**
+     * Close the current modal
+     */
     const closeMe = React.useCallback(() => {
-      if (typeof closeModal === "function") {
-        closeModal({ name });
-      }
+      closeModal(name);
     }, [closeModal, name]);
 
+    /**
+     * Close the current modal by clicking on the overlay
+     */
     const onClickOverlay: React.MouseEventHandler = React.useCallback(
       (event) => {
         if (event.target === refOverlay.current) {
@@ -79,6 +66,9 @@ function withModal(
       [closeMe, refOverlay],
     );
 
+    /**
+     * Close the current modal by pressing the ESC key
+     */
     const onKeyDown = React.useCallback(
       (e: KeyboardEvent) => {
         if (e.key === "Escape") closeMe();
@@ -86,33 +76,59 @@ function withModal(
       [closeMe],
     );
 
+    const onChangeSize = React.useMemo(
+      () =>
+        throttle(() => {
+          const element = refContainer.current as HTMLElement;
+          if (!element) return;
+          const height = totalHeight(element);
+          setHeight(height);
+        }, 200),
+      [],
+    );
+
     React.useEffect(() => {
       document.addEventListener("keydown", onKeyDown);
       return () => document.removeEventListener("keydown", onKeyDown);
     }, [onKeyDown]);
 
+    React.useEffect(() => {
+      const element = refContainer.current as HTMLElement;
+      if (!element) return;
+      const height = totalHeight(element);
+      setHeight(height);
+    }, [state]);
+
+    React.useEffect(() => {
+      window.addEventListener("resize", onChangeSize);
+      return () => window.removeEventListener("resize", onChangeSize);
+    }, [onChangeSize]);
+
     return (
       <ModalWrapper
-        $zIndex={props?.zIndex || 30}
         $state={state}
         className={clsx(props?.wrapper?.className)}
         style={props?.wrapper?.style}
-        role="dialog"
+        onScroll={onChangeSize}
       >
         <Overlay
           ref={refOverlay}
-          state={state}
-          blur={props?.overlay?.blur || Blur.MD}
-          style={props?.overlay?.style}
+          $state={state}
           className={clsx(props?.overlay?.className)}
           onClick={onClickOverlay}
+          style={{
+            ...props?.overlay?.style,
+            height: `${height}px`,
+          }}
         />
         <Container
-          position={FinalPosition}
-          noanimation={props?.noanimation}
-          state={state}
+          $position={FinalPosition}
+          $noanimation={props?.noanimation}
+          $state={state}
           className={clsx(props?.container?.className)}
           style={props?.container?.style}
+          role="dialog"
+          ref={refContainer}
         >
           <Component
             name={name}

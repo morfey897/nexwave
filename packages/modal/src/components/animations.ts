@@ -1,6 +1,6 @@
 import { keyframes, css } from "styled-components";
 import { Keyframes } from "styled-components/dist/types";
-import { DURATION_SEC } from "./config";
+import { DURATION_SEC } from "../config";
 
 const ANIM_PROPS = `1 normal forwards`;
 type AnimFunc =

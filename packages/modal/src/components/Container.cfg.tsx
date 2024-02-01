@@ -1,5 +1,5 @@
 import { RuleSet } from "styled-components";
-import { Position, type UnionAnimation, type LitPosition } from "./types";
+import { Position, type UnionAnimation, type LitPosition } from "../types";
 import {
   move,
   moveAnim,

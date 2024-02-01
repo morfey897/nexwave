@@ -2,7 +2,7 @@
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
 import Marker from '@/components/Project/Marker';
-import { type IModal, Position, Blur, withModal } from '@nw/modal';
+import { type IModal, Position, withModal } from '@nw/modal';
 import { Input, Select, File, TextArea } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
@@ -24,7 +24,7 @@ import ErrorCopy from '@/components/ErrorCopy';
 const COLORS = Object.values(EnumColor);
 const CURRENCIES = Object.values(EnumCurrency);
 
-function CreateProject(props: IModal) {
+function CreateProject({ closeMe }: IModal) {
 	const { action, submit, reset, pending, result } = useAction(
 		actionCreateNewProject,
 	);
@@ -37,7 +37,7 @@ function CreateProject(props: IModal) {
 			<WndHeader
 				headline={t('page.add_project.headline')}
 				subheadline={t('page.add_project.subheadline')}
-				onClose={props.closeMe}
+				onClose={closeMe}
 			/>
 			<WndBody>
 				<form onSubmit={submit} action={action} onChange={reset}>
@@ -95,7 +95,7 @@ function CreateProject(props: IModal) {
 						}
 					>
 						<Button
-							onClick={props.closeMe}
+							onClick={closeMe}
 							variant='default'
 							className='capitalize'
 							message={t('button.cancel')}
@@ -118,13 +118,14 @@ function CreateProject(props: IModal) {
 }
 
 export default withModal(CreateProject, {
-	zIndex: 30,
 	position: [Position.CENTER, `-${Position.TOP}`],
+	wrapper: {
+		className: 'z-40',
+	},
 	container: {
 		className: 'mt-20 mb-0 md:mb-12',
 	},
 	overlay: {
-		blur: Blur.MD,
-		className: 'bg-gray-100/20 dark:bg-black/60',
+		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',
 	},
 });

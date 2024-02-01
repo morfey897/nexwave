@@ -12,7 +12,7 @@ function ListOfProjects({ projects }: { projects: IProject[] | null }) {
 	const t = useTranslations();
 
 	const onAddProject = useCallback(() => {
-		openModal({ name: MODALS.CREATE_PROJECT });
+		openModal(MODALS.CREATE_PROJECT);
 	}, [openModal]);
 
 	return (

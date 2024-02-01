@@ -69,7 +69,7 @@ function Settings({ project }: { project: IFullProject | null }) {
 				access: hasAccess(permission, UPDATE.PROJECT_ACCESS),
 			},
 		],
-		[t],
+		[t, permission],
 	);
 
 	useLayoutEffect(() => {
@@ -97,16 +97,12 @@ function Settings({ project }: { project: IFullProject | null }) {
 	);
 
 	const addBranch = useCallback(() => {
-		openModal({
-			name: MODALS.CREATE_BRANCH,
-			params: { projectId: project?.id || '' },
-		});
+		openModal(MODALS.CREATE_BRANCH, { projectId: project?.id || '' });
 	}, [openModal, project]);
 
 	return (
 		<Container className='mb-12'>
 			<Caption
-				isScrolled={isScrolled}
 				headline={t('page.settings.headline')}
 				subheadline={t('page.settings.subheadline')}
 				add={

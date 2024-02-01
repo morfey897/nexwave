@@ -1,4 +1,5 @@
 'use client';
+import { createPortal } from 'react-dom';
 import { MODALS } from '@/routes';
 import { ModalProvider } from '@nw/modal';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -16,26 +17,30 @@ const COMPONENTS = {
 	[MODALS.CREATE_BRANCH]: CreateBranch,
 };
 
-function ModalsContainer({ children }: { children: React.ReactNode }) {
-	const searchParams = useSearchParams();
-	const router = useRouter();
+function ModalsContainer() {
+	// const searchParams = useSearchParams();
+	// const router = useRouter();
 
-	const navigate = useCallback(
-		(href: string, replace: boolean) => {
-			replace ? router.replace(href) : router.push(href);
-		},
-		[router],
-	);
+	// const navigate = useCallback(
+	// 	(href: string, replace: boolean) => {
+	// 		replace ? router.replace(href) : router.push(href);
+	// 	},
+	// 	[router],
+	// );
 
-	return (
-		<ModalProvider
-			prefix={S_PARAMS.DIALOG}
-			searchParams={searchParams}
-			Components={COMPONENTS}
-			navigate={navigate}
-		>
-			{children}
-		</ModalProvider>
+	// return (
+	// 	<ModalProvider
+	// 		prefix={S_PARAMS.DIALOG}
+	// 		searchParams={searchParams}
+	// 		Components={COMPONENTS}
+	// 		navigate={navigate}
+	// 	>
+	// 		{children}
+	// 	</ModalProvider>
+	// );
+	return createPortal(
+		<ModalProvider Components={COMPONENTS} data-name='modals' />,
+		document.body,
 	);
 }
 

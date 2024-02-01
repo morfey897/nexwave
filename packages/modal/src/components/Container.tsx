@@ -1,6 +1,5 @@
-import * as React from "react";
 import styled from "styled-components";
-import { ModalState, type LitPosition } from "./types";
+import { ModalState, type LitPosition } from "../types";
 import { POSITION, ANIMATIONS } from "./Container.cfg";
 
 const StyledContainer = styled.div<{
@@ -27,24 +26,4 @@ const StyledContainer = styled.div<{
     ANIMATIONS[$position].hide}
 `;
 
-function Container({
-  position,
-  state,
-  noanimation,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  position: LitPosition;
-  state: ModalState;
-  noanimation?: boolean;
-}) {
-  return (
-    <StyledContainer
-      $position={position}
-      $state={state}
-      $noanimation={noanimation}
-      {...props}
-    />
-  );
-}
-
-export default Container;
+export default StyledContainer;

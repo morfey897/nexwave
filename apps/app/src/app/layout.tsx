@@ -42,15 +42,14 @@ export default async function RootLayout({
 				className={clsx(
 					inter.className,
 					'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200',
-					// 'no-scroll',
 				)}
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					<StoreProvider store={{}}>
-						<ModalsContainer>
-							<Header />
-							<main className='flex w-full'>{children}</main>
-						</ModalsContainer>
+						{/* <ModalsContainer> */}
+						<Header />
+						<main className='flex w-full'>{children}</main>
+						<ModalsContainer />
 					</StoreProvider>
 				</NextIntlClientProvider>
 			</body>

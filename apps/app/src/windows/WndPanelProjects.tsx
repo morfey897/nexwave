@@ -4,13 +4,7 @@ import { HiOutlinePlus } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import InnerProject, { SkeletonProject } from '@/components/Project/Inner';
-import {
-	type IModal,
-	Position,
-	Blur,
-	withModal,
-	useOpenModal,
-} from '@nw/modal';
+import { type IModal, Position, withModal, useOpenModal } from '@nw/modal';
 import clsx from 'clsx';
 import { useNWStore } from '@/hooks/store';
 import { useAction } from '@/hooks/action';
@@ -19,7 +13,7 @@ import { useEffect, useMemo, useCallback } from 'react';
 import { EnumResponse } from '@/enums';
 import { MODALS } from '@/routes';
 
-function AsideProjects(props: IModal) {
+function AsideProjects({ state }: IModal) {
 	const openModal = useOpenModal();
 	const activeProject = useNWStore((state) => state.project);
 	const t = useTranslations();
@@ -27,11 +21,11 @@ function AsideProjects(props: IModal) {
 	const { submit, action, result, pending } = useAction(actionGetProjects);
 
 	useEffect(() => {
-		if (props.state === 'open') {
+		if (state === 'open') {
 			submit();
 			action(new FormData());
 		}
-	}, [props.state, submit, action]);
+	}, [state, submit, action]);
 
 	const projects = useMemo(
 		() =>
@@ -42,7 +36,7 @@ function AsideProjects(props: IModal) {
 	);
 
 	const onAddProject = useCallback(() => {
-		openModal({ name: MODALS.CREATE_PROJECT });
+		openModal(MODALS.CREATE_PROJECT);
 	}, [openModal]);
 
 	return (
@@ -82,10 +76,11 @@ function AsideProjects(props: IModal) {
 }
 
 export default withModal(AsideProjects, {
-	zIndex: 20,
 	position: [Position.LEFT, Position.TOP],
+	wrapper: {
+		className: 'z-30',
+	},
 	overlay: {
-		blur: Blur.MD,
-		className: 'bg-gray-100/20 dark:bg-black/60',
+		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',
 	},
 });

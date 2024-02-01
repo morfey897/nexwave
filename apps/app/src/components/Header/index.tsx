@@ -22,9 +22,7 @@ function Header() {
 
 	const onOpenSettings = useCallback(() => {
 		if (!user) return;
-		openModal({
-			name: MODALS.SETTINGS,
-		});
+		openModal(MODALS.SETTINGS);
 	}, [openModal, user]);
 
 	return (

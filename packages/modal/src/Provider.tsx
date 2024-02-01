@@ -1,63 +1,37 @@
 import * as React from "react";
-import {
-  ModalState,
-  IModalWrapper,
-  IModalAction,
-  TModalParams,
-  ModalActionType,
-} from "./types";
-import { encodeParams, decodeParams, filterModals } from "./utils";
+import { ModalState, IModalWrapper, TModalParams } from "./types";
+import { filterModals } from "./utils";
 import { DURATION_MS } from "./config";
-
-import styled from "styled-components";
-
-const ProviderWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-`;
-
-export const Context = React.createContext<{
-  action: (action: IModalAction) => void;
-  prefix?: string;
-} | null>(null);
+import useModalStore from "./store";
+import { ProviderWrapper } from "./components";
 
 function Provider({
-  id = "modal-provider",
   Components,
-  prefix,
-  searchParams,
-  navigate,
-  children,
+  ...props
 }: {
-  id?: string;
   Components: Record<string, React.FC<IModalWrapper>>;
-  prefix: string;
-  searchParams: URLSearchParams;
-  navigate: (href: string, replace: boolean) => void;
-  children: React.ReactNode;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
+  const listOfModals = useModalStore((state) => state.modals);
   const timers = React.useRef<Record<string, NodeJS.Timeout>>({});
-  const [modalsList, setList] = React.useState<string[]>([]);
+  const [modalsList, setModalList] = React.useState<string[]>([]);
   const [modalProps, setModalProps] = React.useState<
     Record<string, TModalParams>
   >({});
   const [modals, setModals] = React.useState<Record<string, ModalState>>({});
 
+  //Prepare modal list and params
   React.useEffect(() => {
     const newList: Array<string> = [];
     const modalParams: Record<string, TModalParams> = {};
 
-    for (const [key, value] of searchParams.entries()) {
-      if (!key.startsWith(prefix)) continue;
-      const name = key.replace(prefix, "");
+    for (const [name, value] of Object.entries(listOfModals)) {
       if (!(name in Components)) continue;
       newList.push(name);
-      modalParams[name] = decodeParams(value);
+      modalParams[name] = value;
     }
-    setList(newList);
+    setModalList((prev) => [...new Set([...prev, ...newList])]);
     setModalProps((params) => ({ ...params, ...modalParams }));
-  }, [searchParams, Components, prefix]);
+  }, [listOfModals, Components]);
 
   // Initialize mounting and closing state
   React.useEffect(() => {
@@ -102,52 +76,22 @@ function Provider({
     }, DURATION_MS);
   }, [modals]);
 
-  // Unmount
+  // Unmounting
   React.useEffect(() => {
     if (Object.values(modals).some((state) => state === ModalState.OPEN)) {
-      document.body.classList.add("no-scroll");
+      document.body.style.cssText = `overflow: hidden;`;
     } else {
-      document.body.classList.remove("no-scroll");
+      document.body.style.cssText = ``;
     }
     setModals(filterModals(modals, ModalState.CLOSED, null));
   }, [modals]);
 
+  // Clean up all timers
   React.useEffect(() => {
     return () => {
       Object.values(timers.current).forEach((timer) => clearTimeout(timer));
     };
   }, []);
-
-  const onAction = React.useCallback(
-    (action: IModalAction) => {
-      const { type, payload, replace } = action;
-      const clone = new URLSearchParams(searchParams);
-      switch (type) {
-        case ModalActionType.CLOSE:
-          clone.delete(prefix + payload.name);
-          break;
-        case ModalActionType.OPEN:
-          clone.set(
-            prefix + payload.name,
-            encodeParams(payload.params || null),
-          );
-          break;
-        case ModalActionType.CLOSE_ALL:
-          for (const key of clone.keys()) {
-            if (key.startsWith(prefix)) {
-              clone.delete(key);
-            }
-          }
-          break;
-        default:
-          return;
-      }
-      const params = clone.toString();
-      const url = `${payload.href || ""}?${params}`;
-      navigate(url, replace === true);
-    },
-    [prefix, navigate, searchParams],
-  );
 
   const memoChildren = React.useMemo(() => {
     return Object.entries(modals).map(([name, state]) => {
@@ -159,12 +103,7 @@ function Provider({
     });
   }, [modals, Components, modalProps]);
 
-  return (
-    <Context.Provider value={{ action: onAction, prefix }}>
-      {children}
-      <ProviderWrapper id={id}>{memoChildren}</ProviderWrapper>
-    </Context.Provider>
-  );
+  return <ProviderWrapper {...props}>{memoChildren}</ProviderWrapper>;
 }
 
 export default Provider;

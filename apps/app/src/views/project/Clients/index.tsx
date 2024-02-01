@@ -134,7 +134,6 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 			<ContainerHeader>
 				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
 					<Caption
-						isScrolled={isScrolled}
 						headline={t('page.clients.headline')}
 						subheadline={t('page.clients.subheadline')}
 						amount={0}

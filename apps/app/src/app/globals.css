@@ -11,7 +11,10 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
-  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
 }
 
 td {
@@ -26,18 +29,3 @@ td {
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
-
-.no-scroll {
-  overflow-y: hidden;
-  height: 100%;
-}
-
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */

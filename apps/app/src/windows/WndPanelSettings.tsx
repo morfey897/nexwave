@@ -1,6 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import { type IModal, withModal, Position, Blur } from '@nw/modal';
+import { type IModal, withModal, Position } from '@nw/modal';
 import Button from '@/components/Button';
 import { HiCog, HiLogout } from 'react-icons/hi';
 import { useTranslations } from 'next-intl';
@@ -61,10 +61,11 @@ function AsideSettings(props: IModal) {
 }
 
 export default withModal(AsideSettings, {
-	zIndex: 20,
 	position: [Position.RIGHT, Position.TOP],
+	wrapper: {
+		className: 'z-30',
+	},
 	overlay: {
-		blur: Blur.MD,
-		className: 'bg-gray-100/20 dark:bg-black/60',
+		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',
 	},
 });

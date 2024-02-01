@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
-import { type IModal, Position, Blur, withModal } from '@nw/modal';
+import { type IModal, Position, withModal } from '@nw/modal';
 import { Input, TextArea, File } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
@@ -30,7 +30,7 @@ function CreateBranch({ closeMe, name, params }: IModal) {
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			if (typeof closeMe === 'function') closeMe();
+			closeMe();
 			router.refresh();
 		}
 	}, [result, router, closeMe]);
@@ -143,13 +143,14 @@ function CreateBranch({ closeMe, name, params }: IModal) {
 }
 
 export default withModal(CreateBranch, {
-	zIndex: 30,
 	position: [Position.CENTER, `-${Position.TOP}`],
+	wrapper: {
+		className: 'z-40',
+	},
 	container: {
 		className: 'mt-20 mb-0 md:mb-12',
 	},
 	overlay: {
-		blur: Blur.MD,
-		className: 'bg-gray-100/20 dark:bg-black/60',
+		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',
 	},
 });
