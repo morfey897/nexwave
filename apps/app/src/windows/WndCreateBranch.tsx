@@ -145,7 +145,7 @@ function CreateBranch({ closeMe, name, params }: IModal) {
 export default withModal(CreateBranch, {
 	position: [Position.CENTER, `-${Position.TOP}`],
 	wrapper: {
-		className: 'z-40',
+		className: 'z-30',
 	},
 	container: {
 		className: 'mt-20 mb-0 md:mb-12',

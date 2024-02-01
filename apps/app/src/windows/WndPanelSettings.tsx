@@ -63,7 +63,7 @@ function AsideSettings(props: IModal) {
 export default withModal(AsideSettings, {
 	position: [Position.RIGHT, Position.TOP],
 	wrapper: {
-		className: 'z-30',
+		className: 'z-20',
 	},
 	overlay: {
 		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',

@@ -11,8 +11,7 @@ import {
   toOpacity,
 } from "./animations";
 
-const CxT = {
-  mounted: concat(move({ x: "-50%", y: "-100%" }), opacity("0.3")),
+const CxT: Record<UnionAnimation, RuleSet | string> = {
   show: build(
     toMove([
       { x: "-50%", y: "-100%" },
@@ -20,6 +19,7 @@ const CxT = {
     ]),
     toOpacity(["0.0", "0.7", "1"]),
   ),
+  finish: concat(move({ x: "-50%", y: "0" }), opacity("1")),
   hide: build(
     toMove([
       { x: "-50%", y: "0" },
@@ -29,14 +29,13 @@ const CxT = {
   ),
 };
 
-const CxC = {
-  mounted: opacity("0"),
+const CxC: Record<UnionAnimation, RuleSet | string> = {
   show: opacityAnim(["0.3", "1"]),
+  finish: opacity("1"),
   hide: opacityAnim(["1", "0"]),
 };
 
-const CxB = {
-  mounted: concat(move({ x: "-50%", y: "100%" }), opacity("0.3")),
+const CxB: Record<UnionAnimation, RuleSet | string> = {
   show: build(
     toMove([
       { x: "-50%", y: "100%" },
@@ -44,6 +43,7 @@ const CxB = {
     ]),
     toOpacity(["0.0", "0.7", "1"]),
   ),
+  finish: concat(move({ x: "-50%", y: "0" }), opacity("1")),
   hide: build(
     toMove([
       { x: "-50%", y: "0" },
@@ -53,72 +53,72 @@ const CxB = {
   ),
 };
 
-const LxT = {
-  mounted: move({ x: "-100%", y: "0" }),
+const LxT: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "-100%", y: "0" },
     { x: "0", y: "0" },
   ]),
+  finish: move({ x: "0", y: "0" }),
   hide: moveAnim([
     { x: "0", y: "0" },
     { x: "-100%", y: "0" },
   ]),
 };
 
-const LxC = {
-  mounted: move({ x: "-100%", y: "-50%" }),
+const LxC: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "-100%", y: "-50%" },
     { x: "0", y: "-50%" },
   ]),
+  finish: move({ x: "0", y: "-50%" }),
   hide: moveAnim([
     { x: "0", y: "-50%" },
     { x: "-100%", y: "-50%" },
   ]),
 };
 
-const LxB = {
-  mounted: move({ x: "-100%", y: "0" }),
+const LxB: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "-100%", y: "0" },
     { x: "0", y: "0" },
   ]),
+  finish: move({ x: "0", y: "0" }),
   hide: moveAnim([
     { x: "0", y: "0" },
     { x: "-100%", y: "0" },
   ]),
 };
 
-const RxT = {
-  mounted: move({ x: "100%", y: "0" }),
+const RxT: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "100%", y: "0" },
     { x: "0", y: "0" },
   ]),
+  finish: move({ x: "0", y: "0" }),
   hide: moveAnim([
     { x: "0", y: "0" },
     { x: "100%", y: "0" },
   ]),
 };
 
-const RxC = {
-  mounted: move({ x: "100%", y: "-50%" }),
+const RxC: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "100%", y: "-50%" },
     { x: "0", y: "-50%" },
   ]),
+  finish: move({ x: "0", y: "-50%" }),
   hide: moveAnim([
     { x: "0", y: "-50%" },
     { x: "100%", y: "-50%" },
   ]),
 };
 
-const RxB = {
-  mounted: move({ x: "100%", y: "0" }),
+const RxB: Record<UnionAnimation, RuleSet | string> = {
   show: moveAnim([
     { x: "100%", y: "0" },
     { x: "0", y: "0" },
   ]),
+  finish: move({ x: "0", y: "0" }),
   hide: moveAnim([
     { x: "0", y: "0" },
     { x: "100%", y: "0" },

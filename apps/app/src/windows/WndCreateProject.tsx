@@ -120,7 +120,7 @@ function CreateProject({ closeMe }: IModal) {
 export default withModal(CreateProject, {
 	position: [Position.CENTER, `-${Position.TOP}`],
 	wrapper: {
-		className: 'z-40',
+		className: 'z-30',
 	},
 	container: {
 		className: 'mt-20 mb-0 md:mb-12',

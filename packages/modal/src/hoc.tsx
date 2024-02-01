@@ -6,6 +6,7 @@ import {
   PositionX,
   PositionY,
   LitPosition,
+  ModalState,
 } from "./types";
 import clsx from "clsx";
 import { ModalWrapper, Container, Overlay } from "./components";
@@ -17,7 +18,6 @@ function withModal(
   Component: React.FC<IModal>,
   props?: {
     noCancelByOverlay?: boolean;
-    noanimation?: boolean;
     position?: Position | [PositionX, PositionY];
     wrapper?: {
       className?: string;
@@ -42,8 +42,11 @@ function withModal(
 
   const FinalPosition = `${positionX}x${positionY}` as LitPosition;
 
-  function Wrapper({ name, state, params }: IModalWrapper) {
+  function Wrapper({ name, params }: IModalWrapper) {
     const closeModal = useModalStore((state) => state.closeModal);
+    const finish = useModalStore((state) => state.finishedAnim);
+    const state = useModalStore((state) => state.getModalState(name));
+
     const refOverlay = React.useRef(null);
     const refContainer = React.useRef(null);
     const [height, setHeight] = React.useState(0);
@@ -77,6 +80,10 @@ function withModal(
       [closeMe],
     );
 
+    const onAnimEnd = React.useCallback(() => {
+      finish(name);
+    }, [finish, name]);
+
     const onChangeSize = React.useMemo(
       () =>
         throttle(() => {
@@ -95,7 +102,7 @@ function withModal(
 
     React.useEffect(() => {
       const element = refContainer.current as HTMLElement;
-      if (!element) return;
+      if (!element || state != ModalState.OPENED) return;
       const height = totalHeight(element);
       setHeight(height);
     }, [state]);
@@ -107,7 +114,6 @@ function withModal(
 
     return (
       <ModalWrapper
-        $state={state}
         className={clsx(props?.wrapper?.className)}
         style={props?.wrapper?.style}
         onScroll={onChangeSize}
@@ -124,12 +130,12 @@ function withModal(
         />
         <Container
           $position={FinalPosition}
-          $noanimation={props?.noanimation}
           $state={state}
           className={clsx(props?.container?.className)}
           style={props?.container?.style}
           role="dialog"
           ref={refContainer}
+          onAnimationEnd={onAnimEnd}
         >
           <Component
             name={name}

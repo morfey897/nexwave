@@ -11,8 +11,8 @@ const AnimatedOverlay = styled.div<{
   width: 100vw;
   min-height: 100vh;
   background-color: transparent;
-  ${(props) => props.$state === ModalState.MOUNTED && ANIMATIONS.mounted}
-  ${(props) => props.$state === ModalState.OPEN && ANIMATIONS.show}
+  ${(props) => props.$state === ModalState.OPENING && ANIMATIONS.show}
+  ${(props) => props.$state === ModalState.OPENED && ANIMATIONS.finish}
   ${(props) => props.$state === ModalState.CLOSING && ANIMATIONS.hide}
 `;
 

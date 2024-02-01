@@ -17,40 +17,25 @@ export type LitPosition = Exclude<
   `${PositionX}x${PositionY}`,
   "leftx-top" | "leftx-bottom" | "rightx-top" | "rightx-bottom"
 >;
-export type UnionAnimation = "mounted" | "show" | "hide";
+export type UnionAnimation = "show" | "finish" | "hide";
 
 export type TModalParams = Record<string, string | number | boolean>;
 
 export enum ModalState {
-  MOUNTED = "mounted",
-  OPEN = "open",
+  OPENING = "opening",
+  OPENED = "opened",
   CLOSING = "closing",
-  CLOSED = "closed",
   NONE = "none",
-}
-
-export enum ModalActionType {
-  OPEN = "open",
-  CLOSE = "close",
-  CLOSE_ALL = "close-all",
-}
-
-export interface IModalAction {
-  type: ModalActionType;
-  replace?: boolean;
-  payload: {
-    name: string;
-    params?: TModalParams;
-    href?: string;
-  };
 }
 
 export interface IModalWrapper {
   name: string;
-  state: ModalState;
-  params: TModalParams;
+  params: TModalParams | undefined;
 }
 
-export interface IModal extends IModalWrapper {
+export interface IModal {
+  name: string;
+  params: TModalParams | undefined;
+  state: ModalState;
   closeMe: () => void;
 }

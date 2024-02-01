@@ -4,7 +4,13 @@ import { HiOutlinePlus } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import InnerProject, { SkeletonProject } from '@/components/Project/Inner';
-import { type IModal, Position, withModal, useOpenModal } from '@nw/modal';
+import {
+	type IModal,
+	ModalState,
+	Position,
+	withModal,
+	useOpenModal,
+} from '@nw/modal';
 import clsx from 'clsx';
 import { useNWStore } from '@/hooks/store';
 import { useAction } from '@/hooks/action';
@@ -21,7 +27,7 @@ function AsideProjects({ state }: IModal) {
 	const { submit, action, result, pending } = useAction(actionGetProjects);
 
 	useEffect(() => {
-		if (state === 'open') {
+		if (state === ModalState.OPENED) {
 			submit();
 			action(new FormData());
 		}
@@ -78,7 +84,7 @@ function AsideProjects({ state }: IModal) {
 export default withModal(AsideProjects, {
 	position: [Position.LEFT, Position.TOP],
 	wrapper: {
-		className: 'z-30',
+		className: 'z-20',
 	},
 	overlay: {
 		className: 'bg-gray-100/20 dark:bg-black/60 backdrop-blur',

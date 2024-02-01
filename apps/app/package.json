@@ -22,7 +22,6 @@
     "google-auth-library": "^9.4.1",
     "human-id": "^4.1.0",
     "immer": "^10.0.3",
-    "js-base64": "^3.7.5",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "ms": "^2.1.3",
