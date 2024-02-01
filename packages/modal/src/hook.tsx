@@ -1,3 +1,4 @@
+// import * as React from "react";
 import useModalStore from "./store";
 
 export function useOpenModal() {
@@ -13,4 +14,9 @@ export function useCloseModal() {
 export function useCloseAllModal() {
   const closeAllModals = useModalStore((state) => state.closeAllModals);
   return closeAllModals;
+}
+
+export function useModals() {
+  const modalsList = useModalStore((state) => state.modals);
+  return modalsList;
 }

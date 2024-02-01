@@ -1,7 +1,7 @@
 'use client';
 import { createPortal } from 'react-dom';
 import { MODALS } from '@/routes';
-import { ModalProvider } from '@nw/modal';
+import { ModalProvider, useModals } from '@nw/modal';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { S_PARAMS } from '@nw/config';
 import AsideSettings from '@/windows/WndPanelSettings';
@@ -39,6 +39,8 @@ function ModalsContainer() {
 	// 	</ModalProvider>
 	// );
 
+	const modals = useModals();
+
 	const ref = useRef<Element | null>(null);
 	const [mounted, setMounted] = useState(false);
 
@@ -46,6 +48,11 @@ function ModalsContainer() {
 		ref.current = document.body;
 		setMounted(true);
 	}, []);
+
+	// Unmounting
+	useEffect(() => {
+		document.body.style.cssText = modals.length > 0 ? `overflow: hidden;` : ``;
+	}, [modals]);
 
 	return mounted && ref.current
 		? createPortal(

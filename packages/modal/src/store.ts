@@ -2,13 +2,11 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { TModalParams, ModalState } from "./types";
 
-interface IModal {
-  name: string;
-  params: TModalParams;
-}
-
 interface IModalStore {
-  modals: Array<IModal>;
+  modals: Array<{
+    name: string;
+    params: TModalParams;
+  }>;
   _modalsState: Record<string, ModalState>;
   openModal: (
     name: string,

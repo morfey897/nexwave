@@ -1,20 +1,9 @@
 import { keyframes, css } from "styled-components";
 import { Keyframes } from "styled-components/dist/types";
-import { DURATION_SEC } from "../config";
+const DURATION_SEC = "0.3s";
 
 const ANIM_PROPS = `1 normal forwards`;
-type AnimFunc =
-  | "ease"
-  | "ease-in"
-  | "ease-out"
-  | "ease-in-out"
-  | "linear"
-  | "step-start"
-  | "step-end"
-  | "steps"
-  | "cubic-bezier"
-  | "initial"
-  | "inherit";
+type AnimFunc = "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
 
 export const concat = (...args: string[]) => args.join(" ");
 
@@ -48,7 +37,7 @@ ${args.map(
 
 export const toOpacity = (
   values: Array<Parameters<typeof opacity>[0]>,
-  duration: string = `${DURATION_SEC}s`,
+  duration: string = DURATION_SEC,
   timingFunc: AnimFunc = "ease-in-out",
 ): [Keyframes, Array<string>] => [
   opacityKeyframes(...values),
@@ -57,7 +46,7 @@ export const toOpacity = (
 
 export const opacityAnim = (
   values: Array<Parameters<typeof opacity>[0]>,
-  duration: string = `${DURATION_SEC}s`,
+  duration: string = DURATION_SEC,
   timingFunc: AnimFunc = "ease-in-out",
 ) => build(toOpacity(values, duration, timingFunc));
 
@@ -74,7 +63,7 @@ ${args.map(
 
 export const toMove = (
   values: Array<Parameters<typeof move>[0]>,
-  duration: string = `${DURATION_SEC}s`,
+  duration: string = DURATION_SEC,
   timingFunc: AnimFunc = "ease-in-out",
 ): [Keyframes, Array<string>] => [
   moveKeyframes(...values),
@@ -83,6 +72,6 @@ export const toMove = (
 
 export const moveAnim = (
   values: Array<Parameters<typeof move>[0]>,
-  duration: string = `${DURATION_SEC}s`,
+  duration: string = DURATION_SEC,
   timingFunc: AnimFunc = "ease-in-out",
 ) => build(toMove(values, duration, timingFunc));
