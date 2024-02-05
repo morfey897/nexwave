@@ -7,6 +7,7 @@ import {
   PositionY,
   LitPosition,
   ModalState,
+  SetOfAnimParams,
 } from "./types";
 import clsx from "clsx";
 import { ModalWrapper, Container, Overlay } from "./components";
@@ -19,6 +20,7 @@ function withModal(
   props?: {
     noCancelByOverlay?: boolean;
     position?: Position | [PositionX, PositionY];
+    animParams?: SetOfAnimParams;
     wrapper?: {
       className?: string;
       style?: React.CSSProperties;
@@ -131,6 +133,7 @@ function withModal(
         <Container
           $position={FinalPosition}
           $state={state}
+          $animParams={props?.animParams}
           className={clsx(props?.container?.className)}
           style={props?.container?.style}
           role="dialog"

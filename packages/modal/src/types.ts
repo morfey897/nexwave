@@ -19,6 +19,16 @@ export type LitPosition = Exclude<
 >;
 export type UnionAnimation = "show" | "finish" | "hide";
 
+export type AnimFunc =
+  | "ease"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out"
+  | "linear";
+
+export type AnimParams = [`${number}s`, AnimFunc];
+export type SetOfAnimParams = Record<string, AnimParams> | AnimParams;
+
 export type TModalParams = Record<string, string | number | boolean>;
 
 export enum ModalState {

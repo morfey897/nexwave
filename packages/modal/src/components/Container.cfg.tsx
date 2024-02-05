@@ -1,148 +1,274 @@
 import { RuleSet } from "styled-components";
 import { Position, type UnionAnimation, type LitPosition } from "../types";
-import {
-  move,
-  moveAnim,
-  opacity,
-  opacityAnim,
-  build,
-  concat,
-  toMove,
-  toOpacity,
-} from "./animations";
+import { move, opacity, build, concat, toMove, toOpacity } from "./animations";
+import { type SetOfAnimParams } from "../types";
 
-const CxT: Record<UnionAnimation, RuleSet | string> = {
-  show: build(
-    toMove([
-      { x: "-50%", y: "-100%" },
-      { x: "-50%", y: "0" },
-    ]),
-    toOpacity(["0.0", "0.7", "1"]),
-  ),
-  finish: concat(move({ x: "-50%", y: "0" }), opacity("1")),
-  hide: build(
-    toMove([
-      { x: "-50%", y: "0" },
-      { x: "-50%", y: "-100%" },
-    ]),
-    toOpacity(["1", "0"]),
-  ),
+type BuildFunc = (
+  type: UnionAnimation,
+  animProps?: SetOfAnimParams,
+) => ReturnType<typeof build> | ReturnType<typeof concat>;
+
+/**
+ * Center x Top
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const CxT: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        [
+          toMove({ x: "-50%", y: "-100%" }, { x: "-50%", y: "0" }),
+          toOpacity("0.0", "1"),
+        ],
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "-50%", y: "0" }), opacity("1"));
+    case "hide":
+      return build(
+        [
+          toMove({ x: "-50%", y: "0" }, { x: "-50%", y: "-100%" }),
+          toOpacity("1", "0"),
+        ],
+        animProps,
+        type,
+      );
+  }
 };
 
-const CxC: Record<UnionAnimation, RuleSet | string> = {
-  show: opacityAnim(["0.3", "1"]),
-  finish: opacity("1"),
-  hide: opacityAnim(["1", "0"]),
+/**
+ * Center x Center
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const CxC: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(toOpacity("0.3", "1"), animProps, type);
+    case "finish":
+      return concat(opacity("1"));
+    case "hide":
+      return build(toOpacity("1", "0"), animProps, type);
+  }
 };
 
-const CxB: Record<UnionAnimation, RuleSet | string> = {
-  show: build(
-    toMove([
-      { x: "-50%", y: "100%" },
-      { x: "-50%", y: "0" },
-    ]),
-    toOpacity(["0.0", "0.7", "1"]),
-  ),
-  finish: concat(move({ x: "-50%", y: "0" }), opacity("1")),
-  hide: build(
-    toMove([
-      { x: "-50%", y: "0" },
-      { x: "-50%", y: "100%" },
-    ]),
-    toOpacity(["1", "0"]),
-  ),
+/**
+ * Center x Bottom
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const CxB: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        [
+          toMove({ x: "-50%", y: "100%" }, { x: "-50%", y: "0" }),
+          toOpacity("0.0", "1"),
+        ],
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "-50%", y: "0" }), opacity("1"));
+    case "hide":
+      return build(
+        [
+          toMove({ x: "-50%", y: "0" }, { x: "-50%", y: "100%" }),
+          toOpacity("1", "0"),
+        ],
+        animProps,
+        type,
+      );
+  }
 };
 
-const LxT: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "-100%", y: "0" },
-    { x: "0", y: "0" },
-  ]),
-  finish: move({ x: "0", y: "0" }),
-  hide: moveAnim([
-    { x: "0", y: "0" },
-    { x: "-100%", y: "0" },
-  ]),
+/**
+ * Left x Top
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const LxT: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "-100%", y: "0" }, { x: "0", y: "0" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "0" }));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "0" }, { x: "-100%", y: "0" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-const LxC: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "-100%", y: "-50%" },
-    { x: "0", y: "-50%" },
-  ]),
-  finish: move({ x: "0", y: "-50%" }),
-  hide: moveAnim([
-    { x: "0", y: "-50%" },
-    { x: "-100%", y: "-50%" },
-  ]),
+/**
+ * Left x Center
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const LxC: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "-100%", y: "-50%" }, { x: "0", y: "-50%" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "-50%" }));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "-50%" }, { x: "-100%", y: "-50%" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-const LxB: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "-100%", y: "0" },
-    { x: "0", y: "0" },
-  ]),
-  finish: move({ x: "0", y: "0" }),
-  hide: moveAnim([
-    { x: "0", y: "0" },
-    { x: "-100%", y: "0" },
-  ]),
+/**
+ * Left x Bottom
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const LxB: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "-100%", y: "0" }, { x: "0", y: "0" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "0" }));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "0" }, { x: "-100%", y: "0" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-const RxT: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "100%", y: "0" },
-    { x: "0", y: "0" },
-  ]),
-  finish: move({ x: "0", y: "0" }),
-  hide: moveAnim([
-    { x: "0", y: "0" },
-    { x: "100%", y: "0" },
-  ]),
+/**
+ * Right x Top
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const RxT: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "100%", y: "0" }, { x: "0", y: "0" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "0" }), opacity("1"));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "0" }, { x: "100%", y: "0" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-const RxC: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "100%", y: "-50%" },
-    { x: "0", y: "-50%" },
-  ]),
-  finish: move({ x: "0", y: "-50%" }),
-  hide: moveAnim([
-    { x: "0", y: "-50%" },
-    { x: "100%", y: "-50%" },
-  ]),
+/**
+ * Right x Center
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const RxC: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "100%", y: "-50%" }, { x: "0", y: "-50%" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "-50%" }));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "-50%" }, { x: "100%", y: "-50%" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-const RxB: Record<UnionAnimation, RuleSet | string> = {
-  show: moveAnim([
-    { x: "100%", y: "0" },
-    { x: "0", y: "0" },
-  ]),
-  finish: move({ x: "0", y: "0" }),
-  hide: moveAnim([
-    { x: "0", y: "0" },
-    { x: "100%", y: "0" },
-  ]),
+/**
+ * Right x Bottom
+ * @param type show | finish | hide
+ * @param animProps [] | [`${number}s`, AnimFunc]
+ * @returns RuleSet | string
+ */
+const RxB: BuildFunc = (type, animProps) => {
+  switch (type) {
+    case "show":
+      return build(
+        toMove({ x: "100%", y: "0" }, { x: "0", y: "0" }),
+        animProps,
+        type,
+      );
+    case "finish":
+      return concat(move({ x: "0", y: "0" }));
+    case "hide":
+      return build(
+        toMove({ x: "0", y: "0" }, { x: "100%", y: "0" }),
+        animProps,
+        type,
+      );
+  }
 };
 
-export const ANIMATIONS: Record<
-  LitPosition,
-  Record<UnionAnimation, RuleSet | string>
-> = {
-  [`${Position.CENTER}x${Position.TOP}`]: CxT,
-  [`${Position.CENTER}x-${Position.TOP}`]: CxB,
-  [`${Position.CENTER}x${Position.CENTER}`]: CxC,
-  [`${Position.CENTER}x${Position.BOTTOM}`]: CxB,
-  [`${Position.CENTER}x-${Position.BOTTOM}`]: CxT,
+export function buildAnimation(
+  position: LitPosition,
+  animation: UnionAnimation,
+  animParams?: SetOfAnimParams,
+): RuleSet | string {
+  switch (position) {
+    case `${Position.CENTER}x${Position.TOP}`:
+      return CxT(animation, animParams);
+    case `${Position.CENTER}x-${Position.TOP}`:
+      return CxB(animation, animParams);
+    case `${Position.CENTER}x${Position.CENTER}`:
+      return CxC(animation, animParams);
+    case `${Position.CENTER}x${Position.BOTTOM}`:
+      return CxB(animation, animParams);
+    case `${Position.CENTER}x-${Position.BOTTOM}`:
+      return CxT(animation, animParams);
 
-  [`${Position.LEFT}x${Position.TOP}`]: LxT,
-  [`${Position.LEFT}x${Position.CENTER}`]: LxC,
-  [`${Position.LEFT}x${Position.BOTTOM}`]: LxB,
+    case `${Position.LEFT}x${Position.TOP}`:
+      return LxT(animation, animParams);
+    case `${Position.LEFT}x${Position.CENTER}`:
+      return LxC(animation, animParams);
+    case `${Position.LEFT}x${Position.BOTTOM}`:
+      return LxB(animation, animParams);
 
-  [`${Position.RIGHT}x${Position.TOP}`]: RxT,
-  [`${Position.RIGHT}x${Position.CENTER}`]: RxC,
-  [`${Position.RIGHT}x${Position.BOTTOM}`]: RxB,
-};
+    case `${Position.RIGHT}x${Position.TOP}`:
+      return RxT(animation, animParams);
+    case `${Position.RIGHT}x${Position.CENTER}`:
+      return RxC(animation, animParams);
+    case `${Position.RIGHT}x${Position.BOTTOM}`:
+      return RxB(animation, animParams);
+  }
+}
 
 const CT_0 = "left: 50%; top: 0; transform: translate(-50%, 100%);";
 const CT_1 = "left: 50%; top: 0; transform: translate(-50%, 0);";

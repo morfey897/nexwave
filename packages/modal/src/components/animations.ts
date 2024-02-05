@@ -1,77 +1,76 @@
 import { keyframes, css } from "styled-components";
-import { Keyframes } from "styled-components/dist/types";
-const DURATION_SEC = "0.3s";
-
-const ANIM_PROPS = `1 normal forwards`;
-type AnimFunc = "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear";
+import { Keyframes, RuleSet } from "styled-components/dist/types";
+import { type AnimParams, type SetOfAnimParams } from "../types";
 
 export const concat = (...args: string[]) => args.join(" ");
 
-export const build = (...args: Array<[Keyframes, string[]]>) =>
-  args.length === 1
-    ? css`
-        animation: ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS};
-      `
-    : args.length === 2
-      ? css`
-          animation:
-            ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS},
-            ${args[1][0]} ${args[1][1].join(" ")} ${ANIM_PROPS};
-        `
-      : css`
-          animation:
-            ${args[0][0]} ${args[0][1].join(" ")} ${ANIM_PROPS},
-            ${args[1][0]} ${args[1][1].join(" ")} ${ANIM_PROPS},
-            ${args[2][0]} ${args[2][1].join(" ")} ${ANIM_PROPS};
-        `;
-
 export const opacity = (value: string) => `opacity: ${value};`;
+export const move = ({ x, y }: { x: string; y: string }) =>
+  `transform: translate(${x}, ${y});`;
 
-export const opacityKeyframes = (
+export const toOpacity = (
   ...args: Array<Parameters<typeof opacity>[0]>
 ) => keyframes`
 ${args.map(
   (value, index) => `${(index * 100) / (args.length - 1)}% {${opacity(value)}}`,
 )}
 `;
-
-export const toOpacity = (
-  values: Array<Parameters<typeof opacity>[0]>,
-  duration: string = DURATION_SEC,
-  timingFunc: AnimFunc = "ease-in-out",
-): [Keyframes, Array<string>] => [
-  opacityKeyframes(...values),
-  [duration, timingFunc],
-];
-
-export const opacityAnim = (
-  values: Array<Parameters<typeof opacity>[0]>,
-  duration: string = DURATION_SEC,
-  timingFunc: AnimFunc = "ease-in-out",
-) => build(toOpacity(values, duration, timingFunc));
-
-export const move = ({ x, y }: { x: string; y: string }) =>
-  `transform: translate(${x}, ${y});`;
-
-export const moveKeyframes = (
+export const toMove = (
   ...args: Array<Parameters<typeof move>[0] | undefined>
 ) => keyframes`
-${args.map(
-  (value, index) => `${(index * 100) / (args.length - 1)}% {${move(value)}}`,
-)}
+  ${args.map(
+    (value, index) => `${(index * 100) / (args.length - 1)}% {${move(value)}}`,
+  )}
 `;
+export function build(keyframes: Keyframes | Array<Keyframes>): RuleSet<object>;
+export function build(
+  keyframes: Keyframes | Array<Keyframes>,
+  params: AnimParams,
+): RuleSet<object>;
 
-export const toMove = (
-  values: Array<Parameters<typeof move>[0]>,
-  duration: string = DURATION_SEC,
-  timingFunc: AnimFunc = "ease-in-out",
-): [Keyframes, Array<string>] => [
-  moveKeyframes(...values),
-  [duration, timingFunc],
-];
+export function build(
+  keyframes: Keyframes | Array<Keyframes>,
+  props: SetOfAnimParams | undefined,
+  part: string,
+): RuleSet<object>;
 
-export const moveAnim = (
-  values: Array<Parameters<typeof move>[0]>,
-  duration: string = DURATION_SEC,
-  timingFunc: AnimFunc = "ease-in-out",
-) => build(toMove(values, duration, timingFunc));
+export function build(
+  keyframes: Keyframes | Array<Keyframes>,
+  ...args: unknown[]
+): RuleSet<object> {
+  let params: AnimParams;
+  if (args.length === 1) {
+    if (Array.isArray(args[0])) {
+      params = args[0] as AnimParams;
+    }
+  } else if (args.length === 2) {
+    const [props, part] = args;
+    if (Array.isArray(props)) {
+      params = props as AnimParams;
+    } else if (typeof props === "object") {
+      params = props[part as string];
+    }
+  }
+  params = params || ["0.3s", "ease"];
+
+  return Array.isArray(keyframes)
+    ? keyframes.length === 1
+      ? css`
+          animation: ${keyframes[0]} ${params.join(" ")} 1 normal forwards;
+        `
+      : keyframes.length === 2
+        ? css`
+            animation:
+              ${keyframes[0]} ${params.join(" ")} 1 normal forwards,
+              ${keyframes[1]} ${params.join(" ")} 1 normal forwards;
+          `
+        : css`
+            animation:
+              ${keyframes[0]} ${params.join(" ")} 1 normal forwards,
+              ${keyframes[1]} ${params.join(" ")} 1 normal forwards,
+              ${keyframes[2]} ${params.join(" ")} 1 normal forwards;
+          `
+    : css`
+        animation: ${keyframes} ${params.join(" ")} 1 normal forwards;
+      `;
+}
