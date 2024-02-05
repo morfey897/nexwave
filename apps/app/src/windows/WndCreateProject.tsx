@@ -2,16 +2,16 @@
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
 import Marker from '@/components/Project/Marker';
-import { type IModal, Position, withModal } from '@nw/modal';
+import { type IModal, Position, withModal, useCloseAllModal } from '@nw/modal';
 import { Input, Select, File, TextArea } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { generateColor } from '@/utils';
 import { useAction } from '@/hooks/action';
 import { actionCreateNewProject } from '@/actions/project-action';
 import { ACCESS_DENIED, CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
-import { EnumColor, EnumCurrency } from '@/enums';
+import { EnumColor, EnumCurrency, EnumResponse } from '@/enums';
 import { MdOutlineCurrencyExchange } from 'react-icons/md';
 import {
 	WndWrapper,
@@ -20,14 +20,24 @@ import {
 	WndFooter,
 } from '@/components/Windows';
 import ErrorCopy from '@/components/ErrorCopy';
+import { useRouter } from 'next/navigation';
 
 const COLORS = Object.values(EnumColor);
 const CURRENCIES = Object.values(EnumCurrency);
 
 function CreateProject({ closeMe }: IModal) {
+	const router = useRouter();
+	const closeAll = useCloseAllModal();
 	const { action, submit, reset, pending, result } = useAction(
 		actionCreateNewProject,
 	);
+
+	useEffect(() => {
+		if (result?.status === EnumResponse.SUCCESS) {
+			closeAll();
+			router.refresh();
+		}
+	}, [result, closeAll, router]);
 
 	const t = useTranslations();
 	const [color, setColor] = useState(generateColor());

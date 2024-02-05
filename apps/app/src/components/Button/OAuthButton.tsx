@@ -8,7 +8,7 @@ function OAuthButton({
 	provider,
 	...props
 }: { provider: 'google' | 'instagram'; redirect_to?: string } & Parameters<
-	typeof Button
+	typeof Button<React.ButtonHTMLAttributes<HTMLButtonElement>>
 >[0]) {
 	return (
 		<form

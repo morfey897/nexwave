@@ -6,32 +6,31 @@ import { useTranslations } from 'next-intl';
 import InnerProject, { SkeletonProject } from '@/components/Project/Inner';
 import {
 	type IModal,
-	ModalState,
 	Position,
 	withModal,
 	useOpenModal,
+	ModalState,
 } from '@nw/modal';
 import clsx from 'clsx';
 import { useNWStore } from '@/hooks/store';
-import { useAction } from '@/hooks/action';
-import { actionGetProjects } from '@/actions/project-action';
-import { useEffect, useMemo, useCallback } from 'react';
+import { useAPI } from '@/hooks/action';
+import { useMemo, useCallback } from 'react';
 import { EnumResponse } from '@/enums';
 import { MODALS } from '@/routes';
+import { IProject } from '@/models/project';
+import ErrorCopy from '@/components/ErrorCopy';
+import { ACCESS_DENIED, USER_UNAUTHORIZED } from '@/errorCodes';
 
 function AsideProjects({ state }: IModal) {
 	const openModal = useOpenModal();
 	const activeProject = useNWStore((state) => state.project);
 	const t = useTranslations();
 
-	const { submit, action, result, pending } = useAction(actionGetProjects);
-
-	useEffect(() => {
-		if (state === ModalState.OPENED) {
-			submit();
-			action(new FormData());
-		}
-	}, [state, submit, action]);
+	const { result, pending } = useAPI<IProject[] | null>(() =>
+		state === ModalState.OPENED || state === ModalState.CLOSING
+			? '/api/projects'
+			: null,
+	);
 
 	const projects = useMemo(
 		() =>
@@ -75,7 +74,15 @@ function AsideProjects({ state }: IModal) {
 						active={project.uuid === activeProject?.uuid}
 					/>
 				))}
-				{pending && <SkeletonProject />}
+				<ErrorCopy
+					code={result?.error?.code}
+					codes={{
+						[USER_UNAUTHORIZED]: true,
+						[ACCESS_DENIED]: true,
+					}}
+				/>
+
+				{(pending || state === ModalState.OPENING) && <SkeletonProject />}
 			</div>
 		</aside>
 	);

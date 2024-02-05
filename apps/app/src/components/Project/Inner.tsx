@@ -61,8 +61,8 @@ function InnerProject({
 				'bg-white dark:bg-gray-800',
 				'group px-3 py-4 space-y-1 border rounded-xl',
 				active
-					? 'border-blue-400 dark:border-blue-300 cursor-default'
-					: 'border-slate-400 dark:border-slate-300 hover:border-blue-400 dark:hover:border-blue-300 hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
+					? 'cursor-default border-blue-400 dark:border-blue-300'
+					: 'cursor-pointer border-slate-400 dark:border-slate-300 hover:border-blue-400 dark:hover:border-blue-300 hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
 				className,
 			)}
 			{...props}

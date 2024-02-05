@@ -78,9 +78,7 @@ function StateSettings<T>({
 	const [activeItem, setActiveItem] = useState<TProps | null>(null);
 
 	const [currentAction, setCurrenAction] = useState<UnitAction | ''>('');
-
-	const responseError = result?.error?.code;
-
+	
 	useLayoutEffect(() => {
 		!!item && setActiveItem(postProcess(item));
 	}, [item, postProcess]);

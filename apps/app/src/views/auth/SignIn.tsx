@@ -5,7 +5,7 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import Button from '@/components/Button';
 import OAuthButton from '@/components/Button/OAuthButton';
 import { FcGoogle } from 'react-icons/fc';
-import { Input, Select, File } from '@/components/Controls/Form';
+import { Input } from '@/components/Controls/Form';
 import { useTranslations } from 'next-intl';
 import Spinner from '@/components/Spinner';
 import * as ErrorCodes from '@/errorCodes';
@@ -98,7 +98,8 @@ const SignIn = ({
 				</div>
 
 				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-					{result?.status === EnumResponse.FAILED && t('error.invalid_email_or_pass')}
+					{result?.status === EnumResponse.FAILED &&
+						t('error.invalid_email_or_pass')}
 				</p>
 
 				<Button

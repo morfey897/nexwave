@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
-import { type IModal, Position, withModal } from '@nw/modal';
+import { type IModal, Position, withModal, useCloseAllModal } from '@nw/modal';
 import { Input, TextArea, File } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
@@ -23,6 +23,7 @@ import { EnumResponse } from '@/enums';
 
 function CreateBranch({ closeMe, name, params }: IModal) {
 	const router = useRouter();
+	const closeAll = useCloseAllModal();
 	const { action, submit, reset, pending, result } = useAction(
 		actionCreateNewBranch,
 	);
@@ -30,10 +31,10 @@ function CreateBranch({ closeMe, name, params }: IModal) {
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
-			closeMe();
+			closeAll();
 			router.refresh();
 		}
-	}, [result, router, closeMe]);
+	}, [result, router, closeAll]);
 
 	const projectId = (params && params['projectId']) || '';
 	return (

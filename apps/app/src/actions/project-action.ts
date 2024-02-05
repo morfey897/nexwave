@@ -56,26 +56,6 @@ export async function actionCreateNewProject(
 }
 
 /**
- * Get projects
- * @returns IResponse
- */
-export async function actionGetProjects(): Promise<
-	IResponse<Awaited<ReturnType<typeof getProjectsByUserId>>>
-> {
-	try {
-		const user = await getUserFromSession();
-		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-
-		const projects = await getProjectsByUserId(user.id);
-
-		return { status: EnumResponse.SUCCESS, data: projects };
-	} catch (error) {
-		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: parseError(error) };
-	}
-}
-
-/**
  * Update project
  * @param formData
  * @returns IResponse

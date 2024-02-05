@@ -61,7 +61,7 @@ export function generateColor() {
 export function parseError(error: any) {
 	return {
 		code: String(error?.code || error?.cause?.code || 'unknown'),
-		message: String(error.message || ''),
+		message: String(error.message || 'Unknown error'),
 	};
 }
 
