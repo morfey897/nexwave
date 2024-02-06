@@ -15,6 +15,7 @@ import { APP } from '@/routes';
 
 import { useAction } from '@/hooks/action';
 import { EnumResponse } from '@/enums';
+import ErrorCopy from '@/components/ErrorCopy';
 
 const SignUp = ({
 	name,
@@ -112,9 +113,16 @@ const SignUp = ({
 					/>
 				</div>
 
-				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto mt-4'>
-					{result?.error?.code?.includes(ErrorCodes.EMAIL_EXISTS) &&
-						t.rich('error.email_in_use_rt', {
+				<ErrorCopy
+					className='mt-6'
+					code={result?.error?.code}
+					codes={{
+						[ErrorCodes.INVALID_EMAIL]: false,
+						[ErrorCodes.MISSING_EMAIL]: false,
+						[ErrorCodes.WEAK_PASSWORD]: false,
+						[ErrorCodes.MISSING_PASSWORD]: false,
+						[ErrorCodes.INVALID_PASSWORD]: false,
+						[ErrorCodes.EMAIL_EXISTS]: t.rich('error.email_in_use_rt', {
 							button: (chunks) => (
 								<button
 									onClick={changeMode}
@@ -123,8 +131,9 @@ const SignUp = ({
 									{chunks}
 								</button>
 							),
-						})}
-				</p>
+						}),
+					}}
+				/>
 
 				<Button
 					variant='primary'

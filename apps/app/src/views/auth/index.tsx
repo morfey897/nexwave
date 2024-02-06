@@ -1,16 +1,28 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
-import { ComponentOverlay, ComponentContainer, Blur, Position } from '@nw/ui';
+import {
+	type IModal,
+	withModal,
+	Position,
+	ModalWrapper,
+	Overlay,
+	Container,
+	ModalState,
+	Modal,
+} from '@nw/modal';
 import { useTranslations } from 'next-intl';
 import { useCallback, useState } from 'react';
-import Button from '@/components/Button';
-import { HiX } from 'react-icons/hi';
-import Headline from '@/components/Headline';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import clsx from 'clsx';
 export { default as RefreshToken } from './RefreshToken';
+import {
+	WndWrapper,
+	WndHeader,
+	WndBody,
+	WndFooter,
+} from '@/components/Windows';
+import clsx from 'clsx';
 
 function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 	const [localMode, setLocalMode] = useState(mode);
@@ -30,37 +42,41 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 	}, []);
 
 	return (
-		<ComponentOverlay
-			blur={Blur.MD}
-			className='bg-gray-100/20 dark:bg-black/60 z-50'
+		<Modal
+			className='z-50'
+			overlay={{
+				className: clsx('bg-gray-100/20 dark:bg-black/60 backdrop-blur'),
+			}}
+			state={ModalState.OPENED}
+			position={[Position.CENTER, `-${Position.TOP}`]}
+			container={{
+				className: clsx('mt-20 mb-0 md:mb-12'),
+			}}
 		>
-			<ComponentContainer
-				position={Position.CENTER}
-				className={clsx(
-					'mx-auto relative bg-gray-100 dark:bg-gray-900 px-12 py-4 rounded-lg border shadow dark:border-gray-600',
-					'md:w-[475px] w-[95vw]',
-				)}
-			>
-				<Button
-					variant='text'
-					className='absolute top-2 right-0.5 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
-					icon={<HiX size={28} />}
-					onClick={() => onDismiss()}
-				/>
-				<Headline
+			<WndWrapper>
+				<WndHeader
 					headline={t('page.auth.headline')}
 					subheadline={t('page.auth.subheadline')}
-					className='text-lg md:text-xl font-semibold text-center'
-					bodyClassName='text-center'
+					onClose={onDismiss}
 				/>
-				{localMode === 'signUp' && (
-					<SignUp name='signUp' changeMode={onToggleView} confirm={onConfirm} />
-				)}
-				{localMode === 'signIn' && (
-					<SignIn name='signIn' changeMode={onToggleView} confirm={onConfirm} />
-				)}
-			</ComponentContainer>
-		</ComponentOverlay>
+				<WndBody>
+					{localMode === 'signUp' && (
+						<SignUp
+							name='signUp'
+							changeMode={onToggleView}
+							confirm={onConfirm}
+						/>
+					)}
+					{localMode === 'signIn' && (
+						<SignIn
+							name='signIn'
+							changeMode={onToggleView}
+							confirm={onConfirm}
+						/>
+					)}
+				</WndBody>
+			</WndWrapper>
+		</Modal>
 	);
 }
 

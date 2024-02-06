@@ -1,7 +1,13 @@
 import * as React from "react";
 import { IModalWrapper } from "./types";
 import useModalStore from "./store";
-import { ProviderWrapper } from "./components";
+import styled from "styled-components";
+
+const ProviderWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+`;
 
 /**
  * Modal Provider

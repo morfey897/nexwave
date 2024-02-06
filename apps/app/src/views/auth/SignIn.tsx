@@ -14,6 +14,7 @@ import { APP } from '@/routes';
 
 import { useAction } from '@/hooks/action';
 import { EnumResponse } from '@/enums';
+import ErrorCopy from '@/components/ErrorCopy';
 
 const SignIn = ({
 	name,
@@ -97,10 +98,16 @@ const SignIn = ({
 					/>
 				</div>
 
-				<p className='text-xs text-red-600 dark:text-red-400 break-words hyphens-auto'>
-					{result?.status === EnumResponse.FAILED &&
-						t('error.invalid_email_or_pass')}
-				</p>
+				<ErrorCopy
+					className='mt-6'
+					code={result?.error?.code}
+					codes={{
+						[ErrorCodes.INVALID_EMAIL]: t('error.invalid_email_or_pass'),
+						[ErrorCodes.INVALID_PASSWORD]: t('error.invalid_email_or_pass'),
+						[ErrorCodes.MISSING_PASSWORD]: false,
+						[ErrorCodes.MISSING_EMAIL]: false,
+					}}
+				/>
 
 				<Button
 					variant='primary'

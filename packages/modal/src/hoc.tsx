@@ -5,48 +5,39 @@ import {
   Position,
   PositionX,
   PositionY,
-  LitPosition,
   ModalState,
   SetOfAnimParams,
 } from "./types";
 import clsx from "clsx";
 import { ModalWrapper, Container, Overlay } from "./components";
 import throttle from "./throttle";
-import { totalHeight } from "./utils";
+import { totalHeight, getPosition } from "./utils";
 import useModalStore from "./store";
 
-function withModal(
-  Component: React.FC<IModal>,
-  props?: {
-    noCancelByOverlay?: boolean;
-    position?: Position | [PositionX, PositionY];
-    animParams?: SetOfAnimParams;
-    wrapper?: {
-      className?: string;
-      style?: React.CSSProperties;
-    };
-    container?: {
-      className?: string;
-      style?: React.CSSProperties;
-    };
-    overlay?: {
-      className?: string;
-      style?: React.CSSProperties;
-    };
-  },
-) {
-  const positionX = ((Array.isArray(props?.position)
-    ? props?.position[0]
-    : props?.position) || Position.CENTER) as PositionX;
+type TModalHOC = {
+  noCancelByOverlay?: boolean;
+  position?: Position | [PositionX, PositionY];
+  animParams?: SetOfAnimParams;
+  wrapper?: {
+    className?: string;
+    style?: React.CSSProperties;
+  };
+  container?: {
+    className?: string;
+    style?: React.CSSProperties;
+  };
+  overlay?: {
+    className?: string;
+    style?: React.CSSProperties;
+  };
+};
 
-  const positionY = ((Array.isArray(props?.position) && props?.position[1]) ||
-    Position.CENTER) as PositionY;
-
-  const FinalPosition = `${positionX}x${positionY}` as LitPosition;
+function withModal(Component: React.FC<IModal>, props?: TModalHOC) {
+  const FinalPosition = getPosition(props?.position);
 
   function Wrapper({ name, params }: IModalWrapper) {
     const closeModal = useModalStore((state) => state.closeModal);
-    const finish = useModalStore((state) => state.finishedAnim);
+    const onFinishedAnimation = useModalStore((state) => state.finishedAnim);
     const state = useModalStore((state) => state.getModalState(name));
 
     const refOverlay = React.useRef(null);
@@ -57,7 +48,7 @@ function withModal(
      * Close the current modal
      */
     const closeMe = React.useCallback(() => {
-      closeModal(name);
+      typeof closeModal === "function" && closeModal(name);
     }, [closeModal, name]);
 
     /**
@@ -83,8 +74,8 @@ function withModal(
     );
 
     const onAnimEnd = React.useCallback(() => {
-      finish(name);
-    }, [finish, name]);
+      typeof onFinishedAnimation === "function" && onFinishedAnimation(name);
+    }, [onFinishedAnimation, name]);
 
     const onChangeSize = React.useMemo(
       () =>
