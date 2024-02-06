@@ -24,7 +24,7 @@ function Project({
 	const sizeNumber = size === 'sm' ? 32 : size === 'md' ? 36 : 40;
 	const active = !!project.slug && pathname.split('/').includes(project.slug);
 
-	const path = findDynamicPath(pathname, routes.DYNAMIC);
+	const path = findDynamicPath(pathname, Array.from(routes.DYNAMIC));
 	return (
 		<div
 			className={clsx(
