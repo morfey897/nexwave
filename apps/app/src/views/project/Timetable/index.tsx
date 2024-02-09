@@ -42,7 +42,8 @@ function TimetableView({
 	timeStep: number;
 	device?: EnumDeviceType;
 }) {
-	const t = useTranslations();
+	const t = (a: string, ...props:unknown[]) => a;
+	// useTranslations();
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();

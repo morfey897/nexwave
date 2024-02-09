@@ -27,7 +27,8 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const t = useTranslations();
+	const t = (a: string) => a;
+	// useTranslations();
 
 	const listPages = useMemo(() => {
 		const pagesList: TPages = [

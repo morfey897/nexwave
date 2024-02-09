@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTheme } from '@/headers';
 import clsx from 'clsx';
 import ThemeProvider from '@/providers/ThemeProvider';
 import { generateViewport, getMetadata } from '@/utils/seo';
-import Header from '@/components/Header';
+import Header from '@/views/Header';
 import StoreProvider from '@/providers/StoreProvider';
 import ModalsContainer from '@/windows';
 
@@ -29,12 +28,6 @@ export default async function RootLayout({
 	const locale = getLocale();
 	const theme = getTheme();
 
-	let messages;
-	try {
-		messages = (await import(`../i18n/en.json`)).default;
-	} catch (error) {
-		messages = {};
-	}
 	return (
 		<html lang={locale} className={theme || ''}>
 			<ThemeProvider />
@@ -44,14 +37,11 @@ export default async function RootLayout({
 					'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200',
 				)}
 			>
-				<NextIntlClientProvider messages={messages} locale={locale}>
-					<StoreProvider store={{}}>
-						{/* <ModalsContainer> */}
-						<Header />
-						<main className='flex w-full'>{children}</main>
-						<ModalsContainer />
-					</StoreProvider>
-				</NextIntlClientProvider>
+				<StoreProvider store={{}}>
+					<Header />
+					<main className='flex w-full'>{children}</main>
+					<ModalsContainer />
+				</StoreProvider>
 			</body>
 		</html>
 	);

@@ -32,7 +32,8 @@ import { useView } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 
 function UsersView({ clients }: { clients: IClient[] }) {
-	const t = useTranslations();
+	const t = (a: string, ...props:unknown[]) => a;
+	// useTranslations();
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();

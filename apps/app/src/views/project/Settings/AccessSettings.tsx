@@ -165,27 +165,30 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 									legend={t(`crud.role.${role}`)}
 									className='flex flex-wrap gap-x-4 gap-y-1'
 								>
-									{ALL_ROLES.map(({ name, value, important }) => (
-										<Checkbox
-											key={`${role}.${name}`}
-											disabled={disabledForm || role == EnumRole.owner}
-											onChange={onChange}
-											name={`${role}.${name}`}
-											value={value}
-											placeholder={t(`crud.${name}`)}
-											checked={hasAccess(
-												activeProject?.roles[role] || 0,
-												value,
-											)}
-											icon={
-												important && (
-													<span className='text-orange-600 dark:text-orange-400'>
-														<PiWarningCircle size={16} />
-													</span>
-												)
-											}
-										/>
-									))}
+									{ALL_ROLES.map(
+										({ name, value, important }) =>
+											value > 0 && (
+												<Checkbox
+													key={`${role}.${name}`}
+													disabled={disabledForm || role == EnumRole.owner}
+													onChange={onChange}
+													name={`${role}.${name}`}
+													value={value}
+													placeholder={t(`crud.${name}`)}
+													checked={hasAccess(
+														activeProject?.roles[role] || 0,
+														value,
+													)}
+													icon={
+														important && (
+															<span className='text-orange-600 dark:text-orange-400'>
+																<PiWarningCircle size={16} />
+															</span>
+														)
+													}
+												/>
+											),
+									)}
 								</Fieldset>
 							) : null,
 						)

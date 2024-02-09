@@ -19,12 +19,6 @@ export interface IButtonProps {
 	tag?: 'button' | 'link' | 'a' | 'div' | 'span';
 }
 
-// export const generateClassName = (
-// 	{ variant = 'default', size = 'md', shadow = true }: IButtonProps,
-// 	className?: string,
-// ) =>
-// 	;
-
 function Button<
 	T extends
 		React.HTMLAttributes<any> = React.ButtonHTMLAttributes<HTMLButtonElement>,

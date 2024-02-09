@@ -7,8 +7,7 @@ import UAParser from 'ua-parser-js';
 import { EnumDeviceType } from '@/enums';
 import { API, APP } from '@/routes';
 import { getSession, getRefreshToken } from '@/headers';
-
-type LangType = typeof LOCALES.LIST[number];
+import { TLocale } from '@/types';
 
 const getDevice = (userAgent: string | null | undefined) => {
 	const ua = UAParser(userAgent || undefined);
@@ -65,7 +64,7 @@ const setCookie = (
 	);
 };
 
-function getLocale(request: NextRequest) {
+function getLocaleFromRequest(request: NextRequest) {
 	const headers = {
 		'accept-language': request.headers.get('accept-language') || '',
 	};
@@ -76,18 +75,19 @@ function getLocale(request: NextRequest) {
 		[...new Set(languages)],
 		LOCALES.LIST,
 		process.env.NEXT_PUBLIC_DEFAULT_LOCALE!,
-	) as unknown as LangType;
+	) as unknown as TLocale;
 }
 
 export async function middleware(request: NextRequest) {
-	const { pathname } = request.nextUrl;
+	const { pathname, search } = request.nextUrl;
 	if (/\.(!?json|xml|txt|js|css|ico|png|jpg|jpeg)$/.test(pathname))
 		return NextResponse.next();
 
 	const cookieValue = request.cookies.get(COOKIES.LOCALE)?.value;
-	const locale = LOCALES.LIST.includes(cookieValue as LangType)
-		? cookieValue
-		: getLocale(request);
+	const locale =
+		cookieValue && LOCALES.LIST.includes(cookieValue as TLocale)
+			? cookieValue
+			: getLocaleFromRequest(request);
 
 	const { device, info } = getDevice(request.headers.get('user-agent'));
 
@@ -130,6 +130,9 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Don't touch this line
+	response.headers.set('X-NEXT-INTL-LOCALE', locale);
+	response.headers.set(HEADERS.SEARCH_PARAMS, search);
 	response.headers.set(HEADERS.PATHNAME, pathname);
 	return response;
 }

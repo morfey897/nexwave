@@ -19,7 +19,8 @@ function ChangeDate({
 	onChange?: (index: number) => void;
 } & Omit<React.HTMLProps<HTMLDivElement>, 'onChange'>) {
 	const now = useNow();
-	const t = useTranslations();
+	const t = (a: string) => a;
+	// useTranslations();
 	const locale = useDateLocale();
 
 	const title = useMemo(() => {

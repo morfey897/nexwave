@@ -13,15 +13,6 @@ export const SERVICES = '/project/[uuid]/services';
 export const PRODUCTS = '/project/[uuid]/products';
 export const TIMETABLE = '/project/[uuid]/timetable';
 export const SETTINGS = '/project/[uuid]/settings';
-export const DYNAMIC = [
-	ROOT,
-	CLIENTS,
-	USERS,
-	SERVICES,
-	PRODUCTS,
-	TIMETABLE,
-	SETTINGS,
-] as const;
 
 /// API routes ///
 export const API = {

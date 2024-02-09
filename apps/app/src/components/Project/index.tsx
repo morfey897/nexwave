@@ -1,8 +1,7 @@
 'use client';
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { type IProject } from '@/models/project';
 import { MdOutlineArrowCircleRight } from 'react-icons/md';
-import Link from 'next/link';
 import { ROOT } from '@/routes';
 import { dynamicHref } from '@/utils';
 import clsx from 'clsx';
@@ -11,15 +10,17 @@ import Branch from './Branch';
 import Accordion from '../Accordion';
 import Button from '../Button';
 import { BiChevronDown } from 'react-icons/bi';
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 function Project({
 	project,
 	className,
+	more_less,
 	...props
-}: React.HTMLAttributes<HTMLDivElement> & { project: IProject }) {
-	const t = useTranslations();
+}: React.HTMLAttributes<HTMLDivElement> & {
+	project: IProject;
+	more_less: string;
+}) {
 	const router = useRouter();
 
 	const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -70,7 +71,7 @@ function Project({
 								name='show-more'
 								tag='span'
 								variant='text'
-								message={t('button.more_less')}
+								message={more_less}
 								className='justify-between text-gray-400 dark:text-gray-500 w-full'
 								iconAfter={
 									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>

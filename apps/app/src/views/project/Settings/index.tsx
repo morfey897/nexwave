@@ -1,161 +1,123 @@
-'use client';
 import AccessDenied from '@/components/AccessDenied';
 import GeneralSettings from './GeneralSettings';
 import BranchesSettings from './BranchesSettings';
 import AccessSettings from './AccessSettings';
-import { Group, Button } from '@/components/Button';
+import { Group } from '@/components/Button';
 import { HiOutlineInformationCircle, HiOutlinePuzzle } from 'react-icons/hi';
-import { HiMiniRectangleGroup } from 'react-icons/hi2';
 import { MdOutlineLockPerson } from 'react-icons/md';
-import { useTranslations } from 'next-intl';
+import {
+	useTranslations,
+	NextIntlClientProvider,
+	useMessages,
+} from 'next-intl';
 import Container, {
 	ContainerBody,
 	ContainerHeader,
-	useSyncScroll,
 } from '@/components/Containers';
-import Caption from '@/components/Caption';
-import { useScrollDetect } from '@/hooks/scrollDetect';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-
 import clsx from 'clsx';
 import { IFullProject } from '@/models/project';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { S_PARAMS } from '@nw/config';
-import { useOpenModal } from '@nw/modal';
-import { MODALS } from '@/routes';
 import { hasAccess } from '@/utils';
 import { UPDATE } from '@/crud';
-import Skeleton from '@/components/Skeleton';
+import { getSearchParams } from '@/headers';
+import Tab from './Tab.client';
+import Caption from './Caption.client';
+import { S_PARAMS } from '@packages/config/dist';
+import { TAB_BRANCHES, TAB_ACCESS, TAB_GENERAL } from './config';
+import { pick } from 'lodash';
 
-const TAB_GENERAL = 'general';
-const TAB_BRANCHES = 'branches';
-const TAB_GROUPS = 'groups';
-const TAB_ACCESS = 'access';
+const TABS = [
+	{
+		id: TAB_GENERAL,
+		label: 'page.settings.tab_general',
+		icon: <HiOutlineInformationCircle size={24} />,
+		access: UPDATE.PROJECT,
+	},
+	{
+		id: TAB_BRANCHES,
+		label: 'page.settings.tab_branches',
+		icon: <HiOutlinePuzzle size={24} />,
+		access: UPDATE.BRANCH,
+	},
+	{
+		id: TAB_ACCESS,
+		label: 'page.settings.tab_access',
+		icon: <MdOutlineLockPerson size={24} />,
+		access: UPDATE.PROJECT_ACCESS,
+	},
+];
+
+const ACCESS = {
+	[TAB_GENERAL]: UPDATE.PROJECT,
+	[TAB_BRANCHES]: UPDATE.BRANCH,
+	[TAB_ACCESS]: UPDATE.PROJECT_ACCESS,
+};
 
 function Settings({ project }: { project: IFullProject | null }) {
 	const t = useTranslations();
-	const openModal = useOpenModal();
-	const searchParams = useSearchParams();
-	const router = useRouter();
-	const isScrolled = useScrollDetect(0.07);
-	const { refHeader, refBody, onScroll } = useSyncScroll();
-	const [activeTab, setActiveTab] = useState('');
-
 	const permission = project?.roles[project?.role || ''] || 0;
+	const activeTab = getSearchParams().get(S_PARAMS.TAB) || TAB_GENERAL;
 
-	const tabs = useMemo(
-		() => [
-			{
-				id: TAB_GENERAL,
-				message: t('page.settings.tab_general'),
-				icon: <HiOutlineInformationCircle size={24} />,
-				access: hasAccess(permission, UPDATE.PROJECT),
-			},
-			{
-				id: TAB_BRANCHES,
-				message: t('page.settings.tab_branches'),
-				icon: <HiOutlinePuzzle size={24} />,
-				access: hasAccess(permission, UPDATE.BRANCH),
-			},
-			// {
-			// 	id: TAB_GROUPS,
-			// 	message: t('page.settings.tab_groups'),
-			// 	icon: <HiMiniRectangleGroup size={24} />,
-			// },
-			{
-				id: TAB_ACCESS,
-				message: t('page.settings.tab_access'),
-				icon: <MdOutlineLockPerson size={24} />,
-				access: hasAccess(permission, UPDATE.PROJECT_ACCESS),
-			},
-		],
-		[t, permission],
-	);
+	const messages = useMessages();
 
-	useLayoutEffect(() => {
-		let activeTab = searchParams.get(S_PARAMS.TAB);
-		if (!activeTab || !tabs.some((tab) => tab.id === activeTab && tab.access)) {
-			activeTab = TAB_GENERAL;
-		}
-		setActiveTab(activeTab);
-	}, [searchParams, tabs]);
-
-	const onTabChange = useCallback(
-		(tab: string) => {
-			setActiveTab(tab);
-			const clone = new URLSearchParams(searchParams);
-			if (tab === TAB_GENERAL) {
-				clone.delete(S_PARAMS.TAB);
-			} else {
-				clone.set(S_PARAMS.TAB, tab);
-			}
-			clone.delete(S_PARAMS.ACTIVE);
-			const str = clone.toString();
-			router.push(`?${str}`);
-		},
-		[router, searchParams],
-	);
-
-	const addBranch = useCallback(() => {
-		openModal(MODALS.CREATE_BRANCH, { projectId: project?.id || '' });
-	}, [openModal, project]);
-
+	const partMessages = pick(messages, [
+		'form',
+		'button',
+		'error',
+		'state',
+		'color',
+		'currency',
+		'crud',
+	]);
 	return (
 		<Container className='mb-12'>
 			<Caption
 				headline={t('page.settings.headline')}
 				subheadline={t('page.settings.subheadline')}
-				add={
-					activeTab === TAB_BRANCHES
-						? {
-								title: t('button.add'),
-								onClick: addBranch,
-							}
-						: undefined
-				}
-				imprt={
-					activeTab === TAB_BRANCHES
-						? {
-								title: t('button.import'),
-								onClick: () => {},
-							}
-						: undefined
-				}
+				add={t('button.add')}
+				activeTab={activeTab}
+				projectId={project?.id || 0}
 			/>
 			<ContainerHeader className='border-b dark:border-gray-700'>
 				<Group
 					className={clsx(
 						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900',
 						'overflow-x-scroll hide-scroll',
-						// isScrolled && 'pt-0.5',
 					)}
 				>
-					{activeTab ? (
-						tabs.map(({ id, access, ...tab }) =>
-							access ? (
-								<Button
-									size='sm'
-									key={id}
-									variant={activeTab === id ? 'primary' : 'dark'}
-									onClick={() => onTabChange(id)}
-									className={clsx(activeTab === id && 'pointer-events-none')}
-									{...tab}
-								/>
-							) : null,
-						)
-					) : (
-						<Skeleton className='h-[42px] !w-[120px] !rounded-ee-none !rounded-es-none ml-2' />
-					)}
+					{TABS.map(({ id, label, icon }) => (
+						<Tab
+							key={id}
+							name={id}
+							size='sm'
+							variant={activeTab === id ? 'primary' : 'dark'}
+							message={t(label)}
+							icon={icon}
+						/>
+					))}
 				</Group>
-				{/* <ContainerScrollableHeader ref={refHeader} onScroll={onScroll}>
-					
-				</ContainerScrollableHeader> */}
 			</ContainerHeader>
 
-			<ContainerBody ref={refBody} onScroll={onScroll}>
-				{activeTab === TAB_GENERAL && <GeneralSettings project={project} />}
-				{activeTab === TAB_BRANCHES && <BranchesSettings project={project} />}
-				{activeTab === TAB_ACCESS && <AccessSettings project={project} />}
+			<ContainerBody>
+				<NextIntlClientProvider messages={partMessages}>
+					{activeTab === TAB_GENERAL &&
+						(hasAccess(permission, ACCESS[TAB_GENERAL]) ? (
+							<GeneralSettings project={project} />
+						) : (
+							<AccessDenied className='mt-6' />
+						))}
+					{activeTab === TAB_BRANCHES &&
+						(hasAccess(permission, ACCESS[TAB_BRANCHES]) ? (
+							<BranchesSettings project={project} />
+						) : (
+							<AccessDenied className='mt-6' />
+						))}
+					{activeTab === TAB_ACCESS &&
+						(hasAccess(permission, ACCESS[TAB_ACCESS]) ? (
+							<AccessSettings project={project} />
+						) : (
+							<AccessDenied className='mt-6' />
+						))}
+				</NextIntlClientProvider>
 			</ContainerBody>
 		</Container>
 	);

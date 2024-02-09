@@ -1,8 +1,8 @@
 import { getRefreshToken } from '@/headers';
 import { getUserFromSession } from '@/models/user';
 import Loading from '@/app/loading';
-import AuthView, { RefreshToken } from '@/views/auth';
-import { getTrail } from '@/headers';
+import AuthView from '@/views/Authentication';
+import RefreshToken from '@/views/Authentication/RefreshToken.client';
 import { UpdateStore } from '@/providers/StoreProvider';
 
 export default async function ProjectLayout({
@@ -10,7 +10,6 @@ export default async function ProjectLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const hasTrail = !!getTrail();
 	const user = await getUserFromSession();
 	const refreshToken = getRefreshToken();
 
@@ -24,7 +23,7 @@ export default async function ProjectLayout({
 			) : (
 				<>
 					<Loading />
-					<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
+					<AuthView />
 				</>
 			)}
 			{!!refreshToken && <RefreshToken />}

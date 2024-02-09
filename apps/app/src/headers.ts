@@ -1,16 +1,17 @@
 import { cookies, headers } from 'next/headers';
-import { COOKIES, HEADERS } from '@nw/config';
+import { COOKIES, HEADERS, LOCALES } from '@nw/config';
 import { EnumDeviceType } from '@/enums';
 
 export const getLocale = (): string =>
 	cookies().get(COOKIES.LOCALE)?.value ||
 	process.env.NEXT_PUBLIC_DEFAULT_LOCALE! ||
-	'en';
+	LOCALES.EN;
 
 export const getTheme = () => cookies().get(COOKIES.THEME)?.value;
 
-export const getPathname = (): string =>
-	headers().get(HEADERS.PATHNAME) || '/';
+export const getSearchParams = (): URLSearchParams =>
+	new URLSearchParams(headers().get(HEADERS.SEARCH_PARAMS) || '');
+export const getPathname = (): string => headers().get(HEADERS.PATHNAME) || '/';
 
 export const getDevice = (): EnumDeviceType => {
 	const value = cookies().get(COOKIES.DEVICE)?.value;

@@ -1,9 +1,10 @@
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/views/Sidebar';
 import Block from '@/components/Block';
-import Breadcrumbs from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/views/Breadcrumbs';
 import { getUserFromSession } from '@/models/user';
 import { getProjectsByUserId } from '@/models/project';
 import { UpdateStore } from '@/providers/StoreProvider';
+import { getPathname } from '@/headers';
 
 export default async function ProjectLayout({
 	children,
@@ -17,12 +18,14 @@ export default async function ProjectLayout({
 		uuid: params.uuid,
 	})) || [null];
 
+	const pathname = getPathname();
+
 	return (
 		<>
 			<UpdateStore state={{ project: project || null }} />
-			<Sidebar params={params} />
+			<Sidebar params={params} pathname={pathname} />
 			<Block>
-				<Breadcrumbs />
+				<Breadcrumbs pathname={pathname} />
 				{children}
 			</Block>
 		</>

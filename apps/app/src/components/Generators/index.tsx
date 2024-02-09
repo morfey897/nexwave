@@ -15,7 +15,8 @@ export function TimeGenerator({
 }: {
 	item: { uuid: string; value: string };
 }) {
-	const t = useTranslations();
+	const t = (a: string) => a;
+	// useTranslations();
 	const NOW = new Date(new Date().toISOString().split('T')[0]);
 	const dateLocale = useDateLocale();
 

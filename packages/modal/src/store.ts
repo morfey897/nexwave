@@ -25,7 +25,7 @@ const useModalStore = create(
     _modalsState: {},
     openModal: (name, params, immediately) =>
       set((state) => {
-        // const key = `${name}-${state.modals.length}`;
+        if (state.modals.find((modal) => modal.name === name)) return;
         state.modals.push({
           name,
           params,

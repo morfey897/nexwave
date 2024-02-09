@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
 import { type IProject } from '@/models/project';
-import { MdOutlineArrowCircleRight, MdCheck } from 'react-icons/md';
-import Link from 'next/link';
+import { MdCheck } from 'react-icons/md';
 import { ROOT } from '@/routes';
 import { dynamicHref } from '@/utils';
 import clsx from 'clsx';
@@ -11,8 +10,8 @@ import Branch from './Branch';
 import Accordion from '../Accordion';
 import Button from '../Button';
 import { BiChevronDown } from 'react-icons/bi';
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export function SkeletonProject({
 	className,

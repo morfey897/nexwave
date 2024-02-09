@@ -10,7 +10,7 @@ export const UPDATE = {
 	// Project section
 	PROJECT: 1,
 	UNPUBLISH_PROJECT: 8,
-	PROJECT_GROUP: 16,
+	PROJECT_GROUP: 0,//16,
 	PROJECT_ACCESS: 32,
 	// Branch section
 	BRANCH: 64,
@@ -21,7 +21,7 @@ export const UPDATE = {
 export const DELETE = {
 	// Project section
 	PROJECT: 128,
-	PROJECT_GROUP: 256,
+	PROJECT_GROUP: 0,//256,
 	// Branch section
 	BRANCH: 1024,
 } as const;

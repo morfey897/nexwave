@@ -55,7 +55,7 @@ function AsideProjects({ state }: IModal) {
 			<div className='flex items-center justify-between'>
 				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
 					<BsDiagram2 size={32} />
-					<span className='ml-2'>{t('general.projects')}</span>
+					<span className='ml-2'>{t('page.panel_projects.headline')}</span>
 				</h2>
 
 				<Button
