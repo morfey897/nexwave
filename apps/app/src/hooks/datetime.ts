@@ -1,13 +1,18 @@
+import { LOCALES } from '@packages/config';
 import { enUS, ru, uk } from 'date-fns/locale';
-import { useLocale } from 'next-intl';
 
-const LOCALES: Record<string, Locale> = {
-	uk: uk,
-	ru: ru,
-	en: enUS,
-};
-
-export const useDateLocale = () => {
-	const locale = useLocale();
-	return LOCALES[locale] || LOCALES[process.env.NEXT_PUBLIC_DEFAULT_LOCALE!];
+/**
+ * Hook to get date locale
+ * @param locale
+ * @returns
+ */
+export const useDateLocale = (locale?: string) => {
+	switch (locale) {
+		case LOCALES.UK:
+			return uk;
+		case LOCALES.RU:
+			return ru;
+		default:
+			return enUS;
+	}
 };

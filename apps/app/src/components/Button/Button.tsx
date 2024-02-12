@@ -112,7 +112,7 @@ function Button<
 	const content = (
 		<>
 			{icon}
-			{!!message && <span className='message'>{message}</span>}
+			{!!message && <span className='message truncate'>{message}</span>}
 			{iconAfter}
 			{children}
 		</>

@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TFilterParams } from '@/types/filter';
@@ -19,7 +20,7 @@ function useHook({ prefix, name, defaultValue }: TFilterParams) {
 				clone.set(searchParam, String(value));
 			}
 			const str = clone.toString();
-			router.push(`?${str}`);
+			router.push(`?${str}`, { scroll: true });
 		},
 		[router, searchParams, defaultValue, searchParam],
 	);
@@ -38,7 +39,7 @@ function useHook({ prefix, name, defaultValue }: TFilterParams) {
  */
 export function useFilter(params: TFilterParams) {
 	const { onChange, value } = useHook(params);
-	return { onFilter: onChange, filter: value };
+	return { onChange, value };
 }
 
 /**
@@ -51,15 +52,6 @@ export function useSearch(params: TFilterParams) {
 	return { onSearch: onChange, search: value };
 }
 
-/**
- * Hook for view
- * @param name - search param name
- * @returns
- */
-export function useView(params: TFilterParams) {
-	const { onChange, value } = useHook(params);
-	return { onView: onChange, view: value };
-}
 
 /**
  * Hook for pagination

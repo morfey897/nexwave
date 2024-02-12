@@ -31,7 +31,7 @@ function Icon({
 					/>
 				</picture>
 			) : (
-				<span className='inline-block text-blue-500 dark:text-blue-400'>
+				<span className='inline-block text-blue-500 dark:text-blue-400 align-middle'>
 					{altFallback === 'project' && <BsDiagram2 size={size} />}
 					{altFallback === 'branch' && <HiOutlinePuzzle size={size} />}
 					{!!Fallback && !altFallback && <Fallback size={size} />}

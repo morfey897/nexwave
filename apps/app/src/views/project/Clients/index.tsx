@@ -28,7 +28,7 @@ import Container, {
 	useSyncScroll,
 } from '@/components/Containers';
 import clsx from 'clsx';
-import { useView } from '@/hooks/filter';
+import { useFilter } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 
 function ClintsView({ clients }: { clients: IClient[] }) {
@@ -38,11 +38,11 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
-	const { onFilter, filter: state } = useFilter({
+	const { onChange: onFilter, value: state } = useFilter({
 		name: S_PARAMS.FILTER,
 		defaultValue: 'all',
 	});
-	const { onView, view } = useView({
+	const { onChange: onView, value: view } = useFilter({
 		name: S_PARAMS.VIEW,
 		defaultValue: EnumRepresent.TABLE,
 	});

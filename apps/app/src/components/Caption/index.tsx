@@ -51,8 +51,8 @@ function Caption({
 							variant='primary'
 							icon={<HiOutlinePlusCircle size={32} />}
 							className={clsx(
-								'fixed top-[80px] right-0 z-30 !p-2 !rounded-e-none',
-								isScrolled ? 'block' : 'hidden',
+								'fixed top-[120px] right-0 z-30 !p-2 !rounded-e-none translate-x-6 transition-transform duration-300 ease-in-out',
+								isScrolled ? 'block hover:translate-x-0' : 'hidden',
 							)}
 						/>
 					)}

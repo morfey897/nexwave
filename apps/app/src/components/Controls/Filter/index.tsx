@@ -7,11 +7,12 @@ interface IFilter {
 	onChange?: (uid: string) => void;
 	value?: string | null;
 	filters?: Array<{
-		title: string;
 		uid: string;
+		message: string;
+		icon?: React.ReactNode;
 	}>;
 	icon?: React.ReactNode;
-	message?: string | number | undefined,
+	message?: string | number | undefined;
 	as?: 'dropdown' | 'group' | 'auto:lg' | 'auto:md';
 }
 
@@ -29,7 +30,7 @@ const AsDropDown = ({
 		element={<Button icon={icon} message={message} />}
 	>
 		<div className='px-2 py-4 flex flex-col'>
-			{filters?.map(({ uid, title }) => (
+			{filters?.map(({ uid, message, icon }) => (
 				<Button
 					key={uid}
 					onClick={() => {
@@ -39,9 +40,9 @@ const AsDropDown = ({
 					className={clsx(
 						'disabled:text-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
 					)}
-				>
-					{title}
-				</Button>
+					message={message}
+					icon={icon}
+				/>
 			))}
 		</div>
 	</DropDown>
@@ -54,7 +55,7 @@ const AsGroup = ({
 	className,
 }: { className?: string } & IFilter) => (
 	<Group className={clsx(className)}>
-		{filters?.map(({ uid, title }) => (
+		{filters?.map(({ uid, message, icon }) => (
 			<Button
 				key={uid}
 				onClick={() => {
@@ -64,9 +65,9 @@ const AsGroup = ({
 				className={clsx(
 					'disabled:text-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
 				)}
-			>
-				{title}
-			</Button>
+				message={message}
+				icon={icon}
+			/>
 		))}
 	</Group>
 );

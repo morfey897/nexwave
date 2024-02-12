@@ -28,7 +28,6 @@ import Container, {
 	useSyncScroll,
 } from '@/components/Containers';
 import clsx from 'clsx';
-import { useView } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 
 function UsersView({ clients }: { clients: IClient[] }) {
@@ -38,11 +37,11 @@ function UsersView({ clients }: { clients: IClient[] }) {
 
 	const isScrolled = useScrollDetect(0.07);
 	const { refHeader, refBody, onScroll } = useSyncScroll();
-	const { onFilter, filter: state } = useFilter({
+	const { onChange: onFilter, value: state } = useFilter({
 		name: S_PARAMS.FILTER,
 		defaultValue: 'all',
 	});
-	const { onView, view: represent } = useView({
+	const { onChange: onView, value: represent } = useFilter({
 		name: S_PARAMS.VIEW,
 		defaultValue: EnumRepresent.TABLE,
 	});
@@ -62,16 +61,16 @@ function UsersView({ clients }: { clients: IClient[] }) {
 		return [
 			{
 				uid: 'all',
-				title: t(`filter.all`),
+				message: t(`filter.all`),
 			},
 			{
 				uid: EnumState.ACTIVE,
-				title: t(`filter.active`),
+				message: t(`filter.active`),
 			},
 			{
 				uid: EnumState.INACTIVE,
-				title: t(`filter.inactive`),
-			}
+				message: t(`filter.inactive`),
+			},
 		];
 	}, [t]);
 
@@ -79,11 +78,11 @@ function UsersView({ clients }: { clients: IClient[] }) {
 		return [
 			{
 				uid: EnumRepresent.TABLE,
-				title: t(`filter.table`),
+				message: t(`filter.table`),
 			},
 			{
 				uid: EnumRepresent.LIST,
-				title: t(`filter.list`),
+				message: t(`filter.list`),
 			},
 		];
 	}, [t]);

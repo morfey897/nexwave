@@ -77,10 +77,10 @@ function Settings({ project }: { project: IFullProject | null }) {
 				activeTab={activeTab}
 				projectId={project?.id || 0}
 			/>
-			<ContainerHeader className='border-b dark:border-gray-700'>
+			<ContainerHeader className='border-b dark:border-gray-700 pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900'>
 				<Group
 					className={clsx(
-						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900',
+						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none',
 						'overflow-x-scroll hide-scroll',
 					)}
 				>

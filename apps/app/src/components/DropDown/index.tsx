@@ -17,7 +17,7 @@ function DropDown({
 			{element}
 			<div
 				className={clsx(
-					'absolute z-10 flex-col rounded-md shadow-xl overflow-hidden bg-white dark:bg-gray-800',
+					'absolute z-[25] flex-col rounded-md shadow-xl overflow-hidden bg-white dark:bg-gray-800',
 					'max-h-0',
 					'transition-max-height ease-linear duration-300',
 					'group-hover:max-h-[100vh]',
