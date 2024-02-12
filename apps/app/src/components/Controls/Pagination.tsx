@@ -27,7 +27,8 @@ export default function Pagination({
 	className,
 	...props
 }: TTableFooterProps & React.HTMLAttributes<HTMLDivElement>) {
-	const t = (a: string) => a;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const t = (a: string, ...props: unknown[]) => a + JSON.stringify(props);
 	// useTranslations();
 
 	const listPages = useMemo(() => {

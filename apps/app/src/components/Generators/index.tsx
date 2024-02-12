@@ -15,7 +15,8 @@ export function TimeGenerator({
 }: {
 	item: { uuid: string; value: string };
 }) {
-	const t = (a: string) => a;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const t = (a: string, ...props: unknown[]) => a + JSON.stringify(props);
 	// useTranslations();
 	const NOW = new Date(new Date().toISOString().split('T')[0]);
 	const dateLocale = useDateLocale();

@@ -32,7 +32,8 @@ import { useView } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 
 function UsersView({ clients }: { clients: IClient[] }) {
-	const t = (a: string, ...props:unknown[]) => a;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const t = (a: string, ...props: unknown[]) => a + JSON.stringify(props);
 	// useTranslations();
 
 	const isScrolled = useScrollDetect(0.07);

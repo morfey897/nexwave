@@ -42,7 +42,8 @@ function TimetableView({
 	timeStep: number;
 	device?: EnumDeviceType;
 }) {
-	const t = (a: string, ...props:unknown[]) => a;
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const t = (a: string, ...props: unknown[]) => a + JSON.stringify(props);
 	// useTranslations();
 
 	const isScrolled = useScrollDetect(0.07);
