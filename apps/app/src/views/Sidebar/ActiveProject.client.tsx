@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react';
 import { MODALS } from '@/routes';
 import { useOpenModal } from '@nw/modal';
-import { useNWStore } from '@/hooks/store';
+import useNWStore from '@/lib/store';
 import { Button } from '@/components/Button';
 import BranchIcon from '@/components/Project/Icon';
 import clsx from 'clsx';

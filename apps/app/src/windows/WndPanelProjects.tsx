@@ -12,7 +12,7 @@ import {
 	ModalState,
 } from '@nw/modal';
 import clsx from 'clsx';
-import { useNWStore } from '@/hooks/store';
+import useNWStore from '@/lib/store';
 import { useAPI } from '@/hooks/action';
 import { useMemo, useCallback } from 'react';
 import { EnumResponse } from '@/enums';

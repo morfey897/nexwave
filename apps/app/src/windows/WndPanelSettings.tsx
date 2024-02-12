@@ -6,7 +6,7 @@ import { HiCog, HiLogout } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
 import { HOME } from '@/routes';
 import { signOut } from '@/actions/auth-action';
-import { useNWStore } from '@/hooks/store';
+import useNWStore from '@/lib/store';
 import clsx from 'clsx';
 import { MdVerified } from 'react-icons/md';
 import { fullname, abbrev } from '@/utils';

@@ -2,7 +2,7 @@
 import { MODALS } from '@/routes';
 import { useCallback } from 'react';
 import Picture from '@/components/Picture';
-import { useNWStore } from '@/hooks/store';
+import useNWStore from '@/lib/store';
 import { abbrev, fullname } from '@/utils';
 import Button from '@/components/Button';
 import { useOpenModal } from '@nw/modal';
