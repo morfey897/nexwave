@@ -1,7 +1,6 @@
 import { RiDashboardFill } from 'react-icons/ri';
 
 export default function Home() {
-	console.log('HOME_PAGE');
 	return (
 		//  ml-0 lg:ml-64
 		<div className='flex flex-col items-center'>

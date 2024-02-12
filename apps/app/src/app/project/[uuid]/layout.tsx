@@ -1,10 +1,10 @@
 import Sidebar from '@/views/Sidebar';
 import Block from '@/components/Block';
-import Breadcrumbs from '@/views/Breadcrumbs';
 import { getUserFromSession } from '@/models/user';
 import { getProjectsByUserId } from '@/models/project';
 import { UpdateStore } from '@/providers/StoreProvider';
-import { getPathname } from '@/headers';
+import { notFound } from 'next/navigation';
+import Breadcrumbs from '@/views/Breadcrumbs';
 
 export default async function ProjectLayout({
 	children,
@@ -18,14 +18,16 @@ export default async function ProjectLayout({
 		uuid: params.uuid,
 	})) || [null];
 
-	const pathname = getPathname();
+	if (!project) {
+		return notFound();
+	}
 
 	return (
 		<>
-			<UpdateStore state={{ project: project || null }} />
-			<Sidebar params={params} pathname={pathname} />
+			<UpdateStore state={{ project }} />
+			<Sidebar params={params} />
 			<Block>
-				<Breadcrumbs pathname={pathname} />
+				<Breadcrumbs project={project} />
 				{children}
 			</Block>
 		</>

@@ -32,16 +32,7 @@ const LINKS = [
 	{ href: routes.USERS, label: 'general.users', Icon: HiUserCircle },
 ];
 
-const isActive = (pathName: string, route: string) =>
-	pathName.replace(/\/+$/, '') === route.replace(/\/+$/, '');
-
-function Sidebar({
-	params,
-	pathname,
-}: {
-	params: Record<string, string>;
-	pathname: string;
-}) {
+function Sidebar({ params }: { params: Record<string, string> }) {
 	const t = useTranslations();
 
 	return (
@@ -61,14 +52,12 @@ function Sidebar({
 							);
 
 						const { href, label, Icon } = item;
-						const link = dynamicHref(href, params);
 						return (
 							<NavButton
-								key={link}
-								href={link}
+								key={href}
+								href={dynamicHref(href, params)}
 								message={t(label)}
 								icon={<Icon size={32} />}
-								active={isActive(pathname, link)}
 							/>
 						);
 					})}

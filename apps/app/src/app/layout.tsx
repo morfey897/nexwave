@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import ThemeProvider from '@/providers/ThemeProvider';
 import { generateViewport, getMetadata } from '@/utils/seo';
 import Header from '@/views/Header';
-// import StoreProvider from '@/providers/StoreProvider';
 import ModalsContainer from '@/windows';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -37,11 +36,9 @@ export default async function RootLayout({
 					'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200',
 				)}
 			>
-				{/* <StoreProvider store={{}}> */}
 				<Header />
 				<main className='flex w-full'>{children}</main>
 				<ModalsContainer />
-				{/* </StoreProvider> */}
 			</body>
 		</html>
 	);
