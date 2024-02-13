@@ -1,15 +1,16 @@
 import { INode, ICalendarProps, TTimes } from '@/types/calendar';
 import { useMemo } from 'react';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { useDateLocale } from '@/hooks/datetime';
-import {
-	toIsoDate,
-	mmToTime,
-	toTime,
-	timeToMinutes,
-} from '@/utils/datetime';
+import { toIsoDate, mmToTime, toTime, timeToMinutes } from '@/utils/datetime';
 import { addZiro } from '@/utils';
-import { cellStyle, detectCollisions, groupRectangles, TRect } from '@/utils/view';
+import {
+	cellStyle,
+	detectCollisions,
+	groupRectangles,
+	TRect,
+} from '@/utils/view';
+import { EnumPeriod } from '@/enums';
 
 /**
  * Calculate min, max and step for times
@@ -185,4 +186,29 @@ export function useBodyCalendar<T extends INode>({
 		return timesMap;
 	}, [events, dates, times]);
 	return body;
+}
+
+/**
+ * Hook for dates
+ * @param param0
+ * @returns
+ */
+export function useDatesCalendar({
+	period,
+	day,
+}: {
+	period: string | EnumPeriod;
+	day: string;
+}) {
+	const dates = useMemo(() => {
+		if (period === EnumPeriod.WEEK) {
+			return new Array(7)
+				.fill(0)
+				.map((_, index) => toIsoDate(addDays(new Date(day), index)));
+		} else {
+			return [day];
+		}
+	}, [period, day]);
+
+	return dates;
 }

@@ -25,10 +25,16 @@ function ChangeDate({
 	const locale = useDateLocale();
 
 	const title = useMemo(() => {
+		const from = toIsoDate(dates[0]);
+		const to = toIsoDate(dates[1]);
+
+		if (from === to)
+			return format(new Date(from), 'dd MMM', { locale: locale });
+
 		return (
-			format(new Date(toIsoDate(dates[0])), 'dd MMM', { locale: locale }) +
+			format(new Date(from), 'dd MMM', { locale: locale }) +
 			' - ' +
-			format(new Date(toIsoDate(dates[1])), 'dd MMM', {
+			format(new Date(to), 'dd MMM', {
 				locale: locale,
 			})
 		);

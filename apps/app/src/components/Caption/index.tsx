@@ -27,8 +27,10 @@ function Caption({
 	add,
 	imprt,
 	className,
+	hideAddOnScroll,
 	...props
-}: { isScrolled?: boolean } & TCaption & React.HTMLAttributes<HTMLDivElement>) {
+}: { hideAddOnScroll?: boolean } & TCaption &
+	React.HTMLAttributes<HTMLDivElement>) {
 	const isScrolled = useScrollDetect('86px');
 
 	return (
@@ -44,9 +46,8 @@ function Caption({
 						</h2>
 					</CountBadge>
 
-					{!!add && (
+					{!!add && !hideAddOnScroll && (
 						<Button
-							// size='xs'
 							onClick={add.onClick}
 							variant='primary'
 							icon={<HiOutlinePlusCircle size={32} />}

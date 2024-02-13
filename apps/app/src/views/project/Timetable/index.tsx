@@ -1,24 +1,5 @@
-import { useFilter, useDay } from '@/hooks/filter';
-import Filter from '@/components/Controls/Filter';
-import ChangeDate from '@/components/Controls/ChangeDate';
-import { HiOutlineViewGrid, HiOutlineFilter } from 'react-icons/hi';
-import { EnumState, EnumPeriod } from '@/enums';
-import { useEffect, useMemo } from 'react';
-import { WeekCalendarHead, WeekCalendarBody } from '@/components/Calendar/Week';
-import { previousMonday, addDays } from 'date-fns';
-import { toIsoDate } from '@/utils/datetime';
-import { EventGenerator } from '@/components/Generators/timetable';
-import Container, {
-	ContainerBody,
-	ContainerHeader,
-	ContainerScrollableHeader,
-	useSyncScroll,
-} from '@/components/Containers';
-import clsx from 'clsx';
-import { useScrollDetect } from '@/hooks/scrollDetect';
-import { IEvent } from '@/types/event';
+import Container, { ContainerBody } from '@/components/Containers';
 import { EnumDeviceType } from '@/enums';
-import { S_PARAMS } from '@nw/config';
 
 import {
 	useMessages,
@@ -29,18 +10,9 @@ import { pick } from 'lodash';
 
 import Caption from './Caption.client';
 import Header from './Header.client';
+import Body from './Body.client';
 
-function TimetableView({
-	events,
-	cellHeight,
-	timeStep,
-	device,
-}: {
-	events: IEvent[];
-	cellHeight: number;
-	timeStep: number;
-	device?: EnumDeviceType;
-}) {
+function TimetableView({ device }: { device?: EnumDeviceType }) {
 	const t = useTranslations();
 	const messages = useMessages();
 	const filterMessages = pick(messages, ['filter', 'day']);
@@ -59,7 +31,8 @@ function TimetableView({
 			<NextIntlClientProvider messages={filterMessages}>
 				<Header device={device} />
 			</NextIntlClientProvider>
-			<ContainerBody>
+			<Body device={device} />
+			{/* <ContainerBody>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
 					bibendum libero mattis semper cursus. Quisque et facilisis magna.
@@ -144,7 +117,7 @@ function TimetableView({
 					dictum. Mauris interdum vel eros eget maximus. Sed vulputate diam id
 					rhoncus dignissim.
 				</p>
-			</ContainerBody>
+			</ContainerBody> */}
 		</Container>
 	);
 

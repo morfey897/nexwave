@@ -28,7 +28,6 @@ import Container, {
 	useSyncScroll,
 } from '@/components/Containers';
 import clsx from 'clsx';
-import { useFilter } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 
 function ClintsView({ clients }: { clients: IClient[] }) {
@@ -62,15 +61,15 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 		return [
 			{
 				uid: 'all',
-				title: t(`filter.all`),
+				message: t(`filter.all`),
 			},
 			{
 				uid: EnumState.ACTIVE,
-				title: t(`filter.active`),
+				message: t(`filter.active`),
 			},
 			{
 				uid: EnumState.INACTIVE,
-				title: t(`filter.inactive`),
+				message: t(`filter.inactive`),
 			},
 		];
 	}, [t]);
@@ -79,11 +78,11 @@ function ClintsView({ clients }: { clients: IClient[] }) {
 		return [
 			{
 				uid: EnumRepresent.TABLE,
-				title: t(`filter.table`),
+				message: t(`filter.table`),
 			},
 			{
 				uid: EnumRepresent.LIST,
-				title: t(`filter.list`),
+				message: t(`filter.list`),
 			},
 		];
 	}, [t]);

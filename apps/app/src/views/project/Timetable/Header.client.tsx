@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { WeekCalendarHead } from '@/components/Calendar/Week';
 import { MdCalendarViewDay, MdCalendarViewWeek } from 'react-icons/md';
 import { previousMonday, addDays } from 'date-fns';
-import { toIsoDate } from '@/utils/datetime';
+import { toIsoDate, getFirstDayOfWeek } from '@/utils/datetime';
 import Container, {
 	ContainerBody,
 	ContainerHeader,
@@ -17,6 +17,7 @@ import Container, {
 import clsx from 'clsx';
 import { S_PARAMS } from '@nw/config';
 import { EnumDeviceType } from '@/enums';
+import { useDatesCalendar, useNow } from '@/hooks/calendar';
 import useNWStore from '@/lib/store';
 import BranchIcon from '@/components/Project/Icon';
 import DropDown from '@/components/DropDown';
@@ -33,24 +34,16 @@ const PERIODS = [
 		title: `filter.day`,
 		icon: <MdCalendarViewDay size={24} />,
 	},
-	
 ];
-
-const getFirstDay = () => {
-	const now = new Date();
-	if (now.getDay() === 1) {
-		return toIsoDate(now);
-	}
-	return toIsoDate(previousMonday(now));
-};
 
 function Header({ device }: { device?: EnumDeviceType }) {
 	const project = useNWStore((state) => state.project);
 	const t = useTranslations();
 	const locale = useLocale();
+	const now = useNow();
 
 	const { onChange: onBranch, value: branchUUid } = useFilter({
-		name: 'branch',
+		name: S_PARAMS.FILTER,
 		defaultValue: 'all',
 	});
 
@@ -66,18 +59,10 @@ function Header({ device }: { device?: EnumDeviceType }) {
 
 	const { onDay, day } = useDay({
 		name: S_PARAMS.DAY,
-		defaultValue: getFirstDay(),
+		defaultValue: period === EnumPeriod.WEEK ? getFirstDayOfWeek() : now.date,
 	});
 
-	const getDates = useMemo(() => {
-		if (period === EnumPeriod.WEEK) {
-			return new Array(7)
-				.fill(0)
-				.map((_, index) => toIsoDate(addDays(new Date(day), index)));
-		} else {
-			return [day];
-		}
-	}, [period, day]);
+	const datesList = useDatesCalendar({ period, day });
 
 	const FilterBranche = useMemo(
 		() => (
@@ -148,17 +133,13 @@ function Header({ device }: { device?: EnumDeviceType }) {
 					'border-b dark:border-gray-700 pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900',
 				)}
 			>
-				<div
-					className={clsx(
-						'flex flex-wrap justify-between gap-2 md:gap-0',
-					)}
-				>
+				<div className={clsx('flex flex-wrap justify-between gap-2 md:gap-0')}>
 					<div className='hidden md:block'>{FilterBranche}</div>
 					<ChangeDate
 						onChange={(index: number) =>
 							onDay(index * (period === EnumPeriod.WEEK ? 7 : 1))
 						}
-						dates={[getDates[0], getDates[getDates.length - 1]]}
+						dates={[datesList[0], datesList[datesList.length - 1]]}
 						className='md:w-auto w-full max-w-[250px] m-auto'
 						messages={{
 							today: t('day.today'),
@@ -179,7 +160,7 @@ function Header({ device }: { device?: EnumDeviceType }) {
 							'w-full',
 							period === EnumPeriod.WEEK && 'min-w-[600px]',
 						)}
-						dates={getDates}
+						dates={datesList}
 					/>
 				</div>
 			</ContainerHeader>

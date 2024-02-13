@@ -1,4 +1,5 @@
 import toMS from 'ms';
+import { previousMonday } from 'date-fns';
 
 export const ms = (time: string | number) => toMS(time.toString());
 export const sec = (time: string | number) => Math.ceil(ms(time) / 1000);
@@ -59,4 +60,16 @@ export const addTime = (
 			: d;
 	const total = timeToSeconds(time) + timeToSeconds(plus);
 	return ssToTime(total);
+};
+
+export const getFirstDayOfWeek = (d?: Date | string | number) => {
+	if (!(d instanceof Date)) {
+		d =
+			typeof d === 'string' || typeof d === 'number' ? new Date(d) : new Date();
+	}
+
+	if (d.getDay() === 1) {
+		return toIsoDate(d);
+	}
+	return toIsoDate(previousMonday(d));
 };

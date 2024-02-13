@@ -20,7 +20,7 @@ function useHook({ prefix, name, defaultValue }: TFilterParams) {
 				clone.set(searchParam, String(value));
 			}
 			const str = clone.toString();
-			router.push(`?${str}`, { scroll: true });
+			router.push(`?${str}`, { scroll: false });
 		},
 		[router, searchParams, defaultValue, searchParam],
 	);

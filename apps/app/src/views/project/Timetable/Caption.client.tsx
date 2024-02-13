@@ -25,6 +25,7 @@ function CaptionClient({
 		<Caption
 			headline={headline}
 			subheadline={subheadline}
+			hideAddOnScroll
 			add={{
 				title: add,
 				onClick: addEvent,
