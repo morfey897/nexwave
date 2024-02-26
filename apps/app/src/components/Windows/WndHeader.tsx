@@ -4,7 +4,7 @@ import { HiX } from 'react-icons/hi';
 import Button from '@/components/Button';
 import Headline from '@/components/Headline';
 
-function Header({
+function WndHeader({
 	className,
 	onClose,
 	headline,
@@ -18,7 +18,7 @@ function Header({
 	return (
 		<div
 			className={clsx(
-				'sticky top-0 z-10 pt-6 pb-3 w-full bg-gray-100 dark:bg-gray-900 rounded-lg',
+				'sticky top-0 z-10 pt-6 pb-3 w-full rounded-lg bg-inherit',
 				className,
 			)}
 			{...rest}
@@ -42,4 +42,4 @@ function Header({
 	);
 }
 
-export default Header;
+export default WndHeader;

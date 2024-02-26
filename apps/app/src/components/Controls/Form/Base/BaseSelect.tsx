@@ -13,7 +13,7 @@ function BaseSelect({
 	errorCopy,
 	onChange,
 	...props
-}: InputProps<HTMLSelectElement>) {
+}: InputProps & React.InputHTMLAttributes<HTMLSelectElement>) {
 	const ref = useRef<HTMLSelectElement>(null);
 	const bgClassName = clsx('bg-white dark:bg-gray-900');
 	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');

@@ -34,7 +34,7 @@ function Tab({
 			}
 			clone.delete(S_PARAMS.ACTIVE);
 			const str = clone.toString();
-			router.push(`?${str}`);
+			router.replace(`?${str}`, { scroll: false });
 		},
 		[router, searchParams, name],
 	);

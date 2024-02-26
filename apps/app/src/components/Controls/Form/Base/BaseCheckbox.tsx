@@ -11,7 +11,7 @@ function BaseCheckbox({
 	hidePlaceholder,
 	disabled,
 	...props
-}: InputProps<HTMLInputElement>) {
+}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');
 	return (
 		<>

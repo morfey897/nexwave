@@ -1,7 +1,7 @@
 'use client';
 import clsx from 'clsx';
 
-function Footer({
+function WndFooter({
 	errorCopy,
 	className,
 	children,
@@ -20,4 +20,4 @@ function Footer({
 	);
 }
 
-export default Footer;
+export default WndFooter;

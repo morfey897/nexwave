@@ -1,6 +1,16 @@
-export { default as Input } from './input';
-export { default as Select } from './select';
-export { default as File } from './file';
-export { default as TextArea } from './textarea';
-export { default as Checkbox } from './checkbox';
-export { default as Fieldset } from './fieldset';
+export { default as Fieldset } from './Fieldset';
+export { default as Input } from './Input';
+export { default as Select } from './Select';
+export { default as Masked } from './Masked';
+export { default as Checkbox } from './Checkbox';
+export { default as File } from './File';
+export { default as Textarea } from './Textarea';
+export { default as Duration } from './Duration';
+
+// export function Duration(props: InputProps<HTMLInputElement>) {
+// 	return <Base {...props} component='duration' />;
+// }
+
+// export function Masked(props: InputProps<HTMLInputElement>) {
+// 	return <Base {...props} component='masked' />;
+// }

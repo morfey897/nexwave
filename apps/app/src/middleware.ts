@@ -109,15 +109,17 @@ export async function middleware(request: NextRequest) {
 
 	if (pathname.startsWith(APP)) {
 		try {
+			const session = getSession();
+			const refresh_token = getRefreshToken();
 			const refreshResponse = await fetch(
 				new URL(API.AUTH_REFRESH_TOKEN, request.nextUrl.origin),
 				{
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${getRefreshToken()}`,
+						Authorization: `Bearer ${refresh_token}`,
 					},
-					body: getSession(),
+					body: session,
 				},
 			);
 			const json = await refreshResponse.json();

@@ -28,6 +28,8 @@
 		"select_image": "Select image",
 		"color": "Color",
 		"select_color": "Select color",
+		"select_branch": "Select branch",
+		"select_space": "Select space",
 		"currency": "Currency",
 		"select_currency": "Select currency",
 		"project_name": "Project name",
@@ -42,7 +44,12 @@
 		"address_line": "Address line",
 		"address_line_2": "Address line 2",
 		"spaces": "Spaces",
-		"space_": "{index, select, 1 {First} 2 {Second} 3 {Third} other {#th}} space}"
+		"space_": "{index, select, 1 {First} 2 {Second} 3 {Third} other {#th}}",
+		"date": "Date",
+		"from": "From",
+		"to": "To",
+		"start": "Start",
+		"end": "End"
 	},
 	"button": {
 		"sign_in": "Sign in",
@@ -222,6 +229,10 @@
 		"add_branch": {
 			"headline": "Add new branch",
 			"subheadline": "Here you can add new branch"
+		},
+		"add_event": {
+			"headline": "Add new event",
+			"subheadline": "Here you can add new event"
 		},
 		"panel_projects": {
 			"headline": "Projects",

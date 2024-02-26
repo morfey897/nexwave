@@ -13,15 +13,19 @@ import { CELL_HEIGHT, TIME_STEP } from './config';
 import { useAPI } from '@/hooks/action';
 import { IEvent } from '@/types/event';
 import useNWStore from '@/lib/store';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { throttle } from 'lodash';
+import { API } from '@/routes';
+import { dynamicHref } from '@/utils';
+import AccessDenied from '@/components/AccessDenied';
+import { ACCESS_DENIED } from '@/errorCodes';
 
 function Body({ device }: { device?: EnumDeviceType }) {
 	const ref = useRef<HTMLDivElement>(null);
 	const project = useNWStore((state) => state.project);
 	const { value: branchUUid } = useFilter({
 		name: S_PARAMS.FILTER,
-		defaultValue: 'all',
+		defaultValue: '__all__',
 	});
 
 	const { value: period } = useFilter({
@@ -37,15 +41,20 @@ function Body({ device }: { device?: EnumDeviceType }) {
 
 	const datesList = useDatesCalendar({ period, day });
 
-	const { result, pending } = useAPI<IEvent[] | null>(
-		() =>
-			`/api/events?${new URLSearchParams({
-				from: datesList[0],
-				to: datesList[datesList.length - 1],
-				branch: branchUUid,
-				projectId: project?.uuid || '',
-			})}`,
+	const { result, pending } = useAPI<IEvent[] | null>(() =>
+		project
+			? dynamicHref(API.EVENTS, {
+					params: new URLSearchParams({
+						from: datesList[0],
+						to: datesList[datesList.length - 1],
+						branch: branchUUid,
+						projectId: project.id.toString(),
+					}),
+				})
+			: null,
 	);
+
+	const isAccessDenied = result?.error?.code === ACCESS_DENIED;
 
 	const onResize = useMemo(
 		() =>
@@ -71,10 +80,16 @@ function Body({ device }: { device?: EnumDeviceType }) {
 			<div
 				ref={ref}
 				className={clsx(
+					'relative',
 					period === EnumPeriod.WEEK && 'min-w-[600px]',
 					'max-h-[100vh]',
 				)}
 			>
+				{isAccessDenied && (
+					<div className='z-10 bg-gray-100/20 dark:bg-black/20 backdrop-blur absolute w-full h-full'>
+						<AccessDenied className='mt-4' />
+					</div>
+				)}
 				<WeekCalendarBody<IEvent>
 					className={clsx(
 						'bg-white dark:bg-gray-900',

@@ -58,6 +58,7 @@ export interface IBranch extends TUID {
 	createdAt: Date;
 	image: string | null;
 	state: string | null;
+	spaces: Array<{ shortId: string; name: string }>;
 }
 
 export interface IFullBranch extends IBranch {
@@ -69,7 +70,6 @@ export interface IFullBranch extends IBranch {
 		address_line_2?: string;
 	};
 	contacts: Record<string, string>;
-	spaces: Array<{ shortId: string; name: string }>;
 }
 
 export interface IFullProject
@@ -199,6 +199,7 @@ export async function deployNewProject(
 					name: schemas.branch.name,
 					image: schemas.branch.image,
 					state: schemas.branch.state,
+					spaces: schemas.branch.spaces,
 					projectId: schemas.branch.projectId,
 					createdAt: schemas.branch.createdAt,
 				});
@@ -342,6 +343,7 @@ export async function getProjectsByUserId(
 						createdAt: proj._branch.createdAt,
 						image: proj._branch.image,
 						state: proj._branch.state,
+						spaces: proj._branch.spaces,
 					}
 				: null;
 			if (project) {

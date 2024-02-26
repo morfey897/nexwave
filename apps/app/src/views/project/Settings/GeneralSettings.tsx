@@ -2,11 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { useAction } from '@/hooks/action';
-import { Input, Select, File, TextArea } from '@/components/Controls/Form';
+import { Input, Select, File, Textarea } from '@/components/Controls/Form';
 import Skeleton from '@/components/Skeleton';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
-import Marker from '@/components/Project/Marker';
-import { EnumResponse, EnumColor, EnumCurrency } from '@/enums';
+import Marker from '@/components/ColorMarker';
+import { EnumResponse, EnumColor, EnumCurrency, COLORS, CURRENCIES } from '@/enums';
 import {
 	useCallback,
 	useEffect,
@@ -34,9 +34,6 @@ const ROLES: Record<UnitAction, number> = {
 	unpublish: UPDATE.UNPUBLISH_PROJECT,
 	delete: DELETE.PROJECT,
 };
-
-const COLORS = Object.values(EnumColor);
-const CURRENCIES = Object.values(EnumCurrency);
 
 function GeneralSettings({ project }: { project: IFullProject | null }) {
 	const t = useTranslations();
@@ -127,7 +124,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 
 					{/* Info */}
 					{activeProject ? (
-						<TextArea
+						<Textarea
 							disabled={disabledForm}
 							onChange={onChange}
 							name='info'

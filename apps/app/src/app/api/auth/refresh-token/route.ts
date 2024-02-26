@@ -4,6 +4,8 @@ import { COOKIES } from '@nw/config';
 import { ICurrentUser } from '@/models/user';
 import { cookies } from 'next/headers';
 import { sessionCookie } from '@/utils/cookies';
+import { USER_UNAUTHORIZED } from '@/errorCodes';
+import { parseError } from '@/utils';
 
 const refreshCookie = async (
 	refresh_token: string,
@@ -30,7 +32,10 @@ export async function GET(request: NextRequest) {
 
 	const user = await refreshCookie(refresh_token, session);
 	if (!user) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+		return NextResponse.json(
+			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },
+			{ status: 401 },
+		);
 	}
 
 	cookies().set(sessionCookie(user));
@@ -44,7 +49,10 @@ export async function POST(request: NextRequest) {
 
 	const user = await refreshCookie(refresh_token, session);
 	if (!user) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+		return NextResponse.json(
+			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },
+			{ status: 401 },
+		);
 	}
 
 	const sessionData = sessionCookie(user);

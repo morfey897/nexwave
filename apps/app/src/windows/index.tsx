@@ -13,6 +13,8 @@ function Modals() {
 		'page.panel_projects',
 		'page.add_project',
 		'page.add_branch',
+		'page.add_event',
+		'page.access_denied',
 	]);
 	return (
 		<NextIntlClientProvider messages={partMessages}>

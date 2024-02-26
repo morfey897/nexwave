@@ -1,7 +1,6 @@
-import { HiOutlinePuzzle } from 'react-icons/hi';
-import { BsDiagram2 } from 'react-icons/bs';
-import Marker from './Marker';
+import Marker from '../ColorMarker';
 import clsx from 'clsx';
+import SVGIcon from '../SVGIcon';
 
 function Icon({
 	image,
@@ -32,8 +31,8 @@ function Icon({
 				</picture>
 			) : (
 				<span className='inline-block text-blue-500 dark:text-blue-400 align-middle'>
-					{altFallback === 'project' && <BsDiagram2 size={size} />}
-					{altFallback === 'branch' && <HiOutlinePuzzle size={size} />}
+					{altFallback === 'project' && <SVGIcon type='project' size={size} />}
+					{altFallback === 'branch' && <SVGIcon type='branch' size={size} />}
 					{!!Fallback && !altFallback && <Fallback size={size} />}
 				</span>
 			)}

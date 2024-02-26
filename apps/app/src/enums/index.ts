@@ -69,3 +69,7 @@ export enum EnumCurrency {
 	USD = 'USD',
 	EUR = 'EUR',
 }
+
+
+export const COLORS = Object.values(EnumColor);
+export const CURRENCIES = Object.values(EnumCurrency);

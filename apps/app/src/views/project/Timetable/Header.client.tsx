@@ -44,12 +44,13 @@ function Header({ device }: { device?: EnumDeviceType }) {
 
 	const { onChange: onBranch, value: branchUUid } = useFilter({
 		name: S_PARAMS.FILTER,
-		defaultValue: 'all',
+		defaultValue: '__all__',
 	});
 
-	const activeBranch = project?.branches.find(
-		(branch) => branch.uuid === branchUUid,
-	);
+	const activeBranch =
+		project?.branches && project?.branches.length === 1
+			? project?.branches[0]
+			: project?.branches.find((branch) => branch.uuid === branchUUid);
 
 	const { onChange: onView, value: period } = useFilter({
 		name: S_PARAMS.VIEW,
@@ -83,20 +84,34 @@ function Header({ device }: { device?: EnumDeviceType }) {
 					/>
 				}
 			>
-				<div className='px-2 py-4 flex flex-col'>
-					{project?.branches.map(({ uuid, name, image }) => (
+				{project?.branches && project.branches.length > 1 && (
+					<div className='px-2 py-4 flex flex-col'>
 						<Button
-							key={uuid}
 							onClick={() => {
-								onBranch(uuid);
+								onBranch('__all__');
 							}}
-							disabled={branchUUid === uuid}
+							disabled={branchUUid === '__all__'}
 							className={clsx('w-[120px]')}
-							message={name}
-							icon={<BranchIcon image={image} size={24} altFallback='branch' />}
+							message={t('filter.all')}
+							icon={<BranchIcon size={24} altFallback='branch' />}
 						/>
-					))}
-				</div>
+
+						{project?.branches.map(({ uuid, name, image }) => (
+							<Button
+								key={uuid}
+								onClick={() => {
+									onBranch(uuid);
+								}}
+								disabled={branchUUid === uuid}
+								className={clsx('w-[120px]')}
+								message={name}
+								icon={
+									<BranchIcon image={image} size={24} altFallback='branch' />
+								}
+							/>
+						))}
+					</div>
+				)}
 			</DropDown>
 		),
 		[t, project, activeBranch, onBranch, branchUUid],

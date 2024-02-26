@@ -1,9 +1,9 @@
 'use client';
 import Button from '@/components/Button';
 import { useTranslations } from 'next-intl';
-import Marker from '@/components/Project/Marker';
+import Marker from '@/components/ColorMarker';
 import { type IModal, Position, withModal, useCloseAllModal } from '@nw/modal';
-import { Input, Select, File, TextArea } from '@/components/Controls/Form';
+import { Input, Select, File, Textarea } from '@/components/Controls/Form';
 import Spinner from '@/components/Spinner';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { generateColor } from '@/utils';
 import { useAction } from '@/hooks/action';
 import { actionCreateNewProject } from '@/actions/project-action';
 import { ACCESS_DENIED, CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
-import { EnumColor, EnumCurrency, EnumResponse } from '@/enums';
+import { EnumColor, EnumResponse, COLORS, CURRENCIES } from '@/enums';
 import { MdOutlineCurrencyExchange } from 'react-icons/md';
 import {
 	WndWrapper,
@@ -21,9 +21,6 @@ import {
 } from '@/components/Windows';
 import ErrorCopy from '@/components/ErrorCopy';
 import { useRouter } from 'next/navigation';
-
-const COLORS = Object.values(EnumColor);
-const CURRENCIES = Object.values(EnumCurrency);
 
 function CreateProject({ closeMe }: IModal) {
 	const router = useRouter();
@@ -59,7 +56,7 @@ function CreateProject({ closeMe }: IModal) {
 							type='text'
 							placeholder={t('form.project_name')}
 						/>
-						<TextArea name='info' placeholder={t('form.info')} />
+						<Textarea name='info' placeholder={t('form.info')} />
 						<Select
 							onChange={(event) => setColor(event.target.value as EnumColor)}
 							icon={<Marker size={12} color={color} className='block' />}

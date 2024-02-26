@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-function Body({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+function WndBody({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
 			className={clsx(
@@ -12,4 +12,4 @@ function Body({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
 	);
 }
 
-export default Body;
+export default WndBody;

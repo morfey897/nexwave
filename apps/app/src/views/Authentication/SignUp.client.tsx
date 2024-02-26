@@ -5,7 +5,7 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import Button from '@/components/Button';
 import OAuthButton from '@/components/Button/OAuthButton';
 import { FcGoogle } from 'react-icons/fc';
-import Input from '@/components/Controls/Form/input';
+import { Input } from '@/components/Controls/Form';
 import { useTranslations } from 'next-intl';
 import Spinner from '@/components/Spinner';
 import * as ErrorCodes from '@/errorCodes';

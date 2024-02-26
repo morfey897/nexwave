@@ -1,7 +1,6 @@
 'use client';
 import clsx from 'clsx';
 import Link from 'next/link';
-import Button from '@/components/Button';
 import { usePathname } from 'next/navigation';
 
 const isActive = (pathName: string, route: string) =>

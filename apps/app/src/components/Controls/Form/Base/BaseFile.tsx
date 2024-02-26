@@ -14,7 +14,7 @@ function File({
 	errorCopy,
 	disabled,
 	...props
-}: InputProps<HTMLInputElement>) {
+}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const ref = useRef<HTMLInputElement>(null);
 	const [file, setFile] = useState<string | null>(null);
 
@@ -40,7 +40,8 @@ function File({
 					'flex flex-col items-center text-center border-2 border-dashed',
 					'bg-white dark:bg-gray-900',
 					'rounded-lg py-4 px-3',
-					!disabled && 'dark:hover:border-blue-300 hover:border-blue-300 cursor-pointer'
+					!disabled &&
+						'dark:hover:border-blue-300 hover:border-blue-300 cursor-pointer',
 					// 'disabled:opacity-50 disabled:pointer-events-none'
 				)}
 			>

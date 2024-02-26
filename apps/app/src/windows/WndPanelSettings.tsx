@@ -1,6 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import { type IModal, withModal, Position } from '@nw/modal';
+import { type IModal, withModal, Position, useCloseAllModal } from '@nw/modal';
 import Button from '@/components/Button';
 import { HiCog, HiLogout } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
@@ -12,18 +12,19 @@ import { MdVerified } from 'react-icons/md';
 import { fullname, abbrev } from '@/utils';
 import Picture from '@/components/Picture';
 import { useTranslations } from 'next-intl';
+import { AsideWrapper, AsideHeader, AsideBody } from '@/components/Windows';
 
 function AsideSettings(props: IModal) {
+	const onCloseAll = useCloseAllModal();
 	const user = useNWStore((state) => state.user);
 	const t = useTranslations();
 	const route = useRouter();
 
 	const onExit = useCallback(async () => {
-		// setOpen(false);
-		// onCloseAll();
+		onCloseAll();
 		await signOut();
 		route.push(HOME);
-	}, [route]);
+	}, [route, onCloseAll]);
 
 	const onSettings = useCallback(() => {
 		// setOpen(false);
@@ -31,17 +32,11 @@ function AsideSettings(props: IModal) {
 	}, []);
 
 	return (
-		<aside
-			className={clsx(
-				'pt-[calc(86px+2rem)] pb-[100px] px-4 py-8',
-				'min-h-screen w-64',
-				'bg-white dark:bg-gray-800 dark:border-gray-700 border-l',
-			)}
-		>
-			<div>
+		<AsideWrapper className='!w-fit'>
+			<AsideHeader>
 				<div
 					className={clsx(
-						'flex p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default',
+						'flex text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default',
 					)}
 				>
 					<Picture
@@ -68,6 +63,8 @@ function AsideSettings(props: IModal) {
 						</p>
 					</div>
 				</div>
+			</AsideHeader>
+			<AsideBody>
 				<Button
 					variant='text'
 					size='lg'
@@ -85,8 +82,8 @@ function AsideSettings(props: IModal) {
 					onClick={onExit}
 					className='w-full'
 				/>
-			</div>
-		</aside>
+			</AsideBody>
+		</AsideWrapper>
 	);
 }
 

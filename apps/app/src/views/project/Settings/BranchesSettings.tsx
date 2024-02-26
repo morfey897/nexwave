@@ -12,7 +12,7 @@ import {
 import Icon from '@/components/Project/Icon';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { S_PARAMS } from '@nw/config';
-import { Input, TextArea } from '@/components/Controls/Form';
+import { Input, Textarea } from '@/components/Controls/Form';
 import StateSettings, { type UnitAction } from './StateSettings';
 import {
 	actionUpdateVisibilityBranch,
@@ -306,7 +306,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							<Skeleton className='h-[58px]' />
 						)}
 						{activeBranch ? (
-							<TextArea
+							<Textarea
 								disabled={disabledForm}
 								onChange={onChange}
 								name='info'

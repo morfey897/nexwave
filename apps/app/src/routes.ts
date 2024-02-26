@@ -18,6 +18,8 @@ export const SETTINGS = '/project/[uuid]/settings';
 export const API = {
 	AUTH_OAUTH: '/api/auth/[provider]',
 	AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
+	EVENTS: '/api/events?params=[params]',
+	PROJECTS: '/api/projects?[params]',
 };
 
 /// Modal windows ///
@@ -26,4 +28,5 @@ export const MODALS = {
 	PROJECTS: 'projects',
 	CREATE_PROJECT: 'new-project',
 	CREATE_BRANCH: 'new-branch',
+	CREATE_EVENT: 'new-event',
 } as const;

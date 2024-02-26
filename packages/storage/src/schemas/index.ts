@@ -150,7 +150,7 @@ export const service = pgTable('services', {
 	branchId: integer('branch_id')
 		.notNull()
 		.references(() => branch.id),
-	title: varchar('name', { length: 255 }).notNull(),
+	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	image: text('image'),
 	state: varchar('state', { length: 32 }),
@@ -171,8 +171,11 @@ export const event = pgTable('events', {
 	branchId: integer('branch_id')
 		.notNull()
 		.references(() => branch.id),
+	name: varchar('name', { length: 255 }).notNull(),
+	info: text('info'),
 	color: varchar('color', { length: 32 }),
 	startAt: timestamp('start_at').notNull(),
+	endAt: timestamp('end_at'),
 	duration: integer('duration').notNull(),
 	rrule: varchar('rrule', { length: 511 }),
 	spaceId: smallint('space_id'), //from branch:spaces

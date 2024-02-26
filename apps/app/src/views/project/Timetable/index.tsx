@@ -1,4 +1,4 @@
-import Container, { ContainerBody } from '@/components/Containers';
+import Container from '@/components/Containers';
 import { EnumDeviceType } from '@/enums';
 
 import {
@@ -16,6 +16,7 @@ function TimetableView({ device }: { device?: EnumDeviceType }) {
 	const t = useTranslations();
 	const messages = useMessages();
 	const filterMessages = pick(messages, ['filter', 'day']);
+	const bodyMessages = pick(messages, ['page.access_denied']);
 
 	return (
 		<Container className='mb-12'>
@@ -23,15 +24,14 @@ function TimetableView({ device }: { device?: EnumDeviceType }) {
 				headline={t('page.timetable.headline')}
 				subheadline={t('page.timetable.subheadline')}
 				add={t('button.add')}
-				// TODO need to pass projectId
-				projectId={0}
 				// activeTab={activeTab}
-				// projectId={project?.id || 0}
 			/>
 			<NextIntlClientProvider messages={filterMessages}>
 				<Header device={device} />
 			</NextIntlClientProvider>
-			<Body device={device} />
+			<NextIntlClientProvider messages={bodyMessages}>
+				<Body device={device} />
+			</NextIntlClientProvider>
 			{/* <ContainerBody>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent

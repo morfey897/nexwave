@@ -4,14 +4,15 @@ import { HiOutlinePlus } from 'react-icons/hi';
 import { BsDiagram2 } from 'react-icons/bs';
 import { useTranslations } from 'next-intl';
 import InnerProject, { SkeletonProject } from '@/components/Project/Inner';
+import SVGIcon from '@/components/SVGIcon';
 import {
 	type IModal,
 	Position,
 	withModal,
 	useOpenModal,
 	ModalState,
+	useCloseAllModal,
 } from '@nw/modal';
-import clsx from 'clsx';
 import useNWStore from '@/lib/store';
 import { useAPI } from '@/hooks/action';
 import { useMemo, useCallback } from 'react';
@@ -20,15 +21,18 @@ import { MODALS } from '@/routes';
 import { IProject } from '@/models/project';
 import ErrorCopy from '@/components/ErrorCopy';
 import { ACCESS_DENIED, USER_UNAUTHORIZED } from '@/errorCodes';
+import { API } from '@/routes';
+import { AsideWrapper, AsideHeader, AsideBody } from '@/components/Windows';
 
 function AsideProjects({ state }: IModal) {
+	const onCloseAll = useCloseAllModal();
 	const openModal = useOpenModal();
 	const activeProject = useNWStore((state) => state.project);
 	const t = useTranslations();
 
 	const { result, pending } = useAPI<IProject[] | null>(() =>
 		state === ModalState.OPENED || state === ModalState.CLOSING
-			? '/api/projects'
+			? API.PROJECTS
 			: null,
 	);
 
@@ -41,20 +45,15 @@ function AsideProjects({ state }: IModal) {
 	);
 
 	const onAddProject = useCallback(() => {
+		onCloseAll();
 		openModal(MODALS.CREATE_PROJECT);
-	}, [openModal]);
+	}, [openModal, onCloseAll]);
 
 	return (
-		<aside
-			className={clsx(
-				'pt-[calc(86px+2rem)] pb-[100px] px-4 py-8',
-				'min-h-screen w-64',
-				'bg-white dark:bg-gray-800 dark:border-gray-700 border-r',
-			)}
-		>
-			<div className='flex items-center justify-between'>
+		<AsideWrapper>
+			<AsideHeader className='flex items-center justify-between'>
 				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
-					<BsDiagram2 size={32} />
+					<SVGIcon type='project' size={32} />
 					<span className='ml-2'>{t('page.panel_projects.headline')}</span>
 				</h2>
 
@@ -65,8 +64,8 @@ function AsideProjects({ state }: IModal) {
 					onClick={onAddProject}
 					icon={<HiOutlinePlus size={16} />}
 				/>
-			</div>
-			<div className='mt-2 space-y-2'>
+			</AsideHeader>
+			<AsideBody className='space-y-2'>
 				{projects.map((project) => (
 					<InnerProject
 						key={project.uuid}
@@ -83,8 +82,8 @@ function AsideProjects({ state }: IModal) {
 				/>
 
 				{(pending || state === ModalState.OPENING) && <SkeletonProject />}
-			</div>
-		</aside>
+			</AsideBody>
+		</AsideWrapper>
 	);
 }
 

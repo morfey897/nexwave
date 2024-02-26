@@ -8,9 +8,12 @@ export function isNotNull<T>(key: string) {
 	return (item: any): item is T => item[key] !== null;
 }
 
-export function dynamicHref(href: string, params: Record<string, string>) {
+export function dynamicHref(
+	href: string,
+	params: Record<string, string | number | boolean | Object>,
+) {
 	return Object.entries(params).reduce(
-		(acc, [key, value]) => acc.replace(`[${key}]`, value),
+		(acc, [key, value]) => acc.replace(`[${key}]`, value.toString()),
 		href,
 	);
 }

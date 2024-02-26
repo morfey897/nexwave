@@ -29,3 +29,7 @@ td {
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.dark input {
+  color-scheme: dark;
+}

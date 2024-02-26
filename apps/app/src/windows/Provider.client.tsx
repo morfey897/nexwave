@@ -12,6 +12,7 @@ import AsideSettings from '@/windows/WndPanelSettings';
 import AsideProjects from '@/windows/WndPanelProjects';
 import CreateProject from '@/windows/WndCreateProject';
 import CreateBranch from '@/windows/WndCreateBranch';
+import CreateEvent from '@/windows/WndCreateEvent';
 import { useCallback, useRef, useEffect, useState } from 'react';
 import { encode, decode } from 'js-base64';
 
@@ -38,6 +39,7 @@ const COMPONENTS = {
 	[MODALS.PROJECTS]: AsideProjects,
 	[MODALS.CREATE_PROJECT]: CreateProject,
 	[MODALS.CREATE_BRANCH]: CreateBranch,
+	[MODALS.CREATE_EVENT]: CreateEvent,
 };
 
 function ModalsContainer() {

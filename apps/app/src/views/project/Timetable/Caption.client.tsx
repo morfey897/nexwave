@@ -3,33 +3,42 @@ import Caption from '@/components/Caption';
 import { useCallback } from 'react';
 import { useOpenModal } from '@nw/modal';
 import { MODALS } from '@/routes';
+import useNWStore from '@/lib/store';
+import { hasAccess } from '@/utils';
+import { CREATE } from '@/crud';
 
 function CaptionClient({
 	headline,
 	subheadline,
 	add,
-	projectId,
 }: {
 	headline: string;
 	subheadline: string;
 	add: string;
-	projectId: number;
 }) {
+	const project = useNWStore((state) => state.project);
+
+	const hasPermission = hasAccess(project?.permission, CREATE.EVENT);
+
 	const openModal = useOpenModal();
 
 	const addEvent = useCallback(() => {
-		openModal(MODALS.CREATE_BRANCH, { projectId });
-	}, [openModal, projectId]);
+		openModal(MODALS.CREATE_EVENT);
+	}, [openModal]);
 
 	return (
 		<Caption
 			headline={headline}
 			subheadline={subheadline}
 			hideAddOnScroll
-			add={{
-				title: add,
-				onClick: addEvent,
-			}}
+			add={
+				hasPermission
+					? {
+							title: add,
+							onClick: addEvent,
+						}
+					: undefined
+			}
 		/>
 	);
 }

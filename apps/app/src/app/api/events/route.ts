@@ -6,7 +6,7 @@ import { getProjectsByUserId, hasProjectAccess } from '@/models/project';
 import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
-import { UPDATE } from '@/crud';
+import { UPDATE, READ } from '@/crud';
 import { IEvent } from '@/types/event';
 import { addDays } from 'date-fns';
 import { toIsoDate } from '@/utils/datetime';
@@ -23,6 +23,14 @@ export async function GET(request: NextRequest) {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
+		const projectId = request.nextUrl.searchParams.get('projectId');
+
+		const access = await hasProjectAccess(READ.EVENT, {
+			userId: user.id,
+			projectId: projectId ? Number.parseInt(projectId) : undefined,
+		});
+
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 		// TODO: Implement hasProjectAccess
 		// const access = await hasProjectAccess(UPDATE.PROJECT, {
@@ -32,7 +40,6 @@ export async function GET(request: NextRequest) {
 
 		// const projects = await getProjectsByUserId(user.id);
 
-		const projectId = request.nextUrl.searchParams.get('projectId');
 		const from = request.nextUrl.searchParams.get('from');
 		const to = request.nextUrl.searchParams.get('to');
 		const branch = request.nextUrl.searchParams.get('branch');

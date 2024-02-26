@@ -18,9 +18,9 @@ function AccessDenied({
 			<p className='p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800'>
 				<FaUserLock size={32} />
 			</p>
-			<h1 className='mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl'>
+			<h2 className='mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl'>
 				{t('page.access_denied.headline')}
-			</h1>
+			</h2>
 			<p className='mt-4 text-gray-500 dark:text-gray-400'>
 				{t('page.access_denied.subheadline')}
 			</p>

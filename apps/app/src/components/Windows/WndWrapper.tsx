@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-function Wrapper({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+function WndWrapper({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
 			className={clsx(
@@ -13,4 +13,4 @@ function Wrapper({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
 	);
 }
 
-export default Wrapper;
+export default WndWrapper;

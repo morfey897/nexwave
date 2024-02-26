@@ -4,32 +4,35 @@ import { TAB_BRANCHES } from './config';
 import { useCallback } from 'react';
 import { useOpenModal } from '@nw/modal';
 import { MODALS } from '@/routes';
+import useNWStore from '@/lib/store';
+import { hasAccess } from '@/utils';
+import { CREATE } from '@/crud';
 
 function CaptionClient({
 	headline,
 	subheadline,
 	add,
 	activeTab,
-	projectId,
 }: {
 	headline: string;
 	subheadline: string;
 	add: string;
 	activeTab: string;
-	projectId: number;
 }) {
+	const project = useNWStore((state) => state.project);
+	const hasPermission = hasAccess(project?.permission, CREATE.BRANCH);
 	const openModal = useOpenModal();
 
 	const addBranch = useCallback(() => {
-		openModal(MODALS.CREATE_BRANCH, { projectId });
-	}, [openModal, projectId]);
+		openModal(MODALS.CREATE_BRANCH);
+	}, [openModal]);
 
 	return (
 		<Caption
 			headline={headline}
 			subheadline={subheadline}
 			add={
-				activeTab === TAB_BRANCHES
+				activeTab === TAB_BRANCHES && hasPermission
 					? {
 							title: add,
 							onClick: addBranch,

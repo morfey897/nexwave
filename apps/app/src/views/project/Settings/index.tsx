@@ -3,7 +3,7 @@ import GeneralSettings from './GeneralSettings';
 import BranchesSettings from './BranchesSettings';
 import AccessSettings from './AccessSettings';
 import { Group } from '@/components/Button';
-import { HiOutlineInformationCircle, HiOutlinePuzzle } from 'react-icons/hi';
+import { HiOutlineInformationCircle } from 'react-icons/hi';
 import { MdOutlineLockPerson } from 'react-icons/md';
 import {
 	useTranslations,
@@ -24,6 +24,7 @@ import Caption from './Caption.client';
 import { S_PARAMS } from '@packages/config/dist';
 import { TAB_BRANCHES, TAB_ACCESS, TAB_GENERAL } from './config';
 import { pick } from 'lodash';
+import SVGIcon from '@/components/SVGIcon';
 
 const TABS = [
 	{
@@ -35,7 +36,7 @@ const TABS = [
 	{
 		id: TAB_BRANCHES,
 		label: 'page.settings.tab_branches',
-		icon: <HiOutlinePuzzle size={24} />,
+		icon: <SVGIcon type='branch' size={24} />,
 		access: UPDATE.BRANCH,
 	},
 	{
@@ -75,7 +76,6 @@ function Settings({ project }: { project: IFullProject | null }) {
 				subheadline={t('page.settings.subheadline')}
 				add={t('button.add')}
 				activeTab={activeTab}
-				projectId={project?.id || 0}
 			/>
 			<ContainerHeader className='border-b dark:border-gray-700 pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900'>
 				<Group
