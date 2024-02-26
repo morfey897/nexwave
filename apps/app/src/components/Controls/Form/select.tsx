@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type InputProps } from './utils';
+import { type IInputProps } from './Input';
 import Icon from './Components/Icon';
 import Copy from './Components/Copy';
 import Placeholder from './Components/Placeholder';
@@ -14,7 +14,7 @@ function BaseSelect({
 	hidePlaceholder,
 	errorCopy,
 	...props
-}: InputProps & React.InputHTMLAttributes<HTMLSelectElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLSelectElement>) {
 	return (
 		<div>
 			<div className={clsx('relative', className)}>

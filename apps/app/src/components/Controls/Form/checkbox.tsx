@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type InputProps } from './utils';
+import { type IInputProps } from './Input';
 import Copy from './Components/Copy';
 
 function BaseCheckbox({
@@ -12,7 +12,7 @@ function BaseCheckbox({
 	hidePlaceholder,
 	disabled,
 	...props
-}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');
 	return (
 		<div className='relative'>

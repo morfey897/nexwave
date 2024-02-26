@@ -1,13 +1,22 @@
 import clsx from 'clsx';
-import { type InputProps } from './utils';
 import Copy from './Components/Copy';
 import Icon from './Components/Icon';
 import Placeholder from './Components/Placeholder';
 import { forwardRef } from 'react';
 
+export interface IInputProps {
+	hint?: React.ReactNode;
+	icon?: React.ReactNode;
+	errorCopy?: React.ReactNode;
+	className?: string;
+	placeholder?: string;
+	required?: boolean;
+	hidePlaceholder?: boolean;
+};
+
 export default forwardRef<
 	HTMLInputElement,
-	InputProps & React.InputHTMLAttributes<HTMLInputElement>
+	IInputProps & React.InputHTMLAttributes<HTMLInputElement>
 >(function BaseInput(
 	{
 		placeholder,

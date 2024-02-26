@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { InputProps } from '../utils';
-function Icon({ className, icon }: InputProps & { className?: string }) {
+import { type IInputProps } from '../Input';
+function Icon({ className, icon }: IInputProps & { className?: string }) {
 	return icon ? (
 		<span
 			className={clsx(

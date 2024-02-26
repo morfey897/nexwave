@@ -1,13 +1,5 @@
 import clsx from 'clsx';
-import { InputProps } from '../utils';
-
-const getPlaceholder = (
-	placeholder: string | undefined,
-	required?: boolean,
-) => {
-	if (!!required) return `${placeholder || 'Required'} *`;
-	return placeholder;
-};
+import { type IInputProps } from '../Input';
 
 function Placeholder({
 	icon,
@@ -15,7 +7,7 @@ function Placeholder({
 	placeholder,
 	required,
 	className,
-}: React.HTMLAttributes<HTMLLabelElement> & InputProps) {
+}: React.HTMLAttributes<HTMLLabelElement> & IInputProps) {
 	return !!required || !!placeholder ? (
 		<label
 			className={clsx(

@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { type InputProps } from './utils';
+import { type IInputProps } from './Input';
 import { useCallback, useRef } from 'react';
 import Copy from './Components/Copy';
 import Placeholder from './Components/Placeholder';
@@ -15,7 +15,7 @@ function BaseDuration({
 	errorCopy,
 	hidePlaceholder,
 	...props
-}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const selectRef = useRef<HTMLSelectElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const bgClassName = clsx('bg-white dark:bg-gray-900');

@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { InputProps } from '../utils';
+import { type IInputProps } from '../Input';
 
 function Copy({
 	className,
 	hint,
 	errorCopy,
-}: InputProps & { className?: string }) {
+}: IInputProps & { className?: string }) {
 	const isErrored = !!errorCopy;
 	const isHinted = !!hint;
 	return isErrored || isHinted ? (

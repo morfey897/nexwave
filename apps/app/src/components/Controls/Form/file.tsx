@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useState, useRef } from 'react';
-import { type InputProps } from './utils';
+import { type IInputProps } from './Input';
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
 
@@ -14,7 +14,7 @@ function BaseFile({
 	errorCopy,
 	disabled,
 	...props
-}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const ref = useRef<HTMLInputElement>(null);
 	const [file, setFile] = useState<string | null>(null);
 

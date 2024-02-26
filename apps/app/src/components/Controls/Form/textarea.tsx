@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type InputProps } from './utils';
+import { type IInputProps } from './Input';
 import Copy from './Components/Copy';
 import Icon from './Components/Icon';
 import Placeholder from './Components/Placeholder';
@@ -13,7 +13,7 @@ function BaseTextArea({
 	errorCopy,
 	hidePlaceholder,
 	...props
-}: InputProps & React.InputHTMLAttributes<HTMLTextAreaElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLTextAreaElement>) {
 	return (
 		<div className='relative'>
 			<div className={clsx('relative', className)}>
