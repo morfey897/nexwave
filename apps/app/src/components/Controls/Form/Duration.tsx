@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { type IInputProps } from './Input';
+import { type IInputProps } from './BaseInput';
 import { useCallback, useRef } from 'react';
 import Copy from './Components/Copy';
 import Placeholder from './Components/Placeholder';

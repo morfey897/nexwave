@@ -11,6 +11,7 @@ import Button from '@/components/Button';
 import { HiOutlineClock } from 'react-icons/hi';
 import { PiWarningCircle } from 'react-icons/pi';
 import { MdOutlineCloudUpload } from 'react-icons/md';
+import Client from './client';
 
 export default async function Home() {
 	// redirect(APP);
@@ -126,6 +127,8 @@ export default async function Home() {
 			/>
 
 			<Duration name='duration' placeholder={'Duration'} errorCopy={'Error'} />
+
+			<Client />
 		</div>
 	);
 }

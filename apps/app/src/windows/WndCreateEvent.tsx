@@ -9,8 +9,7 @@ import {
 	Select,
 	Masked,
 	Fieldset,
-	// Duration,
-	// Masked,
+	Autocomplete,
 } from '@/components/Controls/Form';
 
 import Spinner from '@/components/Spinner';
@@ -68,6 +67,14 @@ function CreateEvent({ closeMe }: IModal) {
 		}
 	}, [project?.branches]);
 
+	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		const data = new FormData(form);
+		console.log('SUBMIT:', Object.fromEntries(data.entries()));
+		// submit(data);
+	};
+
 	return (
 		<AsideWrapper className='!w-full md:w-96'>
 			<AsideHeader
@@ -77,10 +84,23 @@ function CreateEvent({ closeMe }: IModal) {
 			/>
 			<AsideBody>
 				{hasPermission ? (
-					<form onSubmit={submit} action={action} onChange={reset}>
+					// <form onSubmit={submit} action={action} onChange={reset}>
+					<form onSubmit={onSubmit}>
 						<div className='space-y-4'>
 							<input type='hidden' name='id' value={project?.id} />
 							<Input name='name' type='text' placeholder={t('form.name')} />
+							<Autocomplete
+								name='direction'
+								searchOptions={{
+									fields: ['label'],
+									storeFields: ['id', 'label'],
+									searchOptions: {
+										fuzzy: 0.2,
+										prefix: true,
+									},
+								}}
+								placeholder={t('form.direction')}
+							/>
 							<Select
 								name='branch_uuid'
 								placeholder={t('form.select_branch')}
@@ -142,9 +162,10 @@ function CreateEvent({ closeMe }: IModal) {
 								icon={<Marker size={12} color={color} className='block' />}
 								name='color'
 								placeholder={t('form.select_color')}
+								defaultValue={color}
 							>
 								{COLORS.map((clr) => (
-									<option selected={color === clr} key={clr} value={clr}>
+									<option key={clr} value={clr}>
 										{t(`color.${clr}`)}
 									</option>
 								))}

@@ -120,10 +120,13 @@ function Button<
 
 	switch (tag) {
 		case 'button':
+			const { type, ...btnProps } =
+				props as React.ButtonHTMLAttributes<HTMLButtonElement>;
 			return (
 				<button
 					className={componentClassName}
-					{...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+					{...btnProps}
+					type={type || 'button'}
 				>
 					{content}
 				</button>

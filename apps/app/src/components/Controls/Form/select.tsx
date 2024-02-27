@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type IInputProps } from './Input';
+import { type IInputProps } from './BaseInput';
 import Icon from './Components/Icon';
 import Copy from './Components/Copy';
 import Placeholder from './Components/Placeholder';

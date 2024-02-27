@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type IInputProps } from '../Input';
+import { type IInputProps } from '../BaseInput';
 
 function Copy({
 	className,

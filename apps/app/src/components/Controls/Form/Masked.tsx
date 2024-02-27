@@ -1,5 +1,5 @@
 'use client';
-import Input from './Input';
+import BaseInput, { type TInput } from './BaseInput';
 import { useRef, useEffect, useState } from 'react';
 import Spinner from '@/components/Spinner';
 
@@ -7,10 +7,10 @@ function Masked({
 	maskedProps,
 	icon,
 	...props
-}: Parameters<typeof Input>[0] & {
+}: TInput & {
 	maskedProps?: Parameters<typeof Inputmask>[0];
 }) {
-  const [masked, setMasked] = useState(false);
+	const [masked, setMasked] = useState(false);
 	const maskedRef = useRef<Inputmask.Static | null>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -18,7 +18,7 @@ function Masked({
 		const init = () => {
 			if (inputRef.current && maskedRef.current) {
 				maskedRef.current(maskedProps).mask(inputRef.current);
-        setMasked(true);
+				setMasked(true);
 			}
 		};
 
@@ -33,11 +33,7 @@ function Masked({
 	}, [maskedProps]);
 
 	return (
-		<Input
-			{...props}
-			ref={inputRef}
-			icon={!masked ? <Spinner /> : icon}
-		/>
+		<BaseInput {...props} ref={inputRef} icon={!masked ? <Spinner /> : icon} />
 	);
 }
 

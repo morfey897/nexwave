@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useState, useRef } from 'react';
-import { type IInputProps } from './Input';
+import { type IInputProps } from './BaseInput';
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
 
