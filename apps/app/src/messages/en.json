@@ -50,7 +50,16 @@
 		"to": "To",
 		"start": "Start",
 		"end": "End",
-		"direction": "Direction"
+		"direction": "Direction",
+		"repeat_on": "Repeat on",
+		"repeat_every": "Repeat every",
+		"repeat_weekly": "Weekly",
+		"repeat_monthly": "Monthly",
+		"repeat_yearly": "Yearly",
+		"repeat": "Repeat",
+		"ends": "Ends",
+		"end_never": "Never",
+		"end_on": "On"
 	},
 	"button": {
 		"sign_in": "Sign in",

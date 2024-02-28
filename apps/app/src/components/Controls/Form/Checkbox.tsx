@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { type IInputProps } from './BaseInput';
 import Copy from './Components/Copy';
 
-function BaseCheckbox({
+function Checkbox({
 	placeholder,
 	required,
 	icon,
@@ -15,10 +15,11 @@ function BaseCheckbox({
 }: IInputProps & React.InputHTMLAttributes<HTMLInputElement>) {
 	const txtLabelClassName = clsx('text-gray-400 dark:text-gray-500');
 	return (
-		<div className='relative'>
-			<div className={clsx('relative', className)}>
+		<div className={clsx('relative', className)}>
+			<div className='relative'>
 				<label
 					className={clsx(
+						'label',
 						'flex w-fit items-center gap-x-3',
 						txtLabelClassName,
 						disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -27,6 +28,7 @@ function BaseCheckbox({
 					<input
 						type='checkbox'
 						className={clsx(
+							'input',
 							'w-8 h-8 rounded-lg cursor-pointer disabled:cursor-not-allowed group',
 							!!errorCopy && '!border-2 !border-red-500',
 							'!border-2 !border-gray-300 !dark:border-gray-600',
@@ -59,4 +61,4 @@ function BaseCheckbox({
 	);
 }
 
-export default BaseCheckbox;
+export default Checkbox;

@@ -10,7 +10,7 @@ import {
 } from "./types";
 import clsx from "clsx";
 import { ModalWrapper, Container, Overlay } from "./components";
-import throttle from "./throttle";
+import debounce from "./debounce";
 import { totalHeight, getPosition } from "./utils";
 import useModalStore from "./store";
 
@@ -42,7 +42,6 @@ function withModal(Component: React.FC<IModal>, props?: TModalHOC) {
 
     const refOverlay = React.useRef(null);
     const refContainer = React.useRef(null);
-    const [height, setHeight] = React.useState(0);
 
     /**
      * Close the current modal
@@ -79,11 +78,11 @@ function withModal(Component: React.FC<IModal>, props?: TModalHOC) {
 
     const onChangeSize = React.useMemo(
       () =>
-        throttle(() => {
+        debounce(() => {
           const element = refContainer.current as HTMLElement;
           if (!element) return;
           const height = totalHeight(element);
-          setHeight(height);
+          refOverlay.current?.style.setProperty("height", `${height}px`);
         }, 200),
       [],
     );
@@ -97,7 +96,7 @@ function withModal(Component: React.FC<IModal>, props?: TModalHOC) {
       const element = refContainer.current as HTMLElement;
       if (!element || state != ModalState.OPENED) return;
       const height = totalHeight(element);
-      setHeight(height);
+      refOverlay.current?.style.setProperty("height", `${height}px`);
     }, [state]);
 
     React.useEffect(() => {
@@ -118,7 +117,7 @@ function withModal(Component: React.FC<IModal>, props?: TModalHOC) {
           onClick={onClickOverlay}
           style={{
             ...props?.overlay?.style,
-            height: `${height}px`,
+            // height: `${height}px`,
           }}
         />
         <Container

@@ -8,7 +8,7 @@ import {
 } from "./types";
 import clsx from "clsx";
 import { ModalWrapper, Container, Overlay } from "./components";
-import throttle from "./throttle";
+import debounce from "./debounce";
 import { totalHeight, getPosition } from "./utils";
 
 type TModal = {
@@ -44,7 +44,6 @@ function Modal({
 
   const refOverlay = React.useRef(null);
   const refContainer = React.useRef(null);
-  const [height, setHeight] = React.useState(0);
 
   /**
    * Close the current modal
@@ -81,11 +80,11 @@ function Modal({
 
   const onChangeSize = React.useMemo(
     () =>
-      throttle(() => {
+      debounce(() => {
         const element = refContainer.current as HTMLElement;
         if (!element) return;
         const height = totalHeight(element);
-        setHeight(height);
+        refOverlay.current?.style.setProperty("height", `${height}px`);
       }, 200),
     [],
   );
@@ -99,7 +98,7 @@ function Modal({
     const element = refContainer.current as HTMLElement;
     if (!element || state != ModalState.OPENED) return;
     const height = totalHeight(element);
-    setHeight(height);
+    refOverlay.current?.style.setProperty("height", `${height}px`);
   }, [state]);
 
   React.useEffect(() => {
@@ -116,7 +115,6 @@ function Modal({
         onClick={onClickOverlay}
         style={{
           ...overlay?.style,
-          height: `${height}px`,
         }}
       />
       <Container

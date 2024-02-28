@@ -1,6 +1,6 @@
 'use client';
 import Button from '@/components/Button';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { type IModal, Position, withModal, useCloseAllModal } from '@nw/modal';
 import {
 	Input,
@@ -10,6 +10,7 @@ import {
 	Masked,
 	Fieldset,
 	Autocomplete,
+	Checkbox,
 } from '@/components/Controls/Form';
 
 import Spinner from '@/components/Spinner';
@@ -28,7 +29,7 @@ import {
 import ErrorCopy from '@/components/ErrorCopy';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import useNWStore from '@/lib/store';
 import { CREATE } from '@/crud';
 import { hasAccess } from '@/utils';
@@ -39,13 +40,21 @@ import { useState } from 'react';
 import { generateColor } from '@/utils';
 import Marker from '@/components/ColorMarker';
 import SVGIcon from '@/components/SVGIcon';
+import { useDateLocale } from '@/hooks/datetime';
+import { compareAsc, format, previousMonday, addDays } from 'date-fns';
 
 function CreateEvent({ closeMe }: IModal) {
 	const project = useNWStore((state) => state.project);
 	const hasPermission = hasAccess(project?.permission, CREATE.EVENT);
 
+	const locale = useLocale();
+	const dateLocale = useDateLocale(locale);
+
 	const [color, setColor] = useState(generateColor());
 	const [branchUUID, setBranchUUID] = useState('');
+
+	const [endNever, setEndNever] = useState(true);
+	const [repeat, setRepeat] = useState('weekly');
 
 	const router = useRouter();
 	const closeAll = useCloseAllModal();
@@ -74,6 +83,35 @@ function CreateEvent({ closeMe }: IModal) {
 		console.log('SUBMIT:', Object.fromEntries(data.entries()));
 		// submit(data);
 	};
+
+	const onChangeEndNever = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setEndNever(event.target.checked);
+		},
+		[],
+	);
+
+	const onChangeRepeat = useCallback(
+		(event: React.ChangeEvent<HTMLSelectElement>) => {
+			setRepeat(event.target.value);
+		},
+		[],
+	);
+
+	const week = useMemo(() => {
+		const monday = previousMonday(new Date());
+		return new Array(7).fill(0).map((_, i) => {
+			const d = addDays(monday, i);
+			return (
+				<Checkbox
+					key={`day-${d.getDay()}`}
+					name={`day-${d.getDay()}`}
+					placeholder={format(d, 'EEE', { locale: dateLocale })}
+					className='[&_.label]:capitalize [&_.input]:!w-6 [&_.input]:!h-6'
+				/>
+			);
+		});
+	}, [dateLocale]);
 
 	return (
 		<AsideWrapper className='!w-full md:w-96'>
@@ -147,13 +185,82 @@ function CreateEvent({ closeMe }: IModal) {
 											'[&:before]:w-2 [&:before]:-left-3 [&:before]:top-7',
 										)}
 									/>
-									<Input
+									<div className='col-span-2'>
+										<Input
+											name='date'
+											type='date'
+											placeholder={t('form.date')}
+											min={new Date().toISOString()}
+										/>
+									</div>
+									<Accordion
+										id={`rrule-${project?.id}`}
+										name='rrule'
 										className='col-span-2'
-										name='date'
-										type='date'
-										placeholder={t('form.date')}
-										min={new Date().toISOString()}
-									/>
+										head={
+											<Button message={'Repeat'} variant={'dark'} tag='span' />
+										}
+									>
+										<div className='grid grid-cols-2 gap-4 mt-4'>
+											<Input
+												name='repeat_every'
+												type='number'
+												placeholder={t('form.repeat_every')}
+												min={1}
+												max={99}
+												defaultValue={1}
+											/>
+											<Select
+												name='repeat'
+												placeholder={t('form.repeat')}
+												className='w-full'
+												value={repeat}
+												onChange={onChangeRepeat}
+											>
+												<option value='weekly'>
+													{t('form.repeat_weekly')}
+												</option>
+												<option value='monthly'>
+													{t('form.repeat_monthly')}
+												</option>
+												<option value='yearly'>
+													{t('form.repeat_yearly')}
+												</option>
+											</Select>
+											<div
+												className={clsx(
+													'col-span-2',
+													repeat != 'weekly' && 'hidden',
+												)}
+											>
+												<Fieldset legend={t('form.repeat_on')}>
+													<div className='grid gap-4 grid-cols-3 md:grid-cols-4'>
+														{week}
+													</div>
+												</Fieldset>
+											</div>
+											<div className='col-span-2'>
+												<Fieldset legend={t('form.ends')}>
+													<div className='grid gap-4 grid-cols-1 md:grid-cols-2'>
+														<Checkbox
+															name={`end_never`}
+															placeholder={t('form.end_never')}
+															className='self-center'
+															checked={endNever}
+															onChange={onChangeEndNever}
+														/>
+														<Input
+															name='end_on'
+															type='date'
+															placeholder={t('form.end_on')}
+															min={new Date().toISOString()}
+															className={clsx(endNever && 'hidden')}
+														/>
+													</div>
+												</Fieldset>
+											</div>
+										</div>
+									</Accordion>
 								</div>
 							</Fieldset>
 
@@ -170,77 +277,6 @@ function CreateEvent({ closeMe }: IModal) {
 									</option>
 								))}
 							</Select>
-
-							{/* <input type='color' name='head' />
-							<input
-								type='time'
-								name='time'
-								step='3600'
-								min='00:00'
-								max='23:59'
-								pattern='[0-2][0-9]:[0-5][0-9]'
-							/> */}
-							{/* <Duration
-								name='duration'
-								placeholder={'form.duration'}
-								icon={<HiOutlineClock size={24} />}
-							/>
-							<Masked
-								name='duration'
-								placeholder={'form.duration'}
-								icon={<HiOutlineClock size={24} />}
-							/> */}
-
-							{/* <Select name='type' placeholder={t('form.type')}>
-								<option value='event'>{t('form.event')}</option>
-								<option value='meeting'>{t('form.meeting')}</option>
-							</Select> */}
-							{/* <TextArea name='info' placeholder={t('form.info')} /> */}
-							{/* <Accordion
-								id='branch-settings-new'
-								head={
-									<Button
-										tag='div'
-										variant='dark'
-										message={t('form.address')}
-										className='justify-between text-gray-400 dark:text-gray-500'
-										iconAfter={
-											<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
-												<BiChevronDown size={24} className={''} />
-											</span>
-										}
-									/>
-								}
-							>
-								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
-									<Input
-										disabled={pending}
-										autoComplete='country'
-										placeholder={t('form.country')}
-										name='address.country'
-										type='text'
-									/>
-									<Input
-										disabled={pending}
-										autoComplete='city'
-										placeholder={t('form.city')}
-										name='address.city'
-										type='text'
-									/>
-									<Input
-										disabled={pending}
-										placeholder={t('form.address_line')}
-										name='address.address_line'
-										type='text'
-									/>
-									<Input
-										disabled={pending}
-										placeholder={t('form.address_line_2')}
-										name='address.address_line_2'
-										type='text'
-									/>
-								</div>
-							</Accordion> */}
 						</div>
 						<WndFooter
 							errorCopy={

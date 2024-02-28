@@ -8,7 +8,6 @@ export interface IInputProps {
 	hint?: React.ReactNode;
 	icon?: React.ReactNode;
 	errorCopy?: React.ReactNode;
-	className?: string;
 	placeholder?: string;
 	required?: boolean;
 	hidePlaceholder?: boolean;
@@ -18,8 +17,6 @@ export type TInput = IInputProps & React.InputHTMLAttributes<HTMLInputElement>;
 
 type TInputProp = TInput & {
 	children?: React.ReactNode;
-	componentProps?: React.HTMLAttributes<HTMLDivElement>;
-	wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
 };
 
 export default forwardRef<HTMLInputElement, TInputProp>(function BaseInput(
@@ -33,21 +30,13 @@ export default forwardRef<HTMLInputElement, TInputProp>(function BaseInput(
 		hidePlaceholder,
 		type,
 		children,
-		componentProps,
-		wrapperProps,
 		...props
 	},
 	ref,
 ) {
 	return (
-		<div
-			{...componentProps}
-			className={clsx('relative', componentProps?.className)}
-		>
-			<div
-				{...wrapperProps}
-				className={clsx('wrapper relative', wrapperProps?.className)}
-			>
+		<div className={clsx('relative', className)}>
+			<div className={clsx('wrapper relative')}>
 				<Icon icon={icon} />
 				<input
 					ref={ref}
@@ -61,7 +50,6 @@ export default forwardRef<HTMLInputElement, TInputProp>(function BaseInput(
 						'text-gray-700 dark:text-gray-300',
 						!!errorCopy && '!border-red-500',
 						!!icon ? 'pl-12' : 'pl-4',
-						className,
 					)}
 					required={required}
 					type={type || 'text'}
