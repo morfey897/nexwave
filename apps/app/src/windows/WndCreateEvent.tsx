@@ -42,6 +42,7 @@ import Marker from '@/components/ColorMarker';
 import SVGIcon from '@/components/SVGIcon';
 import { useDateLocale } from '@/hooks/datetime';
 import { compareAsc, format, previousMonday, addDays } from 'date-fns';
+import { capitalize } from 'lodash';
 
 function CreateEvent({ closeMe }: IModal) {
 	const project = useNWStore((state) => state.project);
@@ -53,8 +54,13 @@ function CreateEvent({ closeMe }: IModal) {
 	const [color, setColor] = useState(generateColor());
 	const [branchUUID, setBranchUUID] = useState('');
 
+	const [repeatable, setRepeatable] = useState(false);
+
 	const [endNever, setEndNever] = useState(true);
-	const [repeat, setRepeat] = useState('weekly');
+	const [repeatEach, setRepeat] = useState('weekly');
+	const [repeatInterval, setRepeatInterval] = useState(1);
+	const [endDate, setEndDate] = useState('');
+	const [repeatWeek, setRepeatWeek] = useState<string[]>([]);
 
 	const router = useRouter();
 	const closeAll = useCloseAllModal();
@@ -76,6 +82,19 @@ function CreateEvent({ closeMe }: IModal) {
 		}
 	}, [project?.branches]);
 
+	const week = useMemo(() => {
+		const monday = previousMonday(new Date());
+		return [0, 1, 2, 3, 4, 5, 6].map((i) => {
+			const d = addDays(monday, i);
+			const day = d.getDay();
+			return {
+				day: day,
+				value: `day-${day}`,
+				label: capitalize(format(d, 'EEE', { locale: dateLocale })),
+			};
+		});
+	}, [dateLocale]);
+
 	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const form = event.currentTarget;
@@ -91,27 +110,89 @@ function CreateEvent({ closeMe }: IModal) {
 		[],
 	);
 
-	const onChangeRepeat = useCallback(
+	const onChangeRepeatInterval = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setRepeatInterval(parseInt(event.target.value, 10));
+		},
+		[],
+	);
+
+	const onChangeRepeatEach = useCallback(
 		(event: React.ChangeEvent<HTMLSelectElement>) => {
 			setRepeat(event.target.value);
 		},
 		[],
 	);
 
-	const week = useMemo(() => {
-		const monday = previousMonday(new Date());
-		return new Array(7).fill(0).map((_, i) => {
-			const d = addDays(monday, i);
-			return (
-				<Checkbox
-					key={`day-${d.getDay()}`}
-					name={`day-${d.getDay()}`}
-					placeholder={format(d, 'EEE', { locale: dateLocale })}
-					className='[&_.label]:capitalize [&_.input]:!w-6 [&_.input]:!h-6'
-				/>
+	const onChangeEndDate = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setEndDate(event.target.value);
+		},
+		[],
+	);
+
+	const onChangeRepeatable = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			setRepeatable(event.target.checked);
+		},
+		[],
+	);
+
+	const onChangeRepeatDate = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const name = event.target.name;
+			console.log('onChangeRepeatDate:', name);
+			setRepeatWeek((prev) =>
+				prev.includes(name)
+					? prev.filter((item) => item !== name)
+					: [...prev, name],
 			);
-		});
-	}, [dateLocale]);
+		},
+		[],
+	);
+
+	const rrule = useMemo(() => {
+		if (!repeatable) return '';
+		const list: string[] = [];
+
+		if (repeatInterval > 1) {
+			list.push(
+				t(`page.add_event.${repeatEach}_`, { interval: repeatInterval }),
+			);
+		} else {
+			list.push(t(`page.add_event.repeat_${repeatEach}`));
+		}
+		if (repeatWeek.length > 0 && repeatEach === 'weekly') {
+			list.push(
+				t('page.add_event.on_days_', {
+					days: `${week
+						.filter((day) => repeatWeek.includes(day.value))
+						.map((day) => day.label)
+						.join(',')}`,
+				}),
+			);
+		}
+		if (!endNever && endDate) {
+			list.push(
+				t('page.add_event.until_', {
+					end: format(new Date(endDate), 'dd.MM.yyyy', {
+						locale: dateLocale,
+					}),
+				}),
+			);
+		}
+		return list.join(';');
+	}, [
+		t,
+		dateLocale,
+		repeatable,
+		repeatInterval,
+		repeatEach,
+		repeatWeek,
+		endDate,
+		endNever,
+		week,
+	]);
 
 	return (
 		<AsideWrapper className='!w-full md:w-96'>
@@ -194,57 +275,76 @@ function CreateEvent({ closeMe }: IModal) {
 										/>
 									</div>
 									<Accordion
-										id={`rrule-${project?.id}`}
-										name='rrule'
 										className='col-span-2'
-										head={
-											<Button message={'Repeat'} variant={'dark'} tag='span' />
-										}
+										inputProps={{
+											name: 'rrule',
+											checked: repeatable,
+											onChange: onChangeRepeatable,
+											children: (
+												<Button
+													message={
+														!repeatable ? t('page.add_event.not_repeat') : rrule
+													}
+													variant={'dark'}
+													tag='span'
+												/>
+											),
+										}}
 									>
 										<div className='grid grid-cols-2 gap-4 mt-4'>
 											<Input
 												name='repeat_every'
 												type='number'
-												placeholder={t('form.repeat_every')}
+												placeholder={t('page.add_event.repeat_every')}
 												min={1}
 												max={99}
-												defaultValue={1}
+												value={repeatInterval}
+												onChange={onChangeRepeatInterval}
 											/>
 											<Select
-												name='repeat'
-												placeholder={t('form.repeat')}
+												name='repeat_each'
+												placeholder={t('page.add_event.repeat_each')}
 												className='w-full'
-												value={repeat}
-												onChange={onChangeRepeat}
+												value={repeatEach}
+												onChange={onChangeRepeatEach}
 											>
 												<option value='weekly'>
-													{t('form.repeat_weekly')}
+													{t('page.add_event.repeat_weekly')}
 												</option>
 												<option value='monthly'>
-													{t('form.repeat_monthly')}
+													{t('page.add_event.repeat_monthly')}
 												</option>
 												<option value='yearly'>
-													{t('form.repeat_yearly')}
+													{t('page.add_event.repeat_yearly')}
 												</option>
 											</Select>
 											<div
 												className={clsx(
 													'col-span-2',
-													repeat != 'weekly' && 'hidden',
+													repeatEach != 'weekly' && 'hidden',
 												)}
 											>
-												<Fieldset legend={t('form.repeat_on')}>
+												<Fieldset legend={t('page.add_event.repeat_on')}>
 													<div className='grid gap-4 grid-cols-3 md:grid-cols-4'>
-														{week}
+														{week.map((day) => (
+															<Checkbox
+																key={day.value}
+																name={day.value}
+																placeholder={day.label}
+																className='[&_.input]:!w-6 [&_.input]:!h-6'
+																checked={repeatWeek.includes(day.value)}
+																onChange={onChangeRepeatDate}
+															/>
+														))}
 													</div>
 												</Fieldset>
 											</div>
 											<div className='col-span-2'>
-												<Fieldset legend={t('form.ends')}>
+												<Fieldset legend={t('page.add_event.ends')}>
 													<div className='grid gap-4 grid-cols-1 md:grid-cols-2'>
 														<Checkbox
 															name={`end_never`}
-															placeholder={t('form.end_never')}
+															placeholder={t('page.add_event.end_never')}
 															className='self-center'
 															checked={endNever}
 															onChange={onChangeEndNever}
@@ -252,9 +352,11 @@ function CreateEvent({ closeMe }: IModal) {
 														<Input
 															name='end_on'
 															type='date'
-															placeholder={t('form.end_on')}
+															placeholder={t('page.add_event.end_on')}
 															min={new Date().toISOString()}
 															className={clsx(endNever && 'hidden')}
+															value={endDate}
+															onChange={onChangeEndDate}
 														/>
 													</div>
 												</Fieldset>
@@ -277,6 +379,8 @@ function CreateEvent({ closeMe }: IModal) {
 									</option>
 								))}
 							</Select>
+
+							<Textarea name='info' placeholder={t('form.info')} />
 						</div>
 						<WndFooter
 							errorCopy={

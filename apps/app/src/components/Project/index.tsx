@@ -64,22 +64,23 @@ function Project({
 
 				{project.branches.length > 3 && (
 					<Accordion
-						id={`branches-${project.uuid}`}
-						name='show-more'
-						head={
-							<Button
-								name='show-more'
-								tag='span'
-								variant='text'
-								message={more_less}
-								className='justify-between text-gray-400 dark:text-gray-500 w-full'
-								iconAfter={
-									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
-										<BiChevronDown size={24} className={''} />
-									</span>
-								}
-							/>
-						}
+						inputProps={{
+							name: 'show-more',
+							children: (
+								<Button
+									name='show-more'
+									tag='span'
+									variant='text'
+									message={more_less}
+									className='justify-between text-gray-400 dark:text-gray-500 w-full'
+									iconAfter={
+										<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
+											<BiChevronDown size={24} className={''} />
+										</span>
+									}
+								/>
+							),
+						}}
 					>
 						<div className='divide-y divide-gray-200 dark:divide-gray-700'>
 							{project.branches.slice(3).map((branch) => (

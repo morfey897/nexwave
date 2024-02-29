@@ -4,7 +4,7 @@ import { type IInputProps } from './BaseInput';
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
 
-function BaseFile({
+function File({
 	className,
 	placeholder,
 	required,
@@ -99,4 +99,4 @@ function BaseFile({
 	);
 }
 
-export default BaseFile;
+export default File;

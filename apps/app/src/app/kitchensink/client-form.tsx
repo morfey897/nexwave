@@ -37,6 +37,7 @@ function Client() {
 				isDisabled={(option) => option.id === 3}
 			/>
 			<p>{'</Form>'}</p>
+			{/* @ts-ignore */}
 			<Button variant='primary' type='submit' message={'Submit'} />
 		</form>
 	);

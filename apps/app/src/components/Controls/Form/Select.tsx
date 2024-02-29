@@ -1,27 +1,27 @@
 import clsx from 'clsx';
 import { type IInputProps } from './BaseInput';
-import Copy from './Components/Copy';
 import Icon from './Components/Icon';
+import Copy from './Components/Copy';
 import Placeholder from './Components/Placeholder';
 
-function BaseTextArea({
+function Select({
+	className,
 	placeholder,
 	required,
 	icon,
 	hint,
-	className,
-	errorCopy,
+	children,
 	hidePlaceholder,
+	errorCopy,
 	...props
-}: IInputProps & React.InputHTMLAttributes<HTMLTextAreaElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLSelectElement>) {
 	return (
-		<div className='relative'>
+		<div>
 			<div className={clsx('relative', className)}>
 				<Icon icon={icon} />
-				<textarea
-					placeholder=' '
+				<select
 					className={clsx(
-						'input',
+						'input cursor-pointer',
 						'peer block w-full py-4 px-3',
 						'border rounded-lg border-gray-400 dark:border-gray-600',
 						'focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40',
@@ -32,12 +32,17 @@ function BaseTextArea({
 					)}
 					required={required}
 					{...props}
-				/>
+				>
+					{children}
+				</select>
+
 				<Placeholder
-					icon={icon}
-					hidePlaceholder={hidePlaceholder}
 					placeholder={placeholder}
-					required={required}
+					hidePlaceholder={hidePlaceholder}
+					icon={icon}
+					className={clsx(
+						!!icon ? `w-[calc(100%-4.6rem)]` : `w-[calc(100%-2.6rem)]`,
+					)}
 				/>
 			</div>
 			<Copy hint={hint} errorCopy={errorCopy} />
@@ -45,4 +50,4 @@ function BaseTextArea({
 	);
 }
 
-export default BaseTextArea;
+export default Select;

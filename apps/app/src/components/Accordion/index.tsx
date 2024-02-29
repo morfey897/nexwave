@@ -1,37 +1,43 @@
 import clsx from 'clsx';
+import { useId } from 'react';
 
 function Accordion({
-	id,
-	name,
-	head,
 	className,
 	children,
-	active,
+	inputProps,
 	...props
 }: React.HtmlHTMLAttributes<HTMLDivElement> & {
-	id: string;
-	name?: string;
-	head: React.ReactNode;
-	active?: boolean;
+	inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }) {
+	const internalId = useId();
+	const {
+		id: inputId,
+		children: _,
+		className: inputClassName,
+		...inputPropsRest
+	} = inputProps || {};
+
+	const id = inputId || internalId;
 	return (
 		<div className={clsx(className)} {...props}>
 			<input
 				type='checkbox'
-				defaultChecked={active}
 				id={id}
-				name={name}
 				className={clsx('peer sr-only')}
+				{...inputPropsRest}
 			/>
 			<label
 				htmlFor={id}
-				className='cursor-pointer peer-checked:[&_.icon]:rotate-180'
+				className={clsx(
+					'cursor-pointer peer-checked:[&_.icon]:rotate-180',
+					inputClassName,
+				)}
 			>
-				{head}
+				{_}
 			</label>
 			<div
 				className={clsx(
-					'overflow-hidden max-h-0 ease-out transition-all peer-checked:max-h-[100vh]',
+					'overflow-hidden max-h-0 ease-in-out duration-500 transition-all peer-checked:max-h-[100vh]',
 				)}
 			>
 				{children}

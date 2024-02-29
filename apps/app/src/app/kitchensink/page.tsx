@@ -7,11 +7,14 @@ import {
 	File,
 	Duration,
 } from '@/components/Controls/Form/';
+import Accordion from '@/components/Accordion';
 import Button from '@/components/Button';
 import { HiOutlineClock } from 'react-icons/hi';
 import { PiWarningCircle } from 'react-icons/pi';
 import { MdOutlineCloudUpload } from 'react-icons/md';
-import Client from './client';
+import ClientForm from './client-form';
+import ClientAccordion from './client-accordion';
+
 
 export default async function Home() {
 	// redirect(APP);
@@ -128,7 +131,8 @@ export default async function Home() {
 
 			<Duration name='duration' placeholder={'Duration'} errorCopy={'Error'} />
 
-			<Client />
+			<ClientForm />
+			<ClientAccordion />
 		</div>
 	);
 }

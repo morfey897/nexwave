@@ -1,27 +1,27 @@
 import clsx from 'clsx';
 import { type IInputProps } from './BaseInput';
-import Icon from './Components/Icon';
 import Copy from './Components/Copy';
+import Icon from './Components/Icon';
 import Placeholder from './Components/Placeholder';
 
-function BaseSelect({
-	className,
+function Textarea({
 	placeholder,
 	required,
 	icon,
 	hint,
-	children,
-	hidePlaceholder,
+	className,
 	errorCopy,
+	hidePlaceholder,
 	...props
-}: IInputProps & React.InputHTMLAttributes<HTMLSelectElement>) {
+}: IInputProps & React.InputHTMLAttributes<HTMLTextAreaElement>) {
 	return (
-		<div>
+		<div className='relative'>
 			<div className={clsx('relative', className)}>
 				<Icon icon={icon} />
-				<select
+				<textarea
+					placeholder=' '
 					className={clsx(
-						'input cursor-pointer',
+						'input',
 						'peer block w-full py-4 px-3',
 						'border rounded-lg border-gray-400 dark:border-gray-600',
 						'focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40',
@@ -32,17 +32,12 @@ function BaseSelect({
 					)}
 					required={required}
 					{...props}
-				>
-					{children}
-				</select>
-
+				/>
 				<Placeholder
-					placeholder={placeholder}
-					hidePlaceholder={hidePlaceholder}
 					icon={icon}
-					className={clsx(
-						!!icon ? `w-[calc(100%-4.6rem)]` : `w-[calc(100%-2.6rem)]`,
-					)}
+					hidePlaceholder={hidePlaceholder}
+					placeholder={placeholder}
+					required={required}
 				/>
 			</div>
 			<Copy hint={hint} errorCopy={errorCopy} />
@@ -50,4 +45,4 @@ function BaseSelect({
 	);
 }
 
-export default BaseSelect;
+export default Textarea;

@@ -319,20 +319,21 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 						{/* Spaces */}
 						{activeBranch ? (
 							<Accordion
-								id={`branch-spaces-${activeBranch.uuid}`}
-								head={
-									<Button
-										tag='div'
-										variant='dark'
-										message={t('form.spaces')}
-										className='justify-between text-gray-400 dark:text-gray-500'
-										iconAfter={
-											<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
-												<BiChevronDown size={24} className={''} />
-											</span>
-										}
-									/>
-								}
+								inputProps={{
+									children: (
+										<Button
+											tag='div'
+											variant='dark'
+											message={t('form.spaces')}
+											className='justify-between text-gray-400 dark:text-gray-500'
+											iconAfter={
+												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+													<BiChevronDown size={24} className={''} />
+												</span>
+											}
+										/>
+									),
+								}}
 							>
 								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
 									{activeBranch.spaces.map((space, index) => (
@@ -395,20 +396,21 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 						{/* Address */}
 						{activeBranch ? (
 							<Accordion
-								id={`branch-address-${activeBranch.uuid}`}
-								head={
-									<Button
-										tag='div'
-										variant='dark'
-										message={t('form.address')}
-										className='justify-between text-gray-400 dark:text-gray-500'
-										iconAfter={
-											<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
-												<BiChevronDown size={24} className={''} />
-											</span>
-										}
-									/>
-								}
+								inputProps={{
+									children: (
+										<Button
+											tag='div'
+											variant='dark'
+											message={t('form.address')}
+											className='justify-between text-gray-400 dark:text-gray-500'
+											iconAfter={
+												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+													<BiChevronDown size={24} className={''} />
+												</span>
+											}
+										/>
+									),
+								}}
 							>
 								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
 									<Input

@@ -63,20 +63,21 @@ function CreateBranch({ closeMe }: IModal) {
 							/>
 							<Textarea name='info' placeholder={t('form.info')} />
 							<Accordion
-								id='branch-settings-new'
-								head={
-									<Button
-										tag='div'
-										variant='dark'
-										message={t('form.address')}
-										className='justify-between text-gray-400 dark:text-gray-500'
-										iconAfter={
-											<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
-												<BiChevronDown size={24} className={''} />
-											</span>
-										}
-									/>
-								}
+								inputProps={{
+									children: (
+										<Button
+											tag='div'
+											variant='dark'
+											message={t('form.address')}
+											className='justify-between text-gray-400 dark:text-gray-500'
+											iconAfter={
+												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+													<BiChevronDown size={24} className={''} />
+												</span>
+											}
+										/>
+									),
+								}}
 							>
 								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
 									<Input
