@@ -5,6 +5,7 @@ import {
 	serial,
 	varchar,
 	timestamp,
+	time,
 	date,
 	text,
 	jsonb,
@@ -174,11 +175,13 @@ export const event = pgTable('events', {
 	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	color: varchar('color', { length: 32 }),
-	startAt: timestamp('start_at').notNull(),
-	endAt: timestamp('end_at'),
-	duration: integer('duration').notNull(),
+
+	fromTime: time('from_time').notNull(),
+	toTime: time('to_time').notNull(),
+	date: timestamp('date').notNull(),
+
 	rrule: varchar('rrule', { length: 511 }),
-	spaceId: smallint('space_id'), //from branch:spaces
+	spaceShortId: varchar('space_short_id', { length: 32 }), //from branch:spaces
 	serviceId: serial('service_id'), //from services
 	// todo master_id / provider_id - references to users table
 });

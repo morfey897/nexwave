@@ -37,6 +37,7 @@ function Select({
 				</select>
 
 				<Placeholder
+					required={required}
 					placeholder={placeholder}
 					hidePlaceholder={hidePlaceholder}
 					icon={icon}

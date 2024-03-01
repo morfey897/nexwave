@@ -25,7 +25,7 @@ const isScroll = (threshold: number | string) => {
 	const top = h.scrollTop || b.scrollTop;
 
 	if (typeof threshold === 'string') {
-		return top > parseInt(threshold);
+		return top > Number.parseInt(threshold);
 	}
 	return (
 		top / ((h.scrollHeight || b.scrollHeight) - h.clientHeight) > threshold

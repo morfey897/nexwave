@@ -66,10 +66,7 @@ export async function actionUpdateProject(
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const projectIdValue = formData.get('id')?.toString();
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 
 		const access = await hasProjectAccess(UPDATE.PROJECT, {
 			userId: user.id,
@@ -120,9 +117,7 @@ export async function actionUpdateAccessProject(
 		const { id: projectIdValue, ...formValue } = Object.fromEntries(
 			formData.entries(),
 		);
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue.toString())
-			: undefined;
+		const projectId = Number.parseInt(projectIdValue?.toString() || '');
 
 		const access = await hasProjectAccess(UPDATE.PROJECT_ACCESS, {
 			userId: user.id,
@@ -140,7 +135,7 @@ export async function actionUpdateAccessProject(
 					role === EnumRole.user ||
 					role === EnumRole.manager
 				) {
-					const access = parseInt(value.toString());
+					const access = Number.parseInt(value.toString());
 					if (!Number.isNaN(access)) {
 						accum[role] = accum[role] | access;
 					}
@@ -183,15 +178,12 @@ export async function actionUpdateVisibilityProject(
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const projectIdValue = formData.get('id')?.toString();
 		const action = formData.get('action')?.toString();
 
 		if (action != 'delete' && action != 'publish' && action != 'unpublish')
 			throw doError(ErrorCodes.UNSUPPORTED_ACTION);
 
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 
 		// Delete project
 		if (action == 'delete') {

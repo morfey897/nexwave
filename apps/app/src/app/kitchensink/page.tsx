@@ -15,7 +15,6 @@ import { MdOutlineCloudUpload } from 'react-icons/md';
 import ClientForm from './client-form';
 import ClientAccordion from './client-accordion';
 
-
 export default async function Home() {
 	// redirect(APP);
 	return (

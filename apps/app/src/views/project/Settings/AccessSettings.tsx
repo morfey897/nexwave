@@ -107,7 +107,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 		) => {
 			const target = event.target as HTMLInputElement;
 			const [role] = target.name.split('.');
-			const value = parseInt(target.value);
+			const value = Number.parseInt(target.value);
 			if (Number.isNaN(value)) return;
 			// console.log('name', name);
 			setActiveProject((prev) =>

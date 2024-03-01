@@ -70,6 +70,12 @@ export enum EnumCurrency {
 	EUR = 'EUR',
 }
 
+export enum EnumRepeatPeriod {
+	WEEK = 'week',
+	MONTH = 'month',
+	YEAR = 'year',
+}
+
 
 export const COLORS = Object.values(EnumColor);
 export const CURRENCIES = Object.values(EnumCurrency);

@@ -23,11 +23,11 @@ export async function POST(request: NextRequest) {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const projectId = request.nextUrl.searchParams.get('projectId');
+		const projectId = Number.parseInt(request.nextUrl.searchParams.get('projectId') || '');
 
 		const access = await hasProjectAccess(READ.EVENT, {
 			userId: user.id,
-			projectId: projectId ? Number.parseInt(projectId) : undefined,
+			projectId: projectId,
 		});
 
 		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);

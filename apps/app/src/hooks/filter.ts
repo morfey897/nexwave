@@ -70,14 +70,14 @@ export function usePage({
 	);
 
 	const page = useMemo(() => {
-		const page = parseInt(value);
+		const page = Number.parseInt(value);
 		return Number.isNaN(page) || page < 1 || page > maxPage ? 1 : page;
 	}, [value, maxPage]);
 
 	const onPage = useCallback(
 		(page: number | string) => {
 			if (typeof page === 'string') {
-				page = parseInt(page);
+				page = Number.parseInt(page);
 			}
 			if (Number.isNaN(page)) return;
 			if (page <= 1) {

@@ -13,7 +13,7 @@ import {
 import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
 import { UPDATE, DELETE, CREATE } from '@/crud';
-import { EnumResponse, EnumState } from '@/enums';
+import { EnumResponse, EnumState, EnumRepeatPeriod } from '@/enums';
 import {
 	parseError,
 	doError,
@@ -30,16 +30,12 @@ import { S_PARAMS } from '@nw/config';
  */
 export async function actionCreateNewEvent(
 	formData: FormData,
-): Promise<IResponse<{ project: IFullProject; branch: IFullBranch }>> {
+): Promise<IResponse<any>> {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
-		const [projectIdValue] = formData.get('id')?.toString().split('/') || [];
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
-
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 		const access = await hasProjectAccess(CREATE.EVENT, {
 			userId: user.id,
 			projectId,
@@ -47,174 +43,72 @@ export async function actionCreateNewEvent(
 
 		if (!access || !projectId) throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const file = formData.get('image');
+		const serviceId = Number.parseInt(formData.get('service_id')?.toString() || '');
+		const branchId = Number.parseInt(formData.get('branch_id')?.toString() || '');
 		const name = formData.get('name')?.toString();
 		const info = formData.get('info')?.toString();
-		const addressCountry = formData.get('address.country')?.toString();
-		const addressCity = formData.get('address.city')?.toString();
-		const addressLine = formData.get('address.address_line')?.toString();
-		const addressLine2 = formData.get('address.address_line_2')?.toString();
+		const color = formData.get('color')?.toString();
+		const spaceShortId = formData.get('space_short_id')?.toString();
+		const fromTime = formData.get('from_time')?.toString();
+		const toTime = formData.get('to_time')?.toString();
+		const date = formData.get('date')?.toString();
 
-		// TODO: upload image to cloudinary
-		const newBranch = await createBranch({
-			projectId: projectId,
-			name: name,
-			info: info,
-			address: {
-				country: addressCountry,
-				city: addressCity,
-				address_line: addressLine,
-				address_line_2: addressLine2,
+		const rrule = formData.get('rrule')?.toString() === 'on';
+		const repeatInterval = formData.get('repeat_interval')?.toString();
+		const repeatPeriod = formData.get('repeat_period')?.toString(); //EnumRepeatPeriod
+
+		const week = [1, 2, 3, 4, 5, 6, 0].reduce<Record<string, boolean>>(
+			(map, day) => {
+				const key = `day_${day}`;
+				map[key] = formData.get(key)?.toString() === 'on';
+				return map;
 			},
-			// image: file,
-		});
-		if (!newBranch) throw doError(ErrorCodes.CREATE_FAILED);
-		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project) throw doError(ErrorCodes.CREATE_FAILED);
-		return {
-			status: EnumResponse.SUCCESS,
-			data: { project, branch: newBranch },
-		};
-	} catch (error: any) {
-		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: parseError(error) };
-	}
-}
-
-/**
- * Update branch
- * @param formData
- * @returns IResponse
- */
-// TODO: update branch
-export async function actionUpdateBranch(
-	formData: FormData,
-): Promise<IResponse<IFullProject>> {
-	try {
-		const user = await getUserFromSession();
-		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-
-		const [projectIdValue, branchUuid] =
-			formData.get('id')?.toString().split('/') || [];
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
-
-		const access = await hasProjectAccess(UPDATE.BRANCH, {
-			userId: user.id,
-			projectId,
-		});
-
-		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
-
-		const file = formData.get('image');
-		const name = formData.get('name')?.toString();
-		const info = formData.get('info')?.toString();
-		const addressCountry = formData.get('address.country')?.toString();
-		const addressCity = formData.get('address.city')?.toString();
-		const addressLine = formData.get('address.address_line')?.toString();
-		const addressLine2 = formData.get('address.address_line_2')?.toString();
-		const spaces: Array<{ shortId: string; name: string }> = [];
-
-		formData.forEach((value, key) => {
-			if (key.startsWith('spaces')) {
-				const [_, index, shortId] = key.split('.');
-				spaces[parseInt(index)] = { shortId, name: value.toString() };
-			}
-		});
-
-		// TODO: upload image to cloudinary
-		const success = await updateBranch(
-			{ uuid: branchUuid },
-			{
-				name: name,
-				info: info,
-				address: {
-					country: addressCountry,
-					city: addressCity,
-					address_line: addressLine,
-					address_line_2: addressLine2,
-				},
-				spaces: spaces,
-				// image: file,
-			},
+			{},
 		);
 
-		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
-		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project) throw { code: ErrorCodes.UPDATE_FAILED };
-		return { status: EnumResponse.SUCCESS, data: project };
-	} catch (error) {
-		console.log('ERROR', error);
-		return { status: EnumResponse.FAILED, error: parseError(error) };
-	}
-}
+		const endNever = formData.get('end_never')?.toString() === 'on';
+		const endOnDate = formData.get('end_on_date')?.toString();
 
-/**
- * Update branch visibility
- * @param formData
- * @returns IResponse
- */
-export async function actionUpdateVisibilityBranch(
-	formData: FormData,
-): Promise<IResponse<IFullProject> | never> {
-	try {
-		const user = await getUserFromSession();
-		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const [projectIdValue, branchUuid] =
-			formData.get('id')?.toString().split('/') || [];
-		const action = formData.get('action')?.toString();
+		console.log('actionCreateNewEvent', Object.fromEntries(formData.entries()));
+		console.log('serializedData', {
+			serviceId,
+			branchId,
+			name,
+			info,
+			color,
+			spaceShortId,
+			fromTime,
+			toTime,
+			date,
+			rrule,
+			repeatInterval,
+			repeatPeriod,
+			week,
+			endNever,
+			endOnDate,
+		});
 
-		if (action != 'delete' && action != 'publish' && action != 'unpublish')
-			throw doError(ErrorCodes.UNSUPPORTED_ACTION);
-
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
-
-		if (action == 'delete') {
-			const access = await hasProjectAccess(DELETE.BRANCH, {
-				userId: user.id,
-				projectId,
-			});
-
-			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
-			const success = await deleteBranch({ uuid: branchUuid });
-			if (!success) throw doError(ErrorCodes.DELETE_LAST_FAILED);
-		} else {
-			const access = await hasProjectAccess(
-				action === 'publish' ? UPDATE.BRANCH : UPDATE.UNPUBLISH_BRANCH,
-				{
-					userId: user.id,
-					projectId,
-				},
-			);
-
-			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
-
-			const success = await updateBranch(
-				{ uuid: branchUuid },
-				{
-					state:
-						action == 'publish'
-							? EnumState.ACTIVE
-							: action == 'unpublish'
-								? EnumState.INACTIVE
-								: undefined,
-				},
-			);
-
-			if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
-		}
-
-		const project = await getFullProjectByUserId(user.id, { id: projectId });
-		if (!project)
-			throw doError(
-				action === 'delete'
-					? ErrorCodes.DELETE_FAILED
-					: ErrorCodes.UPDATE_FAILED,
-			);
-		return { status: EnumResponse.SUCCESS, data: project };
+		// // TODO: upload image to cloudinary
+		// const newBranch = await createBranch({
+		// 	projectId: projectId,
+		// 	name: name,
+		// 	info: info,
+		// 	address: {
+		// 		country: addressCountry,
+		// 		city: addressCity,
+		// 		address_line: addressLine,
+		// 		address_line_2: addressLine2,
+		// 	},
+		// 	// image: file,
+		// });
+		// if (!newBranch) throw doError(ErrorCodes.CREATE_FAILED);
+		// const project = await getFullProjectByUserId(user.id, { id: projectId });
+		// if (!project) throw doError(ErrorCodes.CREATE_FAILED);
+		return {
+			status: EnumResponse.SUCCESS,
+			data: {},
+			// data: { project, branch: newBranch },
+		};
 	} catch (error: any) {
 		console.log('ERROR', error);
 		return { status: EnumResponse.FAILED, error: parseError(error) };

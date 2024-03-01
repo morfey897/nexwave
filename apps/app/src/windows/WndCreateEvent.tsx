@@ -5,7 +5,6 @@ import { type IModal, Position, withModal, useCloseAllModal } from '@nw/modal';
 import {
 	Input,
 	Textarea,
-	File,
 	Select,
 	Masked,
 	Fieldset,
@@ -15,10 +14,8 @@ import {
 
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
-import { actionCreateNewBranch } from '@/actions/branch-action';
+import { actionCreateNewEvent } from '@/actions/event-action';
 import { ACCESS_DENIED, CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
-import { BiChevronDown } from 'react-icons/bi';
-import { HiOutlineClock } from 'react-icons/hi';
 import Accordion from '@/components/Accordion';
 import {
 	AsideWrapper,
@@ -27,7 +24,6 @@ import {
 	WndFooter,
 } from '@/components/Windows';
 import ErrorCopy from '@/components/ErrorCopy';
-import { MdOutlineCloudUpload } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
 import useNWStore from '@/lib/store';
@@ -35,13 +31,13 @@ import { CREATE } from '@/crud';
 import { hasAccess } from '@/utils';
 import AccessDenied from '@/components/AccessDenied';
 import clsx from 'clsx';
-import { EnumColor, EnumResponse, COLORS, CURRENCIES } from '@/enums';
+import { EnumColor, EnumResponse, EnumRepeatPeriod, COLORS } from '@/enums';
 import { useState } from 'react';
 import { generateColor } from '@/utils';
 import Marker from '@/components/ColorMarker';
 import SVGIcon from '@/components/SVGIcon';
 import { useDateLocale } from '@/hooks/datetime';
-import { compareAsc, format, previousMonday, addDays } from 'date-fns';
+import { format, previousMonday, addDays } from 'date-fns';
 import { capitalize } from 'lodash';
 
 function CreateEvent({ closeMe }: IModal) {
@@ -57,16 +53,15 @@ function CreateEvent({ closeMe }: IModal) {
 	const [repeatable, setRepeatable] = useState(false);
 
 	const [endNever, setEndNever] = useState(true);
-	const [repeatEach, setRepeat] = useState('weekly');
+	const [repeatEach, setRepeat] = useState<string>(EnumRepeatPeriod.WEEK);
 	const [repeatInterval, setRepeatInterval] = useState(1);
 	const [endDate, setEndDate] = useState('');
 	const [repeatWeek, setRepeatWeek] = useState<string[]>([]);
 
 	const router = useRouter();
 	const closeAll = useCloseAllModal();
-	const { action, submit, reset, pending, result } = useAction(
-		actionCreateNewBranch,
-	);
+	const { action, submit, reset, pending, result } =
+		useAction(actionCreateNewEvent);
 	const t = useTranslations();
 
 	useEffect(() => {
@@ -89,7 +84,7 @@ function CreateEvent({ closeMe }: IModal) {
 			const day = d.getDay();
 			return {
 				day: day,
-				value: `day-${day}`,
+				value: `day_${day}`,
 				label: capitalize(format(d, 'EEE', { locale: dateLocale })),
 			};
 		});
@@ -103,45 +98,9 @@ function CreateEvent({ closeMe }: IModal) {
 		// submit(data);
 	};
 
-	const onChangeEndNever = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setEndNever(event.target.checked);
-		},
-		[],
-	);
-
-	const onChangeRepeatInterval = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setRepeatInterval(parseInt(event.target.value, 10));
-		},
-		[],
-	);
-
-	const onChangeRepeatEach = useCallback(
-		(event: React.ChangeEvent<HTMLSelectElement>) => {
-			setRepeat(event.target.value);
-		},
-		[],
-	);
-
-	const onChangeEndDate = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setEndDate(event.target.value);
-		},
-		[],
-	);
-
-	const onChangeRepeatable = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setRepeatable(event.target.checked);
-		},
-		[],
-	);
-
 	const onChangeRepeatDate = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const name = event.target.name;
-			console.log('onChangeRepeatDate:', name);
 			setRepeatWeek((prev) =>
 				prev.includes(name)
 					? prev.filter((item) => item !== name)
@@ -155,14 +114,11 @@ function CreateEvent({ closeMe }: IModal) {
 		if (!repeatable) return '';
 		const list: string[] = [];
 
-		if (repeatInterval > 1) {
-			list.push(
-				t(`page.add_event.${repeatEach}_`, { interval: repeatInterval }),
-			);
-		} else {
-			list.push(t(`page.add_event.repeat_${repeatEach}`));
-		}
-		if (repeatWeek.length > 0 && repeatEach === 'weekly') {
+		list.push(
+			t(`page.add_event.repeat_${repeatEach}_`, { interval: repeatInterval }),
+		);
+
+		if (repeatWeek.length > 0 && repeatEach === EnumRepeatPeriod.WEEK) {
 			list.push(
 				t('page.add_event.on_days_', {
 					days: `${week
@@ -203,13 +159,17 @@ function CreateEvent({ closeMe }: IModal) {
 			/>
 			<AsideBody>
 				{hasPermission ? (
-					// <form onSubmit={submit} action={action} onChange={reset}>
-					<form onSubmit={onSubmit}>
+					<form onSubmit={submit} action={action} onChange={reset}>
 						<div className='space-y-4'>
 							<input type='hidden' name='id' value={project?.id} />
-							<Input name='name' type='text' placeholder={t('form.name')} />
+							<Input
+								name='name'
+								type='text'
+								placeholder={t('form.name')}
+								required
+							/>
 							<Autocomplete
-								name='direction'
+								name='service_id'
 								searchOptions={{
 									fields: ['label'],
 									storeFields: ['id', 'label'],
@@ -218,21 +178,26 @@ function CreateEvent({ closeMe }: IModal) {
 										prefix: true,
 									},
 								}}
-								placeholder={t('form.direction')}
+								placeholder={t('form.service')}
 							/>
 							<Select
-								name='branch_uuid'
+								required
+								name='branch_id'
 								placeholder={t('form.select_branch')}
 								icon={<SVGIcon type='branch' size={24} />}
 								onChange={(event) => setBranchUUID(event.target.value)}
+								value={branchUUID}
 							>
 								{project?.branches?.map((branch) => (
-									<option key={branch.uuid} value={branch.uuid}>
+									<option key={branch.id} value={branch.id}>
 										{branch.name}
 									</option>
 								))}
 							</Select>
-							<Select name='space_id' placeholder={t('form.select_space')}>
+							<Select
+								name='space_short_id'
+								placeholder={t('form.select_space')}
+							>
 								{project?.branches
 									?.find((branch) => branch.uuid === branchUUID)
 									?.spaces?.map((space) => (
@@ -244,7 +209,8 @@ function CreateEvent({ closeMe }: IModal) {
 							<Fieldset legend={t('form.date')}>
 								<div className='grid grid-cols-2 gap-4'>
 									<Masked
-										name='from'
+										required
+										name='from_time'
 										placeholder={t('form.from')}
 										maskedProps={{
 											alias: 'datetime',
@@ -253,7 +219,8 @@ function CreateEvent({ closeMe }: IModal) {
 										}}
 									/>
 									<Masked
-										name='to'
+										required
+										name='to_time'
 										placeholder={t('form.to')}
 										maskedProps={{
 											alias: 'datetime',
@@ -268,10 +235,11 @@ function CreateEvent({ closeMe }: IModal) {
 									/>
 									<div className='col-span-2'>
 										<Input
+											required
 											name='date'
 											type='date'
 											placeholder={t('form.date')}
-											min={new Date().toISOString()}
+											min={new Date().toISOString().split('T')[0]}
 										/>
 									</div>
 									<Accordion
@@ -279,7 +247,7 @@ function CreateEvent({ closeMe }: IModal) {
 										inputProps={{
 											name: 'rrule',
 											checked: repeatable,
-											onChange: onChangeRepeatable,
+											onChange: () => setRepeatable(!repeatable),
 											children: (
 												<Button
 													message={
@@ -293,35 +261,43 @@ function CreateEvent({ closeMe }: IModal) {
 									>
 										<div className='grid grid-cols-2 gap-4 mt-4'>
 											<Input
-												name='repeat_every'
+												name='repeat_interval'
 												type='number'
-												placeholder={t('page.add_event.repeat_every')}
+												placeholder={t('page.add_event.repeat_interval')}
 												min={1}
 												max={99}
 												value={repeatInterval}
-												onChange={onChangeRepeatInterval}
+												onChange={(event) =>
+													setRepeatInterval(Number.parseInt(event.target.value, 10))
+												}
 											/>
 											<Select
-												name='repeat_each'
-												placeholder={t('page.add_event.repeat_each')}
+												name='repeat_period'
+												placeholder={t('page.add_event.repeat_period')}
 												className='w-full'
 												value={repeatEach}
-												onChange={onChangeRepeatEach}
+												onChange={(event) => setRepeat(event.target.value)}
 											>
-												<option value='weekly'>
-													{t('page.add_event.repeat_weekly')}
+												<option value={EnumRepeatPeriod.WEEK}>
+													{t('page.add_event.repeat_single_period_', {
+														period: EnumRepeatPeriod.WEEK,
+													})}
 												</option>
-												<option value='monthly'>
-													{t('page.add_event.repeat_monthly')}
+												<option value={EnumRepeatPeriod.MONTH}>
+													{t('page.add_event.repeat_single_period_', {
+														period: EnumRepeatPeriod.MONTH,
+													})}
 												</option>
-												<option value='yearly'>
-													{t('page.add_event.repeat_yearly')}
+												<option value={EnumRepeatPeriod.YEAR}>
+													{t('page.add_event.repeat_single_period_', {
+														period: EnumRepeatPeriod.YEAR,
+													})}
 												</option>
 											</Select>
 											<div
 												className={clsx(
 													'col-span-2',
-													repeatEach != 'weekly' && 'hidden',
+													repeatEach != EnumRepeatPeriod.WEEK && 'hidden',
 												)}
 											>
 												<Fieldset legend={t('page.add_event.repeat_on')}>
@@ -347,16 +323,18 @@ function CreateEvent({ closeMe }: IModal) {
 															placeholder={t('page.add_event.end_never')}
 															className='self-center'
 															checked={endNever}
-															onChange={onChangeEndNever}
+															onChange={() => setEndNever(!endNever)}
 														/>
 														<Input
-															name='end_on'
+															name='end_on_date'
 															type='date'
 															placeholder={t('page.add_event.end_on')}
-															min={new Date().toISOString()}
+															min={new Date().toISOString().split('T')[0]}
 															className={clsx(endNever && 'hidden')}
 															value={endDate}
-															onChange={onChangeEndDate}
+															onChange={(event) =>
+																setEndDate(event.target.value)
+															}
 														/>
 													</div>
 												</Fieldset>

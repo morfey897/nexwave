@@ -61,12 +61,13 @@ type TActions<T> = {
 };
 
 function StateSettings<T>({
+	id,
 	item,
 	roles,
 	serverAction,
 	postProcess,
 	...rest
-}: { item: T | null } & TActions<T> & {
+}: { id?: string | number; item: T | null } & TActions<T> & {
 		roles: Record<UnitAction, number>;
 	} & React.HTMLAttributes<HTMLDivElement>) {
 	const { action, submit, reset, pending, result } = useAction(serverAction);
@@ -78,7 +79,7 @@ function StateSettings<T>({
 	const [activeItem, setActiveItem] = useState<TProps | null>(null);
 
 	const [currentAction, setCurrenAction] = useState<UnitAction | ''>('');
-	
+
 	useLayoutEffect(() => {
 		!!item && setActiveItem(postProcess(item));
 	}, [item, postProcess]);
@@ -95,13 +96,13 @@ function StateSettings<T>({
 			const activeAction = event.currentTarget.name;
 			setCurrenAction(activeAction as UnitAction);
 			const formData = new FormData();
-			formData.append('id', (activeItem?.id || '').toString());
+			formData.append('id', (id || activeItem?.id || '').toString());
 			formData.append('action', activeAction);
 			reset();
 			submit();
 			onSubmit(formData);
 		},
-		[activeItem, reset, submit, onSubmit],
+		[id, activeItem, reset, submit, onSubmit],
 	);
 
 	useEffect(() => {

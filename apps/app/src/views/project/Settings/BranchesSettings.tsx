@@ -133,7 +133,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					const [[i, val]] = Object.entries(value);
 					const [[shortId, name]] = Object.entries(val as Object);
 					const space = { name, shortId };
-					const index = parseInt(i);
+					const index = Number.parseInt(i);
 					newBranch = {
 						...newBranch,
 						spaces: newBranch.spaces.map((sp, i) => (i === index ? space : sp)),
@@ -276,6 +276,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 				<StateSettings<IFullProject>
 					serverAction={actionUpdateVisibilityBranch}
 					postProcess={postProcess}
+					id={`${activeProject?.id}/${activeBranch?.id}`}
 					item={activeProject}
 					roles={ROLES}
 					className='border border-b-0 rounded-ss-lg rounded-se-lg dark:border-gray-600 p-4 pb-2 bg-gray-900'
@@ -284,14 +285,13 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 				<form onSubmit={submit} action={action} onChange={reset}>
 					<div className='space-y-4 border border-t-0 rounded-ee-lg rounded-es-lg dark:border-gray-600 p-4 pt-2 bg-gray-900'>
 						{/*  ProjectId */}
-						{activeBranch && (
-							<input
-								name='id'
-								type='hidden'
-								value={`${activeProject?.id}/${activeBranch?.uuid}`}
-							/>
-						)}
-
+						<input name='id' type='hidden' value={activeProject?.id} />
+						{/*  BranchUUid */}
+						<input
+							name='branch_uuid'
+							type='hidden'
+							value={activeBranch?.uuid}
+						/>
 						{activeBranch ? (
 							<Input
 								onChange={onChange}

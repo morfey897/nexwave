@@ -50,7 +50,7 @@
 		"to": "To",
 		"start": "Start",
 		"end": "End",
-		"direction": "Direction"
+		"service": "Service"
 	},
 	"button": {
 		"sign_in": "Sign in",
@@ -235,21 +235,18 @@
 			"headline": "Add new event",
 			"subheadline": "Here you can add new event",
 			"repeat_on": "Repeat on",
-			"repeat_every": "Repeat every",
-			"repeat_weekly": "Weekly",
-			"repeat_monthly": "Monthly",
-			"repeat_yearly": "Yearly",
-			"weekly_": "Every {interval, plural, 1 {week} other {# weeks}}",
-			"monthly_": "Every {interval, plural, 1 {month} other {# months}}",
-			"yearly_": "Every {interval, plural, 1 {year} other {# years}}",
+			"repeat_interval": "Repeat every",
+			"repeat_period": "Repeat each",
+			"repeat_single_period_": "{period, select, week {Weekly} month {Monthly} year {Yearly} other {Otherly}}",
+			"repeat_week_": "Every {interval, plural, 1 {week} other {# weeks}}",
+			"repeat_month_": "Every {interval, plural, 1 {month} other {# months}}",
+			"repeat_year_": "Every {interval, plural, 1 {year} other {# years}}",
 			"on_days_": "On {days}",
 			"until_": "Until {end}",
-			"repeat_each": "Repeat each",
 			"ends": "Ends",
 			"end_never": "Never",
 			"end_on": "On",
-			"not_repeat": "Does no repeat",
-			"repeat_": "_ {rrule}"
+			"not_repeat": "Does no repeat"
 		},
 		"panel_projects": {
 			"headline": "Projects",

@@ -22,9 +22,9 @@ export const toTime = (d: Date | string | number) => {
 	const time = d.toISOString().split('T')[1];
 	const [hh, mm, ss] = ((time || '').split('.')[0] || '').split(':');
 	return {
-		hh: parseInt(hh || '0', 10),
-		mm: parseInt(mm || '0', 10),
-		ss: parseInt(ss || '0', 10),
+		hh: Number.parseInt(hh || '0', 10),
+		mm: Number.parseInt(mm || '0', 10),
+		ss: Number.parseInt(ss || '0', 10),
 	};
 };
 

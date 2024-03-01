@@ -6,7 +6,7 @@ export const totalHeight = (element: Element | null | undefined) => {
   const height = rect.height;
   const style = window.getComputedStyle(element);
   const totalHeight = ["top", "bottom"]
-    .map((side) => parseInt(style["margin-" + side], 10))
+    .map((side) => Number.parseInt(style["margin-" + side], 10))
     .reduce((total, side) => total + side, height);
   return totalHeight;
 };

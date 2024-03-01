@@ -35,11 +35,7 @@ export async function actionCreateNewBranch(
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
-		const [projectIdValue] = formData.get('id')?.toString().split('/') || [];
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
-
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 		const access = await hasProjectAccess(CREATE.BRANCH, {
 			userId: user.id,
 			projectId,
@@ -94,11 +90,7 @@ export async function actionUpdateBranch(
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
-		const [projectIdValue, branchUuid] =
-			formData.get('id')?.toString().split('/') || [];
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 
 		const access = await hasProjectAccess(UPDATE.BRANCH, {
 			userId: user.id,
@@ -108,6 +100,7 @@ export async function actionUpdateBranch(
 		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 		const file = formData.get('image');
+		const branchUuid = formData.get('branch_uuid')?.toString();
 		const name = formData.get('name')?.toString();
 		const info = formData.get('info')?.toString();
 		const addressCountry = formData.get('address.country')?.toString();
@@ -161,16 +154,13 @@ export async function actionUpdateVisibilityBranch(
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const [projectIdValue, branchUuid] =
-			formData.get('id')?.toString().split('/') || [];
+		const [projectId, branchId] = (
+			formData.get('id')?.toString().split('/') || []
+		).map((v) => parseInt(v));
 		const action = formData.get('action')?.toString();
 
 		if (action != 'delete' && action != 'publish' && action != 'unpublish')
 			throw doError(ErrorCodes.UNSUPPORTED_ACTION);
-
-		const projectId = projectIdValue
-			? Number.parseInt(projectIdValue)
-			: undefined;
 
 		if (action == 'delete') {
 			const access = await hasProjectAccess(DELETE.BRANCH, {
@@ -179,7 +169,7 @@ export async function actionUpdateVisibilityBranch(
 			});
 
 			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
-			const success = await deleteBranch({ uuid: branchUuid });
+			const success = await deleteBranch({ id: branchId });
 			if (!success) throw doError(ErrorCodes.DELETE_LAST_FAILED);
 		} else {
 			const access = await hasProjectAccess(
@@ -193,7 +183,7 @@ export async function actionUpdateVisibilityBranch(
 			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
 			const success = await updateBranch(
-				{ uuid: branchUuid },
+				{ id: branchId },
 				{
 					state:
 						action == 'publish'
