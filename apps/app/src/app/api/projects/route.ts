@@ -5,13 +5,11 @@ import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
 import { cookies } from 'next/headers';
-import { COOKIES } from '@nw/config';
+import { getSession } from '@/nextRequest';
 
 export async function GET(request: NextRequest) {
 	try {
-		const user = await getUserFromSession(
-			cookies().get(COOKIES.SESSION)?.value,
-		);
+		const user = await getUserFromSession(getSession(request));
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projects = await getProjectsByUserId(user.id);
