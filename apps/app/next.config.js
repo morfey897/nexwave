@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next-pwa').PWAConfig} */
 const withPWA = withPWAInit.default({
 	dest: 'public',
-	disable: true, //process.env.NODE_ENV !== 'production',
+	disable: process.env.NODE_ENV !== 'production',
 	fallbacks: {
 		document: '/~offline',
 	},
