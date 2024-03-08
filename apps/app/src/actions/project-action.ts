@@ -17,6 +17,7 @@ import { EnumResponse, EnumRole, EnumState } from '@/enums';
 import { parseError, parseRedirect, doRedirect, doError } from '@/utils';
 import { IResponse } from '@/types';
 import { S_PARAMS } from '@nw/config';
+import { getSession } from '@/headers';
 
 /**
  * Create project
@@ -27,7 +28,7 @@ export async function actionCreateNewProject(
 	formData: FormData,
 ): Promise<IResponse | never> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const file = formData.get('image');
 		const name = formData.get('name')?.toString();
@@ -64,7 +65,7 @@ export async function actionUpdateProject(
 	formData: FormData,
 ): Promise<IResponse<IFullProject>> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
 
@@ -112,7 +113,7 @@ export async function actionUpdateAccessProject(
 	formData: FormData,
 ): Promise<IResponse<IFullProject>> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const { id: projectIdValue, ...formValue } = Object.fromEntries(
 			formData.entries(),
@@ -176,7 +177,7 @@ export async function actionUpdateVisibilityProject(
 	formData: FormData,
 ): Promise<IResponse<IFullProject> | never> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const action = formData.get('action')?.toString();
 

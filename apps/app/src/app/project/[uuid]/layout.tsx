@@ -5,6 +5,7 @@ import { getProjectsByUserId } from '@/models/project';
 import { UpdateStore } from '@/providers/StoreProvider';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/views/Breadcrumbs';
+import { getSession } from '@/headers';
 
 export default async function ProjectLayout({
 	children,
@@ -13,7 +14,7 @@ export default async function ProjectLayout({
 	children: React.ReactNode;
 	params: { uuid: string };
 }) {
-	const user = await getUserFromSession();
+	const user = await getUserFromSession(getSession());
 	const [project] = (await getProjectsByUserId(user?.id, {
 		uuid: params.uuid,
 	})) || [null];

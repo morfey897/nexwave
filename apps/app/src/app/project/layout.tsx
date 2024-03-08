@@ -1,4 +1,4 @@
-import { getRefreshToken } from '@/headers';
+import { getRefreshToken, getSession } from '@/headers';
 import { getUserFromSession } from '@/models/user';
 import Loading from '@/app/loading';
 import AuthView from '@/views/Authentication';
@@ -10,7 +10,7 @@ export default async function ProjectLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const user = await getUserFromSession();
+	const user = await getUserFromSession(getSession());
 	const refreshToken = getRefreshToken();
 
 	return (

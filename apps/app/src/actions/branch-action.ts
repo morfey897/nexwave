@@ -23,6 +23,7 @@ import {
 } from '@/utils';
 import { IResponse } from '@/types';
 import { S_PARAMS } from '@nw/config';
+import { getSession } from '@/headers';
 
 /**
  * Create new branch
@@ -32,7 +33,7 @@ export async function actionCreateNewBranch(
 	formData: FormData,
 ): Promise<IResponse<{ project: IFullProject; branch: IFullBranch }>> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
@@ -87,7 +88,7 @@ export async function actionUpdateBranch(
 	formData: FormData,
 ): Promise<IResponse<IFullProject>> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
@@ -152,7 +153,7 @@ export async function actionUpdateVisibilityBranch(
 	formData: FormData,
 ): Promise<IResponse<IFullProject> | never> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const [projectId, branchId] = (
 			formData.get('id')?.toString().split('/') || []

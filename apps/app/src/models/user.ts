@@ -2,11 +2,6 @@ import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
 import { verifyAuth } from '@/lib/jwt';
-import { getSession } from '@/headers';
-import { NextRequest } from 'next/server';
-import { COOKIES } from '@nw/config';
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-import { cookies } from 'next/headers';
 
 export interface ICurrentUser extends TUID {
 	email: string;
@@ -22,20 +17,20 @@ export interface ICurrentUser extends TUID {
  * @returns {ICurrentUser | null}
  */
 export async function getUserFromSession(
-	req?: string | NextRequest | unknown,
+	session: string | null | unknown,
 ): Promise<ICurrentUser | null> {
 	let user: ICurrentUser | null = null;
 
-	let session: string | undefined;
-	if (typeof req === 'string') {
-		session = req;
-	} else if (req instanceof NextRequest && req.cookies) {
-		session = req.cookies.get(COOKIES.SESSION)?.value;
-	} else if (req && req.hasOwnProperty('get')) {
-		session = (req as any).get(COOKIES.SESSION);
-	}
+	// let session: string | undefined;
+	// if (typeof req === 'string') {
+	// 	session = req;
+	// } else if (req instanceof NextRequest && req.cookies) {
+	// 	session = req.cookies.get(COOKIES.SESSION)?.value;
+	// } else if (req && req.hasOwnProperty('get')) {
+	// 	session = (req as any).get(COOKIES.SESSION);
+	// }
 
-	session = session || getSession();
+	// session = session || cookies().get(COOKIES.SESSION)?.value;
 	try {
 		if (!session) throw new Error('Invalid session');
 

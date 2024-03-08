@@ -10,6 +10,7 @@ import { UPDATE, READ } from '@/crud';
 import { IEvent } from '@/types/event';
 import { addDays } from 'date-fns';
 import { toIsoDate } from '@/utils/datetime';
+import { getSession } from '@/nextRequest';
 
 const EVENTS: IEvent[] = (mockEvents as unknown as IEvent[]).map((event) => ({
 	...event,
@@ -21,9 +22,11 @@ const EVENTS: IEvent[] = (mockEvents as unknown as IEvent[]).map((event) => ({
 
 export async function GET(request: NextRequest) {
 	try {
-		const user = await getUserFromSession(request);
+		const user = await getUserFromSession(getSession(request));
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
-		const projectId = Number.parseInt(request.nextUrl.searchParams.get('projectId') || '');
+		const projectId = Number.parseInt(
+			request.nextUrl.searchParams.get('projectId') || '',
+		);
 
 		const access = await hasProjectAccess(READ.EVENT, {
 			userId: user.id,

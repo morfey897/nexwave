@@ -10,6 +10,7 @@ import { mmToTime } from '@/utils/datetime';
 import { strTimeToMinutes } from '@/utils/datetime';
 import { IResponse } from '@/types';
 import { validate } from '@/utils/validation';
+import { getSession } from '@/headers';
 
 const getWeek = (formData: FormData) =>
 	WEEK_DAYS.filter((day) => formData.get(day)?.toString() === 'on');
@@ -60,7 +61,7 @@ export async function actionCreateNewEvent(
 	formData: FormData,
 ): Promise<IResponse<IEvent>> {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
