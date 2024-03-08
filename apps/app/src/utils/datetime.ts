@@ -73,3 +73,13 @@ export const getFirstDayOfWeek = (d?: Date | string | number) => {
 	}
 	return toIsoDate(previousMonday(d));
 };
+
+export const strTimeToSeconds = (time: string) => {
+	const [hh, mm, ss] = time.split(':').map((v) => Number.parseInt(v, 10));
+	return hh * 60 * 60 + mm * 60 + ss;
+};
+
+export const strTimeToMinutes = (time: string) => {
+	const [hh, mm] = time.split(':').map((v) => Number.parseInt(v, 10));
+	return hh * 60 + mm;
+};

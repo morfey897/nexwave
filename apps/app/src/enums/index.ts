@@ -71,11 +71,22 @@ export enum EnumCurrency {
 }
 
 export enum EnumRepeatPeriod {
-	WEEK = 'week',
-	MONTH = 'month',
-	YEAR = 'year',
+	WEEKLY = 'weekly',
+	MONTHLY = 'monthly',
+	YEARLY = 'yearly',
+}
+
+export enum EnumWeekDay {
+	SUNDAY = 'SU',
+	MONDAY = 'MO',
+	TUESDAY = 'TU',
+	WEDNESDAY = 'WE',
+	THURSDAY = 'TH',
+	FRIDAY = 'FR',
+	SATURDAY = 'SA',
 }
 
 
 export const COLORS = Object.values(EnumColor);
 export const CURRENCIES = Object.values(EnumCurrency);
+export const WEEK_DAYS = Object.values(EnumWeekDay);

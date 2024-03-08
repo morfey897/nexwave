@@ -1,5 +1,6 @@
 import { LOCALES } from '@packages/config';
 import { enUS, ru, uk } from 'date-fns/locale';
+import { addDays } from 'date-fns';
 
 /**
  * Hook to get date locale
@@ -15,4 +16,13 @@ export const useDateLocale = (locale?: string) => {
 		default:
 			return enUS;
 	}
+};
+
+/**
+ * Hook to get current date
+ * @returns Date
+ */
+export const useNow = (days?: number) => {
+	const now = new Date();
+	return days ? addDays(now, days) : now;
 };

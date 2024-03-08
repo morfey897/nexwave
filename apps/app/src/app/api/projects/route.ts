@@ -7,7 +7,7 @@ import * as ErrorCodes from '@/errorCodes';
 
 export async function GET(request: NextRequest) {
 	try {
-		const user = await getUserFromSession();
+		const user = await getUserFromSession(request);
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projects = await getProjectsByUserId(user.id);

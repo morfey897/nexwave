@@ -5,13 +5,7 @@ import { useAction } from '@/hooks/action';
 import { Checkbox, Fieldset } from '@/components/Controls/Form';
 import Skeleton from '@/components/Skeleton';
 import { EnumResponse, EnumRole } from '@/enums';
-import {
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useMemo,
-	useState,
-} from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Spinner from '@/components/Spinner';
 import { IFullProject } from '@/models/project';
@@ -32,7 +26,7 @@ const GROUPS = [
 	EnumRole.user,
 ] as const;
 
-const ALL_ROLES = [
+const ALL_ROLES: Array<{ name: string; value: number; important?: boolean }> = [
 	{
 		name: 'update.project_access',
 		value: UPDATE.PROJECT_ACCESS,
@@ -47,28 +41,25 @@ const ALL_ROLES = [
 	{
 		name: 'update.unpublish_project',
 		value: UPDATE.UNPUBLISH_PROJECT,
-		important: false,
 	},
 	{
 		name: 'update.unpublish_branch',
 		value: UPDATE.UNPUBLISH_BRANCH,
-		important: false,
 	},
 
-	{ name: 'update.project', value: UPDATE.PROJECT, important: false },
+	{ name: 'update.project', value: UPDATE.PROJECT },
 
-	{ name: 'create.branch', value: CREATE.BRANCH, important: false },
-	{ name: 'update.branch', value: UPDATE.BRANCH, important: false },
+	{ name: 'create.branch', value: CREATE.BRANCH },
+	{ name: 'create.event', value: CREATE.EVENT },
+	{ name: 'update.branch', value: UPDATE.BRANCH },
 
 	{
 		name: 'update.project_group',
 		value: UPDATE.PROJECT_GROUP,
-		important: false,
 	},
 	{
 		name: 'delete.project_group',
 		value: DELETE.PROJECT_GROUP,
-		important: false,
 	},
 
 	// Delete

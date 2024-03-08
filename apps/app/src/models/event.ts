@@ -1,15 +1,26 @@
 import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
+import { generateColor, generateName } from '@/utils';
+import { EnumColor } from '@/enums';
+
+type RRule = {
+	freq?: string;
+	interval?: number;
+	byday?: string;
+};
 
 export interface IEvent extends TUID {
 	createdAt: Date;
+	branchId: number;
 	name: string;
 	info: string | null;
 	color: string | null;
 	startAt: Date;
-	endAt: Date | null;
 	duration: number;
+	rrule: RRule | null;
+	spaceShortId: string | null;
+	// TODO: add serviceId
 }
 
 /**
@@ -18,31 +29,59 @@ export interface IEvent extends TUID {
  * @param projectId - number
  * @param role - string
  */
-export async function createEvent({
-	email,
-	projectId,
-	role,
-}: {
-	email: string;
-	projectId: number;
-	role: string;
-}): Promise<IEvent | null> {
-	return null;
-	// const [invitation] = await db
-	// 	.insert(schemas.invitation)
-	// 	.values({
-	// 		email,
-	// 		projectId,
-	// 		role,
-	// 	})
-	// 	.returning({
-	// 		id: schemas.invitation.id,
-	// 		uuid: schemas.invitation.uuid,
-	// 		email: schemas.invitation.email,
-	// 		createdAt: schemas.invitation.createdAt,
-	// 		projectId: schemas.invitation.projectId,
-	// 		role: schemas.invitation.role,
-	// 	});
+export async function createEvent(
+	branchId: number,
+	value: {
+		name?: string;
+		info?: string;
+		color?: string;
+		startAt: Date | string;
+		endAt?: Date | string;
+		duration: number;
+		rrule?: RRule | null;
+		spaceShortId?: string;
+		serviceId?: number;
+	},
+): Promise<IEvent | null> {
+	const nameValue = value?.name || generateName();
+	const colorValue =
+		value?.color && Object.values(EnumColor).includes(value?.color as EnumColor)
+			? (value?.color as EnumColor)
+			: generateColor();
 
-	// return invitation;
+	const [event] = await db
+		.insert(schemas.event)
+		.values({
+			branchId: branchId,
+			name: nameValue,
+			info: value?.info || null,
+			color: colorValue,
+			startAt:
+				value.startAt instanceof Date ? value.startAt : new Date(value.startAt),
+			endAt: !value.endAt
+				? null
+				: value.endAt instanceof Date
+					? value.endAt
+					: new Date(value.endAt),
+			duration: value?.duration || 0,
+			rrule: value?.rrule || null,
+			spaceShortId: value?.spaceShortId || null,
+			serviceId: value?.serviceId || null,
+		})
+		.returning({
+			id: schemas.event.id,
+			uuid: schemas.event.uuid,
+			branchId: schemas.event.branchId,
+			name: schemas.event.name,
+			info: schemas.event.info,
+			color: schemas.event.color,
+			startAt: schemas.event.startAt,
+			duration: schemas.event.duration,
+			rrule: schemas.event.rrule,
+			spaceShortId: schemas.event.spaceShortId,
+			createdAt: schemas.event.createdAt,
+			serviceId: schemas.event.serviceId,
+		});
+
+	return event;
 }

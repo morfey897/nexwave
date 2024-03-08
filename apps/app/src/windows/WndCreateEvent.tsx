@@ -15,7 +15,18 @@ import {
 import Spinner from '@/components/Spinner';
 import { useAction } from '@/hooks/action';
 import { actionCreateNewEvent } from '@/actions/event-action';
-import { ACCESS_DENIED, CREATE_FAILED, USER_UNAUTHORIZED } from '@/errorCodes';
+import {
+	ACCESS_DENIED,
+	CREATE_FAILED,
+	USER_UNAUTHORIZED,
+	INVALID_DATE,
+	INVALID_TIME_FROM,
+	INVALID_TIME_TO,
+	MISSING_DATE,
+	MISSING_TIME_FROM,
+	MISSING_TIME_TO,
+	INVALID_TIME_RANGE,
+} from '@/errorCodes';
 import Accordion from '@/components/Accordion';
 import {
 	AsideWrapper,
@@ -31,13 +42,19 @@ import { CREATE } from '@/crud';
 import { hasAccess } from '@/utils';
 import AccessDenied from '@/components/AccessDenied';
 import clsx from 'clsx';
-import { EnumColor, EnumResponse, EnumRepeatPeriod, COLORS } from '@/enums';
+import {
+	EnumColor,
+	EnumResponse,
+	EnumRepeatPeriod,
+	COLORS,
+	WEEK_DAYS,
+} from '@/enums';
 import { useState } from 'react';
 import { generateColor } from '@/utils';
 import Marker from '@/components/ColorMarker';
 import SVGIcon from '@/components/SVGIcon';
-import { useDateLocale } from '@/hooks/datetime';
-import { format, previousMonday, addDays } from 'date-fns';
+import { useDateLocale, useNow } from '@/hooks/datetime';
+import { addDays, format } from 'date-fns';
 import { capitalize } from 'lodash';
 
 function CreateEvent({ closeMe }: IModal) {
@@ -45,15 +62,17 @@ function CreateEvent({ closeMe }: IModal) {
 	const hasPermission = hasAccess(project?.permission, CREATE.EVENT);
 
 	const locale = useLocale();
+	const now = useNow();
 	const dateLocale = useDateLocale(locale);
 
 	const [color, setColor] = useState(generateColor());
 	const [branchUUID, setBranchUUID] = useState('');
 
 	const [repeatable, setRepeatable] = useState(false);
+	const [startDate, setStartDate] = useState('');
 
 	const [endNever, setEndNever] = useState(true);
-	const [repeatEach, setRepeat] = useState<string>(EnumRepeatPeriod.WEEK);
+	const [repeatEach, setRepeat] = useState<string>(EnumRepeatPeriod.WEEKLY);
 	const [repeatInterval, setRepeatInterval] = useState(1);
 	const [endDate, setEndDate] = useState('');
 	const [repeatWeek, setRepeatWeek] = useState<string[]>([]);
@@ -63,6 +82,8 @@ function CreateEvent({ closeMe }: IModal) {
 	const { action, submit, reset, pending, result } =
 		useAction(actionCreateNewEvent);
 	const t = useTranslations();
+
+	const errorCode = result?.error?.code;
 
 	useEffect(() => {
 		if (result?.status === EnumResponse.SUCCESS && result.data) {
@@ -77,48 +98,57 @@ function CreateEvent({ closeMe }: IModal) {
 		}
 	}, [project?.branches]);
 
+	useEffect(() => {
+		if (repeatWeek.length === 0) {
+			setRepeatWeek([WEEK_DAYS[now.getDay()]]);
+		}
+	}, [repeatWeek, now]);
+
 	const week = useMemo(() => {
-		const monday = previousMonday(new Date());
 		return [0, 1, 2, 3, 4, 5, 6].map((i) => {
-			const d = addDays(monday, i);
-			const day = d.getDay();
+			const day = ((dateLocale.options?.weekStartsOn || 0) + i) % 7;
 			return {
 				day: day,
-				value: `day_${day}`,
-				label: capitalize(format(d, 'EEE', { locale: dateLocale })),
+				value: WEEK_DAYS[day],
+				label: capitalize(
+					dateLocale.localize?.day(day, { width: 'abbreviated' }),
+				),
 			};
 		});
 	}, [dateLocale]);
 
-	const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const form = event.currentTarget;
-		const data = new FormData(form);
-		console.log('SUBMIT:', Object.fromEntries(data.entries()));
-		// submit(data);
-	};
-
 	const onChangeRepeatDate = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			const name = event.target.name;
-			setRepeatWeek((prev) =>
-				prev.includes(name)
+			setRepeatWeek((prev) => {
+				let newList = prev.includes(name)
 					? prev.filter((item) => item !== name)
-					: [...prev, name],
-			);
+					: [...prev, name];
+
+				if (newList.length === 0) {
+					newList = [WEEK_DAYS[now.getDay()]];
+				}
+				return newList;
+			});
 		},
-		[],
+		[now],
 	);
 
 	const rrule = useMemo(() => {
 		if (!repeatable) return '';
 		const list: string[] = [];
 
-		list.push(
-			t(`page.add_event.repeat_${repeatEach}_`, { interval: repeatInterval }),
-		);
+		if (repeatInterval === 1) {
+			list.push(
+				t(`page.add_event.repeat_single_period_`, { period: repeatEach }),
+			);
+		} else if (repeatInterval > 1) {
+			list.push(
+				t(`page.add_event.repeat_${repeatEach}_`, { interval: repeatInterval }),
+			);
+		}
 
-		if (repeatWeek.length > 0 && repeatEach === EnumRepeatPeriod.WEEK) {
+		if (repeatWeek.length > 0 && repeatEach === EnumRepeatPeriod.WEEKLY) {
 			list.push(
 				t('page.add_event.on_days_', {
 					days: `${week
@@ -162,6 +192,11 @@ function CreateEvent({ closeMe }: IModal) {
 					<form onSubmit={submit} action={action} onChange={reset}>
 						<div className='space-y-4'>
 							<input type='hidden' name='id' value={project?.id} />
+							<input
+								type='hidden'
+								name='tz_offset'
+								value={now.getTimezoneOffset()}
+							/>
 							<Input
 								name='name'
 								type='text'
@@ -217,6 +252,13 @@ function CreateEvent({ closeMe }: IModal) {
 											inputFormat: 'HH:MM',
 											showMaskOnHover: false,
 										}}
+										errorCopy={
+											(errorCode?.includes(MISSING_TIME_FROM) &&
+												t('error.missing_time_from')) ||
+											(errorCode?.includes(INVALID_TIME_FROM) &&
+												t('error.invalid_time_from')) ||
+											(errorCode?.includes(INVALID_TIME_RANGE) && true)
+										}
 									/>
 									<Masked
 										required
@@ -232,6 +274,20 @@ function CreateEvent({ closeMe }: IModal) {
 											'[&:before]:border-gray-400 [&:before]:dark:border-gray-600 [&:before]:border',
 											'[&:before]:w-2 [&:before]:-left-3 [&:before]:top-7',
 										)}
+										errorCopy={
+											(errorCode?.includes(MISSING_TIME_TO) &&
+												t('error.missing_time_to')) ||
+											(errorCode?.includes(INVALID_TIME_TO) &&
+												t('error.invalid_time_to')) ||
+											(errorCode?.includes(INVALID_TIME_RANGE) && true)
+										}
+									/>
+									<ErrorCopy
+										className='col-span-2'
+										code={errorCode}
+										codes={{
+											[INVALID_TIME_RANGE]: t('error.invalid_range'),
+										}}
 									/>
 									<div className='col-span-2'>
 										<Input
@@ -239,7 +295,13 @@ function CreateEvent({ closeMe }: IModal) {
 											name='date'
 											type='date'
 											placeholder={t('form.date')}
-											min={new Date().toISOString().split('T')[0]}
+											min={now.toISOString().split('T')[0]}
+											errorCopy={
+												(errorCode?.includes(MISSING_DATE) && 'Missing date') ||
+												(errorCode?.includes(INVALID_DATE) && 'Invalid date')
+											}
+											value={startDate}
+											onChange={(event) => setStartDate(event.target.value)}
 										/>
 									</div>
 									<Accordion
@@ -268,7 +330,9 @@ function CreateEvent({ closeMe }: IModal) {
 												max={99}
 												value={repeatInterval}
 												onChange={(event) =>
-													setRepeatInterval(Number.parseInt(event.target.value, 10))
+													setRepeatInterval(
+														Number.parseInt(event.target.value, 10),
+													)
 												}
 											/>
 											<Select
@@ -278,26 +342,26 @@ function CreateEvent({ closeMe }: IModal) {
 												value={repeatEach}
 												onChange={(event) => setRepeat(event.target.value)}
 											>
-												<option value={EnumRepeatPeriod.WEEK}>
+												<option value={EnumRepeatPeriod.WEEKLY}>
 													{t('page.add_event.repeat_single_period_', {
-														period: EnumRepeatPeriod.WEEK,
+														period: EnumRepeatPeriod.WEEKLY,
 													})}
 												</option>
-												<option value={EnumRepeatPeriod.MONTH}>
+												<option value={EnumRepeatPeriod.MONTHLY}>
 													{t('page.add_event.repeat_single_period_', {
-														period: EnumRepeatPeriod.MONTH,
+														period: EnumRepeatPeriod.MONTHLY,
 													})}
 												</option>
-												<option value={EnumRepeatPeriod.YEAR}>
+												<option value={EnumRepeatPeriod.YEARLY}>
 													{t('page.add_event.repeat_single_period_', {
-														period: EnumRepeatPeriod.YEAR,
+														period: EnumRepeatPeriod.YEARLY,
 													})}
 												</option>
 											</Select>
 											<div
 												className={clsx(
 													'col-span-2',
-													repeatEach != EnumRepeatPeriod.WEEK && 'hidden',
+													repeatEach != EnumRepeatPeriod.WEEKLY && 'hidden',
 												)}
 											>
 												<Fieldset legend={t('page.add_event.repeat_on')}>
@@ -326,12 +390,21 @@ function CreateEvent({ closeMe }: IModal) {
 															onChange={() => setEndNever(!endNever)}
 														/>
 														<Input
+															required={!endNever}
 															name='end_on_date'
-															type='date'
+															type={'date'}
 															placeholder={t('page.add_event.end_on')}
-															min={new Date().toISOString().split('T')[0]}
-															className={clsx(endNever && 'hidden')}
-															value={endDate}
+															min={
+																addDays(
+																	new Date(startDate || now.toISOString()),
+																	1,
+																)
+																	.toISOString()
+																	.split('T')[0]
+															}
+															className={clsx(endNever && '!opacity-50')}
+															value={endNever ? '' : endDate}
+															onClick={() => setEndNever(false)}
 															onChange={(event) =>
 																setEndDate(event.target.value)
 															}
@@ -363,11 +436,18 @@ function CreateEvent({ closeMe }: IModal) {
 						<WndFooter
 							errorCopy={
 								<ErrorCopy
-									code={result?.error?.code}
+									code={errorCode}
 									codes={{
 										[USER_UNAUTHORIZED]: true,
 										[CREATE_FAILED]: true,
 										[ACCESS_DENIED]: true,
+										[MISSING_DATE]: false,
+										[INVALID_DATE]: false,
+										[MISSING_TIME_FROM]: false,
+										[INVALID_TIME_FROM]: false,
+										[MISSING_TIME_TO]: false,
+										[INVALID_TIME_TO]: false,
+										[INVALID_TIME_RANGE]: false,
 									}}
 								/>
 							}

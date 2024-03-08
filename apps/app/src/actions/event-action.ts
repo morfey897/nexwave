@@ -1,28 +1,56 @@
 'use server';
-import { redirect } from 'next/navigation';
-import { APP, SETTINGS } from '@/routes';
-import {
-	deleteBranch,
-	updateBranch,
-	IFullProject,
-	hasProjectAccess,
-	getFullProjectByUserId,
-	createBranch,
-	IFullBranch,
-} from '@/models/project';
+import { hasProjectAccess } from '@/models/project';
+import { createEvent, type IEvent } from '@/models/event';
 import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
-import { UPDATE, DELETE, CREATE } from '@/crud';
-import { EnumResponse, EnumState, EnumRepeatPeriod } from '@/enums';
-import {
-	parseError,
-	doError,
-	parseRedirect,
-	doRedirect,
-	dynamicHref,
-} from '@/utils';
+import { CREATE } from '@/crud';
+import { EnumResponse, EnumRepeatPeriod, WEEK_DAYS } from '@/enums';
+import { parseError, doError, addZiro } from '@/utils';
+import { mmToTime } from '@/utils/datetime';
+import { strTimeToMinutes } from '@/utils/datetime';
 import { IResponse } from '@/types';
-import { S_PARAMS } from '@nw/config';
+import { validate } from '@/utils/validation';
+
+const getWeek = (formData: FormData) =>
+	WEEK_DAYS.filter((day) => formData.get(day)?.toString() === 'on');
+
+const getRRule = (formData: FormData) => {
+	const isRRule = formData.get('rrule')?.toString() === 'on';
+	const repeatInterval = formData.get('repeat_interval')?.toString();
+	const repeatPeriod = formData.get('repeat_period')?.toString();
+
+	let rrule: IEvent['rrule'] | null = null;
+	if (isRRule) {
+		if (repeatPeriod) {
+			rrule = Object.assign(rrule || {}, {
+				freq: repeatPeriod.toUpperCase(),
+			});
+		}
+		const repInterval = Number.parseInt(repeatInterval || '1');
+		rrule = Object.assign(rrule || {}, {
+			interval: Number.isNaN(repInterval) || repInterval < 1 ? 1 : repInterval,
+		});
+
+		if (repeatPeriod === EnumRepeatPeriod.WEEKLY) {
+			const week = getWeek(formData);
+			rrule = Object.assign(rrule || {}, {
+				byday: week.join(',').toUpperCase(),
+			});
+		}
+	}
+	return rrule;
+};
+
+const getTZOffset = (formData: FormData) => {
+	const tzOffset = Number.parseInt(formData.get('tz_offset')?.toString() || '');
+
+	let timezone = 'Z';
+	if (!Number.isNaN(tzOffset) && tzOffset !== 0) {
+		const { hh, mm } = mmToTime(Math.abs(tzOffset));
+		timezone = `${tzOffset < 0 ? '+' : '-'}${addZiro(hh)}:${addZiro(mm)}`;
+	}
+	return timezone;
+};
 
 /**
  * Create new branch
@@ -30,7 +58,7 @@ import { S_PARAMS } from '@nw/config';
  */
 export async function actionCreateNewEvent(
 	formData: FormData,
-): Promise<IResponse<any>> {
+): Promise<IResponse<IEvent>> {
 	try {
 		const user = await getUserFromSession();
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
@@ -43,71 +71,61 @@ export async function actionCreateNewEvent(
 
 		if (!access || !projectId) throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const serviceId = Number.parseInt(formData.get('service_id')?.toString() || '');
-		const branchId = Number.parseInt(formData.get('branch_id')?.toString() || '');
+		const branchId = Number.parseInt(
+			formData.get('branch_id')?.toString() || '',
+		);
+		if (Number.isNaN(branchId)) throw doError(ErrorCodes.CREATE_FAILED);
+
+		const serviceId = Number.parseInt(
+			formData.get('service_id')?.toString() || '',
+		);
 		const name = formData.get('name')?.toString();
 		const info = formData.get('info')?.toString();
 		const color = formData.get('color')?.toString();
 		const spaceShortId = formData.get('space_short_id')?.toString();
-		const fromTime = formData.get('from_time')?.toString();
-		const toTime = formData.get('to_time')?.toString();
-		const date = formData.get('date')?.toString();
+		const fromTime = formData.get('from_time')?.toString() || '';
+		const toTime = formData.get('to_time')?.toString() || '';
+		const date = (formData.get('date')?.toString() || '').split('T')[0];
+		const endDate = (formData.get('end_on_date')?.toString() || '').split(
+			'T',
+		)[0];
 
-		const rrule = formData.get('rrule')?.toString() === 'on';
-		const repeatInterval = formData.get('repeat_interval')?.toString();
-		const repeatPeriod = formData.get('repeat_period')?.toString(); //EnumRepeatPeriod
-
-		const week = [1, 2, 3, 4, 5, 6, 0].reduce<Record<string, boolean>>(
-			(map, day) => {
-				const key = `day_${day}`;
-				map[key] = formData.get(key)?.toString() === 'on';
-				return map;
-			},
-			{},
-		);
-
+		const repeatPeriod = formData.get('repeat_period')?.toString();
+		const week = getWeek(formData);
 		const endNever = formData.get('end_never')?.toString() === 'on';
-		const endOnDate = formData.get('end_on_date')?.toString();
 
-		console.log('actionCreateNewEvent', Object.fromEntries(formData.entries()));
-		console.log('serializedData', {
-			serviceId,
-			branchId,
+		const invalid = validate([
+			{ value: [fromTime, toTime], key: 'time-range' },
+			{ value: date, key: 'date' },
+		]);
+		if (repeatPeriod === EnumRepeatPeriod.WEEKLY && !week.length) {
+			invalid.push(ErrorCodes.INVALID_BYDAY);
+		}
+		if (invalid.length) {
+			throw doError(invalid.join(','));
+		}
+
+		const rrule = getRRule(formData);
+		const timezone = getTZOffset(formData);
+		const newEvent = await createEvent(branchId, {
 			name,
 			info,
 			color,
-			spaceShortId,
-			fromTime,
-			toTime,
-			date,
+			startAt: new Date(`${date}T${fromTime}${timezone}`),
+			endAt:
+				!!rrule && !endNever && endDate
+					? new Date(`${endDate}T${toTime}${timezone}`)
+					: undefined,
+			duration: strTimeToMinutes(toTime) - strTimeToMinutes(fromTime),
 			rrule,
-			repeatInterval,
-			repeatPeriod,
-			week,
-			endNever,
-			endOnDate,
+			spaceShortId,
+			serviceId: Number.isNaN(serviceId) ? undefined : serviceId,
 		});
 
-		// // TODO: upload image to cloudinary
-		// const newBranch = await createBranch({
-		// 	projectId: projectId,
-		// 	name: name,
-		// 	info: info,
-		// 	address: {
-		// 		country: addressCountry,
-		// 		city: addressCity,
-		// 		address_line: addressLine,
-		// 		address_line_2: addressLine2,
-		// 	},
-		// 	// image: file,
-		// });
-		// if (!newBranch) throw doError(ErrorCodes.CREATE_FAILED);
-		// const project = await getFullProjectByUserId(user.id, { id: projectId });
-		// if (!project) throw doError(ErrorCodes.CREATE_FAILED);
+		if (!newEvent) throw doError(ErrorCodes.CREATE_FAILED);
 		return {
 			status: EnumResponse.SUCCESS,
-			data: {},
-			// data: { project, branch: newBranch },
+			data: newEvent,
 		};
 	} catch (error: any) {
 		console.log('ERROR', error);

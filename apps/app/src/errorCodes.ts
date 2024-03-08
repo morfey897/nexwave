@@ -14,6 +14,16 @@ export const UPDATE_FAILED = 'action/update-failed';
 export const DELETE_FAILED = 'action/delete-failed';
 export const CREATE_FAILED = 'action/create-failed';
 export const DELETE_LAST_FAILED = 'action/delete-last-failed';
+export const INVALID_TIME = 'action/invalid-time';
+export const MISSING_TIME = 'action/missing-time';
+export const INVALID_DATE = 'action/invalid-date';
+export const MISSING_DATE = 'action/missing-date';
+export const MISSING_TIME_FROM = 'action/missing-time-from';
+export const MISSING_TIME_TO = 'action/missing-time-to';
+export const INVALID_TIME_FROM = 'action/invalid-time-from';
+export const INVALID_TIME_TO = 'action/invalid-time-to';
+export const INVALID_TIME_RANGE = 'action/invalid-time-range';
+export const INVALID_BYDAY = 'action/invalid-byday';
 
 // ADMIN_ONLY_OPERATION = 'auth/admin-restricted-operation';
 // ARGUMENT_ERROR = 'auth/argument-error';

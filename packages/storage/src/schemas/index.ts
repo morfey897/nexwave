@@ -176,13 +176,18 @@ export const event = pgTable('events', {
 	info: text('info'),
 	color: varchar('color', { length: 32 }),
 
-	fromTime: time('from_time').notNull(),
-	toTime: time('to_time').notNull(),
-	date: timestamp('date').notNull(),
+	startAt: timestamp('start_at').notNull(),
+	endAt: timestamp('end_at'),
+	duration: serial('duration'),
 
-	rrule: varchar('rrule', { length: 511 }),
+	rrule: jsonb('rrule').$type<{
+		freq?: string;
+		interval?: number;
+		byday?: string;
+	}>(),
+
 	spaceShortId: varchar('space_short_id', { length: 32 }), //from branch:spaces
-	serviceId: serial('service_id'), //from services
+	serviceId: integer('service_id'), //from services
 	// todo master_id / provider_id - references to users table
 });
 
