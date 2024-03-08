@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0
+
 import mockEvents from '../../../../__mock__/timetable.json';
 
 import { getUserFromSession } from '@/models/user';
@@ -10,7 +13,7 @@ import { READ } from '@/crud';
 import { IEvent } from '@/types/event';
 import { addDays } from 'date-fns';
 import { toIsoDate } from '@/utils/datetime';
-import { getSession } from '@/nextRequest';
+import { getSession } from '@/headers';
 
 const EVENTS: IEvent[] = (mockEvents as unknown as IEvent[]).map((event) => ({
 	...event,
@@ -22,7 +25,7 @@ const EVENTS: IEvent[] = (mockEvents as unknown as IEvent[]).map((event) => ({
 
 export async function POST(request: NextRequest) {
 	try {
-		const user = await getUserFromSession(getSession(request));
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const projectId = Number.parseInt(request.nextUrl.searchParams.get('projectId') || '');
 
