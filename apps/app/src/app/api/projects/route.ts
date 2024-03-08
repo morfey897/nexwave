@@ -5,6 +5,7 @@ import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
 import { getSession } from '@/nextRequest';
+import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
 	try {
@@ -21,6 +22,7 @@ export async function GET(request: NextRequest) {
 				request: request,
 				session: getSession(request) || '__null__',
 				cookies: request.cookies.getAll(),
+				headersSession: cookies().getAll(),
 			},
 			status: EnumResponse.FAILED,
 			error: parseError(error),
