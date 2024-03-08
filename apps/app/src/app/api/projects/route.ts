@@ -10,7 +10,7 @@ import { getSession } from '@/nextRequest';
 export async function GET(request: NextRequest) {
 	try {
 		// const all = cookies().getAll();
-		const user = await getUserFromSession(getSession(request));
+		const user = await getUserFromSession(cookies().get('nw_session')?.value);
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projects = await getProjectsByUserId(user.id);
