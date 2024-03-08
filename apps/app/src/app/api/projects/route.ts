@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0
+
 import { getUserFromSession } from '@/models/user';
 import { NextRequest, NextResponse } from 'next/server';
 import { getProjectsByUserId } from '@/models/project';
@@ -5,7 +8,6 @@ import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
 import { cookies } from 'next/headers';
-import { getSession } from '@/nextRequest';
 
 export async function GET(request: NextRequest) {
 	try {
@@ -19,11 +21,6 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		console.log('ERROR', error);
 		return NextResponse.json({
-			details: {
-				// session: getSession(request),
-				// cookies: cookies().get('nw_session'),
-				// cookies2: request.cookies.getAll(),
-			},
 			status: EnumResponse.FAILED,
 			error: parseError(error),
 		});
