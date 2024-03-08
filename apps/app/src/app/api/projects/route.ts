@@ -4,7 +4,7 @@ import { getProjectsByUserId } from '@/models/project';
 import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
-// import { cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 import { getSession } from '@/nextRequest';
 
 export async function GET(request: NextRequest) {
@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
 		return NextResponse.json({
 			details: {
 				session: getSession(request),
-				// cookies: cookies().getAll(),
-				cookies2: request.cookies.getAll(),
+				cookies: cookies().getAll(),
+				// cookies2: request.cookies.getAll(),
 			},
 			status: EnumResponse.FAILED,
 			error: parseError(error),
