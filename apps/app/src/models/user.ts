@@ -17,20 +17,10 @@ export interface ICurrentUser extends TUID {
  * @returns {ICurrentUser | null}
  */
 export async function getUserFromSession(
-	session: string | null | unknown,
+	session: string | null | undefined,
 ): Promise<ICurrentUser | null> {
 	let user: ICurrentUser | null = null;
 
-	// let session: string | undefined;
-	// if (typeof req === 'string') {
-	// 	session = req;
-	// } else if (req instanceof NextRequest && req.cookies) {
-	// 	session = req.cookies.get(COOKIES.SESSION)?.value;
-	// } else if (req && req.hasOwnProperty('get')) {
-	// 	session = (req as any).get(COOKIES.SESSION);
-	// }
-
-	// session = session || cookies().get(COOKIES.SESSION)?.value;
 	try {
 		if (!session) throw new Error('Invalid session');
 
