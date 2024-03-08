@@ -4,12 +4,12 @@ import { getProjectsByUserId } from '@/models/project';
 import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 import { getSession } from '@/nextRequest';
 
 export async function GET(request: NextRequest) {
 	try {
-		const all = cookies().getAll();
+		// const all = cookies().getAll();
 		const user = await getUserFromSession(getSession(request));
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
@@ -19,11 +19,11 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		console.log('ERROR', error);
 		return NextResponse.json({
-			// details: {
-			// 	session: getSession(request),
-			// 	cookies: cookies().getAll(),
-			// 	cookies2: request.cookies.getAll(),
-			// },
+			details: {
+				session: getSession(request),
+				// cookies: cookies().getAll(),
+				cookies2: request.cookies.getAll(),
+			},
 			status: EnumResponse.FAILED,
 			error: parseError(error),
 		});
