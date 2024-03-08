@@ -18,11 +18,11 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		console.log('ERROR', error);
 		return NextResponse.json({
-			details: {
-				session: getSession(request),
-				cookies: cookies().getAll(),
-				cookies2: request.cookies.getAll(),
-			},
+			// details: {
+			// 	session: getSession(request),
+			// 	cookies: cookies().getAll(),
+			// 	cookies2: request.cookies.getAll(),
+			// },
 			status: EnumResponse.FAILED,
 			error: parseError(error),
 		});
