@@ -6,12 +6,12 @@ import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
 // import { cookies } from 'next/headers';
 // import { COOKIES } from '@nw/config';
-import { getSession } from '@/nextRequest';
+import { getSession } from '@/headers';
 
 export async function GET(request: NextRequest) {
 	try {
 		
-		const user = await getUserFromSession(getSession(request));
+		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
 		const projects = await getProjectsByUserId(user.id);
