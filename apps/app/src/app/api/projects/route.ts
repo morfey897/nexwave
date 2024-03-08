@@ -5,6 +5,7 @@ import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
 import { getSession } from '@/nextRequest';
+import { verifyAuth } from '@/lib/jwt';
 
 export async function GET(request: NextRequest) {
 	try {
@@ -17,6 +18,10 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		console.log('ERROR', error);
 		return NextResponse.json({
+			info: {
+				session: getSession(request),
+				cookies: request.cookies.getAll(),
+			},
 			status: EnumResponse.FAILED,
 			error: parseError(error),
 		});
