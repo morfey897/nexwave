@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 		return NextResponse.json({
 			details: {
 				session: getSession(request),
-				cookies: cookies().getAll(),
+				cookies: cookies().get('nw_session'),
 				// cookies2: request.cookies.getAll(),
 			},
 			status: EnumResponse.FAILED,
