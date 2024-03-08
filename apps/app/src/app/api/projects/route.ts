@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
 		console.log('ERROR', error);
 		return NextResponse.json({
 			details: {
-				session: getSession(request),
-				cookies: cookies().get('nw_session'),
+				// session: getSession(request),
+				// cookies: cookies().get('nw_session'),
 				// cookies2: request.cookies.getAll(),
 			},
 			status: EnumResponse.FAILED,
