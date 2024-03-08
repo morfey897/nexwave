@@ -9,6 +9,7 @@ import { getSession } from '@/nextRequest';
 
 export async function GET(request: NextRequest) {
 	try {
+		const all = cookies().getAll();
 		const user = await getUserFromSession(getSession(request));
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
