@@ -173,7 +173,7 @@ function Header({ device }: { device?: EnumDeviceType }) {
 						locale={locale}
 						className={clsx(
 							'w-full',
-							period === EnumPeriod.WEEK && 'min-w-[600px]',
+							period === EnumPeriod.WEEK && '!min-w-[600px]',
 						)}
 						dates={datesList}
 					/>

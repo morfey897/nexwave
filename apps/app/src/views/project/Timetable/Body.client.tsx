@@ -13,7 +13,7 @@ import { CELL_HEIGHT, TIME_STEP } from './config';
 import { useAPI } from '@/hooks/action';
 import { IEvent } from '@/types/event';
 import useNWStore from '@/lib/store';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { throttle } from 'lodash';
 import { API } from '@/routes';
 import { dynamicHref } from '@/utils';
@@ -73,6 +73,16 @@ function Body({ device }: { device?: EnumDeviceType }) {
 			window.removeEventListener('resize', onResize);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useLayoutEffect(() => {
+		const element = document.getElementById('marker-now');
+		if (!element) return;
+		element.scrollIntoView({
+			behavior: 'auto',
+			block: 'center',
+			inline: 'center',
+		});
 	}, []);
 
 	return (

@@ -7,6 +7,7 @@ import { useDateLocale } from '@/hooks/datetime';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { TLocale } from '@/types';
+import { capitalize } from 'lodash';
 
 function Head<T extends INode>({
 	locale,
@@ -25,8 +26,8 @@ function Head<T extends INode>({
 				const date = new Date(dateStr);
 				return {
 					isoDate: dateStr,
-					title: format(date, 'EEEE', { locale: dateLocale }),
-					abr: format(date, 'EEE', { locale: dateLocale }),
+					title: capitalize(format(date, 'EEEE', { locale: dateLocale })),
+					abr: capitalize(format(date, 'EEE', { locale: dateLocale })),
 					formatedDate: format(date, 'd MMM', { locale: dateLocale }),
 				};
 			}),
@@ -46,8 +47,8 @@ function Head<T extends INode>({
 							'!text-blue-500 dark:!text-blue-400',
 					)}
 				>
-					<span className='hidden lg:inline-block'>{title}</span>
-					<span className='lg:hidden'>{abr}</span>
+					{/* <span className='hidden lg:inline-block'>{title}</span> */}
+					<span >{abr}</span>
 					<span className='block font-light mt-2'>{formatedDate}</span>
 				</div>
 			))}

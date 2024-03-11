@@ -61,6 +61,10 @@ const ALL_ROLES: Array<{ name: string; value: number; important?: boolean }> = [
 		name: 'delete.project_group',
 		value: DELETE.PROJECT_GROUP,
 	},
+	{
+		name: 'read.event',
+		value: READ.EVENT,
+	},
 
 	// Delete
 ] as const;

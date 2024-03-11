@@ -173,7 +173,8 @@
 			"your_role_rt": "Your role: <span>Unknown</span>"
 		},
 		"create": {
-			"branch": "Create a new branch"
+			"branch": "Create a new branch",
+			"event": "Create a new event"
 		},
 		"update": {
 			"branch": "Update branch",
@@ -189,7 +190,9 @@
 			"project_group": "Delete groups",
 			"project_access": "Delete access"
 		},
-		"read": {}
+		"read": {
+			"event": "View events"
+		}
 	},
 	"general": {
 		"page_of_": "{page} / {maxPage}",
