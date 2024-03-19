@@ -17,14 +17,17 @@ import { AsideWrapper, AsideHeader, AsideBody } from '@/components/Windows';
 function AsideSettings(props: IModal) {
 	const onCloseAll = useCloseAllModal();
 	const user = useNWStore((state) => state.user);
+	const destroyStore = useNWStore((state) => state._destroyStore);
+
 	const t = useTranslations();
 	const route = useRouter();
 
 	const onExit = useCallback(async () => {
+		destroyStore();
 		onCloseAll();
 		await signOut();
 		route.push(HOME);
-	}, [route, onCloseAll]);
+	}, [route, onCloseAll, destroyStore]);
 
 	const onSettings = useCallback(() => {
 		// setOpen(false);

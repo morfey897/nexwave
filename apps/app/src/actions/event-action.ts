@@ -1,6 +1,6 @@
 'use server';
 import { hasProjectAccess } from '@/models/project';
-import { createEvent, type IEvent } from '@/models/event';
+import { createEvent, type IEvent, type TRRule } from '@/models/event';
 import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
 import { CREATE } from '@/crud';
@@ -20,7 +20,7 @@ const getRRule = (formData: FormData) => {
 	const repeatInterval = formData.get('repeat_interval')?.toString();
 	const repeatPeriod = formData.get('repeat_period')?.toString();
 
-	let rrule: IEvent['rrule'] | null = null;
+	let rrule: TRRule | null = null;
 	if (isRRule) {
 		if (repeatPeriod) {
 			rrule = Object.assign(rrule || {}, {

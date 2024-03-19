@@ -4,7 +4,7 @@ import * as utils from '../../__utils__/utils';
 
 let cfg: ReturnType<typeof utils.configDB>;
 
-describe.skip('user module', () => {
+describe('user module', () => {
 	beforeAll(() => {
 		cfg = utils.configDB();
 	});
@@ -28,7 +28,7 @@ describe.skip('user module', () => {
 	 */
 	describe('createNewUser', () => {
 		const email = utils.generateTestEmail('user');
-		const password = 'Test3Jest$';
+		const password = utils.generateTestPassword();
 		test('createNewUser', async () => {
 			const [user] = await cfg.db
 				.insert(schemas.user)
@@ -53,9 +53,7 @@ describe.skip('user module', () => {
 			expect(user.emailVerified).toBe(false);
 			expect(user.name).toBe('Test');
 			expect(user.surname).toBe('Jest');
-			expect(user.uuid).toMatch(
-				/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/,
-			);
+			expect(user.uuid).toMatch(/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/);
 		});
 
 		test('findUserByEmailAndPassword', async () => {
@@ -82,9 +80,7 @@ describe.skip('user module', () => {
 			expect(user).toBeTruthy();
 			expect(user.id).toBeTruthy();
 			expect(user.email).toBe(email);
-			expect(user.uuid).toMatch(
-				/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/,
-			);
+			expect(user.uuid).toMatch(/^[a-f0-9]{8}-([a-f0-9]{4}-){3}[a-f0-9]{12}$/);
 		});
 	});
 
@@ -93,8 +89,8 @@ describe.skip('user module', () => {
 	 * Should throw error
 	 */
 	describe('createDublicateUser', () => {
-		const email =utils.generateTestEmail('user');
-		const password = 'Test3Jest$';
+		const email = utils.generateTestEmail('user');
+		const password = utils.generateTestPassword();
 		test('createNewUser', async () => {
 			const [user] = await cfg.db
 				.insert(schemas.user)
@@ -123,7 +119,7 @@ describe.skip('user module', () => {
 					.insert(schemas.user)
 					.values({
 						email: email,
-						password: 'Test3Jest$',
+						password: orm.sql<string>`crypt(${password}, gen_salt('bf'))`,
 						name: 'Test',
 						surname: 'Jest',
 					})

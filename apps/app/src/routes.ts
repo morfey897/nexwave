@@ -18,7 +18,7 @@ export const SETTINGS = '/project/[uuid]/settings';
 export const API = {
 	AUTH_OAUTH: '/api/auth/[provider]',
 	AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
-	EVENTS: '/api/events?params=[params]',
+	EVENTS: '/api/events?[params]',
 	PROJECTS: '/api/projects?[params]',
 };
 

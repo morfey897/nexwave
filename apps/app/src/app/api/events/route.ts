@@ -1,28 +1,16 @@
-export const dynamic = "force-dynamic";
-export const revalidate = 0
-
-
-import mockEvents from '../../../../__mock__/timetable.json';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { getUserFromSession } from '@/models/user';
 import { NextRequest, NextResponse } from 'next/server';
-import { getProjectsByUserId, hasProjectAccess } from '@/models/project';
+import { hasProjectAccess } from '@/models/project';
+import { getEvents } from '@/models/event';
 import { EnumResponse } from '@/enums';
 import { doError, parseError } from '@/utils';
 import * as ErrorCodes from '@/errorCodes';
-import { UPDATE, READ } from '@/crud';
-import { IEvent } from '@/types/event';
-import { addDays } from 'date-fns';
+import { READ } from '@/crud';
 import { toIsoDate } from '@/utils/datetime';
 import { getSession } from '@/headers';
-
-const EVENTS: IEvent[] = (mockEvents as unknown as IEvent[]).map((event) => ({
-	...event,
-	date:
-		toIsoDate(addDays(new Date(), Math.round(Math.random() * 18) - 6)) +
-		'T' +
-		event.date.split('T')[1],
-}));
 
 export async function GET(request: NextRequest) {
 	try {
@@ -60,12 +48,20 @@ export async function GET(request: NextRequest) {
 		// 		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 		// 		.map((event) => event.date),
 		// );
-		const events = EVENTS.filter((event) => {
-			const isoDate = new Date(toIsoDate(event.date));
-			if (isoDate < fromDate) return false;
-			if (isoDate > toDate) return false;
-			return true;
+		const events = await getEvents({
+			branchId: Number.parseInt(branch || ''),
+			from: fromDate,
+			to: toDate,
 		});
+
+		// console.log('EVENTS', events, fromDate, toDate, branch);
+
+		// EVENTS.filter((event) => {
+		// 	const isoDate = new Date(toIsoDate(event.date));
+		// 	if (isoDate < fromDate) return false;
+		// 	if (isoDate > toDate) return false;
+		// 	return true;
+		// });
 
 		return NextResponse.json({ status: EnumResponse.SUCCESS, data: events });
 	} catch (error) {

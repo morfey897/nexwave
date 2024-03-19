@@ -90,11 +90,12 @@ describe('invitation module', () => {
 		 */
 		test('createTestUserForNewProject', async () => {
 			const email = utils.generateTestEmail('invitation');
+			const password = utils.generateTestPassword();
 			const [user] = await cfg.db
 				.insert(schemas.user)
 				.values({
 					email: email,
-					password: orm.sql<string>`crypt(${'Test3Jest$'}, gen_salt('bf'))`,
+					password: orm.sql<string>`crypt(${password}, gen_salt('bf'))`,
 					name: `Test${Math.random().toString(36).substring(2, 7)}}`,
 					surname: 'Jest',
 				})

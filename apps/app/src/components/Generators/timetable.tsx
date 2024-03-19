@@ -1,4 +1,4 @@
-import { IEvent } from '@/types/event';
+import { IEvent } from '@/models/event';
 import { toIsoDate, toTime } from '@/utils/datetime';
 import { addZiro } from '@/utils';
 import clsx from 'clsx';
@@ -26,8 +26,8 @@ export function EventGenerator({ item }: { item: IEvent }) {
 				'dark:outline-green-300 bg-green-200 border outline-white dark:bg-gray-900',
 			)}
 		>
-			<p>{item.title}</p>
-			<p>{item.description}</p>
+			<p>{item.name}</p>
+			{item.info && <p>{item.info}</p>}
 			<p className='flex flex-col'>
 				<span>{toIsoDate(item.date)}</span>
 				<span>

@@ -21,9 +21,9 @@ function Body<T extends INode>({
 	timeStep: number;
 } & React.HTMLAttributes<HTMLDivElement>) {
 	const now = useNow();
-	const times = useTimesCalendar({ events, dates, timeStep });
+	const times = useTimesCalendar<T>({ events, dates, timeStep });
 	const timeList = useSidebarCalendar({ times });
-	const body = useBodyCalendar({ events, dates, times: times });
+	const body = useBodyCalendar<T>({ events, dates, times: times });
 
 	const totalHeight = Math.floor(cellHeight * timeList.length);
 	const totalDays = dates.length;

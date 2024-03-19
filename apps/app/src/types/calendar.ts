@@ -8,7 +8,7 @@ export type TTimes = {
 };
 
 export interface INode extends TUID {
-	date: string;
+	date: Date | string;
 	duration: number;
 }
 

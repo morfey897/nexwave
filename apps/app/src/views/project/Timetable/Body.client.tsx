@@ -8,10 +8,10 @@ import { useFilter, useDay } from '@/hooks/filter';
 import { S_PARAMS } from '@nw/config';
 import { EnumDeviceType } from '@/enums';
 import { useDatesCalendar } from '@/hooks/calendar';
-import { getFirstDayOfWeek } from '@/utils/datetime';
+import { getFirstDayOfWeek, toIsoDate } from '@/utils/datetime';
 import { CELL_HEIGHT, TIME_STEP } from './config';
 import { useAPI } from '@/hooks/action';
-import { IEvent } from '@/types/event';
+import { IEvent } from '@/models/event';
 import useNWStore from '@/lib/store';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { throttle } from 'lodash';
@@ -19,6 +19,7 @@ import { API } from '@/routes';
 import { dynamicHref } from '@/utils';
 import AccessDenied from '@/components/AccessDenied';
 import { ACCESS_DENIED } from '@/errorCodes';
+import { addDays } from 'date-fns';
 
 function Body({ device }: { device?: EnumDeviceType }) {
 	const ref = useRef<HTMLDivElement>(null);
@@ -41,13 +42,20 @@ function Body({ device }: { device?: EnumDeviceType }) {
 
 	const datesList = useDatesCalendar({ period, day });
 
+	const activeBranch =
+		project?.branches && project?.branches.length === 1
+			? project?.branches[0]
+			: project?.branches.find((branch) => branch.uuid === branchUUid);
+
 	const { result, pending } = useAPI<IEvent[] | null>(() =>
-		project
+		project && activeBranch
 			? dynamicHref(API.EVENTS, {
 					params: new URLSearchParams({
 						from: datesList[0],
-						to: datesList[datesList.length - 1],
-						branch: branchUUid,
+						to: toIsoDate(
+							addDays(new Date(datesList[datesList.length - 1]), 1),
+						),
+						branch: activeBranch.id.toString(),
 						projectId: project.id.toString(),
 					}),
 				})

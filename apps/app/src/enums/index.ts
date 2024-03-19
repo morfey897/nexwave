@@ -71,9 +71,9 @@ export enum EnumCurrency {
 }
 
 export enum EnumRepeatPeriod {
-	WEEKLY = 'weekly',
-	MONTHLY = 'monthly',
-	YEARLY = 'yearly',
+	WEEKLY = 'WEEKLY',
+	MONTHLY = 'MONTHLY',
+	YEARLY = 'YEARLY',
 }
 
 export enum EnumWeekDay {

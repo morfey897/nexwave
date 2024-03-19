@@ -12,6 +12,7 @@ export interface INWStore {
 interface INWStoreAction {
 	updateProject: (project: Partial<IProject>) => void;
 	setState: (state: Partial<INWStore>) => void;
+	_destroyStore: () => void;
 }
 
 const useNWStore = create(
@@ -28,6 +29,7 @@ const useNWStore = create(
 						state.project = st.project;
 					}
 				}),
+			_destroyStore: () => set({ user: null, project: null }),
 			updateProject: (project: Partial<IProject>) =>
 				set((state) => {
 					if (state.project === null) {

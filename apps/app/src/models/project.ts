@@ -5,6 +5,7 @@ import { generateColor, generateName, generateShortId } from '@/utils';
 import { EnumRole, EnumColor, EnumState, EnumCurrency } from '@/enums';
 import { hasAccess } from '@/utils';
 import { CREATE, READ, UPDATE, DELETE } from '@/crud';
+import { isNumber, isIdOurUUID } from '@/utils/validation';
 
 const ALL_ACCESS = [
 	...(Object.values(CREATE) as number[]),
@@ -144,6 +145,7 @@ export async function deployNewProject(
 		info?: string;
 	},
 ): Promise<IProject | null> {
+	if (!isNumber(ownerId)) return null;
 	const nameValue = value?.name || generateName();
 	const colorValue =
 		value?.color && Object.values(EnumColor).includes(value?.color as EnumColor)
@@ -262,6 +264,7 @@ export async function addUserToProjectOrUpdate({
 	projectId: number;
 	role: EnumRole;
 }): Promise<boolean> {
+	if (!isNumber(userId) || !isNumber(projectId)) return false;
 	const [junction] = await db
 		.insert(schemas.projectToUser)
 		.values({
@@ -297,6 +300,7 @@ export async function removeUserFromProject({
 	userId: number;
 	projectId: number;
 }): Promise<boolean> {
+	if (!isNumber(userId) || !isNumber(projectId)) return false;
 	const [junction] = await db
 		.delete(schemas.projectToUser)
 		.where(
@@ -327,7 +331,7 @@ export async function getProjectsByUserId(
 		uuid?: string;
 	},
 ): Promise<IProject[] | null> {
-	if (!userId) return null;
+	if (!isNumber(userId) || typeof userId !== 'number') return null;
 	const projects = await _executeSelectProject(userId, props?.id, props?.uuid);
 
 	const filteredProjects = projects
@@ -387,7 +391,7 @@ export async function getFullProjectByUserId(
 		uuid?: string;
 	},
 ): Promise<IFullProject | null> {
-	if (!userId) return null;
+	if (typeof userId != 'number' || !isNumber(userId)) return null;
 	const { id, uuid } = props || {};
 	if (!id && !uuid) return null;
 	const projects = await _executeSelectProject(userId, props?.id, props?.uuid);
@@ -437,7 +441,13 @@ export async function getProjectAccess(
 	userId: number | null | undefined,
 	projectId: number | null | undefined,
 ): Promise<IAccess | null> {
-	if (!userId || !projectId) return null;
+	if (
+		typeof userId != 'number' ||
+		typeof projectId != 'number' ||
+		!isNumber(userId) ||
+		!isNumber(projectId)
+	)
+		return null;
 
 	const [access] = await db
 		.select({
@@ -506,7 +516,7 @@ export async function updateProject(
 	},
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
-	if (!id && !uuid) return false;
+	if (!isIdOurUUID(id, uuid)) return false;
 
 	const result = await db
 		.update(schemas.project)
@@ -554,6 +564,7 @@ export async function createBranch(value: {
 	address?: Object;
 	spaces?: Array<{ shortId: string; name: string }>;
 }): Promise<IFullBranch | null> {
+	if (!isNumber(value.projectId)) return null;
 	const nameValue = value?.name || generateName();
 
 	const result = await db
@@ -608,7 +619,7 @@ export async function updateBranch(
 	},
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
-	if (!id && !uuid) return false;
+	if (!isIdOurUUID(id, uuid)) return false;
 
 	const result = await db
 		.update(schemas.branch)
@@ -649,7 +660,7 @@ export async function deleteBranch(props: {
 	uuid?: string;
 }): Promise<boolean> {
 	const { id, uuid } = props || {};
-	if (!id && !uuid) return false;
+	if (!isIdOurUUID(id, uuid)) return false;
 
 	const filter = id != undefined ? `id = ${id}` : `uuid = ${uuid}`;
 

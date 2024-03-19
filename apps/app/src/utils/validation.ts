@@ -107,3 +107,12 @@ export const isDate = (date?: string) =>
 
 export const isDateTime = (date?: string) =>
 	!!date && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(date);
+
+export const isNumber = (number: any) =>
+	typeof number === 'number' && !Number.isNaN(number);
+export const isValidDate = (date: Date) =>
+	date instanceof Date && !Number.isNaN(date.getTime());
+export const isIdOurUUID = (
+	id: number | null | undefined,
+	uuid: string | null | undefined,
+) => isNumber(id) || isUUID(uuid || '');

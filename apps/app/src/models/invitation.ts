@@ -1,6 +1,7 @@
 import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
+import { isEmail, isNumber } from '@/utils/validation';
 
 export interface IInvitation extends TUID {
 	email: string;
@@ -34,10 +35,10 @@ export async function getInvitations({
 		.from(schemas.invitation)
 		.where(
 			orm.and(
-				typeof email != 'undefined'
+				typeof email === 'string' && isEmail(email)
 					? orm.eq(schemas.invitation.email, email)
 					: undefined,
-				typeof projectId != 'undefined'
+				typeof projectId === 'number' && isNumber(projectId)
 					? orm.eq(schemas.invitation.projectId, projectId)
 					: undefined,
 			),
@@ -62,6 +63,7 @@ export async function createInvitation({
 	projectId: number;
 	role: string;
 }): Promise<IInvitation | null> {
+	if (!isEmail(email) || !isNumber(projectId)) return null;
 	const [invitation] = await db
 		.insert(schemas.invitation)
 		.values({

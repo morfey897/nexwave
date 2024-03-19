@@ -2,6 +2,7 @@ import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '@/types/common';
 import { verifyAuth } from '@/lib/jwt';
+import { isEmail, isUUID } from '@/utils/validation';
 
 export interface ICurrentUser extends TUID {
 	email: string;
@@ -135,6 +136,7 @@ export async function createUser({
 	avatar?: string;
 	surname?: string;
 }): Promise<ICurrentUser | null> {
+	if (!isEmail(email) || !password) return null;
 	const list = await db
 		.insert(schemas.user)
 		.values({
@@ -182,6 +184,7 @@ export async function updateUser(
 		lastLoginAt?: Date;
 	},
 ): Promise<ICurrentUser | null> {
+	if (!isUUID(uuid)) return null;
 	const list = await db
 		.update(schemas.user)
 		.set({

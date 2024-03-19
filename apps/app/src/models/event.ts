@@ -1,25 +1,30 @@
 import db from '@/lib/storage';
 import { schemas, orm } from '@nw/storage';
-import { TUID } from '@/types/common';
+import { INode } from '@/types/calendar';
 import { generateColor, generateName } from '@/utils';
 import { EnumColor } from '@/enums';
+import { isNumber, isValidDate } from '@/utils/validation';
+import { EnumRepeatPeriod, EnumWeekDay } from '@/enums';
+import { RRule, type Options, type Weekday } from 'rrule';
+import { transformRRule } from '@/utils/rrule';
 
-type RRule = {
+export type TRRule = {
 	freq?: string;
 	interval?: number;
 	byday?: string;
 };
 
-export interface IEvent extends TUID {
+export interface IEvent extends INode {
 	createdAt: Date;
 	branchId: number;
 	name: string;
 	info: string | null;
 	color: string | null;
-	startAt: Date;
+	date: Date;
 	duration: number;
-	rrule: RRule | null;
+	// rrule: RRule | null;
 	spaceShortId: string | null;
+	serviceId: number | null;
 	// TODO: add serviceId
 }
 
@@ -38,11 +43,12 @@ export async function createEvent(
 		startAt: Date | string;
 		endAt?: Date | string;
 		duration: number;
-		rrule?: RRule | null;
+		rrule?: TRRule | null;
 		spaceShortId?: string;
 		serviceId?: number;
 	},
 ): Promise<IEvent | null> {
+	if (!isNumber(branchId) || !value?.duration) return null;
 	const nameValue = value?.name || generateName();
 	const colorValue =
 		value?.color && Object.values(EnumColor).includes(value?.color as EnumColor)
@@ -75,13 +81,97 @@ export async function createEvent(
 			name: schemas.event.name,
 			info: schemas.event.info,
 			color: schemas.event.color,
-			startAt: schemas.event.startAt,
+			date: schemas.event.startAt,
 			duration: schemas.event.duration,
-			rrule: schemas.event.rrule,
+			// rrule: schemas.event.rrule,
 			spaceShortId: schemas.event.spaceShortId,
 			createdAt: schemas.event.createdAt,
 			serviceId: schemas.event.serviceId,
 		});
 
 	return event;
+}
+
+/**
+ * Get events
+ * @param branchId - number
+ * @param from - Date
+ * @param to - Date
+ * @returns Promise<IEvent[]>
+ */
+export async function getEvents({
+	branchId,
+	from,
+	to,
+}: {
+	branchId: number;
+	from: Date;
+	to: Date;
+}): Promise<IEvent[] | null> {
+	if (!isNumber(branchId) || !isValidDate(from) || !isValidDate(to))
+		return null;
+	const result = await db
+		.select({
+			id: schemas.event.id,
+			uuid: schemas.event.uuid,
+			createdAt: schemas.event.createdAt,
+			branchId: schemas.event.branchId,
+			name: schemas.event.name,
+			info: schemas.event.info,
+			color: schemas.event.color,
+			duration: schemas.event.duration,
+			spaceShortId: schemas.event.spaceShortId,
+			serviceId: schemas.event.serviceId,
+			_startAt: schemas.event.startAt,
+			_endAt: schemas.event.endAt,
+			_rrule: schemas.event.rrule,
+		})
+		.from(schemas.event)
+		.where(
+			orm.and(
+				orm.eq(schemas.event.branchId, branchId),
+				orm.or(
+					orm.and(
+						orm.isNull(schemas.event.rrule),
+						orm.gte(schemas.event.startAt, from),
+						orm.lte(schemas.event.startAt, to),
+					),
+					orm.and(
+						orm.isNotNull(schemas.event.rrule),
+						orm.lte(schemas.event.startAt, to),
+						orm.or(
+							orm.gte(schemas.event.endAt, from),
+							orm.isNull(schemas.event.endAt),
+						),
+					),
+				),
+			),
+		);
+
+	const events: IEvent[] = [];
+	result.forEach((event) => {
+		const { _startAt, _endAt, _rrule, ...rest } = event;
+		const rruleOptions = transformRRule(_rrule);
+		if (rruleOptions) {
+			const rrule = new RRule({
+				...rruleOptions,
+				dtstart: _startAt,
+				until: _endAt,
+			});
+			const dates = rrule.between(from, to);
+			dates.forEach((date, index) => {
+				events.push({
+					...rest,
+					name: `${event.name} (#${index + 1})`,
+					date,
+				});
+			});
+		} else {
+			events.push({
+				...rest,
+				date: _startAt,
+			});
+		}
+	});
+	return events;
 }

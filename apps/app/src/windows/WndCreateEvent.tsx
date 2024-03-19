@@ -143,8 +143,25 @@ function CreateEvent({ closeMe }: IModal) {
 				t(`page.add_event.repeat_single_period_`, { period: repeatEach }),
 			);
 		} else if (repeatInterval > 1) {
+			let token = '';
+			switch (repeatEach) {
+				case EnumRepeatPeriod.MONTHLY:
+					token = `page.add_event.repeat_monthly_`;
+					break;
+				case EnumRepeatPeriod.YEARLY:
+					token = `page.add_event.repeat_yearly_`;
+					break;
+				case EnumRepeatPeriod.WEEKLY:
+					token = `page.add_event.repeat_weekly_`;
+					break;
+				default:
+					token = 'page.add_event.repeat_otherly_';
+					break;
+			}
 			list.push(
-				t(`page.add_event.repeat_${repeatEach}_`, { interval: repeatInterval }),
+				t(token, {
+					period: repeatInterval,
+				}),
 			);
 		}
 

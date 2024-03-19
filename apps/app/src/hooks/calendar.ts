@@ -134,10 +134,7 @@ export function useBodyCalendar<T extends INode>({
 	events,
 	dates,
 	times,
-}: {
-	dates: ICalendarProps<T>['dates'];
-	events: ICalendarProps<T>['events'];
-} & { times: TTimes }) {
+}: Omit<ICalendarProps<T>, 'Generator'> & { times: TTimes }) {
 	const body = useMemo(() => {
 		const timesMap = new Map<
 			string,
