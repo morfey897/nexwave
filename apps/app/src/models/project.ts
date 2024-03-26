@@ -495,6 +495,31 @@ export async function hasProjectAccess(
 	return hasAccess(access?.permission, action);
 }
 
+/**
+ * Check if branch is a part of project
+ * @param branchId - number
+ * @param projectId - number
+ * @returns boolean
+ */
+export async function isBranchOfProject(
+	branchId: number | null | undefined,
+	projectId: number | null | undefined,
+): Promise<boolean> {
+	if (!isNumber(branchId) || !isNumber(projectId)) return false;
+	const [branch] = await db
+		.select()
+		.from(schemas.branch)
+		.where(
+			orm.and(
+				orm.eq(schemas.branch.id, branchId as number),
+				orm.eq(schemas.branch.projectId, projectId as number),
+			),
+		)
+		.execute();
+
+	return !!branch;
+}
+
 // <<<<<UNDER ACCESS CONTROL>>>>>
 
 /**

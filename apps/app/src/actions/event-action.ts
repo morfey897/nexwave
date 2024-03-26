@@ -1,5 +1,5 @@
 'use server';
-import { hasProjectAccess } from '@/models/project';
+import { hasProjectAccess, isBranchOfProject } from '@/models/project';
 import {
 	createEvent,
 	getEvents,
@@ -14,9 +14,10 @@ import { parseError, doError, addZiro } from '@/utils';
 import { mmToTime } from '@/utils/datetime';
 import { strTimeToMinutes } from '@/utils/datetime';
 import { IResponse } from '@/types';
-import { validate } from '@/utils/validation';
+import { isNumber, validate } from '@/utils/validation';
 import { getSession } from '@/headers';
 import { toIsoDate } from '@/utils/datetime';
+import { getBoolean, getNumber, getString } from '@/utils/request';
 
 const getWeek = (formData: FormData) =>
 	WEEK_DAYS.filter((day) => formData.get(day)?.toString() === 'on');
@@ -70,36 +71,33 @@ export async function actionCreateNewEvent(
 		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
-		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
+		const projectId = getNumber(formData, 'id');
+		if (!isNumber(projectId)) throw doError(ErrorCodes.CREATE_FAILED);
 		const access = await hasProjectAccess(CREATE.EVENT, {
 			userId: user.id,
 			projectId,
 		});
 
-		if (!access || !projectId) throw doError(ErrorCodes.ACCESS_DENIED);
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const branchId = Number.parseInt(
-			formData.get('branch_id')?.toString() || '',
-		);
-		if (Number.isNaN(branchId)) throw doError(ErrorCodes.CREATE_FAILED);
+		const branchId = getNumber(formData, 'branch_id');
+		if (!isNumber(branchId)) throw doError(ErrorCodes.CREATE_FAILED);
+		if (!(await isBranchOfProject(branchId, projectId)))
+			throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const serviceId = Number.parseInt(
-			formData.get('service_id')?.toString() || '',
-		);
-		const name = formData.get('name')?.toString();
-		const info = formData.get('info')?.toString();
-		const color = formData.get('color')?.toString();
-		const spaceShortId = formData.get('space_short_id')?.toString();
-		const fromTime = formData.get('from_time')?.toString() || '';
-		const toTime = formData.get('to_time')?.toString() || '';
-		const date = (formData.get('date')?.toString() || '').split('T')[0];
-		const endDate = (formData.get('end_on_date')?.toString() || '').split(
-			'T',
-		)[0];
+		const serviceId = getNumber(formData, 'service_id');
+		const name = getString(formData, 'name');
+		const info = getString(formData, 'info');
+		const color = getString(formData, 'color');
+		const spaceShortId = getString(formData, 'space_short_id');
+		const fromTime = getString(formData, 'from_time', '');
+		const toTime = getString(formData, 'to_time', '');
+		const date = getString(formData, 'date', '').split('T')[0];
+		const endDate = getString(formData, 'end_on_date', '').split('T')[0];
 
-		const repeatPeriod = formData.get('repeat_period')?.toString();
+		const repeatPeriod = getString(formData, 'repeat_period');
 		const week = getWeek(formData);
-		const endNever = formData.get('end_never')?.toString() === 'on';
+		const endNever = getBoolean(formData, 'end_never');
 
 		const invalid = validate([
 			{ value: [fromTime, toTime], key: 'time-range' },
@@ -126,7 +124,7 @@ export async function actionCreateNewEvent(
 			duration: strTimeToMinutes(toTime) - strTimeToMinutes(fromTime),
 			rrule,
 			spaceShortId,
-			serviceId: Number.isNaN(serviceId) ? undefined : serviceId,
+			serviceId: isNumber(serviceId) ? undefined : serviceId,
 		});
 
 		if (!newEvent) throw doError(ErrorCodes.CREATE_FAILED);
@@ -149,23 +147,26 @@ export async function actionGetEvents(formData: FormData) {
 		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 
-		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
+		const projectId = getNumber(formData, 'id');
+		if (!isNumber(projectId)) throw doError(ErrorCodes.READ_FAILED);
 		const access = await hasProjectAccess(READ.EVENT, {
 			userId: user.id,
 			projectId,
 		});
 
-		if (!access || !projectId) throw doError(ErrorCodes.ACCESS_DENIED);
+		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const from = formData.get('from')?.toString();
-		const to = formData.get('to')?.toString();
-		const branchId = formData.get('branchId')?.toString();
+		const branchId = getNumber(formData, 'branch_id');
+		if (!isNumber(branchId) || !(await isBranchOfProject(branchId, projectId)))
+			throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const fromDate = new Date(toIsoDate(from || new Date()));
-		const toDate = new Date(toIsoDate(to || new Date()));
+		const fromDate = new Date(
+			toIsoDate(getString(formData, 'from') || new Date()),
+		);
+		const toDate = new Date(toIsoDate(getString(formData, 'to') || new Date()));
 
 		const events = await getEvents({
-			branchId: Number.parseInt(branchId || ''),
+			branchId,
 			from: fromDate,
 			to: toDate,
 		});

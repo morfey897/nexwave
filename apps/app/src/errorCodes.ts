@@ -10,6 +10,7 @@ export const CREDENTIAL_MISMATCH = 'auth/custom-token-mismatch';
 export const USER_UNAUTHORIZED = 'user/unauthorized';
 export const UNSUPPORTED_ACTION = 'action/unsupported-action';
 export const ACCESS_DENIED = 'action/access-denied';
+export const READ_FAILED = 'action/read-failed';
 export const UPDATE_FAILED = 'action/update-failed';
 export const DELETE_FAILED = 'action/delete-failed';
 export const CREATE_FAILED = 'action/create-failed';
