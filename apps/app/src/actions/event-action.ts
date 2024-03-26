@@ -1,9 +1,14 @@
 'use server';
 import { hasProjectAccess } from '@/models/project';
-import { createEvent, type IEvent, type TRRule } from '@/models/event';
+import {
+	createEvent,
+	getEvents,
+	type IEvent,
+	type TRRule,
+} from '@/models/event';
 import { getUserFromSession } from '@/models/user';
 import * as ErrorCodes from '@/errorCodes';
-import { CREATE } from '@/crud';
+import { CREATE, READ } from '@/crud';
 import { EnumResponse, EnumRepeatPeriod, WEEK_DAYS } from '@/enums';
 import { parseError, doError, addZiro } from '@/utils';
 import { mmToTime } from '@/utils/datetime';
@@ -11,6 +16,7 @@ import { strTimeToMinutes } from '@/utils/datetime';
 import { IResponse } from '@/types';
 import { validate } from '@/utils/validation';
 import { getSession } from '@/headers';
+import { toIsoDate } from '@/utils/datetime';
 
 const getWeek = (formData: FormData) =>
 	WEEK_DAYS.filter((day) => formData.get(day)?.toString() === 'on');
@@ -127,6 +133,46 @@ export async function actionCreateNewEvent(
 		return {
 			status: EnumResponse.SUCCESS,
 			data: newEvent,
+		};
+	} catch (error: any) {
+		console.log('ERROR', error);
+		return { status: EnumResponse.FAILED, error: parseError(error) };
+	}
+}
+
+/**
+ * Get events
+ * @returns IResponse
+ */
+export async function actionGetEvents(formData: FormData) {
+	try {
+		const user = await getUserFromSession(getSession());
+		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
+
+		const projectId = Number.parseInt(formData.get('id')?.toString() || '');
+		const access = await hasProjectAccess(READ.EVENT, {
+			userId: user.id,
+			projectId,
+		});
+
+		if (!access || !projectId) throw doError(ErrorCodes.ACCESS_DENIED);
+
+		const from = formData.get('from')?.toString();
+		const to = formData.get('to')?.toString();
+		const branchId = formData.get('branchId')?.toString();
+
+		const fromDate = new Date(toIsoDate(from || new Date()));
+		const toDate = new Date(toIsoDate(to || new Date()));
+
+		const events = await getEvents({
+			branchId: Number.parseInt(branchId || ''),
+			from: fromDate,
+			to: toDate,
+		});
+
+		return {
+			status: EnumResponse.SUCCESS,
+			data: events,
 		};
 	} catch (error: any) {
 		console.log('ERROR', error);

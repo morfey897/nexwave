@@ -55,7 +55,7 @@ function Body({ device }: { device?: EnumDeviceType }) {
 						to: toIsoDate(
 							addDays(new Date(datesList[datesList.length - 1]), 1),
 						),
-						branch: activeBranch.id.toString(),
+						branchId: activeBranch.id.toString(),
 						projectId: project.id.toString(),
 					}),
 				})

@@ -37,31 +37,16 @@ export async function GET(request: NextRequest) {
 
 		const from = request.nextUrl.searchParams.get('from');
 		const to = request.nextUrl.searchParams.get('to');
-		const branch = request.nextUrl.searchParams.get('branch');
+		const branchId = request.nextUrl.searchParams.get('branchId');
 
 		const fromDate = new Date(toIsoDate(from || new Date()));
 		const toDate = new Date(toIsoDate(to || new Date()));
 
-		// console.log(
-		// 	'GETTING EVENTS',
-		// 	[...EVENTS]
-		// 		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-		// 		.map((event) => event.date),
-		// );
 		const events = await getEvents({
-			branchId: Number.parseInt(branch || ''),
+			branchId: Number.parseInt(branchId || ''),
 			from: fromDate,
 			to: toDate,
 		});
-
-		// console.log('EVENTS', events, fromDate, toDate, branch);
-
-		// EVENTS.filter((event) => {
-		// 	const isoDate = new Date(toIsoDate(event.date));
-		// 	if (isoDate < fromDate) return false;
-		// 	if (isoDate > toDate) return false;
-		// 	return true;
-		// });
 
 		return NextResponse.json({ status: EnumResponse.SUCCESS, data: events });
 	} catch (error) {

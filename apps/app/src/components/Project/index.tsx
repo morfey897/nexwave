@@ -99,7 +99,7 @@ function Project({
 					)}
 				>
 					<span className='dark:text-white text-blue-500 block transition-all duration-500 ease-linear group-hover:text-green-500 dark:group-hover:text-green-300'>
-						<MdOutlineArrowCircleRight sie={24} />
+						<MdOutlineArrowCircleRight size={24} />
 					</span>
 				</span>
 			</div>

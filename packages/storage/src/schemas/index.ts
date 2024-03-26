@@ -163,7 +163,7 @@ export const service = pgTable('services', {
 /**
  * Schema for events table
  */
-export const event = pgTable('events', {
+export const slot = pgTable('slots', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)

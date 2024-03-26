@@ -2,8 +2,12 @@ import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
 import Button from '@/components/Button';
 import { APP } from '@/routes';
 import { useTranslations } from 'next-intl';
+import { unstable_setRequestLocale } from 'next-intl/server';
+import { getLocale } from '@/headers';
 
 export default function Page() {
+	const locale = getLocale();
+	unstable_setRequestLocale(locale);
 	const t = useTranslations();
 
 	return (

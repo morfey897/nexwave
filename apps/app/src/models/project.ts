@@ -6,6 +6,7 @@ import { EnumRole, EnumColor, EnumState, EnumCurrency } from '@/enums';
 import { hasAccess } from '@/utils';
 import { CREATE, READ, UPDATE, DELETE } from '@/crud';
 import { isNumber, isIdOurUUID } from '@/utils/validation';
+import { RRule } from 'rrule';
 
 const ALL_ACCESS = [
 	...(Object.values(CREATE) as number[]),

@@ -4,8 +4,7 @@ import { INode } from '@/types/calendar';
 import { generateColor, generateName } from '@/utils';
 import { EnumColor } from '@/enums';
 import { isNumber, isValidDate } from '@/utils/validation';
-import { EnumRepeatPeriod, EnumWeekDay } from '@/enums';
-import { RRule, type Options, type Weekday } from 'rrule';
+import { RRule } from 'rrule';
 import { transformRRule } from '@/utils/rrule';
 
 export type TRRule = {
@@ -56,7 +55,7 @@ export async function createEvent(
 			: generateColor();
 
 	const [event] = await db
-		.insert(schemas.event)
+		.insert(schemas.slot)
 		.values({
 			branchId: branchId,
 			name: nameValue,
@@ -75,18 +74,18 @@ export async function createEvent(
 			serviceId: value?.serviceId || null,
 		})
 		.returning({
-			id: schemas.event.id,
-			uuid: schemas.event.uuid,
-			branchId: schemas.event.branchId,
-			name: schemas.event.name,
-			info: schemas.event.info,
-			color: schemas.event.color,
-			date: schemas.event.startAt,
-			duration: schemas.event.duration,
+			id: schemas.slot.id,
+			uuid: schemas.slot.uuid,
+			branchId: schemas.slot.branchId,
+			name: schemas.slot.name,
+			info: schemas.slot.info,
+			color: schemas.slot.color,
+			date: schemas.slot.startAt,
+			duration: schemas.slot.duration,
 			// rrule: schemas.event.rrule,
-			spaceShortId: schemas.event.spaceShortId,
-			createdAt: schemas.event.createdAt,
-			serviceId: schemas.event.serviceId,
+			spaceShortId: schemas.slot.spaceShortId,
+			createdAt: schemas.slot.createdAt,
+			serviceId: schemas.slot.serviceId,
 		});
 
 	return event;
@@ -112,36 +111,36 @@ export async function getEvents({
 		return null;
 	const result = await db
 		.select({
-			id: schemas.event.id,
-			uuid: schemas.event.uuid,
-			createdAt: schemas.event.createdAt,
-			branchId: schemas.event.branchId,
-			name: schemas.event.name,
-			info: schemas.event.info,
-			color: schemas.event.color,
-			duration: schemas.event.duration,
-			spaceShortId: schemas.event.spaceShortId,
-			serviceId: schemas.event.serviceId,
-			_startAt: schemas.event.startAt,
-			_endAt: schemas.event.endAt,
-			_rrule: schemas.event.rrule,
+			id: schemas.slot.id,
+			uuid: schemas.slot.uuid,
+			createdAt: schemas.slot.createdAt,
+			branchId: schemas.slot.branchId,
+			name: schemas.slot.name,
+			info: schemas.slot.info,
+			color: schemas.slot.color,
+			duration: schemas.slot.duration,
+			spaceShortId: schemas.slot.spaceShortId,
+			serviceId: schemas.slot.serviceId,
+			_startAt: schemas.slot.startAt,
+			_endAt: schemas.slot.endAt,
+			_rrule: schemas.slot.rrule,
 		})
-		.from(schemas.event)
+		.from(schemas.slot)
 		.where(
 			orm.and(
-				orm.eq(schemas.event.branchId, branchId),
+				orm.eq(schemas.slot.branchId, branchId),
 				orm.or(
 					orm.and(
-						orm.isNull(schemas.event.rrule),
-						orm.gte(schemas.event.startAt, from),
-						orm.lte(schemas.event.startAt, to),
+						orm.isNull(schemas.slot.rrule),
+						orm.gte(schemas.slot.startAt, from),
+						orm.lte(schemas.slot.startAt, to),
 					),
 					orm.and(
-						orm.isNotNull(schemas.event.rrule),
-						orm.lte(schemas.event.startAt, to),
+						orm.isNotNull(schemas.slot.rrule),
+						orm.lte(schemas.slot.startAt, to),
 						orm.or(
-							orm.gte(schemas.event.endAt, from),
-							orm.isNull(schemas.event.endAt),
+							orm.gte(schemas.slot.endAt, from),
+							orm.isNull(schemas.slot.endAt),
 						),
 					),
 				),
