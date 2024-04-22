@@ -9,20 +9,24 @@ import { S_PARAMS } from '@nw/config';
 import { EnumDeviceType } from '@/enums';
 import { useDatesCalendar } from '@/hooks/calendar';
 import { getFirstDayOfWeek, toIsoDate } from '@/utils/datetime';
-import { CELL_HEIGHT, TIME_STEP } from './config';
+import { CELL_HEIGHT, TIME_STEP, TIME_APOINTMENT } from './config';
 import { useAPI } from '@/hooks/action';
 import { IEvent } from '@/models/event';
 import useNWStore from '@/lib/store';
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { throttle } from 'lodash';
 import { API } from '@/routes';
-import { dynamicHref } from '@/utils';
+import { addZiro, dynamicHref } from '@/utils';
 import AccessDenied from '@/components/AccessDenied';
 import { ACCESS_DENIED } from '@/errorCodes';
 import { addDays } from 'date-fns';
+import { useOpenModal } from '@nw/modal';
+import { MODALS } from '@/routes';
 
 function Body({ device }: { device?: EnumDeviceType }) {
 	const ref = useRef<HTMLDivElement>(null);
+	const openModal = useOpenModal();
+
 	const project = useNWStore((state) => state.project);
 	const { value: branchUUid } = useFilter({
 		name: S_PARAMS.FILTER,
@@ -64,18 +68,12 @@ function Body({ device }: { device?: EnumDeviceType }) {
 
 	const isAccessDenied = result?.error?.code === ACCESS_DENIED;
 
-	const onResize = useMemo(
-		() =>
-			throttle(() => {
-				if (!ref.current) return;
-				const rect = ref.current.getBoundingClientRect();
-				ref.current.style.maxHeight = `calc(100vh - ${rect.y}px)`;
-			}, 100),
-		[],
-	);
-
 	useEffect(() => {
-		onResize();
+		const onResize = throttle(() => {
+			if (!ref.current) return;
+			const rect = ref.current.getBoundingClientRect();
+			ref.current.style.maxHeight = `calc(100vh - ${rect.y}px)`;
+		}, 100);
 		window.addEventListener('resize', onResize);
 		return () => {
 			window.removeEventListener('resize', onResize);
@@ -92,6 +90,13 @@ function Body({ device }: { device?: EnumDeviceType }) {
 			inline: 'center',
 		});
 	}, []);
+
+	const onAddEvent = useCallback(
+		(props: { date: string; from_time: string; to_time: string }) => {
+			openModal(MODALS.CREATE_EVENT, props);
+		},
+		[openModal],
+	);
 
 	return (
 		<ContainerBody className='!overflow-y-auto'>
@@ -119,6 +124,8 @@ function Body({ device }: { device?: EnumDeviceType }) {
 					Generator={EventGenerator}
 					cellHeight={CELL_HEIGHT}
 					timeStep={TIME_STEP}
+					timeApointment={TIME_APOINTMENT}
+					onSelectDate={onAddEvent}
 				/>
 			</div>
 		</ContainerBody>

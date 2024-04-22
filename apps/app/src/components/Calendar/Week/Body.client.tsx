@@ -1,5 +1,6 @@
+'use client';
 import { ICalendarProps, INode } from '@/types/calendar';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import {
 	useBodyCalendar,
@@ -7,7 +8,7 @@ import {
 	useTimesCalendar,
 	useNow,
 } from '@/hooks/calendar';
-import { timeToMinutes, toIsoDate } from '@/utils/datetime';
+import { ssToTime, sec, timeToMinutes, timeToTime, toIsoDate } from '@/utils/datetime';
 
 function Body<T extends INode>({
 	dates,
@@ -15,10 +16,18 @@ function Body<T extends INode>({
 	Generator,
 	cellHeight,
 	timeStep,
+	timeApointment,
 	className,
+	onSelectDate,
 }: ICalendarProps<T> & {
 	cellHeight: number;
 	timeStep: number;
+	timeApointment: number;
+	onSelectDate?: (props: {
+		date: string;
+		from_time: string;
+		to_time: string;
+	}) => void;
 } & React.HTMLAttributes<HTMLDivElement>) {
 	const now = useNow();
 	const times = useTimesCalendar<T>({ events, dates, timeStep });
@@ -42,6 +51,27 @@ function Body<T extends INode>({
 				</div>
 			)),
 		[timeList, cellHeight],
+	);
+
+	const onClickDate = useCallback(
+		(event: React.MouseEvent<HTMLDivElement>) => {
+			if (typeof onSelectDate != 'function') return;
+			const target = event.target as HTMLDivElement;
+			const dataset: DOMStringMap = target.dataset;
+			const date = dataset.date || '';
+			const rect = target.getBoundingClientRect();
+			const time =
+				((event.clientY - rect.y) / cellHeight) * times.step + times.min;
+			const from = time - (time % (times.step / 2));
+			const fromTime = ssToTime(from);
+			const toTime = ssToTime((from + timeApointment) % sec('24h'));
+			onSelectDate({
+				date,
+				from_time: timeToTime(fromTime),
+				to_time: timeToTime(toTime),
+			});
+		},
+		[onSelectDate, cellHeight, times, timeApointment],
 	);
 
 	return (
@@ -73,12 +103,15 @@ function Body<T extends INode>({
 
 				{dates.map((date, index) => (
 					<div
+						data-date={date}
 						style={{ height: totalHeight }}
 						key={date}
 						className={clsx(
 							'relative -mt-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
+							'cursor-copy',
 							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						)}
+						onClick={onClickDate}
 					>
 						<div
 							id='marker-now'

@@ -22,7 +22,7 @@ function CaptionClient({
 
 	const openModal = useOpenModal();
 
-	const addEvent = useCallback(() => {
+	const onAddEvent = useCallback(() => {
 		openModal(MODALS.CREATE_EVENT);
 	}, [openModal]);
 
@@ -35,7 +35,7 @@ function CaptionClient({
 				hasPermission
 					? {
 							title: add,
-							onClick: addEvent,
+							onClick: onAddEvent,
 						}
 					: undefined
 			}

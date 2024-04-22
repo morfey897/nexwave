@@ -57,7 +57,8 @@ import { useDateLocale, useNow } from '@/hooks/datetime';
 import { addDays, format } from 'date-fns';
 import { capitalize } from 'lodash';
 
-function CreateEvent({ closeMe }: IModal) {
+function CreateEvent({ closeMe, params }: IModal) {
+	
 	const project = useNWStore((state) => state.project);
 	const hasPermission = hasAccess(project?.permission, CREATE.EVENT);
 
@@ -69,7 +70,7 @@ function CreateEvent({ closeMe }: IModal) {
 	const [branchUUID, setBranchUUID] = useState('');
 
 	const [repeatable, setRepeatable] = useState(false);
-	const [startDate, setStartDate] = useState('');
+	const [startDate, setStartDate] = useState(params?.date as string || '');
 
 	const [endNever, setEndNever] = useState(true);
 	const [repeatEach, setRepeat] = useState<string>(EnumRepeatPeriod.WEEKLY);
@@ -264,6 +265,7 @@ function CreateEvent({ closeMe }: IModal) {
 										required
 										name='from_time'
 										placeholder={t('form.from')}
+										defaultValue={params?.from_time as string}
 										maskedProps={{
 											alias: 'datetime',
 											inputFormat: 'HH:MM',
@@ -281,6 +283,7 @@ function CreateEvent({ closeMe }: IModal) {
 										required
 										name='to_time'
 										placeholder={t('form.to')}
+										defaultValue={params?.to_time as string}
 										maskedProps={{
 											alias: 'datetime',
 											inputFormat: 'HH:MM',

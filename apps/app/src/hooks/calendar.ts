@@ -2,7 +2,14 @@ import { INode, ICalendarProps, TTimes } from '@/types/calendar';
 import { useMemo } from 'react';
 import { format, addDays } from 'date-fns';
 import { useDateLocale } from '@/hooks/datetime';
-import { toIsoDate, mmToTime, toTime, timeToMinutes } from '@/utils/datetime';
+import {
+	toIsoDate,
+	ssToTime,
+	toTime,
+	timeToMinutes,
+	sec,
+	timeToTime,
+} from '@/utils/datetime';
 import { addZiro } from '@/utils';
 import {
 	cellStyle,
@@ -29,24 +36,7 @@ export function useTimesCalendar<T extends INode>({
 }): TTimes {
 	const times = useMemo(() => {
 		let min = 0;
-		let max = 24 * 60 - timeStep;
-
-		// for (let j = 0; j < events.length; j++) {
-		// 	const event = events[j];
-		// 	const eventDate = toIsoDate(event.date);
-		// 	for (let i = 0; i < dates.length; i++) {
-		// 		const date = toIsoDate(dates[i]);
-		// 		if (eventDate === date) {
-		// 			const minTime = toTime(event.date);
-		// 			const maxTime = addTime(event.date, mmToTime(event.duration));
-		// 			const minMminutes = timeToMinutes(minTime);
-		// 			const maxMminutes = timeToMinutes(maxTime);
-		// 			min = Math.min(min, minMminutes, maxMminutes);
-		// 			max = Math.max(max, minMminutes, maxMminutes);
-		// 		}
-		// 	}
-		// }
-
+		let max = sec(`24h`) - timeStep;
 		min = min - (min % timeStep);
 		max = max + (+Boolean(max % timeStep) * timeStep - (max % timeStep));
 		return {
@@ -94,10 +84,9 @@ export function useSidebarCalendar({ times }: { times: TTimes }) {
 	const timesList = useMemo(() => {
 		const list = [];
 		for (let t = times.min; t <= times.max; t += times.step) {
-			const { hh, mm } = mmToTime(t);
 			list.push({
 				time: t,
-				title: addZiro(hh) + ':' + addZiro(mm),
+				title: timeToTime(ssToTime(t)),
 			});
 		}
 		return list;

@@ -1,5 +1,6 @@
 import toMS from 'ms';
 import { previousMonday } from 'date-fns';
+import { addZiro } from '@/utils';
 
 export const ms = (time: string | number) => toMS(time.toString());
 export const sec = (time: string | number) => Math.ceil(ms(time) / 1000);
@@ -83,3 +84,6 @@ export const strTimeToMinutes = (time: string) => {
 	const [hh, mm] = time.split(':').map((v) => Number.parseInt(v, 10));
 	return hh * 60 + mm;
 };
+
+export const timeToTime = (time: ReturnType<typeof toTime>) =>
+	addZiro(time.hh) + ':' + addZiro(time.mm);

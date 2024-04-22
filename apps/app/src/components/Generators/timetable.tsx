@@ -1,5 +1,5 @@
 import { IEvent } from '@/models/event';
-import { toIsoDate, toTime } from '@/utils/datetime';
+import { timeToTime, toIsoDate, toTime } from '@/utils/datetime';
 import { addZiro } from '@/utils';
 import clsx from 'clsx';
 
@@ -14,8 +14,7 @@ export function EventGenerator({ item }: { item: IEvent }) {
 	// 	.filter((v) => Boolean(v))
 	// 	.join('');
 
-	const { hh, mm } = toTime(item.date);
-	const time = addZiro(hh) + ':' + addZiro(mm);
+	const time = timeToTime(toTime(item.date));
 	return (
 		<div
 			className={clsx(

@@ -11,7 +11,7 @@ import * as ErrorCodes from '@/errorCodes';
 import { CREATE, READ } from '@/crud';
 import { EnumResponse, EnumRepeatPeriod, WEEK_DAYS } from '@/enums';
 import { parseError, doError, addZiro } from '@/utils';
-import { mmToTime } from '@/utils/datetime';
+import { mmToTime, timeToTime } from '@/utils/datetime';
 import { strTimeToMinutes } from '@/utils/datetime';
 import { IResponse } from '@/types';
 import { isNumber, validate } from '@/utils/validation';
@@ -54,8 +54,8 @@ const getTZOffset = (formData: FormData) => {
 
 	let timezone = 'Z';
 	if (!Number.isNaN(tzOffset) && tzOffset !== 0) {
-		const { hh, mm } = mmToTime(Math.abs(tzOffset));
-		timezone = `${tzOffset < 0 ? '+' : '-'}${addZiro(hh)}:${addZiro(mm)}`;
+		const time = mmToTime(Math.abs(tzOffset));
+		timezone = `${tzOffset < 0 ? '+' : '-'}${timeToTime(time)}`;
 	}
 	return timezone;
 };
