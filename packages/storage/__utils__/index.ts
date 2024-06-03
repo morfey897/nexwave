@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import { createDB } from '../src';
 
-export const generateTestEmail = (prefix: string) =>
+export const generateTestLogin = (prefix: string) =>
 	`${prefix}test_${Math.random().toString(36).substring(7)}_jest@${process.env
 		.DOMAIN!}`.toLowerCase();
 
-export const whereTestEmail = (prefix: string) =>
+export const whereTestLogin = (prefix: string) =>
 	`${prefix}test_%_jest@${process.env.DOMAIN!}`.toLowerCase();
 
 export const generateTestSlug = (prefix: string) =>

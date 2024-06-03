@@ -275,6 +275,17 @@ export const UsersRelations = relations(Users, ({many}) => ({
 	projects: many(ProjectUser),
 }));
 
+export const ProjectUserRelations = relations(ProjectUser, ({one}) => ({
+	project: one(Projects, {
+		fields: [ProjectUser.projectId],
+		references: [Projects.id],
+	}),
+	user: one(Users, {
+		fields: [ProjectUser.userId],
+		references: [Users.id],
+	}),
+}));
+
 export const ClientsRelations = relations(Users, ({many}) => ({
 	clients: many(ProjectUser),
 	eventRegistrations: many(EventRegistrations),
