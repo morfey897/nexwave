@@ -1,3 +1,3 @@
 export * as schemas from './schemas';
 export { createDB, orm } from './db';
-export { Gender } from './enums';
+export { GenderEnum, StateEnum, InvitationEnum } from './enums';

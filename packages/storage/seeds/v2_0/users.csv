@@ -1,0 +1,4 @@
+id,name,surname,login,password,birthday,gender,contacts
+1,Alise,First,email::alice@nexwave.com.ua,password1,1990-01-01,female,"{""email"":""alice@nexwave.com.ua"",""phone"":""+380501234567""}"
+2,Bobab,,email::bob@nexwave.com.ua,password2,1985-05-15,male,
+3,Charlie,Last,email::charlie@nexwave.com.ua,password3,1979-07-23,male,

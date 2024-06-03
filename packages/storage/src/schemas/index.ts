@@ -5,74 +5,111 @@ import {
 	serial,
 	varchar,
 	timestamp,
-	time,
 	date,
 	text,
 	jsonb,
 	uuid,
-	boolean,
 	integer,
-	smallint,
+	pgEnum,
 } from 'drizzle-orm/pg-core';
-import * as enums from './enums';
-export * from './enums';
+import { GenderEnum, StateEnum, InvitationEnum } from '../enums';
+
+//////////// Enums ////////////
+
+export const genderEnum = pgEnum('gender', [GenderEnum.Male, GenderEnum.Female, GenderEnum.None]);
+export const stateEnum = pgEnum('state', [StateEnum.Active, StateEnum.Inactive, StateEnum.Archived]);
+export const invitationEnum = pgEnum('invitation', [InvitationEnum.Pending, InvitationEnum.Accepted, InvitationEnum.Rejected]);
 
 //////////// Tables ////////////
 
 /**
- * Schema for users table
- */
-export const user = pgTable('users', {
+ * Schema for clients table
+ */ 
+export const Clients = pgTable('clients', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)
 		.notNull(),
-	email: varchar('email', { length: 511 }).notNull().unique(),
-	emailVerified: boolean('emailVerified').default(false).notNull(),
+	login: varchar('login', { length: 512 }).notNull().unique(),
 	password: text('password'),
 	name: varchar('name', { length: 255 }),
 	surname: varchar('surname', { length: 255 }),
 	birthday: date('birthday'),
 	avatar: text('avatar'),
-	gender: enums.genderEnum('gender').default('none').notNull(),
+	gender: genderEnum('gender').default(GenderEnum.None).notNull(),
 	bio: text('bio'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	lastLoginAt: timestamp('last_login_at'),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	contacts: jsonb('contacts')
 		.$type<Record<string, string>>()
 		.default({})
+		.notNull(),
+	meta: jsonb('meta').$type<Record<string, string>>().default({}).notNull(),
+	loginMetadata: jsonb('login_from')
+		.$type<{method?: string, device: string; ip: string, timestamp: number }>()
+		.default({device: '', ip: '', timestamp: 0})
+		.notNull(),
+});
+
+/**
+ * Schema for users table
+ */
+export const Users = pgTable('users', {
+	id: serial('id').primaryKey(),
+	uuid: uuid('uuid')
+		.default(sql`gen_random_uuid()`)
+		.notNull(),
+	login: varchar('login', { length: 512 }).notNull().unique(),
+	password: text('password'),
+	name: varchar('name', { length: 255 }),
+	surname: varchar('surname', { length: 255 }),
+	birthday: date('birthday'),
+	avatar: text('avatar'),
+	gender: genderEnum('gender').default(GenderEnum.None).notNull(),
+	bio: text('bio'),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	contacts: jsonb('contacts')
+		.$type<Record<string, string>>()
+		.default({})
+		.notNull(),
+	meta: jsonb('meta').$type<Record<string, string>>().default({}).notNull(),
+	loginMetadata: jsonb('login_from')
+		.$type<{method?: string, device: string; ip: string, timestamp: number }>()
+		.default({device: '', ip: '', timestamp: 0})
 		.notNull(),
 });
 
 /**
  * Schema for projects table
  */
-export const project = pgTable('projects', {
+export const Projects = pgTable('projects', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)
 		.notNull(),
-	ownerId: integer('owner_id')
-		.notNull()
-		.references(() => user.id),
 	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	state: varchar('state', { length: 32 }),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	state: stateEnum('state').default(StateEnum.Inactive).notNull(),
 	image: text('image'),
 	color: varchar('color', { length: 32 }),
+	currency: varchar('currency', { length: 32 }),
+	timezone: varchar('timezone', { length: 32 }),
+	langs: jsonb('langs')
+	.$type<Array<string>>()
+	.default([]),
 	roles: jsonb('roles')
 		.$type<Record<string, number>>() // Record<string, number> is the same as { [key: string]: 1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|... }
 		.default({})
 		.notNull(),
-	groups: jsonb('groups').$type<Record<string, string>>().default({}).notNull(),
-	currency: varchar('currency', { length: 32 }),
 });
 
 /**
  * Schema for branches table
  */
-export const branch = pgTable('branches', {
+export const Branches = pgTable('branches', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)
@@ -80,11 +117,18 @@ export const branch = pgTable('branches', {
 	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	image: text('image'),
+	color: varchar('color', { length: 32 }),
+	currency: varchar('currency', { length: 32 }),
+	timezone: varchar('timezone', { length: 32 }),
+	langs: jsonb('langs')
+	.$type<Array<string>>()
+	.default([]),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
-	state: varchar('state', { length: 32 }),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	state: stateEnum('state').default(StateEnum.Inactive).notNull(),
 	projectId: integer('project_id')
 		.notNull()
-		.references(() => project.id),
+		.references(() => Projects.id),
 	address: jsonb('address')
 		.$type<{
 			country?: string;
@@ -99,79 +143,42 @@ export const branch = pgTable('branches', {
 		.default({})
 		.notNull(),
 	spaces: jsonb('spaces')
-		.$type<Array<{ shortId: string; name: string }>>()
+		.$type<Array<{ id: string; name: string }>>()
 		.default([])
 		.notNull(),
 });
 
+
 /**
  * Schema for invitations table
  */
-export const invitation = pgTable('invitations', {
+export const Invitations = pgTable('invitations', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)
 		.notNull(),
-	email: varchar('email', { length: 511 }).notNull(),
+	login: varchar('login', { length: 512 }).notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	projectId: integer('project_id')
 		.notNull()
-		.references(() => project.id),
+		.references(() => Projects.id),
 	role: varchar('role', { length: 63 }).notNull(),
-});
-
-/**
- * Relations between bunches and users
- */
-export const projectToUser = pgTable(
-	'projects_to_users',
-	{
-		projectId: integer('project_id')
-			.notNull()
-			.references(() => project.id),
-		userId: integer('user_id')
-			.notNull()
-			.references(() => user.id),
-		role: varchar('role', { length: 63 }).notNull(),
-	},
-	(t) => ({
-		pk: primaryKey({ columns: [t.projectId, t.userId] }),
-	}),
-);
-
-/**
- * Schema for services table
- */
-export const service = pgTable('services', {
-	id: serial('id').primaryKey(),
-	uuid: uuid('uuid')
-		.default(sql`gen_random_uuid()`)
-		.notNull(),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	branchId: integer('branch_id')
-		.notNull()
-		.references(() => branch.id),
-	name: varchar('name', { length: 255 }).notNull(),
-	info: text('info'),
-	image: text('image'),
-	state: varchar('state', { length: 32 }),
-	level: smallint('level'),
-	group: varchar('group', { length: 255 }), //from project:groups
-	price: serial('price'),
+	state: invitationEnum('state').default(InvitationEnum.Pending).notNull(),
 });
 
 /**
  * Schema for events table
  */
-export const slot = pgTable('slots', {
+export const Events = pgTable('events', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
 		.default(sql`gen_random_uuid()`)
 		.notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	branchId: integer('branch_id')
 		.notNull()
-		.references(() => branch.id),
+		.references(() => Branches.id),
 	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	color: varchar('color', { length: 32 }),
@@ -186,62 +193,108 @@ export const slot = pgTable('slots', {
 		byday?: string;
 	}>(),
 
-	spaceShortId: varchar('space_short_id', { length: 32 }), //from branch:spaces
-	serviceId: integer('service_id'), //from services
-	// todo master_id / provider_id - references to users table
+	spaceId: varchar('space_id', { length: 32 }), //from branch:spaces
+	capacity: integer('capacity').default(0),
 });
+
+/**
+ * Schema for event registrations table
+ */
+export const EventRegistrations = pgTable('event_registrations', {
+	id: serial('id').primaryKey(),
+	uuid: uuid('uuid')
+		.default(sql`gen_random_uuid()`)
+		.notNull(),
+	registrationDate: timestamp('registration_date').defaultNow().notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	userId: integer('user_id')
+		.notNull()
+		.references(() => Users.id),
+	eventId: integer('event_id')
+		.notNull()
+		.references(() => Events.id),
+});
+
+/**
+ * Relations between Projects and Users
+ */
+export const ProjectUser = pgTable(
+	'project_user',
+	{
+		projectId: integer('project_id')
+			.notNull()
+			.references(() => Projects.id),
+		userId: integer('user_id')
+			.notNull()
+			.references(() => Users.id),
+		role: varchar('role', { length: 63 }).notNull(),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.projectId, t.userId] }),
+	}),
+);
+
+
+/**
+ * Relations between Projects and Users
+ */
+export const ProjectClient = pgTable(
+	'project_client',
+	{
+		projectId: integer('project_id')
+			.notNull()
+			.references(() => Projects.id),
+		clientId: integer('client_id')
+			.notNull()
+			.references(() => Clients.id),
+	},
+	(t) => ({
+		pk: primaryKey({ columns: [t.projectId, t.clientId] }),
+	}),
+);
 
 //////////// Relations ////////////
 
-/**
- * Relations for projects to users
- */
-export const projectToUserRelations = relations(projectToUser, ({ one }) => ({
-	bunch: one(project, {
-		fields: [projectToUser.projectId],
-		references: [project.id],
-	}),
-	user: one(user, {
-		fields: [projectToUser.userId],
-		references: [user.id],
-	}),
+export const ProjectsRelations = relations(Projects, ({many, one}) => ({
+	branches: many(Branches),
+	users: many(ProjectUser),
+	clients: many(ProjectClient),
+	invitations: many(Invitations),
 }));
 
-/**
- * Relations for users
- */
-export const userRelations = relations(user, ({ many }) => ({
-	projects: many(project),
-}));
-
-/**
- * Relations for projects
- * */
-export const projectRelations = relations(project, ({ many, one }) => ({
-	branches: many(branch),
-	invitations: many(invitation),
-	owner: one(user, {
-		fields: [project.ownerId],
-		references: [user.id],
+export const BranchesRelations = relations(Branches, ({one, many}) => ({
+	project: one(Projects, {
+		fields: [Branches.projectId],
+		references: [Projects.id],
 	}),
+	events: many(Events),
 }));
 
-/**
- * Relations for branches
- * */
-export const branchRelations = relations(branch, ({ one }) => ({
-	project: one(project, {
-		fields: [branch.projectId],
-		references: [project.id],
+export const UsersRelations = relations(Users, ({many}) => ({
+	projects: many(ProjectUser),
+}));
+
+export const ClientsRelations = relations(Users, ({many}) => ({
+	clients: many(ProjectUser),
+	eventRegistrations: many(EventRegistrations),
+}));
+
+export const EventsRelations = relations(Events, ({one, many}) => ({
+	branch: one(Branches, {
+		fields: [Events.branchId],
+		references: [Branches.id],
 	}),
+	registrations: many(EventRegistrations),
 }));
 
-/**
- * Relations for invitations
- * */
-export const invitationRelations = relations(invitation, ({ one }) => ({
-	project: one(project, {
-		fields: [invitation.projectId],
-		references: [project.id],
+export const EventRegistrationsRelations = relations(EventRegistrations, ({one}) => ({
+	user: one(Users, {
+		fields: [EventRegistrations.userId],
+		references: [Users.id],
+	}),
+	event: one(Events, {
+		fields: [EventRegistrations.eventId],
+		references: [Events.id],
 	}),
 }));

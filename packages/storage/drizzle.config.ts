@@ -1,11 +1,13 @@
 import 'dotenv/config';
 import type { Config } from 'drizzle-kit';
 
+const [,,,path] = process.argv;
+
 export default {
   schema: './src/schemas/index.ts',
-  out: './migrations',
+  out: path || './migrations',
   driver: 'pg',
   dbCredentials: {
-    connectionString: process.env.POSTGRES_URL as string,
+    connectionString: process.env.POSTGRES_URL!,
   },
 } satisfies Config;
