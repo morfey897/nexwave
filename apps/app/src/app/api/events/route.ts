@@ -33,8 +33,12 @@ export async function GET(request: NextRequest) {
 		if (!isNumber(branchId) || !(await isBranchOfProject(branchId, projectId)))
 			throw doError(ErrorCodes.ACCESS_DENIED);
 
-		const fromDate = new Date(toIsoDate(getString(searchParams, 'from') || new Date()));
-		const toDate = new Date(toIsoDate(getString(searchParams, 'to') || new Date()));
+		const fromDate = new Date(
+			toIsoDate(getString(searchParams, 'from') || new Date())
+		);
+		const toDate = new Date(
+			toIsoDate(getString(searchParams, 'to') || new Date())
+		);
 
 		const events = await getEvents({
 			branchId: branchId,

@@ -12,7 +12,7 @@ function Group({
 				'[&>*:first-child:not(:only-child)]:rounded-r-none',
 				'[&>*:not(:first-child):not(:last-child)]:rounded-none',
 				'[&>*:last-child:not(:only-child)]:rounded-l-none',
-				className,
+				className
 			)}
 			{...props}
 		>

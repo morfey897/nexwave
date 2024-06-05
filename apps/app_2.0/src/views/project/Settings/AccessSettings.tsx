@@ -76,7 +76,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 	const [changed, setChanged] = useState(false);
 
 	const { action, submit, reset, pending, result } = useAction(
-		actionUpdateAccessProject,
+		actionUpdateAccessProject
 	);
 
 	const permission = activeProject?.roles[activeProject?.role || ''] || 0;
@@ -98,7 +98,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 		(
 			event: React.FormEvent<
 				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
+			>
 		) => {
 			const target = event.target as HTMLInputElement;
 			const [role] = target.name.split('.');
@@ -114,11 +114,11 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 								[role]: prev.roles[role] ^ value,
 							},
 						}
-					: null,
+					: null
 			);
 			setChanged(true);
 		},
-		[],
+		[]
 	);
 
 	const onDiscard = useCallback(() => {
@@ -127,7 +127,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 	}, [project]);
 
 	return (
-		<div className='w-full max-w-3xl mx-auto mt-6 space-y-4'>
+		<div className='mx-auto mt-6 w-full max-w-3xl space-y-4'>
 			{/* Form */}
 			{activeProject ? (
 				<p className='text-3xl font-semibold text-gray-500 dark:text-gray-400'>
@@ -172,7 +172,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 													placeholder={t(`crud.${name}`)}
 													checked={hasAccess(
 														activeProject?.roles[role] || 0,
-														value,
+														value
 													)}
 													icon={
 														important && (
@@ -182,10 +182,10 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 														)
 													}
 												/>
-											),
+											)
 									)}
 								</Fieldset>
-							) : null,
+							) : null
 						)
 					) : (
 						<>
@@ -196,7 +196,7 @@ function AccessSettings({ project }: { project: IFullProject | null }) {
 					)}
 				</div>
 
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
+				<div className='mt-6 grid grid-cols-1 gap-2 md:grid-cols-2'>
 					<ErrorCopy
 						code={result?.error?.code}
 						codes={{

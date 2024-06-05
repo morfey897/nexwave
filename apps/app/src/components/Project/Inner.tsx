@@ -20,10 +20,10 @@ export function SkeletonProject({
 	return (
 		<div
 			className={clsx(
-				'rounded-xl w-full min-h-[100px] animate-pulse',
+				'min-h-[100px] w-full animate-pulse rounded-xl',
 				'border border-gray-400 dark:border-gray-700',
 				'bg-gray-300 dark:bg-gray-600',
-				className,
+				className
 			)}
 			{...props}
 		/>
@@ -58,15 +58,15 @@ function InnerProject({
 			className={clsx(
 				'block',
 				'bg-white dark:bg-gray-800',
-				'group px-3 py-4 space-y-1 border rounded-xl',
+				'group space-y-1 rounded-xl border px-3 py-4',
 				active
 					? 'cursor-default border-blue-400 dark:border-blue-300'
-					: 'cursor-pointer border-slate-400 dark:border-slate-300 hover:border-blue-400 dark:hover:border-blue-300 hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
-				className,
+					: 'cursor-pointer border-slate-400 hover:border-blue-400 hover:shadow-lg hover:shadow-slate-800/10 dark:border-slate-300 dark:hover:border-blue-300 dark:hover:shadow-slate-300/10',
+				className
 			)}
 			{...props}
 		>
-			<div className='flex items-center relative gap-x-2 text-base font-semibold text-gray-700 capitalize dark:text-white'>
+			<div className='relative flex items-center gap-x-2 text-base font-semibold capitalize text-gray-700 dark:text-white'>
 				{/* <div className='flex items-center'> */}
 				<ProjectIcon
 					image={project.image}
@@ -81,7 +81,7 @@ function InnerProject({
 				{/* </div> */}
 
 				{active && (
-					<span className='text-white dark:text-gray-800 absolute p-1 -top-4 -right-3 bg-blue-400 dark:bg-blue-300 rounded-es-xl rounded-se-xl'>
+					<span className='absolute -right-3 -top-4 rounded-es-xl rounded-se-xl bg-blue-400 p-1 text-white dark:bg-blue-300 dark:text-gray-800'>
 						<MdCheck size={24} />
 					</span>
 				)}
@@ -103,9 +103,9 @@ function InnerProject({
 									tag='span'
 									variant='text'
 									message={t('button.more_less')}
-									className='justify-between text-gray-400 dark:text-gray-500 w-full'
+									className='w-full justify-between text-gray-400 dark:text-gray-500'
 									iconAfter={
-										<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
+										<span className='icon pointer-events-none block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 											<BiChevronDown size={24} className={''} />
 										</span>
 									}

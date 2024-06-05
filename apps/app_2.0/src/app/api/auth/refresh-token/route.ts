@@ -9,7 +9,7 @@ import { parseError } from '@/utils';
 
 const refreshCookie = async (
 	refresh_token: string,
-	session: string,
+	session: string
 ): Promise<ICurrentUser | null> => {
 	const refreshPayload = await verifyAuth<{ uuid: string }>(refresh_token);
 	const sessionPayload = decode<{ user: ICurrentUser }>(session);
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 	if (!user) {
 		return NextResponse.json(
 			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },
-			{ status: 401 },
+			{ status: 401 }
 		);
 	}
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 	if (!user) {
 		return NextResponse.json(
 			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },
-			{ status: 401 },
+			{ status: 401 }
 		);
 	}
 
@@ -59,6 +59,6 @@ export async function POST(request: NextRequest) {
 
 	return NextResponse.json(
 		{ success: true, session: sessionData },
-		{ status: 200 },
+		{ status: 200 }
 	);
 }

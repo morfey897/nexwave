@@ -12,7 +12,7 @@ interface IHeadProps<T extends TUID> {
 	Generator: TGenerator<T>;
 }
 
-export interface ITableProps<T extends TUID>{
+export interface ITableProps<T extends TUID> {
 	head: Array<IHeadProps<T>>;
 	body?: Array<T>;
 }

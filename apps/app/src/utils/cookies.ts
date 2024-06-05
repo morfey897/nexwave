@@ -16,8 +16,8 @@ export const refreshCookie = (user: ICurrentUser | null) => ({
 	value: user
 		? signAuth(
 				{ uuid: user.uuid },
-				process.env.NEXT_PRIVATE_JWT_REFRESH_EXPIRES_IN! || '7d',
-		  )
+				process.env.NEXT_PRIVATE_JWT_REFRESH_EXPIRES_IN! || '7d'
+			)
 		: '',
 	maxAge: user ? undefined : -1,
 	...(user ? { httpOnly: true, secure: true } : {}),

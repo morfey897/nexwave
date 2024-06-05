@@ -39,15 +39,15 @@ function Project({
 			className={clsx(
 				'block',
 				'bg-white dark:bg-gray-800',
-				'group p-8 space-y-3 border-2 rounded-xl',
+				'group space-y-3 rounded-xl border-2 p-8',
 				'border-blue-400 dark:border-blue-300',
 				'hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
 				'cursor-pointer',
-				className,
+				className
 			)}
 			{...props}
 		>
-			<div className='flex items-center gap-x-2 text-xl font-semibold text-gray-700 capitalize dark:text-white'>
+			<div className='flex items-center gap-x-2 text-xl font-semibold capitalize text-gray-700 dark:text-white'>
 				<ProjectIcon
 					image={project.image}
 					size={32}
@@ -72,9 +72,9 @@ function Project({
 									tag='span'
 									variant='text'
 									message={more_less}
-									className='justify-between text-gray-400 dark:text-gray-500 w-full'
+									className='w-full justify-between text-gray-400 dark:text-gray-500'
 									iconAfter={
-										<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline pointer-events-none'>
+										<span className='icon pointer-events-none block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 											<BiChevronDown size={24} className={''} />
 										</span>
 									}
@@ -94,11 +94,11 @@ function Project({
 			<div className='w-full'>
 				<span
 					className={clsx(
-						'block p-2 h-8 w-8 rounded-full',
-						'bg-blue-100 dark:bg-blue-500',
+						'block h-8 w-8 rounded-full p-2',
+						'bg-blue-100 dark:bg-blue-500'
 					)}
 				>
-					<span className='dark:text-white text-blue-500 block transition-all duration-500 ease-linear group-hover:text-green-500 dark:group-hover:text-green-300'>
+					<span className='block text-blue-500 transition-all duration-500 ease-linear group-hover:text-green-500 dark:text-white dark:group-hover:text-green-300'>
 						<MdOutlineArrowCircleRight size={24} />
 					</span>
 				</span>

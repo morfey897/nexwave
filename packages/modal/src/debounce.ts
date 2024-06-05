@@ -1,6 +1,6 @@
 type DebounceFunction<T extends (...args: unknown[]) => void> = {
-  (...args: Parameters<T>): void;
-  cancel: () => void;
+	(...args: Parameters<T>): void;
+	cancel: () => void;
 };
 
 /**
@@ -10,38 +10,38 @@ type DebounceFunction<T extends (...args: unknown[]) => void> = {
  * @returns
  */
 const debounce = <T extends (...args: unknown[]) => void>(
-  func: T,
-  wait: number,
+	func: T,
+	wait: number
 ): DebounceFunction<T> => {
-  let timeoutId: NodeJS.Timeout | null;
+	let timeoutId: NodeJS.Timeout | null;
 
-  const debounced: DebounceFunction<T> = (...args: Parameters<T>) => {
-    const later = () => {
-      timeoutId = null;
-      func(...args);
-    };
+	const debounced: DebounceFunction<T> = (...args: Parameters<T>) => {
+		const later = () => {
+			timeoutId = null;
+			func(...args);
+		};
 
-    const callNow = !timeoutId;
+		const callNow = !timeoutId;
 
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+		}
 
-    timeoutId = setTimeout(later, wait);
+		timeoutId = setTimeout(later, wait);
 
-    if (callNow) {
-      func(...args);
-    }
-  };
+		if (callNow) {
+			func(...args);
+		}
+	};
 
-  debounced.cancel = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-    }
-  };
+	debounced.cancel = () => {
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+			timeoutId = null;
+		}
+	};
 
-  return debounced;
+	return debounced;
 };
 
 export default debounce;

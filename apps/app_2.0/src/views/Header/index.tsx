@@ -25,11 +25,11 @@ function Server() {
 
 	return (
 		<>
-			<div className='relative w-full h-[80px]' />
-			<nav className='fixed bg-white shadow dark:bg-gray-800 top-0 w-full z-30'>
+			<div className='relative h-[80px] w-full' />
+			<nav className='fixed top-0 z-30 w-full bg-white shadow dark:bg-gray-800'>
 				<Link
 					href={APP}
-					className='lg:left-6 top-4 flex items-center gap-2 text-gray-900 dark:text-white absolute font-semibold text-xl'
+					className='absolute top-4 flex items-center gap-2 text-xl font-semibold text-gray-900 lg:left-6 dark:text-white'
 				>
 					<TiWaves size={52} />
 					<p className='hidden lg:block'>{process.env.NEXT_PUBLIC_TITLE}</p>
@@ -39,7 +39,7 @@ function Server() {
 				</Link>
 				<Block>
 					<Container>
-						<div className='py-4 mx-auto'>
+						<div className='mx-auto py-4'>
 							<div className='flex items-center justify-between'>
 								<div className='mr-2 md:mr-10'>
 									<Search placeholder={t('button.search')} />

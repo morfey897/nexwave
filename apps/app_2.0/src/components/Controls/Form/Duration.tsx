@@ -38,26 +38,26 @@ function BaseDuration({
 				}
 			}
 		},
-		[],
+		[]
 	);
 
 	return (
 		<div className='relative'>
 			<div className={clsx('relative', className)}>
 				<Icon icon={icon} />
-				<div className='grid grid-cols-6 w-full'>
+				<div className='grid w-full grid-cols-6'>
 					<input
 						ref={inputRef}
 						placeholder=' '
 						className={clsx(
-							'peer input col-span-4',
-							'py-4 px-3',
-							'border rounded-s-lg dark:border-gray-600',
-							'focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40',
+							'input peer col-span-4',
+							'px-3 py-4',
+							'rounded-s-lg border dark:border-gray-600',
+							'focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300',
 							bgClassName,
 							txtInputClassName,
 							!!errorCopy && '!border-red-500',
-							!!icon ? 'pl-12' : 'pl-4',
+							!!icon ? 'pl-12' : 'pl-4'
 						)}
 						required={required}
 						type='number'
@@ -74,12 +74,12 @@ function BaseDuration({
 						ref={selectRef}
 						onChange={handleChange}
 						className={clsx(
-							'py-4 px-3 col-span-2',
-							'border rounded-e-lg dark:border-gray-600',
-							'focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40',
+							'col-span-2 px-3 py-4',
+							'rounded-e-lg border dark:border-gray-600',
+							'focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300',
 							bgClassName,
 							txtInputClassName,
-							!!errorCopy && '!border-red-500',
+							!!errorCopy && '!border-red-500'
 						)}
 					>
 						<option value='hh'>Hour</option>

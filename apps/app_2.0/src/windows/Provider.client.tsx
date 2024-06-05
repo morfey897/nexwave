@@ -118,7 +118,7 @@ function ModalsContainer() {
 	return mounted && ref.current
 		? createPortal(
 				<ModalProvider Components={COMPONENTS} data-name='modals' />,
-				ref.current,
+				ref.current
 			)
 		: null;
 }

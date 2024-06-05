@@ -25,7 +25,7 @@ import { getSession } from '@/headers';
  * @returns IResponse
  */
 export async function actionCreateNewProject(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse | never> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -62,7 +62,7 @@ export async function actionCreateNewProject(
  * @returns IResponse
  */
 export async function actionUpdateProject(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -91,7 +91,7 @@ export async function actionUpdateProject(
 				currency: currency,
 				info: info,
 				// image: file,
-			},
+			}
 		);
 
 		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
@@ -110,13 +110,13 @@ export async function actionUpdateProject(
  * @returns IResponse
  */
 export async function actionUpdateAccessProject(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession(getSession());
 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
 		const { id: projectIdValue, ...formValue } = Object.fromEntries(
-			formData.entries(),
+			formData.entries()
 		);
 		const projectId = Number.parseInt(projectIdValue?.toString() || '');
 
@@ -148,14 +148,14 @@ export async function actionUpdateAccessProject(
 				[EnumRole.admin]: 0,
 				[EnumRole.user]: 0,
 				[EnumRole.manager]: 0,
-			} as Record<string, number>,
+			} as Record<string, number>
 		);
 
 		const success = await updateProject(
 			{ id: projectId },
 			{
 				roles: roles,
-			},
+			}
 		);
 
 		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
@@ -174,7 +174,7 @@ export async function actionUpdateAccessProject(
  * @returns IResponse
  */
 export async function actionUpdateVisibilityProject(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IFullProject> | never> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -203,7 +203,7 @@ export async function actionUpdateVisibilityProject(
 			{
 				userId: user.id,
 				projectId,
-			},
+			}
 		);
 
 		if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
@@ -217,7 +217,7 @@ export async function actionUpdateVisibilityProject(
 						: action == 'unpublish'
 							? EnumState.INACTIVE
 							: undefined,
-			},
+			}
 		);
 
 		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);

@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
 						Authorization: `Bearer ${refresh_token}`,
 					},
 					body: session,
-				},
+				}
 			);
 			const json = await refreshResponse.json();
 

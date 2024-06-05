@@ -9,7 +9,9 @@
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "echo 'Add test script here'",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write --parser typescript --ignore-path .gitignore '**/*.{ts,tsx}'",
+    "clear": "rimraf dist node_modules"
   },
   "devDependencies": {
     "tsup": "^7.2.0",

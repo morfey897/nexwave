@@ -65,7 +65,7 @@ const getTZOffset = (formData: FormData) => {
  * @returns IResponse
  */
 export async function actionCreateNewEvent(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IEvent>> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -161,7 +161,7 @@ export async function actionGetEvents(formData: FormData) {
 			throw doError(ErrorCodes.ACCESS_DENIED);
 
 		const fromDate = new Date(
-			toIsoDate(getString(formData, 'from') || new Date()),
+			toIsoDate(getString(formData, 'from') || new Date())
 		);
 		const toDate = new Date(toIsoDate(getString(formData, 'to') || new Date()));
 

@@ -1,6 +1,6 @@
 type ThrottleFunction<T extends (...args: unknown[]) => void> = {
-  (...args: Parameters<T>): void;
-  cancel: () => void;
+	(...args: Parameters<T>): void;
+	cancel: () => void;
 };
 
 /**
@@ -10,32 +10,32 @@ type ThrottleFunction<T extends (...args: unknown[]) => void> = {
  * @returns
  */
 const throttle = <T extends (...args: unknown[]) => void>(
-  func: T,
-  wait: number,
+	func: T,
+	wait: number
 ): ThrottleFunction<T> => {
-  let timeout: NodeJS.Timeout | null;
+	let timeout: NodeJS.Timeout | null;
 
-  const throttled: ThrottleFunction<T> = (...args) => {
-    if (!timeout) {
-      timeout = setTimeout(() => {
-        func(...args);
-        timeout = null;
-      }, wait);
-    } else {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func(...args);
-        timeout = null;
-      }, wait);
-    }
-  };
+	const throttled: ThrottleFunction<T> = (...args) => {
+		if (!timeout) {
+			timeout = setTimeout(() => {
+				func(...args);
+				timeout = null;
+			}, wait);
+		} else {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				func(...args);
+				timeout = null;
+			}, wait);
+		}
+	};
 
-  throttled.cancel = () => {
-    clearTimeout(timeout!);
-    timeout = null;
-  };
+	throttled.cancel = () => {
+		clearTimeout(timeout!);
+		timeout = null;
+	};
 
-  return throttled;
+	return throttled;
 };
 
 export default throttle;

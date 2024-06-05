@@ -6,7 +6,7 @@ export const transformRRule = (
 		freq?: string;
 		interval?: number;
 		byday?: string;
-	} | null,
+	} | null
 ): Partial<Options> | null => {
 	if (!rrule) return null;
 	switch (rrule.freq) {

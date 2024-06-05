@@ -85,7 +85,7 @@ function Header({ device }: { device?: EnumDeviceType }) {
 				}
 			>
 				{project?.branches && project.branches.length > 1 && (
-					<div className='px-2 py-4 flex flex-col'>
+					<div className='flex flex-col px-2 py-4'>
 						<Button
 							onClick={() => {
 								onBranch('__all__');
@@ -114,7 +114,7 @@ function Header({ device }: { device?: EnumDeviceType }) {
 				)}
 			</DropDown>
 		),
-		[t, project, activeBranch, onBranch, branchUUid],
+		[t, project, activeBranch, onBranch, branchUUid]
 	);
 
 	const FilterPeriod = useMemo(
@@ -134,18 +134,18 @@ function Header({ device }: { device?: EnumDeviceType }) {
 				))}
 			</Group>
 		),
-		[t, period, onView],
+		[t, period, onView]
 	);
 
 	return (
 		<>
-			<div className='flex md:hidden flex-wrap gap-2 items-center justify-between justify-items-center'>
+			<div className='flex flex-wrap items-center justify-between justify-items-center gap-2 md:hidden'>
 				{FilterBranche}
 				{FilterPeriod}
 			</div>
 			<ContainerHeader
 				className={clsx(
-					'border-b dark:border-gray-700 pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900',
+					'border-b bg-gray-100 pt-2 md:pt-4 dark:border-gray-700 dark:bg-gray-900'
 				)}
 			>
 				<div className={clsx('flex flex-wrap justify-between gap-2 md:gap-0')}>
@@ -155,25 +155,25 @@ function Header({ device }: { device?: EnumDeviceType }) {
 							onDay(index * (period === EnumPeriod.WEEK ? 7 : 1))
 						}
 						dates={[datesList[0], datesList[datesList.length - 1]]}
-						className='md:w-auto w-full max-w-[250px] m-auto'
+						className='m-auto w-full max-w-[250px] md:w-auto'
 						messages={{
 							today: t('day.today'),
 						}}
 					/>
-					<div className='hidden md:flex justify-end'>{FilterPeriod}</div>
+					<div className='hidden justify-end md:flex'>{FilterPeriod}</div>
 				</div>
 				<div
 					className={clsx(
-						'overflow-x-scroll hide-scroll',
+						'hide-scroll overflow-x-scroll',
 						'bg-gray-50 dark:bg-gray-800',
-						'border border-gray-200 dark:border-gray-700 border-b-0 rounded-t-md md:rounded-t-lg',
+						'rounded-t-md border border-b-0 border-gray-200 md:rounded-t-lg dark:border-gray-700'
 					)}
 				>
 					<WeekCalendarHead
 						locale={locale}
 						className={clsx(
 							'w-full',
-							period === EnumPeriod.WEEK && '!min-w-[600px]',
+							period === EnumPeriod.WEEK && '!min-w-[600px]'
 						)}
 						dates={datesList}
 					/>

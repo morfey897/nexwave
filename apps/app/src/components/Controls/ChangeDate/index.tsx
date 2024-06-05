@@ -73,7 +73,7 @@ function ChangeDate({
 			/>
 			<div className='text-center'>
 				{/* TODO show calendar by click */}
-				<p className='inline-block text-gray-800 dark:text-white text-sm'>
+				<p className='inline-block text-sm text-gray-800 dark:text-white'>
 					{title}
 				</p>
 				{showToday && (
@@ -82,7 +82,7 @@ function ChangeDate({
 						variant='text'
 						aria-label={messages?.today}
 						onClick={onToday}
-						className='text-blue-500 dark:text-blue-400 !p-0 mx-auto hover:underline'
+						className='mx-auto !p-0 text-blue-500 hover:underline dark:text-blue-400'
 						message={messages?.today}
 					/>
 				)}

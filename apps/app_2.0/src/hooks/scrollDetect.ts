@@ -42,10 +42,10 @@ export function useScrollDetect(threshold: number | string) {
 					setIsScrolling(isScroll(threshold));
 				},
 				400,
-				{ leading: false },
+				{ leading: false }
 			),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[],
+		[]
 	);
 
 	useEffect(() => {

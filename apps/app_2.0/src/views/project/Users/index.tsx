@@ -133,7 +133,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 	return (
 		<Container>
 			<ContainerHeader>
-				<div className='bg-gray-100 dark:bg-gray-900 pt-2'>
+				<div className='bg-gray-100 pt-2 dark:bg-gray-900'>
 					<Caption
 						headline={t('page.clients.headline')}
 						subheadline={t('page.clients.subheadline')}
@@ -153,8 +153,8 @@ function UsersView({ clients }: { clients: IClient[] }) {
 					/>
 					<div
 						className={clsx(
-							'mt-4 flex pb-8 gap-2 items-center justify-between justify-items-center transition-all duration-300 ease-linear',
-							isScrolled && '!pb-0',
+							'mt-4 flex items-center justify-between justify-items-center gap-2 pb-8 transition-all duration-300 ease-linear',
+							isScrolled && '!pb-0'
 						)}
 					>
 						<Filter
@@ -189,7 +189,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 							head={getHead}
 							className={clsx(
 								'bg-gray-50 dark:bg-gray-800',
-								'border border-gray-200 dark:border-gray-700 border-b-0 rounded-t-md md:rounded-t-lg',
+								'rounded-t-md border border-b-0 border-gray-200 md:rounded-t-lg dark:border-gray-700'
 							)}
 						/>
 					)}
@@ -198,7 +198,7 @@ function UsersView({ clients }: { clients: IClient[] }) {
 							head={getHead}
 							className={clsx(
 								'bg-gray-50 dark:bg-gray-800',
-								'border border-gray-200 dark:border-gray-700 border-b-0 rounded-t-md md:rounded-t-lg',
+								'rounded-t-md border border-b-0 border-gray-200 md:rounded-t-lg dark:border-gray-700'
 							)}
 						/>
 					)}
@@ -212,8 +212,8 @@ function UsersView({ clients }: { clients: IClient[] }) {
 						body={getBody}
 						className={clsx(
 							'bg-white dark:bg-gray-900',
-							'border border-gray-200 dark:border-gray-700 border-b-0 rounded-b-md md:rounded-b-lg',
-							'divide-y divide-gray-200 dark:divide-gray-700',
+							'rounded-b-md border border-b-0 border-gray-200 md:rounded-b-lg dark:border-gray-700',
+							'divide-y divide-gray-200 dark:divide-gray-700'
 						)}
 					/>
 				)}
@@ -223,8 +223,8 @@ function UsersView({ clients }: { clients: IClient[] }) {
 						body={getBody}
 						className={clsx(
 							'bg-white dark:bg-gray-900',
-							'border border-gray-200 dark:border-gray-700 border-b-0 rounded-b-md md:rounded-b-lg',
-							'divide-y divide-gray-200 dark:divide-gray-700',
+							'rounded-b-md border border-b-0 border-gray-200 md:rounded-b-lg dark:border-gray-700',
+							'divide-y divide-gray-200 dark:divide-gray-700'
 						)}
 					/>
 				)}

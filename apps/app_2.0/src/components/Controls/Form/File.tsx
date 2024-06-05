@@ -30,28 +30,28 @@ function File({
 				setFile(null);
 			}
 		},
-		[onChange],
+		[onChange]
 	);
 
 	return (
 		<div className={clsx('relative', className)}>
 			<label
 				className={clsx(
-					'flex flex-col items-center text-center border-2 border-dashed',
+					'flex flex-col items-center border-2 border-dashed text-center',
 					'bg-white dark:bg-gray-900',
-					'rounded-lg py-4 px-3',
+					'rounded-lg px-3 py-4',
 					!disabled &&
-						'dark:hover:border-blue-300 hover:border-blue-300 cursor-pointer',
+						'cursor-pointer hover:border-blue-300 dark:hover:border-blue-300'
 				)}
 			>
-				<span className='text-gray-300 dark:text-gray-500 mx-3 relative'>
+				<span className='relative mx-3 text-gray-300 dark:text-gray-500'>
 					{!!file ? (
 						<>
 							<picture>
 								<img
 									src={file}
 									alt=''
-									className='max-h-16 rounded-md border border-slate-500 dark:border-slate-400 bg-slate-200 dark:bg-slate-900'
+									className='max-h-16 rounded-md border border-slate-500 bg-slate-200 dark:border-slate-400 dark:bg-slate-900'
 								/>
 							</picture>
 							<button
@@ -62,7 +62,7 @@ function File({
 										setFile(null);
 									}
 								}}
-								className='text-white absolute -top-0.5 -right-0.5 p-0.5 rounded-full bg-red-200 dark:bg-red-800'
+								className='absolute -right-0.5 -top-0.5 rounded-full bg-red-200 p-0.5 text-white dark:bg-red-800'
 							>
 								<HiX size={16} />
 							</button>
@@ -76,7 +76,7 @@ function File({
 					{required ? (
 						<>
 							{`${placeholder || 'Required'}`}
-							<span className='text-base ml-1 mt-1 text-red-300'>*</span>
+							<span className='ml-1 mt-1 text-base text-red-300'>*</span>
 						</>
 					) : (
 						placeholder

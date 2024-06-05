@@ -17,7 +17,7 @@ export function useSyncScroll() {
 				refBody.current.scrollLeft = currentTarget.scrollLeft;
 			}
 		},
-		[],
+		[]
 	);
 	return { refHeader, refBody, onScroll };
 }
@@ -49,7 +49,11 @@ export const ContainerBody = forwardRef<
 	React.HTMLAttributes<HTMLDivElement>
 >(function Component({ children, className, ...rest }, ref) {
 	return (
-		<div ref={ref} className={clsx('overflow-x-scroll overflow-y-hidden', className)} {...rest}>
+		<div
+			ref={ref}
+			className={clsx('overflow-y-hidden overflow-x-scroll', className)}
+			{...rest}
+		>
 			{children}
 		</div>
 	);
@@ -77,7 +81,7 @@ export const ContainerScrollableHeader = forwardRef<
 	return (
 		<div
 			ref={ref}
-			className={clsx('overflow-x-scroll hide-scroll', className)}
+			className={clsx('hide-scroll overflow-x-scroll', className)}
 			{...rest}
 		>
 			{children}

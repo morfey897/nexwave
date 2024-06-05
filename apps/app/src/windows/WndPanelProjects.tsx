@@ -33,7 +33,7 @@ function AsideProjects({ state }: IModal) {
 	const { result, pending } = useAPI<IProject[] | null>(() =>
 		state === ModalState.OPENED || state === ModalState.CLOSING
 			? API.PROJECTS
-			: null,
+			: null
 	);
 
 	const projects = useMemo(
@@ -41,7 +41,7 @@ function AsideProjects({ state }: IModal) {
 			result?.status === EnumResponse.SUCCESS && result?.data
 				? result.data
 				: [],
-		[result],
+		[result]
 	);
 
 	const onAddProject = useCallback(() => {
@@ -52,7 +52,7 @@ function AsideProjects({ state }: IModal) {
 	return (
 		<AsideWrapper>
 			<AsideHeader className='flex items-center justify-between'>
-				<h2 className='text-base font-semibold text-gray-600 dark:text-gray-300 flex items-center'>
+				<h2 className='flex items-center text-base font-semibold text-gray-600 dark:text-gray-300'>
 					<SVGIcon type='project' size={32} />
 					<span className='ml-2'>{t('page.panel_projects.headline')}</span>
 				</h2>

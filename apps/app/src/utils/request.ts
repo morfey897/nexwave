@@ -1,16 +1,16 @@
 export function getString(
 	data: FormData | URLSearchParams,
-	key: string,
+	key: string
 ): string | undefined;
 export function getString(
 	data: FormData | URLSearchParams,
 	key: string,
-	defaultValue: string,
+	defaultValue: string
 ): string;
 export function getString(
 	data: FormData | URLSearchParams,
 	key: string,
-	defaultValue?: string,
+	defaultValue?: string
 ) {
 	return data.get(key)?.toString() || defaultValue;
 }
@@ -18,7 +18,7 @@ export function getString(
 export function getNumber(
 	data: FormData | URLSearchParams,
 	key: string,
-	defaultNumber?: number,
+	defaultNumber?: number
 ): number {
 	const value = data.get(key)?.toString();
 	const number = Number.parseInt(value || '');

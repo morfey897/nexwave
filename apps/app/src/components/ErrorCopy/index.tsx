@@ -21,7 +21,7 @@ function DefaultNode({ errorKey }: { errorKey: string }) {
 					<Link
 						href={APP}
 						title={'Go to the start page'}
-						className='text-blue-500 underline dark:text-blue-400 cursor-pointer'
+						className='cursor-pointer text-blue-500 underline dark:text-blue-400'
 					>
 						{chunks}
 					</Link>
@@ -65,8 +65,8 @@ function ErrorCopy({
 	return (
 		<p
 			className={clsx(
-				'text-xs text-red-600 dark:text-red-400 break-words hyphens-auto',
-				className,
+				'hyphens-auto break-words text-xs text-red-600 dark:text-red-400',
+				className
 			)}
 			{...rest}
 		>

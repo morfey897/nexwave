@@ -30,14 +30,14 @@ function Accordion({
 				htmlFor={id}
 				className={clsx(
 					'cursor-pointer peer-checked:[&_.icon]:rotate-180',
-					inputClassName,
+					inputClassName
 				)}
 			>
 				{_}
 			</label>
 			<div
 				className={clsx(
-					'overflow-hidden max-h-0 ease-in-out duration-500 transition-all peer-checked:max-h-[100vh]',
+					'max-h-0 overflow-hidden transition-all duration-500 ease-in-out peer-checked:max-h-[100vh]'
 				)}
 			>
 				{children}

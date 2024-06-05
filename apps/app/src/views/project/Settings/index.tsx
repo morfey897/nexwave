@@ -77,11 +77,11 @@ function Settings({ project }: { project: IFullProject | null }) {
 				add={t('button.add')}
 				activeTab={activeTab}
 			/>
-			<ContainerHeader className='border-b dark:border-gray-700 pt-2 md:pt-4 bg-gray-100 dark:bg-gray-900'>
+			<ContainerHeader className='border-b bg-gray-100 pt-2 md:pt-4 dark:border-gray-700 dark:bg-gray-900'>
 				<Group
 					className={clsx(
 						'[&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none',
-						'overflow-x-scroll hide-scroll',
+						'hide-scroll overflow-x-scroll'
 					)}
 				>
 					{TABS.map(({ id, label, icon }) => (

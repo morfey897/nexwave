@@ -56,7 +56,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 	const disabledForm = !hasAccess(permission, UPDATE.BRANCH);
 
 	const activeBranch = activeProject?.branches.find(
-		(branch) => branch.uuid === activeTab,
+		(branch) => branch.uuid === activeTab
 	);
 
 	/**
@@ -81,7 +81,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 		} else {
 			const [first] =
 				branches?.toSorted(
-					(a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+					(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
 				) || [];
 			setActiveTab(first?.uuid || '');
 		}
@@ -98,13 +98,13 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 			const str = clone.toString();
 			router.push(`?${str}`);
 		},
-		[router, searchParams],
+		[router, searchParams]
 	);
 
 	const postProcess = useMemo(
 		() => (newProject: IFullProject) => {
 			const branch = newProject?.branches.find(
-				(branch) => branch.uuid === activeTab,
+				(branch) => branch.uuid === activeTab
 			);
 			return {
 				id: `${newProject?.id}/${branch?.uuid}`,
@@ -112,14 +112,14 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 				permission: newProject?.roles[newProject.role || ''],
 			};
 		},
-		[activeTab],
+		[activeTab]
 	);
 
 	const onChange = useCallback(
 		(
 			event: React.FormEvent<
 				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
+			>
 		) => {
 			if (!activeBranch) return;
 			const target = event.target as HTMLInputElement;
@@ -158,14 +158,14 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					? {
 							...prev,
 							branches: prev.branches.map((br) =>
-								br.uuid === newBranch.uuid ? newBranch : br,
+								br.uuid === newBranch.uuid ? newBranch : br
 							),
 						}
-					: null,
+					: null
 			);
 			setChanged(true);
 		},
-		[activeBranch],
+		[activeBranch]
 	);
 
 	const onDiscard = useCallback(() => {
@@ -197,14 +197,14 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					? {
 							...prev,
 							branches: prev.branches.map((br) =>
-								br.uuid === newBranch.uuid ? newBranch : br,
+								br.uuid === newBranch.uuid ? newBranch : br
 							),
 						}
-					: null,
+					: null
 			);
 			setChanged(true);
 		},
-		[activeBranch],
+		[activeBranch]
 	);
 
 	/**
@@ -227,14 +227,14 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					? {
 							...prev,
 							branches: prev.branches.map((br) =>
-								br.uuid === newBranch.uuid ? newBranch : br,
+								br.uuid === newBranch.uuid ? newBranch : br
 							),
 						}
-					: null,
+					: null
 			);
 			setChanged(true);
 		},
-		[activeBranch],
+		[activeBranch]
 	);
 
 	useEffect(() => {
@@ -244,9 +244,9 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 	}, [result, router]);
 
 	return (
-		<div className='w-full max-w-3xl mx-auto mt-6'>
+		<div className='mx-auto mt-6 w-full max-w-3xl'>
 			{activeProject ? (
-				<Group className='relative [&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none ml-2 overflow-x-scroll hide-scroll'>
+				<Group className='hide-scroll relative ml-2 overflow-x-scroll [&>*:first-child]:rounded-es-none [&>*:last-child]:rounded-ee-none'>
 					{project?.branches.map((item) => (
 						<Button
 							size='xs'
@@ -259,7 +259,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 								'[&>.message]:truncate',
 								activeTab === item.uuid
 									? 'pointer-events-none'
-									: 'translate-y-1',
+									: 'translate-y-1'
 							)}
 							message={item.name}
 							icon={
@@ -269,7 +269,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					))}
 				</Group>
 			) : (
-				<Skeleton className='h-[42px] !w-[120px] !rounded-ee-none !rounded-es-none ml-2' />
+				<Skeleton className='ml-2 h-[42px] !w-[120px] !rounded-ee-none !rounded-es-none' />
 			)}
 
 			<div className='relative'>
@@ -279,11 +279,11 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 					id={`${activeProject?.id}/${activeBranch?.id}`}
 					item={activeProject}
 					roles={ROLES}
-					className='border border-b-0 rounded-ss-lg rounded-se-lg dark:border-gray-600 p-4 pb-2 bg-gray-900'
+					className='rounded-se-lg rounded-ss-lg border border-b-0 bg-gray-900 p-4 pb-2 dark:border-gray-600'
 				/>
 
 				<form onSubmit={submit} action={action} onChange={reset}>
-					<div className='space-y-4 border border-t-0 rounded-ee-lg rounded-es-lg dark:border-gray-600 p-4 pt-2 bg-gray-900'>
+					<div className='space-y-4 rounded-ee-lg rounded-es-lg border border-t-0 bg-gray-900 p-4 pt-2 dark:border-gray-600'>
 						{/*  ProjectId */}
 						<input name='id' type='hidden' value={activeProject?.id} />
 						{/*  BranchUUid */}
@@ -327,7 +327,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 											message={t('form.spaces')}
 											className='justify-between text-gray-400 dark:text-gray-500'
 											iconAfter={
-												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+												<span className='icon block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 													<BiChevronDown size={24} className={''} />
 												</span>
 											}
@@ -335,10 +335,10 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 									),
 								}}
 							>
-								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+								<div className='space-y-3 rounded-lg border p-4 dark:border-gray-600'>
 									{activeBranch.spaces.map((space, index) => (
 										<div
-											className='w-full gap-x-1 flex items-center'
+											className='flex w-full items-center gap-x-1'
 											key={`space-${space.shortId}`}
 										>
 											<div className='w-full'>
@@ -358,7 +358,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 												icon={
 													<span
 														className={clsx(
-															'text-red-500 dark:text-red-500 pointer-events-none',
+															'pointer-events-none text-red-500 dark:text-red-500'
 														)}
 													>
 														<HiMiniMinus size={24} />
@@ -379,7 +379,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 											<span
 												className={clsx(
 													'inline-block rounded-full p-0.5',
-													'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white',
+													'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white'
 												)}
 											>
 												<HiMiniPlus size={18} />
@@ -404,7 +404,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 											message={t('form.address')}
 											className='justify-between text-gray-400 dark:text-gray-500'
 											iconAfter={
-												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+												<span className='icon block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 													<BiChevronDown size={24} className={''} />
 												</span>
 											}
@@ -412,7 +412,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 									),
 								}}
 							>
-								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+								<div className='space-y-3 rounded-lg border p-4 dark:border-gray-600'>
 									<Input
 										onChange={onChange}
 										disabled={disabledForm}
@@ -453,7 +453,7 @@ function BranchesSettings({ project }: { project: IFullProject | null }) {
 							<Skeleton className='h-[42px]' />
 						)}
 					</div>
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
+					<div className='mt-6 grid grid-cols-1 gap-2 md:grid-cols-2'>
 						<ErrorCopy
 							code={result?.error?.code}
 							codes={{

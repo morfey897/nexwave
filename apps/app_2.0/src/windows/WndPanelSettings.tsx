@@ -39,7 +39,7 @@ function AsideSettings(props: IModal) {
 			<AsideHeader>
 				<div
 					className={clsx(
-						'flex text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 cursor-default',
+						'flex transform cursor-default text-sm text-gray-600 transition-colors duration-300 dark:text-gray-300'
 					)}
 				>
 					<Picture
@@ -56,7 +56,7 @@ function AsideSettings(props: IModal) {
 						<h1 className='text-sm font-semibold text-gray-700 dark:text-gray-200'>
 							{fullname(user)}
 						</h1>
-						<p className='text-sm text-gray-500 dark:text-gray-400 break-words hyphens-auto'>
+						<p className='hyphens-auto break-words text-sm text-gray-500 dark:text-gray-400'>
 							{user?.email}{' '}
 							{user?.emailVerified && (
 								<sup className='inline-block text-blue-500'>

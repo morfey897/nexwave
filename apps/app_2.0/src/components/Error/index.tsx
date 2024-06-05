@@ -29,20 +29,18 @@ function ErrorComponent({ reset }: { reset: () => void }) {
 	const t = useMessages(MESSAGES);
 
 	return (
-		<section className='bg-white dark:bg-gray-900 mx-auto w-full'>
-			<div className='container flex items-center min-h-screen px-6 py-12 mx-auto'>
-				<div className='flex flex-col items-center max-w-sm mx-auto text-center'>
-					<p className='p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800'>
+		<section className='mx-auto w-full bg-white dark:bg-gray-900'>
+			<div className='container mx-auto flex min-h-screen items-center px-6 py-12'>
+				<div className='mx-auto flex max-w-sm flex-col items-center text-center'>
+					<p className='rounded-full bg-blue-50 p-3 text-sm font-medium text-blue-500 dark:bg-gray-800'>
 						<BiSolidErrorAlt size={32} />
 					</p>
-					<h1 className='mt-3 text-2xl font-semibold text-gray-8 md:text-3xl'>
+					<h1 className='text-gray-8 mt-3 text-2xl font-semibold md:text-3xl'>
 						{t('headline')}
 					</h1>
-					<p className='mt-4 text-gray-6'>
-						{t('subheadline')}
-					</p>
+					<p className='text-gray-6 mt-4'>{t('subheadline')}</p>
 
-					<div className='w-full mt-6 gap-x-3 shrink-0 sm:w-auto'>
+					<div className='mt-6 w-full shrink-0 gap-x-3 sm:w-auto'>
 						<Button variant='primary' onClick={reset} message={t('cta')} />
 					</div>
 				</div>

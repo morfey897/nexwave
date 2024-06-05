@@ -39,11 +39,9 @@ function Caption({
 			{...props}
 		>
 			<div className='w-full'>
-				<div className='flex items-center gap-x-3 justify-between'>
+				<div className='flex items-center justify-between gap-x-3'>
 					<CountBadge count={amount}>
-						<h2 className='text-lg font-medium text-gray-8'>
-							{headline}
-						</h2>
+						<h2 className='text-gray-8 text-lg font-medium'>{headline}</h2>
 					</CountBadge>
 
 					{!!add && !hideAddOnScroll && (
@@ -52,8 +50,8 @@ function Caption({
 							variant='primary'
 							icon={<HiOutlinePlusCircle size={32} />}
 							className={clsx(
-								'fixed top-[120px] right-0 z-30 !p-2 !rounded-e-none translate-x-6 transition-transform duration-300 ease-in-out',
-								isScrolled ? 'block hover:translate-x-0' : 'hidden',
+								'fixed right-0 top-[120px] z-30 translate-x-6 !rounded-e-none !p-2 transition-transform duration-300 ease-in-out',
+								isScrolled ? 'block hover:translate-x-0' : 'hidden'
 							)}
 						/>
 					)}
@@ -80,9 +78,7 @@ function Caption({
 				</div>
 
 				{!!subheadline && (
-					<p className={clsx('mt-1 text-sm text-gray-5')}>
-						{subheadline}
-					</p>
+					<p className={clsx('text-gray-5 mt-1 text-sm')}>{subheadline}</p>
 				)}
 			</div>
 		</div>

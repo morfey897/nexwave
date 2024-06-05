@@ -10,11 +10,11 @@ function FieldSet({
 } & React.FieldsetHTMLAttributes<HTMLFieldSetElement>) {
 	return (
 		<fieldset
-			className={clsx('border rounded-lg dark:border-gray-600 p-4', className)}
+			className={clsx('rounded-lg border p-4 dark:border-gray-600', className)}
 			{...props}
 		>
 			{!!legend && (
-				<legend className='text-gray-400 dark:text-gray-500 px-1 text-xs'>
+				<legend className='px-1 text-xs text-gray-400 dark:text-gray-500'>
 					{legend}
 				</legend>
 			)}

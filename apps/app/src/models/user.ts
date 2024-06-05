@@ -18,7 +18,7 @@ export interface ICurrentUser extends TUID {
  * @returns {ICurrentUser | null}
  */
 export async function getUserFromSession(
-	session: string | null | undefined,
+	session: string | null | undefined
 ): Promise<ICurrentUser | null> {
 	let user: ICurrentUser | null = null;
 
@@ -95,8 +95,8 @@ export async function getUser({
 					orm.eq(schemas.user.email, email),
 					orm.eq(
 						schemas.user.password,
-						orm.sql<string>`crypt(${password}, password)`,
-					),
+						orm.sql<string>`crypt(${password}, password)`
+					)
 				);
 
 	const list = await db
@@ -182,7 +182,7 @@ export async function updateUser(
 		avatar?: string;
 		surname?: string;
 		lastLoginAt?: Date;
-	},
+	}
 ): Promise<ICurrentUser | null> {
 	if (!isUUID(uuid)) return null;
 	const list = await db

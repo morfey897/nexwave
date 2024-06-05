@@ -107,7 +107,7 @@ function Button<
 		},
 		'disabled:shadow-none disabled:cursor-not-allowed',
 		// 'hover:shadow-md hover:shadow-blue-500',
-		className,
+		className
 	);
 	const content = (
 		<>

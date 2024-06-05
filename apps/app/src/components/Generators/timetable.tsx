@@ -18,11 +18,11 @@ export function EventGenerator({ item }: { item: IEvent }) {
 	return (
 		<div
 			className={clsx(
-				'w-full h-full px-1.5 py-1',
-				'text-xs overflow-scroll break-words hyphens-auto',
+				'h-full w-full px-1.5 py-1',
+				'overflow-scroll hyphens-auto break-words text-xs',
 				'rounded-lg outline outline-1',
 				'shadow-none dark:shadow-md dark:shadow-green-200',
-				'dark:outline-green-300 bg-green-200 border outline-white dark:bg-gray-900',
+				'border bg-green-200 outline-white dark:bg-gray-900 dark:outline-green-300'
 			)}
 		>
 			<p>{item.name}</p>

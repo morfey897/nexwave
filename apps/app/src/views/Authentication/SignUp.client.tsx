@@ -27,7 +27,7 @@ const SignUp = ({
 	confirm: () => void;
 }) => {
 	const { action, submit, reset, pending, result } = useAction(
-		signUpWithEmailAndPassword,
+		signUpWithEmailAndPassword
 	);
 	const t = useTranslations();
 
@@ -44,13 +44,13 @@ const SignUp = ({
 				provider='google'
 				disabled={pending}
 				icon={<FcGoogle size={24} />}
-				className='w-full px-6 py-3 mt-2'
+				className='mt-2 w-full px-6 py-3'
 				message={t('page.sign_up.with_google')}
 			/>
-			<div className='flex items-center justify-between my-4'>
+			<div className='my-4 flex items-center justify-between'>
 				<span className='w-1/5 border-b dark:border-gray-600'></span>
 
-				<p className='text-sm text-center text-gray-500 dark:text-gray-400'>
+				<p className='text-center text-sm text-gray-500 dark:text-gray-400'>
 					{t('page.sign_up.with_email')}
 				</p>
 
@@ -138,18 +138,18 @@ const SignUp = ({
 				<Button
 					variant='primary'
 					type='submit'
-					className='w-full mt-6 px-6 py-3'
+					className='mt-6 w-full px-6 py-3'
 					message={t('page.sign_up.submit')}
 					disabled={pending}
 					icon={pending && <Spinner variant='primary' />}
 				/>
 			</form>
 			<div className='mt-6'>
-				<div className='text-center mx-auto space-y-2'>
+				<div className='mx-auto space-y-2 text-center'>
 					<Button
 						onClick={changeMode}
 						variant='text'
-						className='text-sm text-blue-500 hover:underline dark:text-blue-400 text-center mx-auto block'
+						className='mx-auto block text-center text-sm text-blue-500 hover:underline dark:text-blue-400'
 						message={t('page.sign_up.have_account')}
 					/>
 				</div>

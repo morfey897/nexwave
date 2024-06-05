@@ -11,8 +11,11 @@ function Search({
 	className,
 	type,
 	...props
-}: { onChange?: (input: string) => void; wait?: number; wrapperClassName?: string } &
-	Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+}: {
+	onChange?: (input: string) => void;
+	wait?: number;
+	wrapperClassName?: string;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
 	const ref = useRef<HTMLInputElement>(null);
 	const onClear = useCallback(() => {
 		const input = ref.current;
@@ -34,9 +37,9 @@ function Search({
 					}
 				},
 				wait,
-				{ leading: false },
+				{ leading: false }
 			),
-		[wait, onChange],
+		[wait, onChange]
 	);
 
 	useEffect(() => {
@@ -55,8 +58,8 @@ function Search({
 				ref={ref}
 				onChange={onInternalChange}
 				className={clsx(
-					'peer/input w-full text-sm py-2 pl-10 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300',
-					className,
+					'peer/input w-full rounded-md border bg-white py-2 pl-10 pr-4 text-sm text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-blue-300',
+					className
 				)}
 				type={type || 'text'}
 				{...props}

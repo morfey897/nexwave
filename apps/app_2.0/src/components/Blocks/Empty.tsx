@@ -12,22 +12,18 @@ function Empty({
 	return (
 		<div
 			className={clsx(
-				'flex items-center text-center border rounded-lg h-96 dark:border-gray-700',
-				className,
+				'flex h-96 items-center rounded-lg border text-center dark:border-gray-700',
+				className
 			)}
 			{...props}
 		>
-			<div className='flex flex-col w-full max-w-sm px-4 mx-auto'>
-				<div className='p-3 mx-auto text-blue-500 bg-blue-100 rounded-full dark:bg-gray-800'>
+			<div className='mx-auto flex w-full max-w-sm flex-col px-4'>
+				<div className='mx-auto rounded-full bg-blue-100 p-3 text-blue-500 dark:bg-gray-800'>
 					<PiNoteBlankLight size={32} />
 				</div>
-				<h2 className='mt-3 text-lg text-gray-8'>
-					{messages?.headline}
-				</h2>
-				<p className='mt-2 text-gray-5'>
-					{messages?.subheadline}
-				</p>
-				<div className='flex items-center mt-4 sm:mx-auto gap-x-3'>
+				<h2 className='text-gray-8 mt-3 text-lg'>{messages?.headline}</h2>
+				<p className='text-gray-5 mt-2'>{messages?.subheadline}</p>
+				<div className='mt-4 flex items-center gap-x-3 sm:mx-auto'>
 					{children}
 				</div>
 			</div>

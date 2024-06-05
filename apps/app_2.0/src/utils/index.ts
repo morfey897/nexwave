@@ -10,11 +10,11 @@ export function isNotNull<T>(key: string) {
 
 export function dynamicHref(
 	href: string,
-	params: Record<string, string | number | boolean | Object>,
+	params: Record<string, string | number | boolean | Object>
 ) {
 	return Object.entries(params).reduce(
 		(acc, [key, value]) => acc.replace(`[${key}]`, value.toString()),
-		href,
+		href
 	);
 }
 
@@ -26,7 +26,7 @@ export function findDynamicPath(pathname: string, dynamicPaths: string[]) {
 }
 
 export const abbrev = (
-	pairs: Array<Array<string | undefined | null> | undefined | null>,
+	pairs: Array<Array<string | undefined | null> | undefined | null>
 ) => {
 	const [first, last] =
 		pairs.find((list) => !!list && !!list[0] && !!list[1]) ||
@@ -41,7 +41,7 @@ export const fullname = (
 				surname?: string | null;
 		  }
 		| null
-		| undefined,
+		| undefined
 ) => [user?.name, user?.surname].filter((v) => !!v).join(' ');
 
 export const random = <T>(array: Array<T>) =>

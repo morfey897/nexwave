@@ -88,7 +88,7 @@ const compareBranches = (a: IBranch, b: IBranch) =>
 const _executeSelectProject = async (
 	userId: number,
 	id?: number,
-	uuid?: string,
+	uuid?: string
 ) =>
 	await db
 		.select({
@@ -109,15 +109,15 @@ const _executeSelectProject = async (
 		.from(schemas.user)
 		.leftJoin(
 			schemas.projectToUser,
-			orm.eq(schemas.projectToUser.userId, schemas.user.id),
+			orm.eq(schemas.projectToUser.userId, schemas.user.id)
 		)
 		.leftJoin(
 			schemas.project,
-			orm.eq(schemas.projectToUser.projectId, schemas.project.id),
+			orm.eq(schemas.projectToUser.projectId, schemas.project.id)
 		)
 		.leftJoin(
 			schemas.branch,
-			orm.eq(schemas.branch.projectId, schemas.project.id),
+			orm.eq(schemas.branch.projectId, schemas.project.id)
 		)
 		.where(
 			orm.and(
@@ -127,8 +127,8 @@ const _executeSelectProject = async (
 					? orm.eq(schemas.project.id, id)
 					: uuid != undefined
 						? orm.eq(schemas.project.uuid, uuid)
-						: undefined,
-			),
+						: undefined
+			)
 		)
 		.execute();
 
@@ -144,7 +144,7 @@ export async function deployNewProject(
 		name?: string;
 		currency?: string;
 		info?: string;
-	},
+	}
 ): Promise<IProject | null> {
 	if (!isNumber(ownerId)) return null;
 	const nameValue = value?.name || generateName();
@@ -243,7 +243,7 @@ export async function deployNewProject(
 						branches: [branch],
 					}
 				: null;
-		},
+		}
 	);
 
 	return project as IProject;
@@ -307,8 +307,8 @@ export async function removeUserFromProject({
 		.where(
 			orm.and(
 				orm.eq(schemas.projectToUser.userId, userId),
-				orm.eq(schemas.projectToUser.projectId, projectId),
-			),
+				orm.eq(schemas.projectToUser.projectId, projectId)
+			)
 		)
 		.returning({
 			userId: schemas.projectToUser.userId,
@@ -330,7 +330,7 @@ export async function getProjectsByUserId(
 	props?: {
 		id?: number;
 		uuid?: string;
-	},
+	}
 ): Promise<IProject[] | null> {
 	if (!isNumber(userId) || typeof userId !== 'number') return null;
 	const projects = await _executeSelectProject(userId, props?.id, props?.uuid);
@@ -390,7 +390,7 @@ export async function getFullProjectByUserId(
 	props?: {
 		id?: number;
 		uuid?: string;
-	},
+	}
 ): Promise<IFullProject | null> {
 	if (typeof userId != 'number' || !isNumber(userId)) return null;
 	const { id, uuid } = props || {};
@@ -440,7 +440,7 @@ export async function getFullProjectByUserId(
  */
 export async function getProjectAccess(
 	userId: number | null | undefined,
-	projectId: number | null | undefined,
+	projectId: number | null | undefined
 ): Promise<IAccess | null> {
 	if (
 		typeof userId != 'number' ||
@@ -460,12 +460,12 @@ export async function getProjectAccess(
 		.where(
 			orm.and(
 				orm.eq(schemas.projectToUser.userId, userId),
-				orm.eq(schemas.projectToUser.projectId, projectId),
-			),
+				orm.eq(schemas.projectToUser.projectId, projectId)
+			)
 		)
 		.leftJoin(
 			schemas.project,
-			orm.eq(schemas.project.id, schemas.projectToUser.projectId),
+			orm.eq(schemas.project.id, schemas.projectToUser.projectId)
 		)
 		.execute();
 
@@ -489,7 +489,7 @@ export async function hasProjectAccess(
 	props?: {
 		userId: number | null | undefined;
 		projectId: number | null | undefined;
-	},
+	}
 ): Promise<boolean> {
 	const access = await getProjectAccess(props?.userId, props?.projectId);
 	return hasAccess(access?.permission, action);
@@ -503,7 +503,7 @@ export async function hasProjectAccess(
  */
 export async function isBranchOfProject(
 	branchId: number | null | undefined,
-	projectId: number | null | undefined,
+	projectId: number | null | undefined
 ): Promise<boolean> {
 	if (!isNumber(branchId) || !isNumber(projectId)) return false;
 	const [branch] = await db
@@ -512,8 +512,8 @@ export async function isBranchOfProject(
 		.where(
 			orm.and(
 				orm.eq(schemas.branch.id, branchId as number),
-				orm.eq(schemas.branch.projectId, projectId as number),
-			),
+				orm.eq(schemas.branch.projectId, projectId as number)
+			)
 		)
 		.execute();
 
@@ -539,7 +539,7 @@ export async function updateProject(
 		info?: string;
 		state?: EnumState.ACTIVE | EnumState.INACTIVE;
 		roles?: Record<string, number>;
-	},
+	}
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
 	if (!isIdOurUUID(id, uuid)) return false;
@@ -568,7 +568,7 @@ export async function updateProject(
 				? orm.eq(schemas.project.id, id)
 				: uuid != undefined
 					? orm.eq(schemas.project.uuid, uuid)
-					: undefined,
+					: undefined
 		)
 		.returning({
 			id: schemas.project.id,
@@ -642,7 +642,7 @@ export async function updateBranch(
 		address?: Object;
 		state?: EnumState.ACTIVE | EnumState.INACTIVE;
 		spaces?: Array<{ shortId: string; name: string }>;
-	},
+	}
 ): Promise<boolean> {
 	const { id, uuid } = props || {};
 	if (!isIdOurUUID(id, uuid)) return false;
@@ -665,7 +665,7 @@ export async function updateBranch(
 				? orm.eq(schemas.branch.id, id)
 				: uuid != undefined
 					? orm.eq(schemas.branch.uuid, uuid)
-					: undefined,
+					: undefined
 		)
 		.returning({
 			id: schemas.branch.id,
@@ -705,7 +705,7 @@ export async function deleteBranch(props: {
 			SELECT COUNT(*) FROM branches WHERE project_id = (
 				SELECT project_id FROM branches WHERE uuid = ${uuid}
 			)
-		) > 1`,
+		) > 1`
 	);
 
 	return result.rowCount > 0;

@@ -57,13 +57,13 @@ function Body({ device }: { device?: EnumDeviceType }) {
 					params: new URLSearchParams({
 						from: datesList[0],
 						to: toIsoDate(
-							addDays(new Date(datesList[datesList.length - 1]), 1),
+							addDays(new Date(datesList[datesList.length - 1]), 1)
 						),
 						branch_id: activeBranch.id.toString(),
 						project_id: project.id.toString(),
 					}),
 				})
-			: null,
+			: null
 	);
 
 	const isAccessDenied = result?.error?.code === ACCESS_DENIED;
@@ -95,7 +95,7 @@ function Body({ device }: { device?: EnumDeviceType }) {
 		(props: { date: string; from_time: string; to_time: string }) => {
 			openModal(MODALS.CREATE_EVENT, props);
 		},
-		[openModal],
+		[openModal]
 	);
 
 	return (
@@ -105,19 +105,19 @@ function Body({ device }: { device?: EnumDeviceType }) {
 				className={clsx(
 					'relative',
 					period === EnumPeriod.WEEK && 'min-w-[600px]',
-					'max-h-[100vh]',
+					'max-h-[100vh]'
 				)}
 			>
 				{isAccessDenied && (
-					<div className='z-10 bg-gray-100/20 dark:bg-black/20 backdrop-blur absolute w-full h-full'>
+					<div className='absolute z-10 h-full w-full bg-gray-100/20 backdrop-blur dark:bg-black/20'>
 						<AccessDenied className='mt-4' />
 					</div>
 				)}
 				<WeekCalendarBody<IEvent>
 					className={clsx(
 						'bg-white dark:bg-gray-900',
-						'border border-gray-200 dark:border-gray-700 border-b-0 rounded-b-md md:rounded-b-lg',
-						'w-full',
+						'rounded-b-md border border-b-0 border-gray-200 md:rounded-b-lg dark:border-gray-700',
+						'w-full'
 					)}
 					dates={datesList}
 					events={result.data || []}

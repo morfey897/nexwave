@@ -26,7 +26,7 @@ const SignIn = ({
 	confirm: () => void;
 }) => {
 	const { action, submit, reset, pending, result } = useAction(
-		signInWithEmailAndPassword,
+		signInWithEmailAndPassword
 	);
 	const t = useTranslations();
 
@@ -43,13 +43,13 @@ const SignIn = ({
 				provider='google'
 				disabled={pending}
 				icon={<FcGoogle size={24} />}
-				className='w-full px-6 py-3 mt-2'
+				className='mt-2 w-full px-6 py-3'
 				message={t('page.sign_in.with_google')}
 			/>
-			<div className='flex items-center justify-between my-4'>
+			<div className='my-4 flex items-center justify-between'>
 				<span className='w-1/5 border-b dark:border-gray-600'></span>
 
-				<p className='text-sm text-center text-gray-500 dark:text-gray-400'>
+				<p className='text-center text-sm text-gray-500 dark:text-gray-400'>
 					{t('page.sign_in.with_email')}
 				</p>
 
@@ -83,7 +83,7 @@ const SignIn = ({
 								<Button
 									variant='text'
 									message={t('page.sign_in.forgot_password')}
-									className='text-center text-xs text-blue-500 hover:underline dark:text-blue-400 !p-0 mt-1'
+									className='mt-1 !p-0 text-center text-xs text-blue-500 hover:underline dark:text-blue-400'
 								/>
 							</div>
 						}
@@ -112,18 +112,18 @@ const SignIn = ({
 				<Button
 					variant='primary'
 					type='submit'
-					className='w-full mt-6 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50'
+					className='mt-6 w-full transform rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50'
 					message={t('page.sign_in.submit')}
 					disabled={pending}
 					icon={pending && <Spinner variant='primary' />}
 				/>
 			</form>
 			<div className='mt-6'>
-				<div className='text-center mx-auto space-y-2'>
+				<div className='mx-auto space-y-2 text-center'>
 					<Button
 						onClick={changeMode}
 						variant='text'
-						className='text-sm text-blue-500 hover:underline dark:text-blue-400 text-center mx-auto block'
+						className='mx-auto block text-center text-sm text-blue-500 hover:underline dark:text-blue-400'
 						message={t('page.sign_in.dont_have_account')}
 					/>
 				</div>

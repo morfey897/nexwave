@@ -15,8 +15,8 @@ function Branch({
 	return (
 		<div
 			className={clsx(
-				'flex w-full justify-start px-4 py-2 gap-x-2 items-center',
-				className,
+				'flex w-full items-center justify-start gap-x-2 px-4 py-2',
+				className
 			)}
 			{...props}
 		>

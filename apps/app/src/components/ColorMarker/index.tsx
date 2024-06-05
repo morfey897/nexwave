@@ -34,7 +34,7 @@ function Marker({
 					'bg-purple-500 dark:bg-purple-300': color === EnumColor.PURPLE,
 					'bg-black dark:bg-white': !colors.includes(color as EnumColor),
 				},
-				className,
+				className
 			)}
 			{...props}
 		>

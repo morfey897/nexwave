@@ -6,7 +6,7 @@ import { EnumResponse } from '@/enums';
 import { WENT_WRONG } from '@/errorCodes';
 
 export function useAction<P = any, R = any>(
-	serverAction: (props: P) => Promise<R>,
+	serverAction: (props: P) => Promise<R>
 ) {
 	const [result, setResult] = useState<R | null>(null);
 	const [pending, setPending] = useState(false);
@@ -41,7 +41,7 @@ const fetcher = (...args: unknown[]) =>
 
 export function useAPI<R = any>(
 	key: Parameters<typeof useSWR>[0],
-	params?: Parameters<typeof useSWR>[2],
+	params?: Parameters<typeof useSWR>[2]
 ): {
 	result: IResponse<R>;
 	pending: boolean;

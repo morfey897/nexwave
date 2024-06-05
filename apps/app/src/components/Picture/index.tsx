@@ -21,16 +21,16 @@ function Picture({
 				'shrink-0 rounded-lg ring',
 				'flex items-center justify-center',
 				{
-					'text-white bg-blue-500 dark:bg-blue-600 disabled:dark:text-gray-700 disabled:text-gray-300 disabled:bg-blue-400 disabled:dark:bg-blue-700':
+					'bg-blue-500 text-white disabled:bg-blue-400 disabled:text-gray-300 dark:bg-blue-600 disabled:dark:bg-blue-700 disabled:dark:text-gray-700':
 						variant === 'primary',
 
-					'text-gray-700 bg-white border !border-l !border-r  dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 disabled:dark:text-gray-700 disabled:text-gray-200':
+					'border !border-l !border-r bg-white text-gray-700  disabled:text-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 disabled:dark:text-gray-700':
 						variant === 'default',
 
-					'text-white bg-green-700  dark:bg-green-800 disabled:dark:text-gray-700 disabled:text-gray-300 disabled:bg-green-400 disabled:dark:bg-green-700':
+					'bg-green-700 text-white  disabled:bg-green-400 disabled:text-gray-300 dark:bg-green-800 disabled:dark:bg-green-700 disabled:dark:text-gray-700':
 						variant === 'secondary',
 				},
-				className,
+				className
 			)}
 			style={{ width: size, height: size }}
 		>

@@ -22,13 +22,13 @@ function Select({
 				<select
 					className={clsx(
 						'input cursor-pointer',
-						'peer block w-full py-4 px-3',
-						'border rounded-lg border-gray-400 dark:border-gray-600',
-						'focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40',
+						'peer block w-full px-3 py-4',
+						'rounded-lg border border-gray-400 dark:border-gray-600',
+						'focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300',
 						'bg-white dark:bg-gray-900',
 						'text-gray-700 dark:text-gray-300',
 						!!errorCopy && '!border-red-500',
-						!!icon ? 'pl-12' : 'pl-4',
+						!!icon ? 'pl-12' : 'pl-4'
 					)}
 					required={required}
 					{...props}
@@ -42,7 +42,7 @@ function Select({
 					hidePlaceholder={hidePlaceholder}
 					icon={icon}
 					className={clsx(
-						!!icon ? `w-[calc(100%-4.6rem)]` : `w-[calc(100%-2.6rem)]`,
+						!!icon ? `w-[calc(100%-4.6rem)]` : `w-[calc(100%-2.6rem)]`
 					)}
 				/>
 			</div>

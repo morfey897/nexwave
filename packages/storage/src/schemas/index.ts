@@ -16,15 +16,27 @@ import { GenderEnum, StateEnum, InvitationEnum } from '../enums';
 
 //////////// Enums ////////////
 
-export const genderEnum = pgEnum('gender', [GenderEnum.Male, GenderEnum.Female, GenderEnum.None]);
-export const stateEnum = pgEnum('state', [StateEnum.Active, StateEnum.Inactive, StateEnum.Archived]);
-export const invitationEnum = pgEnum('invitation', [InvitationEnum.Pending, InvitationEnum.Accepted, InvitationEnum.Rejected]);
+export const genderEnum = pgEnum('gender', [
+	GenderEnum.Male,
+	GenderEnum.Female,
+	GenderEnum.None,
+]);
+export const stateEnum = pgEnum('state', [
+	StateEnum.Active,
+	StateEnum.Inactive,
+	StateEnum.Archived,
+]);
+export const invitationEnum = pgEnum('invitation', [
+	InvitationEnum.Pending,
+	InvitationEnum.Accepted,
+	InvitationEnum.Rejected,
+]);
 
 //////////// Tables ////////////
 
 /**
  * Schema for clients table
- */ 
+ */
 export const Clients = pgTable('clients', {
 	id: serial('id').primaryKey(),
 	uuid: uuid('uuid')
@@ -46,8 +58,8 @@ export const Clients = pgTable('clients', {
 		.notNull(),
 	meta: jsonb('meta').$type<Record<string, string>>().default({}).notNull(),
 	loginMetadata: jsonb('login_from')
-		.$type<{method?: string, device: string; ip: string, timestamp: number }>()
-		.default({device: '', ip: '', timestamp: 0})
+		.$type<{ method?: string; device: string; ip: string; timestamp: number }>()
+		.default({ device: '', ip: '', timestamp: 0 })
 		.notNull(),
 });
 
@@ -75,8 +87,8 @@ export const Users = pgTable('users', {
 		.notNull(),
 	meta: jsonb('meta').$type<Record<string, string>>().default({}).notNull(),
 	loginMetadata: jsonb('login_from')
-		.$type<{method?: string, device: string; ip: string, timestamp: number }>()
-		.default({device: '', ip: '', timestamp: 0})
+		.$type<{ method?: string; device: string; ip: string; timestamp: number }>()
+		.default({ device: '', ip: '', timestamp: 0 })
 		.notNull(),
 });
 
@@ -97,9 +109,7 @@ export const Projects = pgTable('projects', {
 	color: varchar('color', { length: 32 }),
 	currency: varchar('currency', { length: 32 }),
 	timezone: varchar('timezone', { length: 32 }),
-	langs: jsonb('langs')
-	.$type<Array<string>>()
-	.default([]),
+	langs: jsonb('langs').$type<Array<string>>().default([]),
 	roles: jsonb('roles')
 		.$type<Record<string, number>>() // Record<string, number> is the same as { [key: string]: 1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|... }
 		.default({})
@@ -120,9 +130,7 @@ export const Branches = pgTable('branches', {
 	color: varchar('color', { length: 32 }),
 	currency: varchar('currency', { length: 32 }),
 	timezone: varchar('timezone', { length: 32 }),
-	langs: jsonb('langs')
-	.$type<Array<string>>()
-	.default([]),
+	langs: jsonb('langs').$type<Array<string>>().default([]),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	state: stateEnum('state').default(StateEnum.Inactive).notNull(),
@@ -147,7 +155,6 @@ export const Branches = pgTable('branches', {
 		.default([])
 		.notNull(),
 });
-
 
 /**
  * Schema for invitations table
@@ -232,9 +239,8 @@ export const ProjectUser = pgTable(
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.projectId, t.userId] }),
-	}),
+	})
 );
-
 
 /**
  * Relations between Projects and Users
@@ -251,19 +257,19 @@ export const ProjectClient = pgTable(
 	},
 	(t) => ({
 		pk: primaryKey({ columns: [t.projectId, t.clientId] }),
-	}),
+	})
 );
 
 //////////// Relations ////////////
 
-export const ProjectsRelations = relations(Projects, ({many, one}) => ({
+export const ProjectsRelations = relations(Projects, ({ many, one }) => ({
 	branches: many(Branches),
 	users: many(ProjectUser),
 	clients: many(ProjectClient),
 	invitations: many(Invitations),
 }));
 
-export const BranchesRelations = relations(Branches, ({one, many}) => ({
+export const BranchesRelations = relations(Branches, ({ one, many }) => ({
 	project: one(Projects, {
 		fields: [Branches.projectId],
 		references: [Projects.id],
@@ -271,11 +277,11 @@ export const BranchesRelations = relations(Branches, ({one, many}) => ({
 	events: many(Events),
 }));
 
-export const UsersRelations = relations(Users, ({many}) => ({
+export const UsersRelations = relations(Users, ({ many }) => ({
 	projects: many(ProjectUser),
 }));
 
-export const ProjectUserRelations = relations(ProjectUser, ({one}) => ({
+export const ProjectUserRelations = relations(ProjectUser, ({ one }) => ({
 	project: one(Projects, {
 		fields: [ProjectUser.projectId],
 		references: [Projects.id],
@@ -286,12 +292,12 @@ export const ProjectUserRelations = relations(ProjectUser, ({one}) => ({
 	}),
 }));
 
-export const ClientsRelations = relations(Users, ({many}) => ({
+export const ClientsRelations = relations(Users, ({ many }) => ({
 	clients: many(ProjectUser),
 	eventRegistrations: many(EventRegistrations),
 }));
 
-export const EventsRelations = relations(Events, ({one, many}) => ({
+export const EventsRelations = relations(Events, ({ one, many }) => ({
 	branch: one(Branches, {
 		fields: [Events.branchId],
 		references: [Branches.id],
@@ -299,13 +305,16 @@ export const EventsRelations = relations(Events, ({one, many}) => ({
 	registrations: many(EventRegistrations),
 }));
 
-export const EventRegistrationsRelations = relations(EventRegistrations, ({one}) => ({
-	user: one(Users, {
-		fields: [EventRegistrations.userId],
-		references: [Users.id],
-	}),
-	event: one(Events, {
-		fields: [EventRegistrations.eventId],
-		references: [Events.id],
-	}),
-}));
+export const EventRegistrationsRelations = relations(
+	EventRegistrations,
+	({ one }) => ({
+		user: one(Users, {
+			fields: [EventRegistrations.userId],
+			references: [Users.id],
+		}),
+		event: one(Events, {
+			fields: [EventRegistrations.eventId],
+			references: [Events.id],
+		}),
+	})
+);

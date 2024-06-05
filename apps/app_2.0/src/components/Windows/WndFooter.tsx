@@ -11,7 +11,7 @@ function WndFooter({
 } & React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<div
-			className={clsx('flex gap-2 mt-6 flex-col md:flex-row', className)}
+			className={clsx('mt-6 flex flex-col gap-2 md:flex-row', className)}
 			{...rest}
 		>
 			<div className='w-full'>{errorCopy}</div>

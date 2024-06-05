@@ -59,8 +59,8 @@ const useNWStore = create(
 						state.project.branches = project.branches;
 					}
 				}),
-		})),
-	),
+		}))
+	)
 );
 
 export default useNWStore;

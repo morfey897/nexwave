@@ -21,31 +21,31 @@ function Locale({
 			document.cookie = `${COOKIES.LOCALE}=${newLocale};path=/`;
 			router.refresh();
 		},
-		[router],
+		[router]
 	);
 
 	return (
 		<DropDown
 			direction={{ y: 'bottom', x: 'left' }}
 			element={
-				<button className='uppercase border-2 rounded-lg px-2 py-1 font-semibold text-[12px]'>
+				<button className='rounded-lg border-2 px-2 py-1 text-[12px] font-semibold uppercase'>
 					{messages[active].abr}
 				</button>
 			}
 		>
-			<div className='px-2 py-4 flex flex-col'>
+			<div className='flex flex-col px-2 py-4'>
 				{LOCALES.LIST.map((locale) => (
 					<Button
 						key={locale}
 						size='md'
 						className={clsx(
 							'!justify-start',
-							locale === active && 'bg-gray-200 dark:bg-gray-700',
+							locale === active && 'bg-gray-200 dark:bg-gray-700'
 						)}
 						icon={
 							<div
 								className={clsx(
-									'uppercase border-2 rounded-lg px-2 py-1 font-semibold text-[12px] flex items-center justify-center',
+									'flex items-center justify-center rounded-lg border-2 px-2 py-1 text-[12px] font-semibold uppercase'
 								)}
 							>
 								<span>{messages[locale].abr}</span>

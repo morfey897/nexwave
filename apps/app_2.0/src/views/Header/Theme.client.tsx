@@ -6,10 +6,7 @@ import { COOKIES } from '@nw/config';
 
 type ThemeType = 'dark' | 'light' | 'none';
 
-function Theme({
-	className,
-	...rest
-}: React.HTMLAttributes<HTMLDivElement>) {
+function Theme({ className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
 	const [theme, setTheme] = useState<ThemeType>('none');
 
 	useEffect(() => {
@@ -48,8 +45,8 @@ function Theme({
 		<button
 			onClick={onToggleDarkMode}
 			className={clsx(
-				'text-gray-5 hover:text-gray-6 focus:outline-none focus:text-gray-6',
-				className,
+				'text-gray-5 hover:text-gray-6 focus:text-gray-6 focus:outline-none',
+				className
 			)}
 		>
 			{theme === 'dark' && <HiMoon size={24} />}

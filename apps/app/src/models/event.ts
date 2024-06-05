@@ -45,7 +45,7 @@ export async function createEvent(
 		rrule?: TRRule | null;
 		spaceShortId?: string;
 		serviceId?: number;
-	},
+	}
 ): Promise<IEvent | null> {
 	if (!isNumber(branchId) || !value?.duration) return null;
 	const nameValue = value?.name || generateName();
@@ -133,18 +133,18 @@ export async function getEvents({
 					orm.and(
 						orm.isNull(schemas.slot.rrule),
 						orm.gte(schemas.slot.startAt, from),
-						orm.lte(schemas.slot.startAt, to),
+						orm.lte(schemas.slot.startAt, to)
 					),
 					orm.and(
 						orm.isNotNull(schemas.slot.rrule),
 						orm.lte(schemas.slot.startAt, to),
 						orm.or(
 							orm.gte(schemas.slot.endAt, from),
-							orm.isNull(schemas.slot.endAt),
-						),
-					),
-				),
-			),
+							orm.isNull(schemas.slot.endAt)
+						)
+					)
+				)
+			)
 		);
 
 	const events: IEvent[] = [];

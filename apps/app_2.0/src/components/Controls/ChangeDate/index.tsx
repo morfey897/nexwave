@@ -73,16 +73,14 @@ function ChangeDate({
 			/>
 			<div className='text-center'>
 				{/* TODO show calendar by click */}
-				<p className='inline-block text-gray-8 text-sm'>
-					{title}
-				</p>
+				<p className='text-gray-8 inline-block text-sm'>{title}</p>
 				{showToday && (
 					<Button
 						size='sm'
 						variant='text'
 						aria-label={messages?.today}
 						onClick={onToday}
-						className='text-blue-500 dark:text-blue-400 !p-0 mx-auto hover:underline'
+						className='mx-auto !p-0 text-blue-500 hover:underline dark:text-blue-400'
 						message={messages?.today}
 					/>
 				)}

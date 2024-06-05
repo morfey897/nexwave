@@ -5,8 +5,7 @@ async function AcceptInvite({
 	params: { slug: string };
 	searchParams: { token: string | string[] | undefined };
 }) {
-
-  console.log('AcceptInvite', params, searchParams);
+	console.log('AcceptInvite', params, searchParams);
 	/*
   1. The invitation is not expired
     - The user is logged in
@@ -33,7 +32,7 @@ async function AcceptInvite({
       * Show message that the invitation is expired and the project is not public
   */
 
-  return <p>Accept invite</p>;
+	return <p>Accept invite</p>;
 }
 
 export default AcceptInvite;

@@ -41,7 +41,7 @@ async function _verify<T extends object>(token: string, secret: string) {
 					resolve(null);
 				}
 				resolve(decoded as T);
-			},
+			}
 		);
 	});
 }

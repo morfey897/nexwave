@@ -5,7 +5,7 @@ export const validate = (
 	props: Array<{
 		value: any;
 		key: 'email' | 'password' | 'time' | 'time-range' | 'date';
-	}>,
+	}>
 ) =>
 	props.reduce((prev: Array<string>, { value, key }) => {
 		switch (key) {
@@ -72,7 +72,7 @@ export const validate = (
 export const isEmail = (email?: string) =>
 	!!email &&
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-		email,
+		email
 	);
 
 export const isPhone = (phone?: string) =>
@@ -83,7 +83,7 @@ export const isPhone = (phone?: string) =>
 export const isPassword = (password?: string) =>
 	!!password &&
 	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_\-#@$!%*?&])[A-Za-z\d_\-#@$!%*?&]{6,}$/.test(
-		password,
+		password
 	);
 
 export const isUUID = (uuid?: string) =>
@@ -114,5 +114,5 @@ export const isValidDate = (date: Date) =>
 	date instanceof Date && !Number.isNaN(date.getTime());
 export const isIdOurUUID = (
 	id: number | null | undefined,
-	uuid: string | null | undefined,
+	uuid: string | null | undefined
 ) => isNumber(id) || isUUID(uuid || '');

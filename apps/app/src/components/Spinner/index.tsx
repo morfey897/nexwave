@@ -14,10 +14,10 @@ function Spinner({
 			aria-hidden='true'
 			role='status'
 			className={clsx(
-				'inline w-4 h-4 me-3 animate-spin',
+				'me-3 inline h-4 w-4 animate-spin',
 				variant === 'primary' && 'text-blue-500',
 				variant === 'default' && 'text-gray-600',
-				className,
+				className
 			)}
 			viewBox='0 0 100 101'
 			fill='none'

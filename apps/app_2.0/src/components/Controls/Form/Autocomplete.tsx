@@ -28,10 +28,7 @@ const Label = ({
 	className,
 	...props
 }: React.HTMLAttributes<HTMLSpanElement>) => (
-	<span
-		className={clsx('text-gray-7', className)}
-		{...props}
-	/>
+	<span className={clsx('text-gray-7', className)} {...props} />
 );
 
 function RenderSearch({
@@ -44,7 +41,7 @@ function RenderSearch({
 	const label = option.label;
 	if (queryTerms && queryTerms.length > 0) {
 		const labelParts = label.split(
-			new RegExp(`(${queryTerms.join('|')})`, 'gi'),
+			new RegExp(`(${queryTerms.join('|')})`, 'gi')
 		);
 		return (
 			<>
@@ -56,8 +53,8 @@ function RenderSearch({
 							key={index}
 							className={clsx(
 								isMatch
-									? 'font-semibold text-gray-7'
-									: 'text-gray-700/60 dark:text-gray-300/60',
+									? 'text-gray-7 font-semibold'
+									: 'text-gray-700/60 dark:text-gray-300/60'
 							)}
 						>
 							{part}
@@ -85,7 +82,7 @@ function RenderOption({
 				!disabled
 					? 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800'
 					: 'cursor-not-allowed',
-				className,
+				className
 			)}
 			role='option'
 			aria-selected={selected} // Add aria-selected attribute
@@ -123,7 +120,7 @@ function Autocomplete<T extends IOption = IOption>({
 			throttle(() => {
 				setOpen(false);
 			}, 200),
-		[],
+		[]
 	);
 
 	useEffect(() => {
@@ -169,7 +166,7 @@ function Autocomplete<T extends IOption = IOption>({
 			onClose.cancel();
 			setOpen(true);
 		},
-		[onFocus, searchOptions, onClose],
+		[onFocus, searchOptions, onClose]
 	);
 
 	const onInputBlur = useCallback(
@@ -177,7 +174,7 @@ function Autocomplete<T extends IOption = IOption>({
 			if (typeof onBlur === 'function') onBlur(event);
 			onClose();
 		},
-		[onBlur, onClose],
+		[onBlur, onClose]
 	);
 
 	const onULFocus = useCallback(
@@ -185,14 +182,14 @@ function Autocomplete<T extends IOption = IOption>({
 			onClose.cancel();
 			setOpen(true);
 		},
-		[onClose],
+		[onClose]
 	);
 
 	const onULBlur = useCallback(
 		(event: React.FocusEvent<HTMLUListElement>) => {
 			onClose();
 		},
-		[onClose],
+		[onClose]
 	);
 
 	const onInputChange = useCallback(
@@ -209,7 +206,7 @@ function Autocomplete<T extends IOption = IOption>({
 				selectRef.current.value = '';
 			}
 		},
-		[onChange, searchOptions],
+		[onChange, searchOptions]
 	);
 
 	const onSelectedOption = useCallback(
@@ -223,7 +220,7 @@ function Autocomplete<T extends IOption = IOption>({
 			onClose.cancel();
 			setOpen(false);
 		},
-		[onClose],
+		[onClose]
 	);
 
 	const drawList = useMemo(() => {
@@ -329,9 +326,9 @@ function Autocomplete<T extends IOption = IOption>({
 					'absolute w-full bg-white dark:bg-gray-900',
 					'overflow-y-auto',
 					'divide-y divide-gray-200 dark:divide-gray-700',
-					'rounded-es-lg rounded-ee-lg',
-					'max-h-0 ease-out transition-all',
-					isOpen ? 'max-h-40' : 'max-h-0',
+					'rounded-ee-lg rounded-es-lg',
+					'max-h-0 transition-all ease-out',
+					isOpen ? 'max-h-40' : 'max-h-0'
 				)}
 			>
 				{drawList}

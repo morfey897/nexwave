@@ -17,9 +17,9 @@ function DropDown({
 			{element}
 			<div
 				className={clsx(
-					'absolute z-[25] flex-col rounded-md shadow-xl overflow-hidden bg-white dark:bg-gray-800',
+					'absolute z-[25] flex-col overflow-hidden rounded-md bg-white shadow-xl dark:bg-gray-800',
 					'max-h-0',
-					'transition-max-height ease-linear duration-300',
+					'transition-max-height duration-300 ease-linear',
 					'group-hover:max-h-[100vh]',
 					{
 						'origin-bottom-left':
@@ -39,7 +39,7 @@ function DropDown({
 						'-translate-y-[100%]': direction.y === 'top',
 						'translate-y-0': direction.y === 'bottom',
 					},
-					className,
+					className
 				)}
 			>
 				{children}

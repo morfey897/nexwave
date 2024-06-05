@@ -29,7 +29,7 @@ const AsDropDown = ({
 		direction={{ y: 'bottom' }}
 		element={<Button icon={icon} message={message} />}
 	>
-		<div className='px-2 py-4 flex flex-col'>
+		<div className='flex flex-col px-2 py-4'>
 			{filters?.map(({ uid, message, icon }) => (
 				<Button
 					key={uid}
@@ -38,7 +38,7 @@ const AsDropDown = ({
 					}}
 					disabled={value === uid}
 					className={clsx(
-						'disabled:text-gray-6 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
+						'disabled:text-gray-6 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300'
 					)}
 					message={message}
 					icon={icon}
@@ -63,7 +63,7 @@ const AsGroup = ({
 				}}
 				disabled={value === uid}
 				className={clsx(
-					'disabled:text-gray-6 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300',
+					'disabled:text-gray-6 disabled:bg-gray-100 dark:disabled:bg-gray-800 dark:disabled:text-gray-300'
 				)}
 				message={message}
 				icon={icon}

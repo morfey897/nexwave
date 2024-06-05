@@ -36,7 +36,7 @@ function Tab({
 			const str = clone.toString();
 			router.replace(`?${str}`, { scroll: false });
 		},
-		[router, searchParams, name],
+		[router, searchParams, name]
 	);
 
 	return (

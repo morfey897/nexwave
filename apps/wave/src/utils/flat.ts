@@ -4,7 +4,7 @@ type FlattenObject<T> = {
 
 export function flatten<T extends Record<string, any>>(
 	obj: T,
-	prefix = '',
+	prefix = ''
 ): FlattenObject<T> {
 	const result: FlattenObject<T> = {} as FlattenObject<T>;
 
@@ -23,7 +23,7 @@ export function flatten<T extends Record<string, any>>(
 }
 
 export function unflatten<T extends Record<string, any>>(
-	obj: FlattenObject<T>,
+	obj: FlattenObject<T>
 ): T {
 	const result = {} as T;
 

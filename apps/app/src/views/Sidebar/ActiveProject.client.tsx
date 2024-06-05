@@ -23,7 +23,7 @@ function ActiveProject() {
 			onClick={onOpenProjects}
 			message={activeProject.name}
 			className={clsx(
-				'flex-col lg:flex-row [&>.message]:hidden md:[&>.message]:inline-block !px-0',
+				'flex-col !px-0 lg:flex-row [&>.message]:hidden md:[&>.message]:inline-block',
 				{
 					'!border-blue-400 dark:!border-blue-600':
 						activeProject?.state === EnumState.DRAFT || !activeProject?.state,
@@ -31,7 +31,7 @@ function ActiveProject() {
 						activeProject?.state === EnumState.ACTIVE,
 					'!border-orange-400 dark:!border-orange-600':
 						activeProject?.state === EnumState.INACTIVE,
-				},
+				}
 			)}
 			icon={
 				<span className='relative mt-1.5'>

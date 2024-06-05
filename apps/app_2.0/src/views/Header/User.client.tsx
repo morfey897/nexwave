@@ -18,7 +18,7 @@ function Client() {
 	return (
 		<Button
 			variant='text'
-			className='mr-1 mb-1 !p-0'
+			className='mb-1 mr-1 !p-0'
 			onClick={onOpenSettings}
 			icon={
 				<Picture

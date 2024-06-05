@@ -22,12 +22,12 @@ function useHook({ prefix, name, defaultValue }: TFilterParams) {
 			const str = clone.toString();
 			router.push(`?${str}`, { scroll: false });
 		},
-		[router, searchParams, defaultValue, searchParam],
+		[router, searchParams, defaultValue, searchParam]
 	);
 
 	const value = useMemo(
 		() => (searchParams.get(searchParam) || defaultValue || '').toString(),
-		[searchParams, searchParam, defaultValue],
+		[searchParams, searchParam, defaultValue]
 	);
 	return { onChange, value };
 }
@@ -52,7 +52,6 @@ export function useSearch(params: TFilterParams) {
 	return { onSearch: onChange, search: value };
 }
 
-
 /**
  * Hook for pagination
  * @param name - search param name
@@ -66,7 +65,7 @@ export function usePage({
 
 	const maxPage = useMemo(
 		() => (!pages || Number.isNaN(pages) ? 1 : pages),
-		[pages],
+		[pages]
 	);
 
 	const page = useMemo(() => {
@@ -88,7 +87,7 @@ export function usePage({
 				onChange(page);
 			}
 		},
-		[maxPage, onChange],
+		[maxPage, onChange]
 	);
 
 	return { onPage, page, maxPage };
@@ -119,7 +118,7 @@ export function useSort(params: TFilterParams) {
 				onChange(uid);
 			}
 		},
-		[sort, onChange],
+		[sort, onChange]
 	);
 
 	return { onSort, sort };
@@ -141,7 +140,7 @@ export function useDay(params: TFilterParams) {
 				onChange(toIsoDate(addDays(data, number)));
 			}
 		},
-		[value, onChange],
+		[value, onChange]
 	);
 
 	return { onDay, day: value };

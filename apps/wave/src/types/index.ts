@@ -12,5 +12,4 @@ export interface IResponse<T extends any = undefined> {
 	data?: T;
 }
 
-
 export type TLocale = (typeof LOCALES.LIST)[number];

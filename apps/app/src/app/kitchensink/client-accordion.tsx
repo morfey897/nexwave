@@ -22,7 +22,7 @@ function ClientAccordion() {
 				onChange: toggle,
 			}}
 		>
-			<div className='space-y-4 bg-gray-50 dark:bg-gray-900 p-2 pt-4 rounded-lg'>
+			<div className='space-y-4 rounded-lg bg-gray-50 p-2 pt-4 dark:bg-gray-900'>
 				<Input
 					name='repeat_every'
 					type='number'

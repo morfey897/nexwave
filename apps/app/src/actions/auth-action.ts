@@ -27,7 +27,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 		const path = new URL(
 			process.env.NEXT_PUBLIC_LOCAL_DOMAIN ||
 				process.env.NEXT_PUBLIC_DOMAIN ||
-				'',
+				''
 		);
 
 		const redirectUrl = googleOAuthClient.generateAuthUrl({
@@ -37,14 +37,14 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 			],
 			redirect_uri: new URL(
 				API.AUTH_OAUTH.replace('[provider]', provider),
-				path,
+				path
 			).toString(),
 			state: signAuth(
 				{
 					redirect_to: redirect_to.replace(/^[\w\d]*:?\/{2}[^\/]+/, ''),
 					state: 'log_in',
 				},
-				'5m',
+				'5m'
 			),
 		});
 
@@ -55,7 +55,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 }
 
 export async function signInWithEmailAndPassword(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse> {
 	try {
 		const { email, password } = {
@@ -88,7 +88,7 @@ export async function signInWithEmailAndPassword(
 }
 
 export async function signUpWithEmailAndPassword(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse> {
 	try {
 		const { name, email, password, confirmPassword } = {

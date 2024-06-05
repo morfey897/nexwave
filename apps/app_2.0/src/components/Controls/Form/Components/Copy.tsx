@@ -12,9 +12,9 @@ function Copy({
 		<div
 			role='tooltip'
 			className={clsx(
-				'text-xs break-words hyphens-auto mt-px mx-1.5',
+				'mx-1.5 mt-px hyphens-auto break-words text-xs',
 				isErrored && 'text-red-500 dark:text-red-400',
-				className,
+				className
 			)}
 		>
 			{isErrored ? errorCopy : hint}

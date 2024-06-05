@@ -23,13 +23,13 @@ export function useLocale(): TLocale {
  * @returns {(key: string) => string} The translation function
  */
 export function useMessages(
-	messages: Record<TLocale, Record<string, string>>,
+	messages: Record<TLocale, Record<string, string>>
 ): (key: string) => string {
 	const locale = useLocale();
 
 	const t = useMemo(
 		() => (key: string) => messages[locale][key] || key,
-		[locale, messages],
+		[locale, messages]
 	);
 
 	return t;

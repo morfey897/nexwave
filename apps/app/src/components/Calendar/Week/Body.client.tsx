@@ -8,7 +8,13 @@ import {
 	useTimesCalendar,
 	useNow,
 } from '@/hooks/calendar';
-import { ssToTime, sec, timeToMinutes, timeToTime, toIsoDate } from '@/utils/datetime';
+import {
+	ssToTime,
+	sec,
+	timeToMinutes,
+	timeToTime,
+	toIsoDate,
+} from '@/utils/datetime';
 
 function Body<T extends INode>({
 	dates,
@@ -42,15 +48,15 @@ function Body<T extends INode>({
 			timeList.map(({ time, title }) => (
 				<div
 					key={time}
-					className='text-xs lg:text-sm rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis'
+					className='text-ellipsis text-center text-xs text-gray-500 lg:text-sm rtl:text-right dark:text-gray-400'
 					style={{ height: cellHeight }}
 				>
-					<span className='relative -top-[8px] lg:-top-[10px] px-1 bg-white dark:bg-gray-900'>
+					<span className='relative -top-[8px] bg-white px-1 lg:-top-[10px] dark:bg-gray-900'>
 						{title}
 					</span>
 				</div>
 			)),
-		[timeList, cellHeight],
+		[timeList, cellHeight]
 	);
 
 	const onClickDate = useCallback(
@@ -71,19 +77,19 @@ function Body<T extends INode>({
 				to_time: timeToTime(toTime),
 			});
 		},
-		[onSelectDate, cellHeight, times, timeApointment],
+		[onSelectDate, cellHeight, times, timeApointment]
 	);
 
 	return (
 		<div className={clsx(className)}>
 			<div className='h-3' />
-			<div className={clsx('flex relative w-fit min-w-full')}>
+			<div className={clsx('relative flex w-fit min-w-full')}>
 				{timeList.map(({ time }, index) => (
 					<hr
 						key={time}
 						className={clsx(
 							'absolute left-0 right-0 z-0 border-t border-gray-200 dark:border-gray-700 ',
-							time % 60 === 0 ? 'border-solid' : 'border-dashed',
+							time % 60 === 0 ? 'border-solid' : 'border-dashed'
 						)}
 						style={{ top: index * cellHeight }}
 					/>
@@ -107,28 +113,28 @@ function Body<T extends INode>({
 						style={{ height: totalHeight }}
 						key={date}
 						className={clsx(
-							'relative -mt-2 w-full text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-center text-ellipsis',
+							'relative -mt-2 w-full text-ellipsis text-center text-sm font-normal text-gray-500 rtl:text-right dark:text-gray-400',
 							'cursor-copy',
-							index > 0 && 'border-l border-gray-200 dark:border-gray-700',
+							index > 0 && 'border-l border-gray-200 dark:border-gray-700'
 						)}
 						onClick={onClickDate}
 					>
 						<div
 							id='marker-now'
 							className={clsx(
-								'absolute left-0 z-0 border-t border-red-400 border-solid',
+								'absolute left-0 z-0 border-t border-solid border-red-400',
 								'w-full',
 								toIsoDate(now.date) === toIsoDate(date)
 									? 'visible'
-									: 'invisible',
+									: 'invisible'
 							)}
 							style={{
 								top: Math.round(
-									((timeToMinutes(now) - times.min) / timeStep) * cellHeight,
+									((timeToMinutes(now) - times.min) / timeStep) * cellHeight
 								),
 							}}
 						>
-							<span className='bg-red-400 rounded-full w-2 h-2 block -mt-1' />
+							<span className='-mt-1 block h-2 w-2 rounded-full bg-red-400' />
 						</div>
 						{body?.get(date)?.map(({ event, rect, index }) => (
 							<div
@@ -140,7 +146,7 @@ function Body<T extends INode>({
 								})}
 							>
 								<div
-									className='absolute w-full cursor-pointer hover:!z-[19] hover:!-left-[5%] hover:!w-[110%] transition-all duration-300'
+									className='absolute w-full cursor-pointer transition-all duration-300 hover:!-left-[5%] hover:!z-[19] hover:!w-[110%]'
 									key={`item_${event.uuid}`}
 									style={{
 										top: ((rect.y - times.min) * cellHeight) / times.step + 8,

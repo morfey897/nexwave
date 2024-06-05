@@ -40,8 +40,8 @@ export async function getInvitations({
 					: undefined,
 				typeof projectId === 'number' && isNumber(projectId)
 					? orm.eq(schemas.invitation.projectId, projectId)
-					: undefined,
-			),
+					: undefined
+			)
 		)
 		.execute();
 

@@ -15,7 +15,7 @@ function AddProject() {
 		<button
 			className={clsx(
 				'bg-white dark:bg-gray-800',
-				'group flex justify-center items-center p-8 border-2 border-blue-400 dark:border-blue-300 rounded-xl hover:shadow-lg hover:shadow-slate-800/10 dark:hover:shadow-slate-300/10',
+				'group flex items-center justify-center rounded-xl border-2 border-blue-400 p-8 hover:shadow-lg hover:shadow-slate-800/10 dark:border-blue-300 dark:hover:shadow-slate-300/10'
 			)}
 			onClick={onAddProject}
 		>
@@ -24,7 +24,7 @@ function AddProject() {
 					'inline-block rounded-full p-2',
 					'bg-blue-100 text-blue-500 dark:bg-blue-500 dark:text-white',
 					'transition-all duration-300 ease-linear',
-					'group-hover:text-green-300 dark:group-hover:text-green-300',
+					'group-hover:text-green-300 dark:group-hover:text-green-300'
 				)}
 			>
 				<MdAdd size={48} />

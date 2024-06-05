@@ -17,11 +17,11 @@ function Head<T extends TUID>({
 	return (
 		<div
 			className={clsx(
-				'flex w-full gap-x-2 items-center justify-between py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400',
-				className,
+				'flex w-full items-center justify-between gap-x-2 px-4 py-3.5 text-xs font-normal text-gray-500 lg:text-sm rtl:text-right dark:text-gray-400',
+				className
 			)}
 		>
-			<p className='text-lg w-2'>{title}</p>
+			<p className='w-2 text-lg'>{title}</p>
 			<div className='flex gap-x-4'>
 				{head.map(({ token, type, title, comparator, onSort }) => {
 					if (!!type && hasType(type, EnumSortBy.SYMBOLIC))

@@ -17,7 +17,7 @@ type Info = {
 };
 
 const getFullInfo = async (
-	id_token: string | undefined | null,
+	id_token: string | undefined | null
 ): Promise<Info | null> => {
 	if (!id_token) return null;
 	const info = await googleOAuthClient.verifyIdToken({
@@ -34,11 +34,11 @@ const getFullInfo = async (
 };
 
 const getInfo = async (
-	access_token: string | undefined | null,
+	access_token: string | undefined | null
 ): Promise<Info | null> => {
 	if (!access_token) return null;
 	const tokenInfo = await googleOAuthClient.getTokenInfo(
-		access_token as string,
+		access_token as string
 	);
 
 	return {
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 		const code = request.nextUrl.searchParams.get('code') || '';
 		const state = request.nextUrl.searchParams.get('state') || '';
 		const payload = await verifyAuth<{ state: string; redirect_uri?: string }>(
-			state || '',
+			state || ''
 		);
 		if (!payload || payload.state != 'log_in' || !code)
 			NextResponse.redirect(new URL(HOME, request.nextUrl));
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
 			//if response.project is null, then redirect to invitations page
 			//if response.project is not null, then redirect to project page
 			return NextResponse.redirect(
-				new URL(payload?.redirect_uri || APP, request.nextUrl),
+				new URL(payload?.redirect_uri || APP, request.nextUrl)
 			);
 		}
 	}

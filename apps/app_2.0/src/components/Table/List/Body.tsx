@@ -17,7 +17,7 @@ function Body<T extends TUID>({
 					<Accordion
 						inputProps={{
 							children: (
-								<div className='p-4 pl-3 flex justify-between'>
+								<div className='flex justify-between p-4 pl-3'>
 									{head.slice(0, 1).map(({ Generator, token }) => (
 										<Generator
 											key={`generator_${item.uuid}_${token}`}
@@ -25,7 +25,7 @@ function Body<T extends TUID>({
 											device={EnumDeviceType.MOBILE}
 										/>
 									))}
-									<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+									<span className='icon block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 										<BiChevronDown size={24} className={''} />
 									</span>
 								</div>
@@ -33,11 +33,11 @@ function Body<T extends TUID>({
 						}}
 						className={clsx('bg-white dark:bg-gray-800')}
 					>
-						<div className='divide-y bg-gray-50 dark:bg-gray-900 divide-gray-200 dark:divide-gray-700'>
+						<div className='divide-y divide-gray-200 bg-gray-50 dark:divide-gray-700 dark:bg-gray-900'>
 							{head.slice(1).map(({ token, Generator, title }) => (
 								<div
 									key={`line_${item.uuid}_${token}`}
-									className='p-4 pl-3 flex align-end justify-between gap-x-4'
+									className='align-end flex justify-between gap-x-4 p-4 pl-3'
 								>
 									<div>
 										<span>{title}</span>

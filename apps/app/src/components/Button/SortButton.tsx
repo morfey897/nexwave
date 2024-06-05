@@ -34,13 +34,13 @@ function SortButton({
 	return (
 		<Button
 			{...props}
-			className={clsx('hover:underline group', className)}
+			className={clsx('group hover:underline', className)}
 			iconAfter={
 				<>
-					<span className='w-[20px] h-[20px] group-hover:hidden group-focus:inline-block'>
+					<span className='h-[20px] w-[20px] group-hover:hidden group-focus:inline-block'>
 						{!!Icon && <Icon size={20} />}
 					</span>
-					<span className='w-[20px] h-[20px] hidden group-hover:inline-block group-focus:hidden opacity-60'>
+					<span className='hidden h-[20px] w-[20px] opacity-60 group-hover:inline-block group-focus:hidden'>
 						{!!NextIcon && <NextIcon size={20} />}
 					</span>
 				</>

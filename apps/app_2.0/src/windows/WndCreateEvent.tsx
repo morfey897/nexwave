@@ -58,7 +58,6 @@ import { addDays, format } from 'date-fns';
 import { capitalize } from 'lodash';
 
 function CreateEvent({ closeMe, params }: IModal) {
-	
 	const project = useNWStore((state) => state.project);
 	const hasPermission = hasAccess(project?.permission, CREATE.EVENT);
 
@@ -70,7 +69,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 	const [branchUUID, setBranchUUID] = useState('');
 
 	const [repeatable, setRepeatable] = useState(false);
-	const [startDate, setStartDate] = useState(params?.date as string || '');
+	const [startDate, setStartDate] = useState((params?.date as string) || '');
 
 	const [endNever, setEndNever] = useState(true);
 	const [repeatEach, setRepeat] = useState<string>(EnumRepeatPeriod.WEEKLY);
@@ -112,7 +111,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 				day: day,
 				value: WEEK_DAYS[day],
 				label: capitalize(
-					dateLocale.localize?.day(day, { width: 'abbreviated' }),
+					dateLocale.localize?.day(day, { width: 'abbreviated' })
 				),
 			};
 		});
@@ -132,7 +131,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 				return newList;
 			});
 		},
-		[now],
+		[now]
 	);
 
 	const rrule = useMemo(() => {
@@ -141,7 +140,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 
 		if (repeatInterval === 1) {
 			list.push(
-				t(`page.add_event.repeat_single_period_`, { period: repeatEach }),
+				t(`page.add_event.repeat_single_period_`, { period: repeatEach })
 			);
 		} else if (repeatInterval > 1) {
 			let token = '';
@@ -162,7 +161,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 			list.push(
 				t(token, {
 					period: repeatInterval,
-				}),
+				})
 			);
 		}
 
@@ -173,7 +172,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 						.filter((day) => repeatWeek.includes(day.value))
 						.map((day) => day.label)
 						.join(',')}`,
-				}),
+				})
 			);
 		}
 		if (!endNever && endDate) {
@@ -182,7 +181,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 					end: format(new Date(endDate), 'dd.MM.yyyy', {
 						locale: dateLocale,
 					}),
-				}),
+				})
 			);
 		}
 		return list.join(';');
@@ -290,9 +289,9 @@ function CreateEvent({ closeMe, params }: IModal) {
 											showMaskOnHover: false,
 										}}
 										className={clsx(
-											'[&:before]:content-[""] [&:before]:absolute',
-											'[&:before]:border-gray-400 [&:before]:dark:border-gray-600 [&:before]:border',
-											'[&:before]:w-2 [&:before]:-left-3 [&:before]:top-7',
+											'[&:before]:absolute [&:before]:content-[""]',
+											'[&:before]:border [&:before]:border-gray-400 [&:before]:dark:border-gray-600',
+											'[&:before]:-left-3 [&:before]:top-7 [&:before]:w-2'
 										)}
 										errorCopy={
 											(errorCode?.includes(MISSING_TIME_TO) &&
@@ -341,7 +340,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 											),
 										}}
 									>
-										<div className='grid grid-cols-2 gap-4 mt-4'>
+										<div className='mt-4 grid grid-cols-2 gap-4'>
 											<Input
 												name='repeat_interval'
 												type='number'
@@ -351,7 +350,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 												value={repeatInterval}
 												onChange={(event) =>
 													setRepeatInterval(
-														Number.parseInt(event.target.value, 10),
+														Number.parseInt(event.target.value, 10)
 													)
 												}
 											/>
@@ -381,17 +380,17 @@ function CreateEvent({ closeMe, params }: IModal) {
 											<div
 												className={clsx(
 													'col-span-2',
-													repeatEach != EnumRepeatPeriod.WEEKLY && 'hidden',
+													repeatEach != EnumRepeatPeriod.WEEKLY && 'hidden'
 												)}
 											>
 												<Fieldset legend={t('page.add_event.repeat_on')}>
-													<div className='grid gap-4 grid-cols-3 md:grid-cols-4'>
+													<div className='grid grid-cols-3 gap-4 md:grid-cols-4'>
 														{week.map((day) => (
 															<Checkbox
 																key={day.value}
 																name={day.value}
 																placeholder={day.label}
-																className='[&_.input]:!w-6 [&_.input]:!h-6'
+																className='[&_.input]:!h-6 [&_.input]:!w-6'
 																checked={repeatWeek.includes(day.value)}
 																onChange={onChangeRepeatDate}
 															/>
@@ -401,7 +400,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 											</div>
 											<div className='col-span-2'>
 												<Fieldset legend={t('page.add_event.ends')}>
-													<div className='grid gap-4 grid-cols-1 md:grid-cols-2'>
+													<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
 														<Checkbox
 															name={`end_never`}
 															placeholder={t('page.add_event.end_never')}
@@ -417,7 +416,7 @@ function CreateEvent({ closeMe, params }: IModal) {
 															min={
 																addDays(
 																	new Date(startDate || now.toISOString()),
-																	1,
+																	1
 																)
 																	.toISOString()
 																	.split('T')[0]

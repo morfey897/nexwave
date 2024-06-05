@@ -8,18 +8,18 @@ function Server({ projects }: { projects: IProject[] | null }) {
 
 	return (
 		<section className='w-full'>
-			<div className='container px-6 py-10 mx-auto'>
-				<h1 className='text-2xl font-semibold text-gray-8 lg:text-3xl'>
+			<div className='container mx-auto px-6 py-10'>
+				<h1 className='text-gray-8 text-2xl font-semibold lg:text-3xl'>
 					{t.rich('page.projects.headline_rt', {
 						span: (chunks) => <span className='text-blue-500'>{chunks}</span>,
 					})}
 				</h1>
 
-				<p className='mt-4 text-gray-5 xl:mt-6'>
+				<p className='text-gray-5 mt-4 xl:mt-6'>
 					{t('page.projects.subheadline')}
 				</p>
 
-				<div className='grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12 md:grid-cols-2 xl:grid-cols-3'>
+				<div className='mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 xl:mt-12 xl:grid-cols-3 xl:gap-12'>
 					{projects?.map((project) => (
 						<ProjectItem
 							key={project.uuid}

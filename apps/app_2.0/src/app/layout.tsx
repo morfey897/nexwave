@@ -30,12 +30,7 @@ export default async function RootLayout({
 	return (
 		<html lang={locale} className={theme || ''}>
 			<ThemeProvider />
-			<body
-				className={clsx(
-					inter.className,
-					'bg-gray-1 text-gray-9',
-				)}
-			>
+			<body className={clsx(inter.className, 'bg-gray-1 text-gray-9')}>
 				<Header />
 				<main className='flex w-full'>{children}</main>
 				<ModalsContainer />

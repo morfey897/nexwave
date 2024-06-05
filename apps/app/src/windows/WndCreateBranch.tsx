@@ -32,7 +32,7 @@ function CreateBranch({ closeMe }: IModal) {
 	const router = useRouter();
 	const closeAll = useCloseAllModal();
 	const { action, submit, reset, pending, result } = useAction(
-		actionCreateNewBranch,
+		actionCreateNewBranch
 	);
 	const t = useTranslations();
 
@@ -71,7 +71,7 @@ function CreateBranch({ closeMe }: IModal) {
 											message={t('form.address')}
 											className='justify-between text-gray-400 dark:text-gray-500'
 											iconAfter={
-												<span className='icon shrink-0 block transition-transform rotate-0 ease-out self-baseline'>
+												<span className='icon block shrink-0 rotate-0 self-baseline transition-transform ease-out'>
 													<BiChevronDown size={24} className={''} />
 												</span>
 											}
@@ -79,7 +79,7 @@ function CreateBranch({ closeMe }: IModal) {
 									),
 								}}
 							>
-								<div className='space-y-3 border rounded-lg dark:border-gray-600 p-4'>
+								<div className='space-y-3 rounded-lg border p-4 dark:border-gray-600'>
 									<Input
 										disabled={pending}
 										autoComplete='country'

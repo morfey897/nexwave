@@ -44,23 +44,23 @@ export function BadgesGenerator({
 	item: { uuid: string; value: Array<{ title: string; level?: EnumLevel }> };
 }) {
 	return (
-		<div className='flex group w-fit relative flex-wrap justify-center'>
+		<div className='group relative flex w-fit flex-wrap justify-center'>
 			{item.value?.map(({ title, level }) => (
 				<span
 					key={title}
 					className={clsx(
-						'-ml-4 lg:first:ml-0 inline-block border-2 text-xs border-white dark:border-gray-700 shrink-0 px-2.5 py-1 rounded-full cursor-pointer',
-						'transition-all group-hover:opacity-50 hover:!opacity-100 hover:z-20 hover:scale-110',
+						'-ml-4 inline-block shrink-0 cursor-pointer rounded-full border-2 border-white px-2.5 py-1 text-xs lg:first:ml-0 dark:border-gray-700',
+						'transition-all hover:z-20 hover:scale-110 hover:!opacity-100 group-hover:opacity-50',
 						{
-							'text-gray-500 bg-gray-100 dark:bg-gray-800':
+							'bg-gray-100 text-gray-500 dark:bg-gray-800':
 								!level || !Object.values(EnumLevel).includes(level),
-							'text-emerald-500 bg-emerald-100 dark:bg-gray-800':
+							'bg-emerald-100 text-emerald-500 dark:bg-gray-800':
 								level === EnumLevel.SUCCESS,
-							'text-red-500 bg-red-100 dark:bg-gray-800':
+							'bg-red-100 text-red-500 dark:bg-gray-800':
 								level === EnumLevel.WARN,
-							'text-blue-600 bg-blue-100 dark:bg-gray-800':
+							'bg-blue-100 text-blue-600 dark:bg-gray-800':
 								level === EnumLevel.INFO,
-						},
+						}
 					)}
 				>
 					{title}
@@ -80,7 +80,7 @@ export function ActionGenerator<T extends TUID>({ item }: { item: T }) {
 
 function withGenerator<T extends TUID>(
 	field: string,
-	C?: TGenerator<{ uuid: string; value: any }>,
+	C?: TGenerator<{ uuid: string; value: any }>
 ) {
 	function Wrapper({ item }: { item: T }) {
 		const value = (item as any)[field];

@@ -4,7 +4,7 @@ import { createDB } from '@/db';
 import ms from 'ms';
 import { join } from 'path';
 
-const [,,path] = process.argv;
+const [, , path] = process.argv;
 
 void (async function () {
 	const timestamp = new Date().getTime();

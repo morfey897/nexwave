@@ -5,9 +5,9 @@ function Icon({ className, icon }: IInputProps & { className?: string }) {
 		<span
 			className={clsx(
 				'icon',
-				'absolute inset-y-0 start-0 top-0 flex items-center ps-1 pointer-events-none mx-3',
+				'pointer-events-none absolute inset-y-0 start-0 top-0 mx-3 flex items-center ps-1',
 				'text-gray-400 dark:text-gray-500',
-				className,
+				className
 			)}
 		>
 			{icon}

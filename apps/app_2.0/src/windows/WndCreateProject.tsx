@@ -26,7 +26,7 @@ function CreateProject({ closeMe }: IModal) {
 	const router = useRouter();
 	const closeAll = useCloseAllModal();
 	const { action, submit, reset, pending, result } = useAction(
-		actionCreateNewProject,
+		actionCreateNewProject
 	);
 
 	useEffect(() => {

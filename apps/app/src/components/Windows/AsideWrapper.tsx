@@ -7,10 +7,10 @@ function AsideWrapper({
 	return (
 		<aside
 			className={clsx(
-				'pt-[86px] pb-[100px] px-4 py-8',
+				'px-4 py-8 pb-[100px] pt-[86px]',
 				'min-h-screen w-64',
-				'bg-white dark:bg-gray-800 dark:border-gray-700 border-r',
-				className,
+				'border-r bg-white dark:border-gray-700 dark:bg-gray-800',
+				className
 			)}
 			{...rest}
 		/>

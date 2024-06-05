@@ -31,7 +31,7 @@ function Head<T extends INode>({
 					formatedDate: format(date, 'd MMM', { locale: dateLocale }),
 				};
 			}),
-		[dates, dateLocale],
+		[dates, dateLocale]
 	);
 
 	return (
@@ -40,16 +40,16 @@ function Head<T extends INode>({
 				<div
 					key={isoDate}
 					className={clsx(
-						'w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-center text-ellipsis',
+						'w-full text-ellipsis px-4 py-3.5 text-center text-xs font-normal lg:text-sm rtl:text-right',
 						index > 0 && 'border-l border-gray-200 dark:border-gray-700',
 						'text-gray-5',
 						toIsoDate(isoDate) === toIsoDate(now.date) &&
-							'!text-blue-500 dark:!text-blue-400',
+							'!text-blue-500 dark:!text-blue-400'
 					)}
 				>
 					{/* <span className='hidden lg:inline-block'>{title}</span> */}
-					<span >{abr}</span>
-					<span className='block font-light mt-2'>{formatedDate}</span>
+					<span>{abr}</span>
+					<span className='mt-2 block font-light'>{formatedDate}</span>
 				</div>
 			))}
 		</div>

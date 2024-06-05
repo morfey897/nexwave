@@ -1,14 +1,11 @@
 import { HiLightningBolt } from 'react-icons/hi';
-import {
-	Container,
-	ContainerHeader,
-} from '@/components/Containers';
+import { Container, ContainerHeader } from '@/components/Containers';
 
 export default function Home() {
 	return (
 		//  ml-0 lg:ml-64
 		<Container>
-			<ContainerHeader className='bg-black sticky'>
+			<ContainerHeader className='sticky bg-black'>
 				<h1 className='text-3xl'>Services</h1>
 				<HiLightningBolt size={54} />
 			</ContainerHeader>

@@ -55,7 +55,7 @@ export function useTimesCalendar<T extends INode>({
  * @returns
  */
 export function useHeaderCalendar<T extends INode>(
-	dates: ICalendarProps<T>['dates'],
+	dates: ICalendarProps<T>['dates']
 ) {
 	const dateLocale = useDateLocale();
 	const header = useMemo(
@@ -70,7 +70,7 @@ export function useHeaderCalendar<T extends INode>(
 					formatedDate: format(date, 'd MMM', { locale: dateLocale }),
 				};
 			}),
-		[dates, dateLocale],
+		[dates, dateLocale]
 	);
 	return header;
 }
@@ -150,7 +150,7 @@ export function useBodyCalendar<T extends INode>({
 			const collisions = detectCollisions(rectangles);
 			const groups = groupRectangles(
 				rectangles.map((_, index) => index),
-				collisions,
+				collisions
 			);
 			timesMap.set(
 				date,
@@ -166,7 +166,7 @@ export function useBodyCalendar<T extends INode>({
 							width: group?.length || 1,
 						}),
 					};
-				}),
+				})
 			);
 		}
 		return timesMap;

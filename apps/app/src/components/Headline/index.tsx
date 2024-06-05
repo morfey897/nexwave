@@ -29,8 +29,8 @@ function Headline({
 			{(!!subheadline || !!children) && (
 				<div
 					className={clsx(
-						'text-gray-500 dark:text-gray-400 text-xs md:text-base mt-2',
-						bodyClassName,
+						'mt-2 text-xs text-gray-500 md:text-base dark:text-gray-400',
+						bodyClassName
 					)}
 				>
 					{subheadline && <p>{subheadline}</p>}

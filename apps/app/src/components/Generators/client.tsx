@@ -13,11 +13,11 @@ export function AvatarGenerator({ item }: { item: IClient }) {
 		.filter((v) => Boolean(v))
 		.join('');
 	return (
-		<div className='flex items-center gap-x-2 cursor-pointer relative'>
-			<button className='text-gray-400 dark:text-gray-600 p-1 bg-gray-200 dark:bg-gray-800 rounded-lg relative group'>
-				<span className='hidden absolute group-hover:flex h-3 w-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-					<span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-400 dark:bg-gray-600 opacity-75'></span>
-					<span className='relative inline-flex rounded-full h-full w-full bg-gray-400/20 dark:bg-gray-600/20'></span>
+		<div className='relative flex cursor-pointer items-center gap-x-2'>
+			<button className='group relative rounded-lg bg-gray-200 p-1 text-gray-400 dark:bg-gray-800 dark:text-gray-600'>
+				<span className='absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 group-hover:flex'>
+					<span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-gray-400 opacity-75 dark:bg-gray-600'></span>
+					<span className='relative inline-flex h-full w-full rounded-full bg-gray-400/20 dark:bg-gray-600/20'></span>
 				</span>
 				<MdOutlineMoreVert size={24} />
 			</button>
@@ -25,21 +25,21 @@ export function AvatarGenerator({ item }: { item: IClient }) {
 				<Image
 					width={40}
 					height={40}
-					className='object-cover w-10 h-10 rounded-full'
+					className='h-10 w-10 rounded-full object-cover'
 					src={item.avatar}
 					alt={fullName}
 				/>
 			) : (
-				<span className='w-10 h-10 rounded-full'>{abr}</span>
+				<span className='h-10 w-10 rounded-full'>{abr}</span>
 			)}
 			<div>
-				<h2 className='font-medium text-gray-800 dark:text-white break-words hyphens-auto'>
+				<h2 className='hyphens-auto break-words font-medium text-gray-800 dark:text-white'>
 					{fullName}
 				</h2>
 				{item.phone && (
 					<a
 						href={`tel:${item.phone}`}
-						className='text-sm font-normal text-gray-600 dark:text-gray-400 hover:underline'
+						className='text-sm font-normal text-gray-600 hover:underline dark:text-gray-400'
 					>
 						{item.phone}
 					</a>

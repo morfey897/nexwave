@@ -40,7 +40,7 @@ const setCookie = (
 		maxAge?: number;
 		httpOnly?: boolean;
 		secure?: boolean;
-	}>,
+	}>
 ) => {
 	const setCookies = response.headers.get('set-cookie');
 	response.headers.set(
@@ -56,11 +56,11 @@ const setCookie = (
 					secure ? 'Secure' : undefined,
 				]
 					.filter((v) => Boolean(v))
-					.join('; '),
+					.join('; ')
 			)
 			.concat(setCookies || '')
 			.filter((v) => Boolean(v))
-			.join(','),
+			.join(',')
 	);
 };
 
@@ -74,7 +74,7 @@ function getLocaleFromRequest(request: NextRequest) {
 	return match(
 		[...new Set(languages)],
 		LOCALES.LIST,
-		process.env.NEXT_PUBLIC_DEFAULT_LOCALE!,
+		process.env.NEXT_PUBLIC_DEFAULT_LOCALE!
 	) as unknown as TLocale;
 }
 
@@ -120,7 +120,7 @@ export async function middleware(request: NextRequest) {
 						Authorization: `Bearer ${refresh_token}`,
 					},
 					body: session,
-				},
+				}
 			);
 			const json = await refreshResponse.json();
 

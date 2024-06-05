@@ -26,11 +26,11 @@ function Icon({
 						width={size}
 						height={size}
 						alt=''
-						className='w-8 h-8 object-cover rounded-lg'
+						className='h-8 w-8 rounded-lg object-cover'
 					/>
 				</picture>
 			) : (
-				<span className='inline-block text-blue-500 dark:text-blue-400 align-middle'>
+				<span className='inline-block align-middle text-blue-500 dark:text-blue-400'>
 					{altFallback === 'project' && <SVGIcon type='project' size={size} />}
 					{altFallback === 'branch' && <SVGIcon type='branch' size={size} />}
 					{!!Fallback && !altFallback && <Fallback size={size} />}
@@ -39,7 +39,7 @@ function Icon({
 			{!!marker && (
 				<Marker
 					{...marker}
-					className={clsx('absolute top-0 right-0', marker.className)}
+					className={clsx('absolute right-0 top-0', marker.className)}
 				/>
 			)}
 		</div>

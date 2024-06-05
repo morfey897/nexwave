@@ -36,7 +36,7 @@ export const generateViewport = (): Viewport => {
 
 export const getLayoutMetadata = (
 	title?: string,
-	description?: string,
+	description?: string
 ): Metadata => {
 	return {
 		title: title,

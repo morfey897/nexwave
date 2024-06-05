@@ -23,26 +23,26 @@ describe('user module', () => {
 		cfg.destroy();
 	});
 
-  /**
-   * Test select all users
-   * Should return 3 users
-   */ 
-  describe('selectAllUsers', () => {
-    test('selectAllUsers', async () => {
-      const users = await cfg.db
-        .select({
-          id: schemas.Users.id,
-          uuid: schemas.Users.uuid,
-          login: schemas.Users.login,
-          name: schemas.Users.name,
-          surname: schemas.Users.surname,
-          avatar: schemas.Users.avatar,
-        })
-        .from(schemas.Users);
-      expect(users).toBeTruthy();
-      expect(users.length).toEqual(3);
-    });
-  });
+	/**
+	 * Test select all users
+	 * Should return 3 users
+	 */
+	describe('selectAllUsers', () => {
+		test('selectAllUsers', async () => {
+			const users = await cfg.db
+				.select({
+					id: schemas.Users.id,
+					uuid: schemas.Users.uuid,
+					login: schemas.Users.login,
+					name: schemas.Users.name,
+					surname: schemas.Users.surname,
+					avatar: schemas.Users.avatar,
+				})
+				.from(schemas.Users);
+			expect(users).toBeTruthy();
+			expect(users.length).toEqual(3);
+		});
+	});
 
 	/**
 	 * Test create new user
@@ -91,9 +91,9 @@ describe('user module', () => {
 						orm.eq(schemas.Users.login, login),
 						orm.eq(
 							schemas.Users.password,
-							orm.sql<string>`crypt(${password}, password)`,
-						),
-					),
+							orm.sql<string>`crypt(${password}, password)`
+						)
+					)
 				);
 			expect(user).toBeTruthy();
 			expect(user.id).toBeTruthy();

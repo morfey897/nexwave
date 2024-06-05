@@ -22,19 +22,19 @@ function Checkbox({
 						'label',
 						'flex w-fit items-center gap-x-3',
 						txtLabelClassName,
-						disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+						disabled ? 'cursor-not-allowed' : 'cursor-pointer'
 					)}
 				>
 					<input
 						type='checkbox'
 						className={clsx(
 							'input',
-							'w-8 h-8 rounded-lg cursor-pointer disabled:cursor-not-allowed group',
+							'group h-8 w-8 cursor-pointer rounded-lg disabled:cursor-not-allowed',
 							!!errorCopy && '!border-2 !border-red-500',
-							'!border-2 !border-gray-300 !dark:border-gray-600',
-							'focus:!ring-0 focus:!outline-0 focus:!shadow-none',
-							'!ring-0 !outline-0 !outline-transparent !ring-transparent',
-							'text-blue-500 hover:text-blue-600 dark:hover:text-blue-500 dark:text-blue-600 disabled:text-blue-400 disabled:hover:text-blue-400 disabled:dark:text-blue-700 disabled:dark:hover:text-blue-700',
+							'!dark:border-gray-600 !border-2 !border-gray-300',
+							'focus:!shadow-none focus:!outline-0 focus:!ring-0',
+							'!outline-0 !outline-transparent !ring-0 !ring-transparent',
+							'text-blue-500 hover:text-blue-600 disabled:text-blue-400 disabled:hover:text-blue-400 dark:text-blue-600 dark:hover:text-blue-500 disabled:dark:text-blue-700 disabled:dark:hover:text-blue-700'
 						)}
 						disabled={disabled}
 						{...props}
@@ -46,8 +46,8 @@ function Checkbox({
 							<span
 								className={clsx(
 									'icon',
-									'inline-block pointer-events-none mx-0.5 align-super',
-									txtLabelClassName,
+									'pointer-events-none mx-0.5 inline-block align-super',
+									txtLabelClassName
 								)}
 							>
 								{icon}

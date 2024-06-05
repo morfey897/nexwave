@@ -18,15 +18,15 @@ function WndHeader({
 	return (
 		<div
 			className={clsx(
-				'sticky top-0 z-10 pt-6 pb-3 w-full rounded-lg bg-inherit',
-				className,
+				'sticky top-0 z-10 w-full rounded-lg bg-inherit pb-3 pt-6',
+				className
 			)}
 			{...rest}
 		>
 			{typeof onClose === 'function' && (
 				<Button
 					variant='text'
-					className='absolute top-2.5 right-1 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+					className='absolute right-1 top-2.5 hover:bg-gray-200 hover:underline dark:hover:bg-gray-800'
 					icon={<HiX size={28} />}
 					onClick={onClose}
 				/>
@@ -35,7 +35,7 @@ function WndHeader({
 			<Headline
 				headline={headline}
 				subheadline={subheadline}
-				className='text-lg md:text-xl font-semibold text-center'
+				className='text-center text-lg font-semibold md:text-xl'
 				bodyClassName='text-center'
 			/>
 		</div>

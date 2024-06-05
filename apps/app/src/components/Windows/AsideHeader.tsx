@@ -19,15 +19,15 @@ function AsideHeader({
 	return (
 		<div
 			className={clsx(
-				'sticky top-[86px] z-10 pt-3 pb-3 w-full bg-inherit',
-				className,
+				'sticky top-[86px] z-10 w-full bg-inherit pb-3 pt-3',
+				className
 			)}
 			{...rest}
 		>
 			{typeof onClose === 'function' && (
 				<Button
 					variant='text'
-					className='absolute top-1 -right-4 hover:underline hover:bg-gray-200 dark:hover:bg-gray-800'
+					className='absolute -right-4 top-1 hover:bg-gray-200 hover:underline dark:hover:bg-gray-800'
 					icon={<HiX size={28} />}
 					onClick={onClose}
 				/>
@@ -37,7 +37,7 @@ function AsideHeader({
 				<Headline
 					headline={headline}
 					subheadline={subheadline}
-					className='text-lg md:text-xl font-semibold text-center'
+					className='text-center text-lg font-semibold md:text-xl'
 					bodyClassName='text-center'
 				/>
 			)}

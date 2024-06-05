@@ -19,7 +19,7 @@ function Head<T extends TUID>({
 				<div
 					key={token}
 					className={clsx(
-						'w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-left text-ellipsis',
+						'w-full text-ellipsis px-4 py-3.5 text-left text-xs font-normal text-gray-500 lg:text-sm rtl:text-right dark:text-gray-400'
 					)}
 					style={{ flex: flex || 1 }}
 				>

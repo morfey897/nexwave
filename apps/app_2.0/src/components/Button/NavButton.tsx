@@ -29,17 +29,17 @@ function NavButton({
 			}
 			className={clsx(
 				'px-1 py-2 md:px-3 md:py-2',
-				'flex items-center flex-col lg:flex-row text-gray-6 transition-colors duration-300 transform rounded-lg hover:bg-gray-1 dark:hover:bg-gray-1 dark:hover:text-gray-7 hover:text-gray-7',
-				'relative transition-all w-min-content',
-				'before:w-0 before:h-0.5 before:absolute before:bottom-0 before:right-0 before:transition-all before:duration-500',
-				'hover:before:w-full hover:before:left-0 before:bg-blue-500 hover:before:bg-gradient-to-r hover:before:from-blue-500 hover:before:to-blue-800',
+				'text-gray-6 hover:bg-gray-1 dark:hover:bg-gray-1 dark:hover:text-gray-7 hover:text-gray-7 flex transform flex-col items-center rounded-lg transition-colors duration-300 lg:flex-row',
+				'w-min-content relative transition-all',
+				'before:absolute before:bottom-0 before:right-0 before:h-0.5 before:w-0 before:transition-all before:duration-500',
+				'before:bg-blue-500 hover:before:left-0 hover:before:w-full hover:before:bg-gradient-to-r hover:before:from-blue-500 hover:before:to-blue-800',
 				active && '!bg-gray-200 dark:!bg-gray-700',
-				className,
+				className
 			)}
 		>
 			{icon}
 			{!!message && (
-				<span className={'mx-4 font-medium hidden md:block'}>{message}</span>
+				<span className={'mx-4 hidden font-medium md:block'}>{message}</span>
 			)}
 		</Link>
 	);

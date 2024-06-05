@@ -12,9 +12,9 @@ export enum EnumLevel {
 }
 
 export enum EnumState {
-  DRAFT = 'draft',
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
+	DRAFT = 'draft',
+	ACTIVE = 'active',
+	INACTIVE = 'inactive',
 }
 
 export enum EnumRepresent {
@@ -23,10 +23,10 @@ export enum EnumRepresent {
 }
 
 export enum EnumPeriod {
-  DAY = 'day',
-  WEEK = 'week',
-  MONTH = 'month',
-  YEAR = 'year',
+	DAY = 'day',
+	WEEK = 'week',
+	MONTH = 'month',
+	YEAR = 'year',
 }
 
 export enum EnumRole {
@@ -52,16 +52,16 @@ export enum EnumDeviceType {
 }
 
 export enum EnumColor {
-  RED = "red",
-  GREN = "green",
-  BLUR = "blue",
-  YELLOW = "yellow",
-  INDIGO = "indigo",
-  ORANGE = "orange",
-  SKYBLUE = "skyblue",
-  PURPLE = "purple",
-  PINK = "pink",
-  GRAY = "gray"
+	RED = 'red',
+	GREN = 'green',
+	BLUR = 'blue',
+	YELLOW = 'yellow',
+	INDIGO = 'indigo',
+	ORANGE = 'orange',
+	SKYBLUE = 'skyblue',
+	PURPLE = 'purple',
+	PINK = 'pink',
+	GRAY = 'gray',
 }
 
 export enum EnumCurrency {
@@ -85,7 +85,6 @@ export enum EnumWeekDay {
 	FRIDAY = 'FR',
 	SATURDAY = 'SA',
 }
-
 
 export const COLORS = Object.values(EnumColor);
 export const CURRENCIES = Object.values(EnumCurrency);

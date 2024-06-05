@@ -57,7 +57,7 @@ export default function Pagination({
 
 	return (
 		<div
-			className={clsx('flex items-center justify-between mt-6', className)}
+			className={clsx('mt-6 flex items-center justify-between', className)}
 			{...props}
 		>
 			<Button
@@ -68,14 +68,14 @@ export default function Pagination({
 				className='[&>span]:hidden [&>span]:md:block'
 			/>
 
-			<div className='items-center hidden md:flex gap-x-3'>
+			<div className='hidden items-center gap-x-3 md:flex'>
 				{listPages?.map(({ title, active, page }, index) => (
 					<button
 						className={clsx(
-							'px-2 py-1 text-sm rounded-md',
+							'rounded-md px-2 py-1 text-sm',
 							active
-								? 'text-blue-500  dark:bg-gray-800 bg-blue-100/60'
-								: 'text-gray-500 dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100',
+								? 'bg-blue-100/60  text-blue-500 dark:bg-gray-800'
+								: 'text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
 						)}
 						key={page ? `Page_${page}` : `index_${index}`}
 						onClick={() =>
@@ -89,7 +89,7 @@ export default function Pagination({
 					</button>
 				))}
 			</div>
-			<div className='items-center flex md:hidden gap-x-3'>
+			<div className='flex items-center gap-x-3 md:hidden'>
 				{t('general.page_of_', { page, maxPage })}
 			</div>
 

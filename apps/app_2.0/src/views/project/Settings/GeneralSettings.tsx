@@ -6,7 +6,13 @@ import { Input, Select, File, Textarea } from '@/components/Controls/Form';
 import Skeleton from '@/components/Skeleton';
 import { MdLabelOutline, MdOutlineCloudUpload } from 'react-icons/md';
 import Marker from '@/components/ColorMarker';
-import { EnumResponse, EnumColor, EnumCurrency, COLORS, CURRENCIES } from '@/enums';
+import {
+	EnumResponse,
+	EnumColor,
+	EnumCurrency,
+	COLORS,
+	CURRENCIES,
+} from '@/enums';
 import {
 	useCallback,
 	useEffect,
@@ -63,7 +69,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 		(
 			event: React.FormEvent<
 				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
+			>
 		) => {
 			const target = event.target as HTMLInputElement;
 			const name = target.name;
@@ -71,7 +77,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			setActiveProject((prev) => (prev ? { ...prev, [name]: value } : null));
 			setChanged(true);
 		},
-		[],
+		[]
 	);
 
 	const onDiscard = useCallback(() => {
@@ -85,11 +91,11 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 			state: newProject.state,
 			permission: newProject.roles[newProject.role || ''],
 		}),
-		[],
+		[]
 	);
 
 	return (
-		<div className='w-full max-w-3xl mx-auto mt-6 space-y-4'>
+		<div className='mx-auto mt-6 w-full max-w-3xl space-y-4'>
 			{/* State */}
 			<StateSettings<IFullProject>
 				serverAction={actionUpdateVisibilityProject}
@@ -205,7 +211,7 @@ function GeneralSettings({ project }: { project: IFullProject | null }) {
 					)}
 				</div>
 
-				<div className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-6'>
+				<div className='mt-6 grid grid-cols-1 gap-2 md:grid-cols-2'>
 					<ErrorCopy
 						code={result?.error?.code}
 						codes={{

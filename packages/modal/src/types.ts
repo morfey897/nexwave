@@ -1,30 +1,30 @@
 export enum Position {
-  CENTER = "center",
-  LEFT = "left",
-  RIGHT = "right",
-  TOP = "top",
-  BOTTOM = "bottom",
+	CENTER = 'center',
+	LEFT = 'left',
+	RIGHT = 'right',
+	TOP = 'top',
+	BOTTOM = 'bottom',
 }
 
 export type PositionX = Position.LEFT | Position.RIGHT | Position.CENTER;
 export type PositionY =
-  | Position.TOP
-  | Position.BOTTOM
-  | Position.CENTER
-  | `-${Position.TOP}`
-  | `-${Position.BOTTOM}`;
+	| Position.TOP
+	| Position.BOTTOM
+	| Position.CENTER
+	| `-${Position.TOP}`
+	| `-${Position.BOTTOM}`;
 export type LitPosition = Exclude<
-  `${PositionX}x${PositionY}`,
-  "leftx-top" | "leftx-bottom" | "rightx-top" | "rightx-bottom"
+	`${PositionX}x${PositionY}`,
+	'leftx-top' | 'leftx-bottom' | 'rightx-top' | 'rightx-bottom'
 >;
-export type UnionAnimation = "show" | "finish" | "hide";
+export type UnionAnimation = 'show' | 'finish' | 'hide';
 
 export type AnimFunc =
-  | "ease"
-  | "ease-in"
-  | "ease-out"
-  | "ease-in-out"
-  | "linear";
+	| 'ease'
+	| 'ease-in'
+	| 'ease-out'
+	| 'ease-in-out'
+	| 'linear';
 
 export type AnimParams = [`${number}s`, AnimFunc];
 export type SetOfAnimParams = Record<string, AnimParams> | AnimParams;
@@ -32,20 +32,20 @@ export type SetOfAnimParams = Record<string, AnimParams> | AnimParams;
 export type TModalParams = Record<string, string | number | boolean>;
 
 export enum ModalState {
-  OPENING = "opening",
-  OPENED = "opened",
-  CLOSING = "closing",
-  NONE = "none",
+	OPENING = 'opening',
+	OPENED = 'opened',
+	CLOSING = 'closing',
+	NONE = 'none',
 }
 
 export interface IModalWrapper {
-  name: string;
-  params: TModalParams | undefined;
+	name: string;
+	params: TModalParams | undefined;
 }
 
 export interface IModal {
-  name: string;
-  params: TModalParams | undefined;
-  state: ModalState;
-  closeMe: () => void;
+	name: string;
+	params: TModalParams | undefined;
+	state: ModalState;
+	closeMe: () => void;
 }

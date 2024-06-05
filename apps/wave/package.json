@@ -6,7 +6,9 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"format": "prettier --write --parser typescript --ignore-path .gitignore '**/*.{ts,tsx}'",
+		"clear": "rimraf .next node_modules"
 	},
 	"dependencies": {
 		"@ducanh2912/next-pwa": "^10.2.7",

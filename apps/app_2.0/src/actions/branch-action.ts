@@ -30,7 +30,7 @@ import { getSession } from '@/headers';
  * @returns IResponse
  */
 export async function actionCreateNewBranch(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<{ project: IFullProject; branch: IFullBranch }>> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -85,7 +85,7 @@ export async function actionCreateNewBranch(
  */
 // TODO: update branch
 export async function actionUpdateBranch(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IFullProject>> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -131,7 +131,7 @@ export async function actionUpdateBranch(
 				},
 				spaces: spaces,
 				// image: file,
-			},
+			}
 		);
 
 		if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
@@ -150,7 +150,7 @@ export async function actionUpdateBranch(
  * @returns IResponse
  */
 export async function actionUpdateVisibilityBranch(
-	formData: FormData,
+	formData: FormData
 ): Promise<IResponse<IFullProject> | never> {
 	try {
 		const user = await getUserFromSession(getSession());
@@ -178,7 +178,7 @@ export async function actionUpdateVisibilityBranch(
 				{
 					userId: user.id,
 					projectId,
-				},
+				}
 			);
 
 			if (!access) throw doError(ErrorCodes.ACCESS_DENIED);
@@ -192,7 +192,7 @@ export async function actionUpdateVisibilityBranch(
 							: action == 'unpublish'
 								? EnumState.INACTIVE
 								: undefined,
-				},
+				}
 			);
 
 			if (!success) throw doError(ErrorCodes.UPDATE_FAILED);
@@ -203,7 +203,7 @@ export async function actionUpdateVisibilityBranch(
 			throw doError(
 				action === 'delete'
 					? ErrorCodes.DELETE_FAILED
-					: ErrorCodes.UPDATE_FAILED,
+					: ErrorCodes.UPDATE_FAILED
 			);
 		return { status: EnumResponse.SUCCESS, data: project };
 	} catch (error: any) {

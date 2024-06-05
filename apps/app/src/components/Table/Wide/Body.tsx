@@ -15,7 +15,7 @@ function Body<T extends TUID>({
 					{head.map(({ token, Generator, flex }) => (
 						<div
 							key={`item_${token}_${item.uuid}`}
-							className='w-full py-3.5 px-4 text-xs lg:text-sm font-normal rtl:text-right text-gray-500 dark:text-gray-400 text-left text-ellipsis'
+							className='w-full text-ellipsis px-4 py-3.5 text-left text-xs font-normal text-gray-500 lg:text-sm rtl:text-right dark:text-gray-400'
 							style={{ flex: flex || 1 }}
 						>
 							<Generator item={item} device={EnumDeviceType.DESKTOP} />

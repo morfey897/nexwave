@@ -18,7 +18,7 @@ import ClientAccordion from './client-accordion';
 export default async function Home() {
 	// redirect(APP);
 	return (
-		<div className='grid grid-cols-2 gap-x-2 gap-y-4 mx-auto mt-10 bg-slate-700 p-10'>
+		<div className='mx-auto mt-10 grid grid-cols-2 gap-x-2 gap-y-4 bg-slate-700 p-10'>
 			<Input
 				required
 				name='name'
@@ -31,7 +31,7 @@ export default async function Home() {
 						<Button
 							variant='text'
 							message={'forgot_password'}
-							className='text-center text-xs text-blue-500 hover:underline dark:text-blue-400 !p-0 mt-1'
+							className='mt-1 !p-0 text-center text-xs text-blue-500 hover:underline dark:text-blue-400'
 						/>
 					</div>
 				}

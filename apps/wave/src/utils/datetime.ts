@@ -53,7 +53,7 @@ export const mmToTime = (minutes: number) => ({
 
 export const addTime = (
 	d: Date | string | number | ReturnType<typeof toTime>,
-	plus: ReturnType<typeof toTime>,
+	plus: ReturnType<typeof toTime>
 ) => {
 	let time =
 		typeof d === 'string' || typeof d === 'number' || d instanceof Date

@@ -88,7 +88,7 @@ function StateSettings<T>({
 		(formData: FormData) => {
 			action(formData);
 		},
-		[action],
+		[action]
 	);
 
 	const onChangeState: React.MouseEventHandler<HTMLButtonElement> = useCallback(
@@ -102,7 +102,7 @@ function StateSettings<T>({
 			submit();
 			onSubmit(formData);
 		},
-		[id, activeItem, reset, submit, onSubmit],
+		[id, activeItem, reset, submit, onSubmit]
 	);
 
 	useEffect(() => {
@@ -129,7 +129,7 @@ function StateSettings<T>({
 							{(state === EnumState.DRAFT || !state) && (
 								<>
 									{t(`state.draft`)}
-									<span className='text-blue-500 inline-block align-bottom ml-2'>
+									<span className='ml-2 inline-block align-bottom text-blue-500'>
 										<HiMiniPencilSquare size={38} />
 									</span>
 								</>
@@ -137,7 +137,7 @@ function StateSettings<T>({
 							{state === EnumState.ACTIVE && (
 								<>
 									{t(`state.published`)}
-									<span className='text-green-400 inline-block align-bottom ml-2'>
+									<span className='ml-2 inline-block align-bottom text-green-400'>
 										<HiShieldCheck size={38} />
 									</span>
 								</>
@@ -145,7 +145,7 @@ function StateSettings<T>({
 							{state === EnumState.INACTIVE && (
 								<>
 									{t(`state.unpublished`)}
-									<span className='text-yellow-500 inline-block align-bottom ml-2'>
+									<span className='ml-2 inline-block align-bottom text-yellow-500'>
 										<HiArchiveBox size={38} />
 									</span>
 								</>
@@ -153,7 +153,7 @@ function StateSettings<T>({
 						</p>
 					</div>
 					{/* Actions */}
-					<div className='col-span-12 md:col-span-5 flex flex-col items-start md:items-end'>
+					<div className='col-span-12 flex flex-col items-start md:col-span-5 md:items-end'>
 						<Group>
 							{(state === EnumState.DRAFT || !state) && (
 								<>
@@ -225,7 +225,7 @@ function StateSettings<T>({
 							)}
 						</Group>
 						{result?.status === EnumResponse.FAILED && (
-							<div className='flex justify-end my-2'>
+							<div className='my-2 flex justify-end'>
 								<ErrorCopy
 									code={result?.error?.code}
 									codes={{
@@ -234,7 +234,7 @@ function StateSettings<T>({
 										[ErrorCodes.UPDATE_FAILED]: true,
 										[ErrorCodes.DELETE_FAILED]: true,
 										[ErrorCodes.DELETE_LAST_FAILED]: t(
-											'error.delete_last_failed',
+											'error.delete_last_failed'
 										),
 									}}
 								/>

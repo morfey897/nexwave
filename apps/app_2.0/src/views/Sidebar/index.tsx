@@ -36,8 +36,8 @@ function Sidebar({ params }: { params: Record<string, string> }) {
 	const t = useTranslations();
 
 	return (
-		<aside className='overflow-y-auto overflow-x-hidden top-0 bottom-0 z-20 left-0 fixed flex flex-col w-10 sm:w-14 md:w-32 lg:w-64 lg:px-4 py-4 lg:py-8  bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-800 dark:border-gray-700'>
-			<nav className='flex flex-col flex-1 pt-[80px]'>
+		<aside className='fixed bottom-0 left-0 top-0 z-20 flex w-10 flex-col overflow-y-auto overflow-x-hidden border-r bg-white py-4 sm:w-14 md:w-32 lg:w-64  lg:px-4 lg:py-8 rtl:border-l rtl:border-r-0 dark:border-gray-700 dark:bg-gray-800'>
+			<nav className='flex flex-1 flex-col pt-[80px]'>
 				<ActiveProject />
 				<hr className='my-4 border-gray-200 dark:border-gray-600' />
 
