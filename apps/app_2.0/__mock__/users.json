@@ -1,0 +1,31 @@
+[
+	{
+		"uid": "123456789",
+		"login": "jane.doe@example.com | +1-555-555-5555",
+		"avatar": "https://i.pravatar.cc/150?img=123456789",
+		"role": "admin",
+		"access": ["create", "update", "read", "delete"],
+		"created_at": "2020-01-01T00:00:00.000Z",
+		"last_visit_at": "2020-01-01T00:00:00.000Z",
+		"birthday": "2000-01-01",
+		"contacts": {
+			"phone": "+1-555-555-5555",
+			"email": "jane.doe@example.com",
+			"instagram": "https://instagram.com/jane.doe",
+			"facebook": "https://facebook.com/jane.doe",
+			"twitter": "https://twitter.com/jane.doe",
+			"linkedin": "https://linkedin.com/jane.doe",
+			"telegram": "https://t.me/jane.doe",
+			"whatsapp": "https://wa.me/15555555555",
+			"viber": "https://viber.com/jane.doe"
+		}
+	},
+	{
+		"email": "jane.doe@example.com",
+		"phone": "+1-555-555-5555",
+		"uid": "987654321",
+		"avatar": "https://i.pravatar.cc/150?img=987654321",
+		"role": "user",
+		"access": ["read"]
+	}
+]
