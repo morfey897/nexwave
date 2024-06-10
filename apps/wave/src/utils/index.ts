@@ -1,5 +1,5 @@
 import { humanId } from 'human-id';
-import { EnumColor } from '@/constants/enums';
+import { EnumColor } from '~enums';
 import { nanoid } from 'nanoid';
 
 export const addZiro = (str: string | number) => `0${str}`.slice(-2);

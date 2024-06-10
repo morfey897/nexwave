@@ -1,5 +1,5 @@
-import * as ErrorCodes from '@/errorCodes';
-import { strTimeToMinutes } from '@/utils/datetime';
+import * as ErrorCodes from '~errorCodes';
+import { strTimeToMinutes } from '~utils/datetime';
 
 export const validate = (
 	props: Array<{

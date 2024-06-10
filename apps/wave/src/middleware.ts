@@ -1,9 +1,9 @@
 import { COOKIES, HEADERS } from '@nw/config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { EnumApiRoutes, EnumProtectedRoutes } from '@/constants/enums';
-import { getSession, getRefreshToken } from '@/headers';
-import { computeLocale, computeDevice, updateCookie } from './utils/middleware';
+import { EnumApiRoutes, EnumProtectedRoutes } from '~enums';
+import { getSession, getRefreshToken } from '~utils/headers';
+import { computeLocale, computeDevice, updateCookie } from '~utils/middleware';
 
 /**
  * Custom middleware
@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
 	// Refresh token on protected routes
 	// TODO should add a check for the refresh token expiration
 	if (pathname.startsWith(EnumProtectedRoutes.APP)) {
-		console.log('refresh token');
+		console.log('refresh token', new URL(EnumApiRoutes.AUTH_REFRESH_TOKEN, request.nextUrl.origin));
 		try {
 			const session = getSession();
 			const refresh_token = getRefreshToken();

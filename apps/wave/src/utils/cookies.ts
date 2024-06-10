@@ -1,5 +1,5 @@
 import { COOKIES } from '@nw/config';
-import { signAuth } from '@/lib/jwt';
+import { signAuth } from '~lib/jwt';
 
 export const sessionCookie = (user: { uuid: string } | null) => ({
 	name: COOKIES.SESSION,

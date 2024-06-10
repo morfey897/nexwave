@@ -38,12 +38,35 @@ export enum EnumDeviceType {
 	TABLET = 'tablet',
 }
 
-// export enum EnumResponse {
-// 	IDLE = 'idle',
-// 	LOADING = 'loading',
-// 	SUCCESS = 'success',
-// 	FAILED = 'failed',
-// }
+export enum EnumResponseStatus {
+	IDLE = 'idle',
+	LOADING = 'loading',
+	SUCCESS = 'success',
+	FAILED = 'failed',
+}
+
+export enum EnumSortBy {
+	NONE = 'none',
+	SR_ONLY = 'sr-only',
+	SYMBOLIC = 'symbolic',
+	NUMERIC = 'numeric',
+}
+
+export enum EnumRepeatPeriod {
+	WEEKLY = 'WEEKLY',
+	MONTHLY = 'MONTHLY',
+	YEARLY = 'YEARLY',
+}
+
+export enum EnumWeekDay {
+	SUNDAY = 'SU',
+	MONDAY = 'MO',
+	TUESDAY = 'TU',
+	WEDNESDAY = 'WE',
+	THURSDAY = 'TH',
+	FRIDAY = 'FR',
+	SATURDAY = 'SA',
+}
 
 // export enum EnumLevel {
 // 	SUCCESS = 'success',
@@ -77,13 +100,6 @@ export enum EnumDeviceType {
 // 	user = 'user',
 // }
 
-// export enum EnumSortBy {
-// 	NONE = 'none',
-// 	SR_ONLY = 'sr-only',
-// 	SYMBOLIC = 'symbolic',
-// 	NUMERIC = 'numeric',
-// }
-
 // TODO take from DB
 export enum EnumColor {
 	RED = 'red',
@@ -102,22 +118,6 @@ export enum EnumColor {
 // 	UAH = 'UAH',
 // 	USD = 'USD',
 // 	EUR = 'EUR',
-// }
-
-// export enum EnumRepeatPeriod {
-// 	WEEKLY = 'WEEKLY',
-// 	MONTHLY = 'MONTHLY',
-// 	YEARLY = 'YEARLY',
-// }
-
-// export enum EnumWeekDay {
-// 	SUNDAY = 'SU',
-// 	MONDAY = 'MO',
-// 	TUESDAY = 'TU',
-// 	WEDNESDAY = 'WE',
-// 	THURSDAY = 'TH',
-// 	FRIDAY = 'FR',
-// 	SATURDAY = 'SA',
 // }
 
 // COLORS = Object.values(EnumColor);

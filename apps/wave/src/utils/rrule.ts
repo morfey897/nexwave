@@ -1,4 +1,4 @@
-import { EnumRepeatPeriod, EnumWeekDay } from '@/enums';
+import { EnumRepeatPeriod, EnumWeekDay } from '~enums';
 import { RRule, type Options, type Weekday } from 'rrule';
 
 export const transformRRule = (

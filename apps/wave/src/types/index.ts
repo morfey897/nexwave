@@ -1,5 +1,10 @@
-import { COOKIES, LOCALES } from '@nw/config';
-import { EnumResponse } from '@/enums';
+import { LOCALES } from '@nw/config';
+import { EnumResponseStatus } from '~enums';
+
+export type TUID = {
+	id: number;
+	uuid: string;
+};
 
 export interface IError {
 	code: string;
@@ -7,7 +12,7 @@ export interface IError {
 }
 
 export interface IResponse<T extends any = undefined> {
-	status: EnumResponse;
+	status: EnumResponseStatus;
 	error?: IError;
 	data?: T;
 }

@@ -1,8 +1,8 @@
 import { cookies, headers } from 'next/headers';
 import { COOKIES, HEADERS, LOCALES } from '@nw/config';
-import { EnumDeviceType } from '@/constants/enums';
+import { EnumDeviceType } from '~enums';
 
-export const getLocale = (): string =>
+export const getI18n = (): string =>
 	cookies().get(COOKIES.LOCALE)?.value ||
 	process.env.NEXT_PUBLIC_DEFAULT_LOCALE! ||
 	LOCALES.EN;
