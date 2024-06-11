@@ -7,8 +7,6 @@ export const getI18n = (): string =>
 	process.env.NEXT_PUBLIC_DEFAULT_LOCALE! ||
 	LOCALES.EN;
 
-export const getTheme = () => cookies().get(COOKIES.THEME)?.value;
-
 export const getSearchParams = (): URLSearchParams =>
 	new URLSearchParams(headers().get(HEADERS.SEARCH_PARAMS) || '');
 export const getPathname = (): string => headers().get(HEADERS.PATHNAME) || '/';

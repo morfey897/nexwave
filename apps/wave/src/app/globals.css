@@ -1,4 +1,4 @@
-@import "tailwindcss/base";
+/* @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
@@ -30,4 +30,26 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+} */
+
+@import "@radix-ui/themes/styles.css";
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Your default theme */
+  --background: rgba(255, 255, 255, 1);
+}
+
+:is(.dark, .dark-theme) {
+  --background: rgba(31, 42, 55, 1);
 }

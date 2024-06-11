@@ -29,8 +29,7 @@ export async function middleware(request: NextRequest) {
 
 	// Refresh token on protected routes
 	// TODO should add a check for the refresh token expiration
-	if (pathname.startsWith(EnumProtectedRoutes.APP)) {
-		console.log('refresh token', new URL(EnumApiRoutes.AUTH_REFRESH_TOKEN, request.nextUrl.origin));
+	if (false && pathname.startsWith(EnumProtectedRoutes.APP)) {
 		try {
 			const session = getSession();
 			const refresh_token = getRefreshToken();
@@ -46,8 +45,6 @@ export async function middleware(request: NextRequest) {
 				}
 			);
 			const json = await refreshResponse.json();
-
-			console.log('refreshed token', json);
 
 			if (json.success && !!json.session && typeof json.session === 'object') {
 				updateCookie(response, [json.session]);
