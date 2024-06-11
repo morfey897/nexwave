@@ -461,7 +461,7 @@ export const SettingsIcon = () => (
 );
 
 export const sidebarIcons = [
-	{ name: 'Dashboard', icon: <DashboardIcon />, href: '/dashboard' },
+	{ name: 'DASHBOARD', icon: <DashboardIcon />, href: '/dashboard' },
 	{ name: 'Calendar', icon: <CalendarIcon />, href: '/calendar' },
 	{ name: 'Clients', icon: <ClientsIcon />, href: '/clients' },
 	{ name: 'Services', icon: <ServicesIcon />, href: '/services' },

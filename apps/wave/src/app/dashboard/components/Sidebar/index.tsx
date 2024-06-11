@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { LogoSideBar, SidebarBurgerIcon, sidebarIcons } from './Icons';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const Sidebar = () => {
+	const t = useTranslations();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -148,7 +150,7 @@ const Sidebar = () => {
 										className='group flex items-center rounded-lg p-2 text-gray-600 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700'
 									>
 										<span>{item.icon}</span>
-										<span className='ms-3 md:hidden lg:block'>{item.name}</span>
+										<span className='ms-3 md:hidden lg:block'>{t(item.name)}</span>
 									</Link>
 								</li>
 							)
