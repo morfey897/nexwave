@@ -24,6 +24,7 @@
 			"~enums": ["./src/constants/enums.ts"],
 			"~utils": ["./src/utils/index.ts"],
 			"~types": ["./src/types/index.ts"],
+			"~icons": ["./src/icons/index.ts"],
 			// Add the following paths
 			"~components/*": ["./src/components/*"],
 			"~constants/*": ["./src/constants/*"],
@@ -34,6 +35,7 @@
 			"~actions/*": ["./src/actions/*"],
 			"~types/*": ["./src/types/*"],
 			"~hooks/*": ["./src/hooks/*"],
+			"~icons/*": ["./src/icons/*"],
 			// Path to packages
 			"@packages/*": ["../../packages/*"]
 		}
