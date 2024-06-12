@@ -31,7 +31,7 @@ body {
     text-wrap: balance;
   }
 } */
-
+@import "./reset.css";
 @import "@radix-ui/themes/styles.css";
 @import "./app.theme.css";
 
