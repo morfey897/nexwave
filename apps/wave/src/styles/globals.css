@@ -33,6 +33,7 @@ body {
 } */
 
 @import "@radix-ui/themes/styles.css";
+@import "./app.theme.css";
 
 html {
   scroll-behavior: smooth;
@@ -43,13 +44,4 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-:root {
-  /* Your default theme */
-  --background: rgba(255, 255, 255, 1);
-}
-
-:is(.dark, .dark-theme) {
-  --background: rgba(31, 42, 55, 1);
 }

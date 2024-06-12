@@ -1,0 +1,10 @@
+
+/* TODO add dark / light shcema */
+:root {
+  /* Your default theme */
+  --background: rgba(255, 255, 255, 1);
+}
+
+:is(.dark, .dark-theme) {
+  --background: rgba(31, 42, 55, 1);
+}
