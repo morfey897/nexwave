@@ -34,14 +34,3 @@ body {
 @import "./reset.css";
 @import "@radix-ui/themes/styles.css";
 @import "./app.theme.css";
-
-html {
-  scroll-behavior: smooth;
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}

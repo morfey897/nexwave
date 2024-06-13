@@ -1,15 +1,15 @@
-'use client';
 import React from 'react';
-import Button from '~components/buttons';
 import { signInWithOauth } from '~actions/auth-action';
 
 function OAuthButton({
 	redirect_to,
 	provider,
-	...props
-}: { provider: 'google' | 'instagram'; redirect_to?: string } & Parameters<
-	typeof Button<React.ButtonHTMLAttributes<HTMLButtonElement>>
->[0]) {
+	children,
+}: {
+	provider: 'google' | 'instagram';
+	redirect_to?: string;
+	children: React.ReactNode;
+}) {
 	return (
 		<form
 			action={signInWithOauth}
@@ -18,7 +18,7 @@ function OAuthButton({
 		>
 			<input type='hidden' name='provider' value={provider} />
 			<input type='hidden' name='redirect_to' value={redirect_to} />
-			<Button {...props} type='submit' />
+			{children}
 		</form>
 	);
 }
