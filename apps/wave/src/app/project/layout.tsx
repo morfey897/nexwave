@@ -1,8 +1,8 @@
 import { getRefreshToken, getSession, getTrail } from '~utils/headers';
 import { getUserFromSession } from '~models/user';
 import { Box, Container, Flex, Text } from '@radix-ui/themes';
+import Sidebar from '../dashboard/components/Sidebar';
 // import { useMemo } from 'react';
-import Sidebar from '~components/sidebar';
 // import Loading from '../../app/loading';
 // import AuthView from '~components/auth';
 // import RefreshToken from '~components/user/RefreshToken.client';
@@ -19,7 +19,7 @@ export default async function ProjectLayout({
 
 	const content = new Array(100)
 		.fill(0)
-		.map((_, i) => <Text key={i}>Aside</Text>);
+		.map((_, i) => <Box key={i}>Aside</Box>);
 
 	return (
 		<>
@@ -33,6 +33,7 @@ export default async function ProjectLayout({
 			<main>
 				<Flex height={'100vh'}>
 					<Sidebar />
+					<Flex direction={'column'}>{content}</Flex>
 					<Box flexGrow={'1'}>{children}</Box>
 				</Flex>
 			</main>

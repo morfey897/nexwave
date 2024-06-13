@@ -199,11 +199,14 @@
 		"app": "Root",
 		"timetable": "Timetable",
 		"users": "Users",
+		"dashboard": "Dashboard",
 		"products": "Products",
 		"settings": "Settings",
 		"projects": "Projects",
 		"clients": "Clients",
 		"services": "Services",
+		"calendar": "Calendar",
+		"employees": "Employees",
 		"access": "Access"
 	},
 
