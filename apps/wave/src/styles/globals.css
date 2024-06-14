@@ -1,36 +1,70 @@
-/* @import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '@radix-ui/themes/styles.css';
+@import './app.theme.css';
+
+@layer base {
+	:root {
+		--gray-1: rgb(243, 244, 246);
+		--gray-2: rgb(229, 231, 235);
+		--gray-3: rgb(209 213 219);
+		--gray-4: rgb(156, 163, 175);
+		--gray-5: rgb(107, 114, 128);
+		--gray-6: rgb(75, 85, 99);
+		--gray-7: rgb(55, 65, 81);
+		--gray-8: rgb(31, 41, 55);
+		--gray-9: rgb(17, 24, 39);
+	}
+	.dark {
+		--gray-1: rgb(17, 24, 39);
+		--gray-2: rgb(31, 41, 55);
+		--gray-3: rgb(55, 65, 81);
+		--gray-4: rgb(75, 85, 99);
+		--gray-5: rgb(229, 231, 235);
+		--gray-6: rgb(156, 163, 175);
+		--gray-7: rgb(229, 231, 235);
+		--gray-8: rgb(255 255 255);
+		--gray-9: rgb(229, 231, 235);
+	}
+}
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+	--foreground-rgb: 0, 0, 0;
+	--background-start-rgb: 214, 219, 220;
+	--background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+	:root {
+		--foreground-rgb: 255, 255, 255;
+		--background-start-rgb: 0, 0, 0;
+		--background-end-rgb: 0, 0, 0;
+	}
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+	color: rgb(var(--foreground-rgb));
+	background: linear-gradient(
+			to bottom,
+			transparent,
+			rgb(var(--background-end-rgb))
+		)
+		rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */
-@import "./reset.css";
-@import "@radix-ui/themes/styles.css";
-@import "./app.theme.css";
+	.text-balance {
+		text-wrap: balance;
+	}
+}
+*/ html {
+	scroll-behavior: smooth;
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
