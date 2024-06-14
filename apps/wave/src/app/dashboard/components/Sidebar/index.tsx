@@ -8,18 +8,26 @@ import Image from 'next/image';
 import { Box, ScrollArea, Button, Flex, Separator } from '@radix-ui/themes';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import HamburgerIcon from '~icons/HamburgerIcon';
+import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from 'react';
 
 const Sidebar = () => {
 	const sidebarIconsSettings = SidebarIconsSettings();
+	const isDesktopOrLaptop = useMediaQuery({
+		query: '(min-width: 1224px)',
+	});
+
+	const [mounted, setMounted] = useState(false);
+	useEffect(() => setMounted(true), []);
 
 	return (
 		<Box width={{ lg: '300px' }}>
-			<Collapsible.Root>
-				<Collapsible.Trigger asChild className='fixed'>
+			<Collapsible.Root open={mounted && isDesktopOrLaptop}>
+				{/* <Collapsible.Trigger asChild className='fixed'>
 					<Button>
 						<HamburgerIcon />
 					</Button>
-				</Collapsible.Trigger>
+				</Collapsible.Trigger> */}
 				<Collapsible.Content>
 					<aside
 						className={clsx(
@@ -32,9 +40,11 @@ const Sidebar = () => {
 							className='h-full rounded-r-sm bg-gray-50 px-3 py-4 md:px-0 lg:px-3 dark:bg-gray-800'
 						>
 							<Collapsible.Trigger asChild>
-								<Button className='absolute right-0 top-0 m-2 cursor-pointer rounded-md p-2 text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700'>
-									<SidebarBurgerIcon />
-								</Button>
+								{mounted && !isDesktopOrLaptop && (
+									<Button className='absolute right-0 top-0 m-2 cursor-pointer rounded-md p-2 text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700'>
+										<SidebarBurgerIcon />
+									</Button>
+								)}
 							</Collapsible.Trigger>
 							<Box>
 								<Link

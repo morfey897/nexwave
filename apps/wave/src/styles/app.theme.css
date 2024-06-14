@@ -1,12 +1,26 @@
 
-/* TODO add dark / light shcema */
 :root {
-  /* Your default theme */
-  --background: rgba(255, 255, 255, 1);
+	--gray-1: rgb(243, 244, 246);
+	--gray-2: rgb(229, 231, 235);
+	--gray-3: rgb(209 213 219);
+	--gray-4: rgb(156, 163, 175);
+	--gray-5: rgb(107, 114, 128);
+	--gray-6: rgb(75, 85, 99);
+	--gray-7: rgb(55, 65, 81);
+	--gray-8: rgb(31, 41, 55);
+	--gray-9: rgb(17, 24, 39);
 }
 
-:is(.dark, .dark-theme) {
-  --background: rgba(31, 42, 55, 1);
+.dark {
+	--gray-1: rgb(17, 24, 39);
+	--gray-2: rgb(31, 41, 55);
+	--gray-3: rgb(55, 65, 81);
+	--gray-4: rgb(75, 85, 99);
+	--gray-5: rgb(229, 231, 235);
+	--gray-6: rgb(156, 163, 175);
+	--gray-7: rgb(229, 231, 235);
+	--gray-8: rgb(255 255 255);
+	--gray-9: rgb(229, 231, 235);
 }
 
 .radix-themes {

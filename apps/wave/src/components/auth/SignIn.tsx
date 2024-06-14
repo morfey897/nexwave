@@ -60,7 +60,7 @@ const SignIn = ({
 		<Dialog.Content maxWidth='450px'>
 			<IconButton
 				onClick={close}
-				style={{ position: 'absolute', right: 24 }}
+				className='absolute right-4'
 				size={'3'}
 				aria-label='Close'
 				variant='outline'

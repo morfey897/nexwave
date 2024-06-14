@@ -39,14 +39,14 @@ const SignUp = ({
 
 	return (
 		<div>
-			<OAuthButton
+			{/* <OAuthButton
 				redirect_to={EnumProtectedRoutes.APP}
 				provider='google'
 				disabled={pending}
 				icon={<FcGoogle size={24} />}
 				className='mt-2 w-full px-6 py-3'
 				message={t('page.sign_up.with_google')}
-			/>
+			/> */}
 			<div className='my-4 flex items-center justify-between'>
 				<span className='w-1/5 border-b dark:border-gray-600'></span>
 
