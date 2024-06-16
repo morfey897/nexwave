@@ -1,3 +1,13 @@
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 :root {
 	--gray-1: rgb(243, 244, 246);
@@ -9,6 +19,9 @@
 	--gray-7: rgb(55, 65, 81);
 	--gray-8: rgb(31, 41, 55);
 	--gray-9: rgb(17, 24, 39);
+
+	--color-primary: rgba(255, 255, 255, 1);
+	--color-secondary: rgba(249, 250, 251, 1);
 }
 
 .dark {
@@ -21,8 +34,11 @@
 	--gray-7: rgb(229, 231, 235);
 	--gray-8: rgb(255 255 255);
 	--gray-9: rgb(229, 231, 235);
-}
 
+	--color-primary: rgba(31, 42, 55, 1);
+	--color-secondary: rgba(17, 25, 40, 1);
+}
+/* 
 .radix-themes {
   --cursor-button: pointer;
   --cursor-checkbox: pointer;
@@ -33,4 +49,4 @@
   --cursor-slider-thumb: grab;
   --cursor-slider-thumb-active: grabbing;
   --cursor-switch: pointer;
-}
+} */
