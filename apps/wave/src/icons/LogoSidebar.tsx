@@ -138,10 +138,10 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='23.2558'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop offset='0.00752105' stop-color='#0524B5' />
-				<stop offset='0.417673' stop-color='#58EEFB' />
-				<stop offset='0.550223' stop-color='#1BE8F9' />
-				<stop offset='0.822521' stop-color='#0283EB' />
+				<stop offset='0.00752105' stopColor='#0524B5' />
+				<stop offset='0.417673' stopColor='#58EEFB' />
+				<stop offset='0.550223' stopColor='#1BE8F9' />
+				<stop offset='0.822521' stopColor='#0283EB' />
 			</linearGradient>
 			<linearGradient
 				id='paint1_linear_183_31465'
@@ -151,9 +151,9 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='46.3479'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#09264A' stop-opacity='0.5' />
-				<stop offset='0.481375' stop-color='#1B44C8' />
-				<stop offset='0.97619' stop-color='#09A4FF' />
+				<stop stopColor='#09264A' stopOpacity='0.5' />
+				<stop offset='0.481375' stopColor='#1B44C8' />
+				<stop offset='0.97619' stopColor='#09A4FF' />
 			</linearGradient>
 			<linearGradient
 				id='paint2_linear_183_31465'
@@ -163,9 +163,9 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='26.9182'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#0524B5' />
-				<stop offset='0.533476' stop-color='#1BE8F9' />
-				<stop offset='1' stop-color='#0283EB' />
+				<stop stopColor='#0524B5' />
+				<stop offset='0.533476' stopColor='#1BE8F9' />
+				<stop offset='1' stopColor='#0283EB' />
 			</linearGradient>
 			<linearGradient
 				id='paint3_linear_183_31465'
@@ -175,8 +175,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='8.01825'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='white' />
-				<stop offset='1' stop-color='#95F5FD' />
+				<stop stopColor='white' />
+				<stop offset='1' stopColor='#95F5FD' />
 			</linearGradient>
 			<linearGradient
 				id='paint4_linear_183_31465'
@@ -186,8 +186,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='28.2546'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#95F5FD' />
-				<stop offset='1' stop-color='white' />
+				<stop stopColor='#95F5FD' />
+				<stop offset='1' stopColor='white' />
 			</linearGradient>
 			<linearGradient
 				id='paint5_linear_183_31465'
@@ -197,8 +197,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='28.6364'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='white' />
-				<stop offset='1' stop-color='#95F5FD' />
+				<stop stopColor='white' />
+				<stop offset='1' stopColor='#95F5FD' />
 			</linearGradient>
 			<linearGradient
 				id='paint6_linear_183_31465'
@@ -208,8 +208,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='17.513'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='white' />
-				<stop offset='0.965649' stop-color='#95F5FD' />
+				<stop stopColor='white' />
+				<stop offset='0.965649' stopColor='#95F5FD' />
 			</linearGradient>
 			<linearGradient
 				id='paint7_linear_183_31465'
@@ -219,10 +219,10 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='33.4092'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop offset='0.116511' stop-color='#F5ABA5' />
-				<stop offset='0.266456' stop-color='#DD116C' />
-				<stop offset='0.533655' stop-color='#041A8C' />
-				<stop offset='1' stop-color='#03073C' />
+				<stop offset='0.116511' stopColor='#F5ABA5' />
+				<stop offset='0.266456' stopColor='#DD116C' />
+				<stop offset='0.533655' stopColor='#041A8C' />
+				<stop offset='1' stopColor='#03073C' />
 			</linearGradient>
 			<linearGradient
 				id='paint8_linear_183_31465'
@@ -232,9 +232,9 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='39.2806'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#91189E' />
-				<stop offset='0.239157' stop-color='#95F5FD' />
-				<stop offset='1' stop-color='#0524B5' />
+				<stop stopColor='#91189E' />
+				<stop offset='0.239157' stopColor='#95F5FD' />
+				<stop offset='1' stopColor='#0524B5' />
 			</linearGradient>
 			<linearGradient
 				id='paint9_linear_183_31465'
@@ -244,8 +244,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='35.6999'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#0524B5' />
-				<stop offset='1' stop-color='#95F5FD' />
+				<stop stopColor='#0524B5' />
+				<stop offset='1' stopColor='#95F5FD' />
 			</linearGradient>
 			<linearGradient
 				id='paint10_linear_183_31465'
@@ -255,8 +255,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='33.6'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='white' />
-				<stop offset='0.494887' stop-color='#95F5FD' />
+				<stop stopColor='white' />
+				<stop offset='0.494887' stopColor='#95F5FD' />
 			</linearGradient>
 			<linearGradient
 				id='paint11_linear_183_31465'
@@ -266,9 +266,9 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='41.9999'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop offset='0.129964' stop-color='#0524B5' />
-				<stop offset='0.49' stop-color='#95F5FD' />
-				<stop offset='0.884744' stop-color='#0524B5' />
+				<stop offset='0.129964' stopColor='#0524B5' />
+				<stop offset='0.49' stopColor='#95F5FD' />
+				<stop offset='0.884744' stopColor='#0524B5' />
 			</linearGradient>
 			<linearGradient
 				id='paint12_linear_183_31465'
@@ -278,8 +278,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='34.5545'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#4FEEFB' />
-				<stop offset='1' stop-color='#0524B5' />
+				<stop stopColor='#4FEEFB' />
+				<stop offset='1' stopColor='#0524B5' />
 			</linearGradient>
 			<linearGradient
 				id='paint13_linear_183_31465'
@@ -289,8 +289,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='36.4635'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#18A0F4' />
-				<stop offset='1' stop-color='#0524B5' />
+				<stop stopColor='#18A0F4' />
+				<stop offset='1' stopColor='#0524B5' />
 			</linearGradient>
 			<linearGradient
 				id='paint14_linear_183_31465'
@@ -300,8 +300,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='35.6999'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#0524B5' stop-opacity='0' />
-				<stop offset='1' stop-color='#0524B5' />
+				<stop stopColor='#0524B5' stopOpacity='0' />
+				<stop offset='1' stopColor='#0524B5' />
 			</linearGradient>
 			<linearGradient
 				id='paint15_linear_183_31465'
@@ -311,8 +311,8 @@ const LogoSidebar = (props: React.SVGProps<SVGSVGElement>) => (
 				y2='34.5545'
 				gradientUnits='userSpaceOnUse'
 			>
-				<stop stop-color='#95F5FD' />
-				<stop offset='1' stop-color='#0524B5' />
+				<stop stopColor='#95F5FD' />
+				<stop offset='1' stopColor='#0524B5' />
 			</linearGradient>
 			<clipPath id='clip0_183_31465'>
 				<rect width='42' height='42' rx='8' fill='white' />
