@@ -42,6 +42,11 @@ const config: Config = {
 					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
+				primary: 'var(--primary)',
+				secondary: 'var(--secondary)',
+				'primary-text': 'var(--primary-text)',
+				'secondary-text': 'var(--secondary-text)',
+				stroke: 'var(--stroke)',
 				gray: {
 					'1': 'var(--gray-1)',
 					'2': 'var(--gray-2)',
@@ -51,13 +56,6 @@ const config: Config = {
 					'6': 'var(--gray-6)',
 					'7': 'var(--gray-7)',
 					'8': 'var(--gray-8)',
-				},
-				color: {
-					primary: 'var(--color-primary)',
-					secondary: 'var(--color-secondary)',
-					'primary-text': 'var(--color-primary-text)',
-					'secondary-text': 'var(--color-secondary-text)',
-					stroke: 'var(--color-stroke)',
 				},
 				dark: {
 					'1': 'var(--dark-1)',
