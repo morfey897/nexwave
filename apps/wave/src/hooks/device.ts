@@ -1,6 +1,6 @@
 'use client';
 import { EnumDeviceType } from '~constants/enums';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 
 const MIN_WIDTH = {
 	sm: 640,
@@ -38,14 +38,12 @@ export const useBreakpoint = () => {
 	const lg = useMediaQuery(`(min-width: ${MIN_WIDTH.lg}px)`);
 	const xl = useMediaQuery(`(min-width: ${MIN_WIDTH.xl}px)`);
 	const xxl = useMediaQuery(`(min-width: ${MIN_WIDTH.xxl}px)`);
-	return {
-		xs,
-		sm,
-		md,
-		lg,
-		xl,
-		xxl,
-	};
+
+	const memoizedValue = useMemo(
+		() => ({ xs, sm, md, lg, xl, xxl }),
+		[xs, sm, md, lg, xl, xxl]
+	);
+	return memoizedValue;
 };
 
 export const useDevice = (): EnumDeviceType => {

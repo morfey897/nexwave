@@ -4,10 +4,12 @@ function Box({
 	className,
 	display = 'block',
 	flexGrow,
+	flexShrink,
 	...rest
 }: React.HTMLAttributes<HTMLDivElement> & {
 	display?: 'block' | 'inline-block' | 'inline' | 'none';
 	flexGrow?: '1' | '0';
+	flexShrink?: '1' | '0';
 }) {
 	return (
 		<div
@@ -20,7 +22,8 @@ function Box({
 				// Flex
 				flexGrow === '1' && 'grow',
 				flexGrow === '0' && 'grow-0',
-
+				flexShrink === '1' && 'shrink',
+				flexShrink === '0' && 'shrink-0',
 				className
 			)}
 			{...rest}

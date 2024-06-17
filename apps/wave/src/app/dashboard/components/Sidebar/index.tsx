@@ -9,21 +9,31 @@ import { ScrollArea, Button, Separator } from '@radix-ui/themes';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import HamburgerIcon from '~icons/HamburgerIcon';
-import { useMediaQuery } from 'react-responsive';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import { Box } from '~root/components/layout';
+import { useDevice } from '~root/hooks/device';
+import { EnumDeviceType } from '~constants/enums';
 
 const Sidebar = () => {
 	const sidebarIconsSettings = SidebarIconsSettings();
-	const isDesktopOrLaptop = useMediaQuery({
-		query: '(min-width: 768px)',
-	});
-
+	const device = useDevice();
 	const [mounted, setMounted] = useState(false);
-	useEffect(() => setMounted(true), []);
+
+	useLayoutEffect(() => {
+		if (device === EnumDeviceType.DESKTOP || device === EnumDeviceType.TABLET) {
+			setMounted(true);
+		} else {
+			setMounted(false);
+		}
+	}, [device]);
 
 	return (
-		<div className='relative'>
+		<Box
+			className={clsx('relative w-0 md:w-[54px] lg:w-[234px]')}
+			flexShrink='0'
+		>
 			<Collapsible.Root className='fixed' open={mounted}>
+				{/* This trigger should be a part of header */}
 				<Collapsible.Trigger
 					asChild
 					className='fixed'
@@ -46,20 +56,19 @@ const Sidebar = () => {
 										WAVE
 									</span>
 								</Link>
-								<Collapsible.Trigger asChild>
-									{mounted && !isDesktopOrLaptop && (
-										<Button
-											onClick={() => setMounted(false)}
-											className='cursor-pointer rounded-md text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700'
-										>
-											<SidebarBurgerIcon />
-										</Button>
-									)}
+								<Collapsible.Trigger asChild className='block md:hidden'>
+									<Button
+										onClick={() => setMounted(false)}
+										className='cursor-pointer rounded-md text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700'
+									>
+										<SidebarBurgerIcon />
+									</Button>
 								</Collapsible.Trigger>
 							</div>
 							<DropdownMenu.Root>
 								<DropdownMenu.Trigger>
 									<div className='mb-5 hidden cursor-pointer items-center md:flex md:px-2 lg:ps-2.5'>
+										{/* TODO it should be removed into icons section */}
 										<svg
 											width='42'
 											height='42'
@@ -88,7 +97,8 @@ const Sidebar = () => {
 												href='#'
 												className='mb-5 ml-3 mt-5 flex items-center'
 											>
-												<div className='flex-shrink-0'>
+												<Box flexShrink='0'>
+													{/* TODO it should be removed into icons section */}
 													<svg
 														width='42'
 														height='42'
@@ -107,7 +117,7 @@ const Sidebar = () => {
 															fill='white'
 														/>
 													</svg>
-												</div>
+												</Box>
 												<span className='self-center whitespace-nowrap px-3 text-xl font-semibold dark:text-white'>
 													Ballet School
 												</span>
@@ -118,7 +128,8 @@ const Sidebar = () => {
 												href='#'
 												className='mb-5 ml-3 mt-5 flex items-center'
 											>
-												<div className='flex-shrink-0'>
+												<Box flexShrink='0'>
+													{/* TODO it should be removed into icons section */}
 													<svg
 														width='42'
 														height='42'
@@ -137,7 +148,7 @@ const Sidebar = () => {
 															fill='white'
 														/>
 													</svg>
-												</div>
+												</Box>
 												<span className='self-center whitespace-nowrap px-3 text-xl font-semibold dark:text-white'>
 													Pole Dance
 												</span>
@@ -196,7 +207,7 @@ const Sidebar = () => {
 					</aside>
 				</Collapsible.Content>
 			</Collapsible.Root>
-		</div>
+		</Box>
 	);
 };
 

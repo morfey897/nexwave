@@ -32,27 +32,38 @@ export default async function ProjectLayout({
 			</header> */}
 			<main>
 				{/* height={'100vh'} */}
-				<Flex>
+				<div className='flex h-full'>
 					<Sidebar />
-					{/* <Box flexGrow={'1'} mx={'20px'}>
-						{!!user ? (
-							<>
-								{children}
-								<UpdateStore state={{ user }} />
-							</>
-						) : (
-							<>
-								<Loading />
-								<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
-							</>
-						)}
-					</Box> */}
-					{children}
-				</Flex>
+					<Box flexGrow='1' className='bg-white p-4'>
+						{children}
+					</Box>
+				</div>
 			</main>
 			{/* {!!refreshToken && <RefreshToken />} */}
 		</>
 	);
+
+	// {/* <div className='flex'>
+	// 				{/* <Sidebar /> */}
+	// 				<Box className='bg-primary w-60'>
+	// 					<div>SideBAR</div>
+	// 				</Box>
+	// 				<Box flexGrow={'1'} className='mx-5'>
+	// 					{children}
+	// 					{/* {!!user ? (
+	// 						<>
+	// 							{children}
+	// 							<UpdateStore state={{ user }} />
+	// 						</>
+	// 					) : (
+	// 						<>
+	// 							<Loading />
+	// 							<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
+	// 						</>
+	// 					)} */}
+	// 				</Box>
+	// 				{/* {children} */}
+	// 			</div>
 
 	// return (
 	// 	// <div className='w-full'>
