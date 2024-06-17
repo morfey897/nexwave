@@ -1,13 +1,12 @@
 import { NextIntlClientProvider } from 'next-intl';
-// import { Theme } from '@radix-ui/themes';
-import { ThemeProvider } from 'next-themes';
 import { getMessages } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { getI18n } from '~utils/headers';
+import { getI18n, getTheme } from '~utils/headers';
 import { generateViewport, getMetadata } from '~utils/seo';
 import '~styles/globals.css';
 import clsx from 'clsx';
+import Theme from '~root/components/user/Theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,17 +25,17 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const locale = getI18n();
+	const theme = getTheme();
 	const messages = await getMessages({ locale });
 	return (
-		<html lang={locale}>
-			<head />
-			<ThemeProvider attribute='class'>
-				<body className={clsx(inter.className, 'bg-secondary')}>
-					<NextIntlClientProvider messages={messages}>
-						{children}
-					</NextIntlClientProvider>
-				</body>
-			</ThemeProvider>
+		<html lang={locale} className={theme || ''}>
+			{/* <head /> */}
+			<Theme />
+			<body className={clsx(inter.className, 'bg-secondary')}>
+				<NextIntlClientProvider messages={messages}>
+					{children}
+				</NextIntlClientProvider>
+			</body>
 		</html>
 	);
 }

@@ -68,6 +68,11 @@ export enum EnumWeekDay {
 	SATURDAY = 'SA',
 }
 
+export enum EnumTheme {
+	LIGHT = 'light',
+	DARK = 'dark',
+}
+
 // export enum EnumLevel {
 // 	SUCCESS = 'success',
 // 	WARN = 'warn',

@@ -1,5 +1,5 @@
 import { humanId } from 'human-id';
-import { EnumColor } from '~enums';
+import { EnumColor, EnumTheme } from '~enums';
 import { nanoid } from 'nanoid';
 
 export const addZiro = (str: string | number) => `0${str}`.slice(-2);
@@ -83,3 +83,21 @@ export const doRedirect = (url: string) =>
 
 export const doError = (code: string, message?: string) =>
 	new Error(message || 'InternalError', { cause: { code } });
+
+export const getSystemTheme = () =>
+	window.matchMedia('(prefers-color-scheme: dark)').matches
+		? EnumTheme.DARK
+		: EnumTheme.LIGHT;
+
+export const getClassTheme = () => {
+	const classList = document.documentElement.classList;
+	if (
+		classList.contains(EnumTheme.DARK) ||
+		classList.contains(EnumTheme.LIGHT)
+	) {
+		return classList.contains(EnumTheme.DARK)
+			? EnumTheme.DARK
+			: EnumTheme.LIGHT;
+	}
+	return null;
+};

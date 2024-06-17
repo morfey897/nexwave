@@ -4,7 +4,7 @@ import Loading from '~root/app/loading';
 import AuthView from '~components/auth';
 import RefreshToken from '~components/user/RefreshToken';
 import UpdateStore from '~components/user/UpdateStore';
-import { Box, Container, Flex, Text } from '@radix-ui/themes';
+import { Box, Container, Flex } from '~components/layout';
 import Sidebar from '../dashboard/components/Sidebar';
 // import { useMemo } from 'react';
 // import Loading from '../../app/loading';
@@ -31,9 +31,11 @@ export default async function ProjectLayout({
 				</Container>
 			</header> */}
 			<main>
-				<Flex height={'100vh'}>
+				{/* height={'100vh'} */}
+				<Flex>
 					<Sidebar />
-					<Box flexGrow={'1'} mx={'20px'}>
+					{/*  mx={'20px'} */}
+					<Box flexGrow={'1'}>
 						{!!user ? (
 							<>
 								{children}
@@ -48,7 +50,7 @@ export default async function ProjectLayout({
 					</Box>
 				</Flex>
 			</main>
-			{!!refreshToken && <RefreshToken />}
+			{/* {!!refreshToken && <RefreshToken />} */}
 		</>
 	);
 
