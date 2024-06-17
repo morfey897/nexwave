@@ -34,8 +34,7 @@ export default async function ProjectLayout({
 				{/* height={'100vh'} */}
 				<Flex>
 					<Sidebar />
-					{/*  mx={'20px'} */}
-					<Box flexGrow={'1'}>
+					{/* <Box flexGrow={'1'} mx={'20px'}>
 						{!!user ? (
 							<>
 								{children}
@@ -47,7 +46,8 @@ export default async function ProjectLayout({
 								<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
 							</>
 						)}
-					</Box>
+					</Box> */}
+					{children}
 				</Flex>
 			</main>
 			{/* {!!refreshToken && <RefreshToken />} */}
