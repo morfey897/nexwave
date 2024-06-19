@@ -109,3 +109,7 @@
 	--primary: rgba(31, 42, 55, 1);
 	--secondary: rgba(17, 25, 40, 1);
 }
+
+.invisible-scrollbar::-webkit-scrollbar {
+	display: none;
+}
