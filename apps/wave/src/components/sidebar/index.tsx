@@ -5,8 +5,7 @@ import SidebarBurgerIcon from '~icons/SidebarBurgerIcon';
 import LogoSidebar from '~icons/LogoSidebar';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import HamburgerIcon from '~icons/HamburgerIcon';
-import { useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { Box } from '~root/components/layout';
 import { useDevice } from '~root/hooks/device';
 import { EnumDeviceType } from '~constants/enums';
@@ -15,35 +14,32 @@ import RightArrow from '~root/icons/RightArrow';
 import ItemList from './components/ItemList';
 import CardItem from './components/CardItem';
 import Separator from './components/Separator';
+import useNWStore from '~lib/store';
 
 const Sidebar = () => {
 	const device = useDevice();
 	const [mounted, setMounted] = useState(false);
+	const ui = useNWStore((state) => state.ui);
+	const setUI = useNWStore((state) => state.setUI);
 
 	useLayoutEffect(() => {
 		if (device === EnumDeviceType.DESKTOP || device === EnumDeviceType.TABLET) {
 			setMounted(true);
 		} else {
-			setMounted(false);
+			setMounted(ui.sidebar);
 		}
-	}, [device]);
+	}, [device, ui.sidebar]);
+
+	const toggleSidebar = useCallback(() => {
+		setUI({ sidebar: !ui.sidebar });
+	}, [ui.sidebar, setUI]);
 
 	return (
 		<Box
-			className={clsx('relative w-0 md:w-[54px] lg:w-[250px]')}
+			className={clsx('relative z-50 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
 			<Collapsible.Root className='fixed' open={mounted}>
-				{/* This trigger should be a part of header */}
-				<Collapsible.Trigger
-					asChild
-					className='fixed'
-					onClick={() => setMounted(true)}
-				>
-					<button>
-						<HamburgerIcon />
-					</button>
-				</Collapsible.Trigger>
 				<Collapsible.Content className='animate-slideRightAndFade data-[state=closed]:animate-slideLeftAndFade will-change-[opacity,transform]'>
 					<aside className='h-screen' aria-label='Sidebar'>
 						<div className='flex h-full flex-col rounded-r-sm bg-gray-50 px-3 py-4 md:px-0 lg:px-3 dark:bg-gray-800'>
@@ -59,7 +55,7 @@ const Sidebar = () => {
 								</Link>
 								<Collapsible.Trigger asChild className='block md:hidden'>
 									<button
-										onClick={() => setMounted(false)}
+										onClick={toggleSidebar}
 										className='cursor-pointer rounded-md text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700'
 									>
 										<SidebarBurgerIcon />

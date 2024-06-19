@@ -23,17 +23,20 @@ export default async function ProjectLayout({
 	const hasTrail = !!getTrail();
 
 	return (
-		<div className='flex h-full'>
-			<Sidebar />
-			<div className='flex-grow pl-9'>
-				<Header />
-				<main className='flex-grow'>
-					<div className='flex h-full'>
-						<Box className='bg-white'>{children}</Box>
-					</div>
-				</main>
+		<>
+			<div className='flex h-full'>
+				<Sidebar />
+				<div className='flex-grow pl-9'>
+					<Header />
+					<main className='flex-grow'>
+						<div className='flex h-full'>
+							<UpdateStore state={{ user }} />
+							<Box className='bg-white'>{children}</Box>
+						</div>
+					</main>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 
 	// {/* <div className='flex'>

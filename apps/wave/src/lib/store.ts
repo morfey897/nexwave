@@ -1,25 +1,37 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import type { ICurrentUser } from '@/models/user';
-import type { IProject } from '@/models/project';
+// import type { ICurrentUser } from '@/models/user';
+// import type { IProject } from '@/models/project';
+// import { sign } from 'crypto';
 
 export interface INWStore {
-	user: ICurrentUser | null;
-	project: IProject | null;
+	user: any | null;
+	project: any | null;
+	ui: {
+		sidebar: boolean;
+	};
 }
 
 interface INWStoreAction {
-	updateProject: (project: Partial<IProject>) => void;
+	updateProject: (project: Partial<any>) => void;
 	setState: (state: Partial<INWStore>) => void;
+	setUI: (ui: Partial<INWStore['ui']>) => void;
 	_destroyStore: () => void;
 }
 
 const useNWStore = create(
 	devtools(
 		immer<INWStore & INWStoreAction>((set, get) => ({
+			ui: {
+				sidebar: false,
+			},
 			user: null,
 			project: null,
+			setUI: (ui: Partial<INWStore['ui']>) =>
+				set((state) => {
+					state.ui = { ...state.ui, ...ui };
+				}),
 			setState: (st: Partial<INWStore>) =>
 				set((state) => {
 					if (st.user) {
@@ -30,7 +42,7 @@ const useNWStore = create(
 					}
 				}),
 			_destroyStore: () => set({ user: null, project: null }),
-			updateProject: (project: Partial<IProject>) =>
+			updateProject: (project: Partial<any>) =>
 				set((state) => {
 					if (state.project === null) {
 						state.project = {
@@ -38,7 +50,7 @@ const useNWStore = create(
 							uuid: project.uuid || '',
 							createdAt: project.createdAt || new Date(),
 							permission: project.permission || 0,
-						} as IProject;
+						} as any;
 					}
 					if (typeof project.name === 'string') {
 						state.project.name = project.name;

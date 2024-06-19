@@ -67,9 +67,7 @@ const config: Config = {
 					'7': 'var(--dark-7)',
 					'8': 'var(--dark-8)',
 				},
-				white: {
-					'': 'var(--white)',
-				},
+				white: 'var(--white)',
 				yellow: {
 					'': 'var(--yellow-1)',
 					dark: 'var(--yellow-dark)',
