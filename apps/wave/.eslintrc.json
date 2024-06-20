@@ -1,3 +1,4 @@
 {
-	"extends": ["next", "prettier"]
+	"extends": ["next", "prettier"],
+	"ignores": ["*.config.ts", "*.config.js", "*.config.mjs", "*.config.cjs"]
 }
