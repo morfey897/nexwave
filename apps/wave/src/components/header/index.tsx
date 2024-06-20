@@ -2,26 +2,32 @@
 import useNWStore from '~root/lib/store';
 import ToggleGroup from './components/ToggleGroup';
 import HamburgerIcon from '~icons/HamburgerIcon';
+import DropdownMenuHeader from './components/DropdownMenuHeader';
 
 const Header = () => {
 	const seUI = useNWStore((state) => state.setUI);
 
 	return (
-		// TODO header should be sticky
-		// <div className='sticky h-24 w-full'>
-		<header className='sticky flex h-24 items-center justify-between bg-gray-50 dark:bg-gray-800'>
+		<header className='sticky top-0 flex h-24 w-full items-center justify-between self-start bg-yellow-50 dark:bg-gray-800'>
 			<div>
-				<button onClick={() => seUI({ sidebar: true })}>
+				<button
+					className='block md:hidden'
+					onClick={() => seUI({ sidebar: true })}
+				>
 					<HamburgerIcon />
 				</button>
 				<h1 className='text-xl font-semibold dark:text-white'>Dashboard</h1>
-				<p className='text-sm text-gray-500'>
+				<p className='hidden text-sm text-gray-500 md:block'>
 					General statistic for Ballet School
 				</p>
 			</div>
-			<ToggleGroup />
+			<div className='mr-3 hidden md:block'>
+				<ToggleGroup />
+			</div>
+			<div className='mr-3 block md:hidden'>
+				<DropdownMenuHeader />
+			</div>
 		</header>
-		// </div>
 	);
 };
 

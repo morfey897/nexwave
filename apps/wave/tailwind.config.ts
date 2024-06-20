@@ -68,7 +68,7 @@ const config: Config = {
 				},
 				white: 'var(--white)',
 				yellow: {
-					'': 'var(--yellow-1)',
+					yellow: 'var(--yellow-1)',
 					dark: 'var(--yellow-dark)',
 					'dark-2': 'var(--yellow-dark-2)',
 					light: 'var(--yellow-light)',
@@ -77,7 +77,7 @@ const config: Config = {
 					'light-4': 'var(--yellow-light-4)',
 				},
 				orange: {
-					'': 'var(--orange)',
+					orange: 'var(--orange)',
 					dark: 'var(--orange-dark)',
 					light: 'var(--orange-light)',
 					'light-2': 'var(--orange-light-2)',
@@ -86,7 +86,7 @@ const config: Config = {
 					'light-5': 'var(--orange-light-5)',
 				},
 				red: {
-					'': 'var(--red)',
+					red: 'var(--red)',
 					dark: 'var(--red-dark)',
 					light: 'var(--red-light)',
 					'light-2': 'var(--red-light-2)',
@@ -96,7 +96,7 @@ const config: Config = {
 					'light-6': 'var(--red-light-6)',
 				},
 				pink: {
-					'': 'var(--pink)',
+					pink: 'var(--pink)',
 					dark: 'var(--pink-dark)',
 					light: 'var(--pink-light)',
 					'light-2': 'var(--pink-light-2)',
@@ -104,7 +104,7 @@ const config: Config = {
 					'light-4': 'var(--pink-light-4)',
 				},
 				purple: {
-					'': 'var(--purple)',
+					purple: 'var(--purple)',
 					dark: 'var(--purple-dark)',
 					'dark-2': 'var(--purple-dark-2)',
 					light: 'var(--purple-light)',
@@ -114,7 +114,7 @@ const config: Config = {
 					'light-5': 'var(--purple-light-5)',
 				},
 				blue: {
-					'': 'var(--blue)',
+					blue: 'var(--blue)',
 					dark: 'var(--blue-dark)',
 					light: 'var(--blue-light)',
 					'light-2': 'var(--blue-light-2)',
@@ -123,21 +123,21 @@ const config: Config = {
 					'light-5': 'var(--blue-light-5)',
 				},
 				cyan: {
-					'': 'var(--cyan)',
+					cyan: 'var(--cyan)',
 					dark: 'var(--cyan-dark)',
 					light: 'var(--cyan-light)',
 					'light-2': 'var(--cyan-light-2)',
 					'light-3': 'var(--cyan-light-3)',
 				},
 				teal: {
-					'': 'var(--teal)',
+					teal: 'var(--teal)',
 					dark: 'var(--teal-dark)',
 					light: 'var(--teal-light)',
 					'light-2': 'var(--teal-light-2)',
 					'light-3': 'var(--teal-light-3)',
 				},
 				green: {
-					'': 'var(--green)',
+					green: 'var(--green)',
 					dark: 'var(--green-dark)',
 					light: 'var(--green-light)',
 					'light-2': 'var(--green-light-2)',

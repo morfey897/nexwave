@@ -6,7 +6,7 @@ const ToggleGroup = () => {
 	const [value, setValue] = useState('week');
 
 	const toggleGroupItemClasses =
-		'w-auto h-8 px-3 rounded-l border-t border-b border-l border-transparent border border-blue hover:bg-gray-200 color-bg-gray-300 data-[state=on]:bg-blue-500 data-[state=on]:text-gray-50 flex items-center bg-white text-base leading-4 first:rounded-l last:rounded-r focus:shadow-[0_0_0_2px] focus:shadow-black';
+		'w-auto h-8 px-3 rounded-l border border-gray-3 rounded-r hover:bg-gray-200 color-bg-gray-300 data-[state=on]:bg-blue-500 data-[state=on]:text-gray-50 flex items-center bg-white text-base';
 
 	return (
 		<ToggleGroupRadix.Root
