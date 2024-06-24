@@ -4,13 +4,13 @@ import RightArrow from '~root/icons/RightArrow';
 import SidebarMockIcon from '~root/icons/SidebarMockIcon';
 import { Box } from '~root/components/layout';
 
-const DropdownMenuSidebar = () => {
+function DropdownMenuSidebar() {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
 					<SidebarMockIcon />
-					<span className='items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex text-primary-text'>
+					<span className='text-primary-text items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex'>
 						Ballet School
 						<RightArrow />
 					</span>
@@ -26,7 +26,7 @@ const DropdownMenuSidebar = () => {
 							<Box flexShrink='0'>
 								<SidebarMockIcon />
 							</Box>
-							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold text-secondary-text'>
+							<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>
 								Ballet School
 							</span>
 						</Link>
@@ -36,7 +36,7 @@ const DropdownMenuSidebar = () => {
 							<Box flexShrink='0'>
 								<SidebarMockIcon />
 							</Box>
-							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold text-secondary-text'>
+							<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>
 								Pole Dance
 							</span>
 						</Link>
@@ -45,6 +45,6 @@ const DropdownMenuSidebar = () => {
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
 	);
-};
+}
 
 export default DropdownMenuSidebar;

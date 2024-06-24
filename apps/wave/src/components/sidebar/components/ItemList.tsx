@@ -15,38 +15,38 @@ import { dynamicHref } from '~utils';
 const LINKS = [
 	{
 		name: 'general.dashboard',
-		icon: <DashboardIcon />,
+		Icon: DashboardIcon,
 		href: EnumProtectedRoutes.ROOT,
 	},
 	{
 		name: 'general.calendar',
-		icon: <CalendarIcon />,
+		Icon: CalendarIcon,
 		href: EnumProtectedRoutes.TIMETABLE,
 	},
 	{
 		name: 'general.clients',
-		icon: <ClientsIcon />,
+		Icon: ClientsIcon,
 		href: EnumProtectedRoutes.CLIENTS,
 	},
 	{
 		name: 'general.services',
-		icon: <ServicesIcon />,
+		Icon: ServicesIcon,
 		href: EnumProtectedRoutes.SERVICES,
 	},
 	{
 		name: 'general.products',
-		icon: <ProductsIcon />,
+		Icon: ProductsIcon,
 		href: EnumProtectedRoutes.PRODUCTS,
 	},
 	{ type: 'divider' },
 	{
 		name: 'general.employees',
-		icon: <EmployeeIcon />,
+		Icon: EmployeeIcon,
 		href: EnumProtectedRoutes.USERS,
 	},
 	{
 		name: 'general.settings',
-		icon: <SettingsIcon />,
+		Icon: SettingsIcon,
 		href: EnumProtectedRoutes.SETTINGS,
 	},
 ];
@@ -62,7 +62,7 @@ const ItemList = () => {
 				key: item.href || `${item.type}/${index}`,
 				href: item.href ? dynamicHref(item.href, { uuid: 'me' }) : undefined,
 			})),
-		[]
+		[t]
 	);
 
 	return (
@@ -74,12 +74,12 @@ const ItemList = () => {
 							<Separator />
 						</li>
 					) : (
-						<li key={item.href}>
+						<li key={item.key}>
 							<Link
 								href={item.href}
 								className='focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg focus:border-b-0 dark:hover:bg-gray-700'
 							>
-								<span>{item.icon}</span>
+								<span>{item.Icon && <item.Icon />}</span>
 								<span className='ms-3 md:hidden lg:block'>{item.name}</span>
 							</Link>
 						</li>
