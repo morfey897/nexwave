@@ -1,12 +1,21 @@
 'use client';
 import * as ToggleGroupRadix from '@radix-ui/react-toggle-group';
 import { useState } from 'react';
+import clsx from 'clsx';
 
 const ToggleGroup = () => {
 	const [value, setValue] = useState('week');
 
-	const toggleGroupItemClasses =
-		'w-auto h-8 px-3 rounded-l border border-gray-3 rounded-r hover:bg-gray-200 color-bg-gray-300 data-[state=on]:bg-blue-500 data-[state=on]:text-gray-50 flex items-center bg-white text-base';
+	const toggleGroupItemClasses = clsx(
+		'w-auto h-8 px-3 rounded-l border rounded-r flex items-center text-base',
+		// 'border-gray-3 hover:bg-gray-200 color-bg-gray-300 data-[state=on]:bg-user-selected data-[state=on]:text-primary-text bg-white',
+		'data-[state=on]:bg-user-selected data-[state=on]:text-white bg-secondary'
+	);
+
+	const onValueChange = (value: string) => {
+		if (!value) return;
+		setValue(value);
+	};
 
 	return (
 		<ToggleGroupRadix.Root
@@ -14,9 +23,7 @@ const ToggleGroup = () => {
 			aria-label='Text alignment'
 			type='single'
 			value={value}
-			onValueChange={(value) => {
-				if (value) setValue(value);
-			}}
+			onValueChange={onValueChange}
 		>
 			<ToggleGroupRadix.Item className={toggleGroupItemClasses} value='week'>
 				Week

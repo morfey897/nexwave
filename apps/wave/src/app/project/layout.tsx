@@ -23,7 +23,7 @@ export default async function ProjectLayout({
 	const hasTrail = !!getTrail();
 
 	return (
-		<div className='flex min-h-screen bg-yellow-50'>
+		<div className='flex min-h-screen'>
 			<Sidebar />
 			<div className='flex-grow pl-9'>
 				<Header />

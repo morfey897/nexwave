@@ -18,14 +18,3 @@ export interface IResponse<T extends any = undefined> {
 }
 
 export type TLocale = (typeof LOCALES.LIST)[number];
-
-export type SidebarItem =
-	| {
-			name: string;
-			icon: JSX.Element;
-			href: string;
-			type?: 'item';
-	  }
-	| {
-			type: 'divider';
-	  };

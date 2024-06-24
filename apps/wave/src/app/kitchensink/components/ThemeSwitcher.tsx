@@ -11,7 +11,6 @@ function ThemeSwithcer() {
 
 	return mounted ? (
 		<div>
-			<h2>Theme Switcher: {theme}</h2>
 			<Switch.Root
 				checked={theme === 'dark'}
 				onClick={toggleTheme}

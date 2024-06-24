@@ -8,7 +8,7 @@ const Header = () => {
 	const seUI = useNWStore((state) => state.setUI);
 
 	return (
-		<header className='sticky top-0 flex h-24 w-full items-center justify-between self-start bg-yellow-50 dark:bg-gray-800'>
+		<header className='sticky top-0 flex h-24 w-full items-center justify-between self-start bg-primary'>
 			<div>
 				<button
 					className='block md:hidden'

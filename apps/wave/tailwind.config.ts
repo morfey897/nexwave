@@ -41,6 +41,7 @@ const config: Config = {
 					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
+				'user-selected': 'var(--user-selected)',
 				primary: 'var(--primary)',
 				secondary: 'var(--secondary)',
 				'primary-text': 'var(--primary-text)',
@@ -114,7 +115,7 @@ const config: Config = {
 					'light-5': 'var(--purple-light-5)',
 				},
 				blue: {
-					blue: 'var(--blue)',
+					blue: 'var(--blue-1)',
 					dark: 'var(--blue-dark)',
 					light: 'var(--blue-light)',
 					'light-2': 'var(--blue-light-2)',

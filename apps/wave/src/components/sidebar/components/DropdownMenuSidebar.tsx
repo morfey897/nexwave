@@ -10,7 +10,7 @@ const DropdownMenuSidebar = () => {
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
 					<SidebarMockIcon />
-					<span className='items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex dark:text-white'>
+					<span className='items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex text-primary-text'>
 						Ballet School
 						<RightArrow />
 					</span>
@@ -20,13 +20,13 @@ const DropdownMenuSidebar = () => {
 				side='left'
 				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
 			>
-				<div className='bg-gray-1 w-64 rounded-lg p-1 shadow-xl'>
+				<div className='bg-secondary w-64 rounded-lg p-1 shadow-xl'>
 					<DropdownMenu.Item className='outline-none'>
 						<Link href='#' className='mb-5 ml-3 mt-5 flex items-center'>
 							<Box flexShrink='0'>
 								<SidebarMockIcon />
 							</Box>
-							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold dark:text-white'>
+							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold text-secondary-text'>
 								Ballet School
 							</span>
 						</Link>
@@ -36,7 +36,7 @@ const DropdownMenuSidebar = () => {
 							<Box flexShrink='0'>
 								<SidebarMockIcon />
 							</Box>
-							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold dark:text-white'>
+							<span className='self-center whitespace-nowrap px-3 text-xl font-semibold text-secondary-text'>
 								Pole Dance
 							</span>
 						</Link>

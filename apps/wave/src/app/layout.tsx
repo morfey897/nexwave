@@ -29,9 +29,10 @@ export default async function RootLayout({
 	const messages = await getMessages({ locale });
 	return (
 		<html lang={locale} className={theme || ''}>
-			{/* <head /> */}
 			<Theme />
-			<body className={clsx(inter.className, 'bg-secondary')}>
+			<body
+				className={clsx(inter.className, 'bg-primary', 'text-secondary-text')}
+			>
 				<NextIntlClientProvider messages={messages}>
 					{children}
 				</NextIntlClientProvider>

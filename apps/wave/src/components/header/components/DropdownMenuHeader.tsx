@@ -16,7 +16,7 @@ const DropdownMenuHeader = () => {
 				side='bottom'
 				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
 			>
-				<div className='bg-gray-1 w-64 rounded-lg p-1 shadow-xl'>
+				<div className='w-64 rounded-lg p-1 shadow-xl'>
 					<DropdownMenu.Item className='outline-none'>
 						<Link href='#' className='mb-5 ml-3 mt-5 flex items-center'>
 							<Box flexShrink='0'>
