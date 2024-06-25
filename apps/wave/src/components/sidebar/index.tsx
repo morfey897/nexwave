@@ -39,8 +39,8 @@ const Sidebar = () => {
 			className={clsx('relative z-50 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
-			{/* className='fixed' */}
-			<Collapsible.Root open={mounted}>
+			{/*  */}
+			<Collapsible.Root className='fixed' open={mounted}>
 				<Collapsible.Content className='animate-slideRightAndFade data-[state=closed]:animate-slideLeftAndFade shadow-md will-change-[opacity,transform]'>
 					<aside className='h-screen' aria-label='Sidebar'>
 						<div className='bg-secondary flex h-full flex-col rounded-r-sm px-3 py-4 md:px-0 lg:px-3'>

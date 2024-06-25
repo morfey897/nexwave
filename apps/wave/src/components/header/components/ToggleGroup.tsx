@@ -1,4 +1,5 @@
 'use client';
+
 import * as ToggleGroupRadix from '@radix-ui/react-toggle-group';
 import { useState } from 'react';
 import clsx from 'clsx';
@@ -12,9 +13,9 @@ const ToggleGroup = () => {
 		'data-[state=on]:bg-user-selected data-[state=on]:text-white bg-secondary'
 	);
 
-	const onValueChange = (value: string) => {
-		if (!value) return;
-		setValue(value);
+	const onValueChange = (newValue: string) => {
+		if (!newValue) return;
+		setValue(newValue);
 	};
 
 	return (
