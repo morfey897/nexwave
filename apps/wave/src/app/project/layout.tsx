@@ -25,13 +25,9 @@ export default async function ProjectLayout({
 	return (
 		<div className='flex min-h-screen'>
 			<Sidebar />
-			<div className='flex-grow pl-9'>
+			<div className='w-6/12 flex-grow pl-8 pr-2 lg:px-16 '>
 				<Header />
-				<main className='flex-grow'>
-					<div className='flex'>
-						<Box>{children}</Box>
-					</div>
-				</main>
+				<main>{children}</main>
 			</div>
 		</div>
 	);
