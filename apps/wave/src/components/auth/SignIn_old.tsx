@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { MdOutlineAlternateEmail } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import Button from '~components/buttons';
-import OAuthButton from './OAuthButton';
+import OAuthForm from './OAuthForm';
 import { FcGoogle } from 'react-icons/fc';
 import { Input } from '~components/controls/Form';
 import { useTranslations } from 'next-intl';
@@ -38,7 +38,7 @@ const SignIn = ({
 
 	return (
 		<div>
-			<OAuthButton
+			<OAuthForm
 				redirect_to={EnumProtectedRoutes.APP}
 				provider='google'
 				disabled={pending}

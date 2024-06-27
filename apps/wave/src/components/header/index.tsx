@@ -1,4 +1,5 @@
 'use client';
+
 import useNWStore from '~root/lib/store';
 import ToggleGroup from './components/ToggleGroup';
 import HamburgerIcon from '~icons/HamburgerIcon';
@@ -8,11 +9,13 @@ const Header = () => {
 	const seUI = useNWStore((state) => state.setUI);
 
 	return (
-		<header className='sticky top-0 flex h-24 w-full items-center justify-between self-start bg-primary'>
+		<header className='bg-primary sticky top-0 z-10 flex h-24 w-full items-center justify-between self-start'>
 			<div>
 				<button
+					type='button'
 					className='block md:hidden'
 					onClick={() => seUI({ sidebar: true })}
+					aria-label='Toggle Sidebar'
 				>
 					<HamburgerIcon />
 				</button>

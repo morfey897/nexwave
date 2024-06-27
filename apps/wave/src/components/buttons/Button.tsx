@@ -12,7 +12,7 @@ export interface IButtonProps {
 		| 'danger'
 		| 'light'
 		| 'dark';
-	size?: 'xs' | 'sm' | 'md' | 'lg';
+	isFullWidth?: boolean;
 	icon?: React.ReactNode;
 	iconAfter?: React.ReactNode;
 	shadow?: boolean;
@@ -21,11 +21,11 @@ export interface IButtonProps {
 
 function Button<
 	T extends
-		React.HTMLAttributes<any> = React.ButtonHTMLAttributes<HTMLButtonElement>,
+		React.HTMLAttributes<unknown> = React.ButtonHTMLAttributes<HTMLButtonElement>,
 >({
 	variant = 'default',
-	size = 'md',
 	shadow = true,
+	isFullWidth = true,
 	icon,
 	message,
 	iconAfter,
@@ -39,21 +39,27 @@ function Button<
 	// | React.HTMLAttributes<HTMLSpanElement>
 
 	const componentClassName = clsx(
-		'flex items-center justify-center rounded-lg tracking-wide shrink-0 transition-all duration-200 font-semibold border',
+		'disabled:contrast-[.6]',
+		'flex items-center justify-center rounded-md tracking-wide shrink-0 transition-all duration-200 border',
+		isFullWidth && 'w-full',
+		// Font
+		'font-medium text-base',
+		// Padding
+		(!!icon || !!iconAfter) && 'gap-2',
 		// Size
-		{
-			'px-2 py-1 text-xs space-x-1': size === 'xs',
-			'px-4 py-1.5 text-sm space-x-2': size === 'sm',
-			'px-5 py-2 text-base space-x-2.5': size === 'md',
-			'px-6 py-3 text-xl space-x-3': size === 'lg',
-		},
+		variant != 'text' && 'px-6 py-3',
+		// {
+		// 	'px-2 py-1 text-xs space-x-1': size === 'xs',
+		// 	'px-4 py-1.5 text-sm space-x-2': size === 'sm',
+		// 	'px-5 py-2 text-base space-x-2.5': size === 'md',
+		// 	'px-6 py-3 text-xl space-x-3': size === 'lg',
+		// },
 		// Text color
 		{
 			// Default
-			'text-gray-700 dark:text-gray-200 disabled:dark:text-gray-700 disabled:text-gray-300':
-				variant === 'default',
+			'text-primary-text': variant === 'default',
 			// Primary & Secondary
-			'text-white disabled:dark:text-gray-700 disabled:text-gray-300':
+			'text-white':
 				variant === 'primary' ||
 				variant === 'secondary' ||
 				variant === 'warn' ||
@@ -65,47 +71,49 @@ function Button<
 		// Background color
 		{
 			// Default
-			'boreder-slate-100 dark:border-slate-700': variant === 'default',
+			'border-dark-7 dark:border-dark-5': variant === 'default',
 			// Light
-			'border-slate-100 dark:border-slate-900 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-900 hover:border-white dark:hover:border-slate-800':
-				variant === 'light',
-			'border-white dark:border-slate-800 bg-slate-100 hover:bg-white dark:bg-slate-900 dark:hover:bg-slate-800 hover:border-slate-100 dark:hover:border-slate-900':
-				variant === 'dark',
+			// 'border-slate-100 dark:border-slate-900 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-900 hover:border-white dark:hover:border-slate-800':
+			// 	variant === 'light',
+			// 'border-white dark:border-slate-800 bg-slate-100 hover:bg-white dark:bg-slate-900 dark:hover:bg-slate-800 hover:border-slate-100 dark:hover:border-slate-900':
+			// 	variant === 'dark',
 			// Primary
-			'border-blue-500 dark:border-blue-600 bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600 disabled:bg-blue-400 disabled:dark:bg-blue-700':
+			// 'border-blue-500 dark:border-blue-600 bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600 disabled:bg-blue-400 disabled:dark:bg-blue-700':
+			'bg-blue-1 dark:bg-blue-2 border-blue-1 dark:border-blue-2 hover:bg-blue-2 dark:hover:bg-blue-1 disabled:bg-blue-1 disabled:dark:bg-blue-2':
 				variant === 'primary',
-			// Secondary
-			'border-green-700 dark:border-green-800 bg-green-700 hover:bg-green-800 dark:hover:bg-green-700 dark:bg-green-800 disabled:bg-green-400 disabled:dark:bg-green-700':
-				variant === 'secondary',
-			// Warn
-			'border-orange-500 dark:border-orange-600 bg-orange-500 hover:bg-orange-600 dark:hover:bg-orange-500 dark:bg-orange-600 disabled:bg-orange-400 disabled:dark:bg-orange-700':
-				variant === 'warn',
-			// Danger
-			'border-red-500 dark:border-red-600 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500 dark:bg-red-600 disabled:bg-red-400 disabled:dark:bg-red-700':
-				variant === 'danger',
+			// // Secondary
+			// 'border-green-700 dark:border-green-800 bg-green-700 hover:bg-green-800 dark:hover:bg-green-700 dark:bg-green-800 disabled:bg-green-400 disabled:dark:bg-green-700':
+			// 	variant === 'secondary',
+			// // Warn
+			// 'border-orange-500 dark:border-orange-600 bg-orange-500 hover:bg-orange-600 dark:hover:bg-orange-500 dark:bg-orange-600 disabled:bg-orange-400 disabled:dark:bg-orange-700':
+			// 	variant === 'warn',
+			// // Danger
+			// 'border-red-500 dark:border-red-600 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500 dark:bg-red-600 disabled:bg-red-400 disabled:dark:bg-red-700':
+			// 	variant === 'danger',
 			// Text
 			'border-0': variant === 'text',
 		},
 		// Shadow
-		shadow && {
-			// Default
-			'hover:shadow-md hover:shadow-slate-400': variant === 'default',
-			// Primary
-			'hover:shadow-md hover:shadow-blue-600 hover:dark:hover:bg-blue-500':
-				variant === 'primary',
-			// Secondary
-			'hover:shadow-md hover:shadow-green-800 hover:dark:hover:bg-green-700':
-				variant === 'secondary',
-			// Warn
-			'hover:shadow-md hover:shadow-orange-600 hover:dark:hover:bg-orange-500':
-				variant === 'warn',
-			// Danger
-			'hover:shadow-md hover:shadow-red-600 hover:dark:hover:bg-red-500':
-				variant === 'danger',
-			// Text
-			'shadow-none': variant === 'text',
-		},
-		'disabled:shadow-none disabled:cursor-not-allowed',
+		// shadow && {
+		// 	// Default
+		// 	'hover:shadow-md hover:shadow-slate-400': variant === 'default',
+		// 	// Primary
+		// 	'hover:shadow-md hover:shadow-blue-600 hover:dark:hover:bg-blue-500':
+		// 		variant === 'primary',
+		// 	// Secondary
+		// 	'hover:shadow-md hover:shadow-green-800 hover:dark:hover:bg-green-700':
+		// 		variant === 'secondary',
+		// 	// Warn
+		// 	'hover:shadow-md hover:shadow-orange-600 hover:dark:hover:bg-orange-500':
+		// 		variant === 'warn',
+		// 	// Danger
+		// 	'hover:shadow-md hover:shadow-red-600 hover:dark:hover:bg-red-500':
+		// 		variant === 'danger',
+		// 	// Text
+		// 	'shadow-none': variant === 'text',
+		// },
+		'disabled:cursor-not-allowed',
+		// 'disabled:shadow-none ',
 		// 'hover:shadow-md hover:shadow-blue-500',
 		className
 	);
@@ -119,19 +127,23 @@ function Button<
 	);
 
 	switch (tag) {
-		case 'button':
+		case 'button': {
 			const { type, ...btnProps } =
 				props as React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+			const buttonType =
+				type === 'button' || type === 'reset' || type === 'submit'
+					? type
+					: 'button';
+
 			return (
-				<button
-					className={componentClassName}
-					{...btnProps}
-					type={type || 'button'}
-				>
+				// eslint-disable-next-line react/button-has-type
+				<button className={componentClassName} {...btnProps} type={buttonType}>
 					{content}
 				</button>
 			);
-		case 'link':
+		}
+		case 'link': {
 			const { href, ...rest } =
 				props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
 			return (
@@ -139,7 +151,8 @@ function Button<
 					{content}
 				</Link>
 			);
-		case 'a':
+		}
+		case 'a': {
 			return (
 				<a
 					className={componentClassName}
@@ -148,7 +161,8 @@ function Button<
 					{content}
 				</a>
 			);
-		case 'div':
+		}
+		case 'div': {
 			return (
 				<div
 					className={componentClassName}
@@ -157,7 +171,8 @@ function Button<
 					{content}
 				</div>
 			);
-		case 'span':
+		}
+		case 'span': {
 			return (
 				<span
 					className={componentClassName}
@@ -166,6 +181,9 @@ function Button<
 					{content}
 				</span>
 			);
+		}
+		default:
+			return null;
 	}
 	return null;
 }

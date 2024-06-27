@@ -3,7 +3,7 @@ import React, { useEffect, useId } from 'react';
 // import { MdOutlineAlternateEmail } from 'react-icons/md';
 // import { RiLockPasswordLine } from 'react-icons/ri';
 // import Button from '~components/buttons';
-import OAuthButton from './OAuthButton';
+import OAuthForm from './OAuthForm';
 // import { FcGoogle } from 'react-icons/fc';
 // import { Input } from '~components/controls/Form';
 import { useTranslations } from 'next-intl';
@@ -73,13 +73,13 @@ const SignIn = ({
 				{t('page.auth.subheadline')}
 			</Dialog.Description>
 
-			<OAuthButton redirect_to={EnumProtectedRoutes.APP} provider='google'>
+			<OAuthForm redirect_to={EnumProtectedRoutes.APP} provider='google'>
 				<Flex direction={'column'}>
 					<Button disabled={pending} size={'3'} color='iris'>
 						<FcGoogle size={24} /> {t('page.sign_in.with_google')}
 					</Button>
 				</Flex>
-			</OAuthButton>
+			</OAuthForm>
 
 			<Separator orientation={'horizontal'} my='3' size={'4'} />
 

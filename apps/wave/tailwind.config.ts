@@ -30,6 +30,17 @@ const config: Config = {
 					from: { opacity: '0', transform: 'translateX(-2px)' },
 					to: { opacity: '1', transform: 'translateX(0)' },
 				},
+				overlayShow: {
+					from: { opacity: '0' },
+					to: { opacity: '1' },
+				},
+				contentShow: {
+					from: {
+						opacity: '0',
+						transform: 'translate(-50%, -48%) scale(0.96)',
+					},
+					to: { opacity: '1', transform: 'translate(-50%, -50%) scale(1)' },
+				},
 			},
 			animation: {
 				slideDownAndFade:
@@ -39,6 +50,8 @@ const config: Config = {
 				slideUpAndFade: 'slideUpAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
 				slideRightAndFade:
 					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+				overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
+				contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
 				'user-selected': 'var(--user-selected)',
@@ -47,6 +60,7 @@ const config: Config = {
 				'primary-text': 'var(--primary-text)',
 				'secondary-text': 'var(--secondary-text)',
 				stroke: 'var(--stroke)',
+				main: 'var(--main)',
 				gray: {
 					'1': 'var(--gray-1)',
 					'2': 'var(--gray-2)',
@@ -88,14 +102,14 @@ const config: Config = {
 					'light-5': 'var(--orange-light-5)',
 				},
 				red: {
-					red: 'var(--red)',
-					dark: 'var(--red-dark)',
-					light: 'var(--red-light)',
-					'light-2': 'var(--red-light-2)',
-					'light-3': 'var(--red-light-3)',
-					'light-4': 'var(--red-light-4)',
-					'light-5': 'var(--red-light-5)',
-					'light-6': 'var(--red-light-6)',
+					'1': 'var(--red-1)',
+					'2': 'var(--red-2)',
+					'3': 'var(--red-3)',
+					'4': 'var(--red-4)',
+					'5': 'var(--red-5)',
+					'6': 'var(--red-6)',
+					'7': 'var(--red-7)',
+					'8': 'var(--red-8)',
 				},
 				pink: {
 					pink: 'var(--pink)',
