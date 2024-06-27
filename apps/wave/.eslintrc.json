@@ -23,6 +23,10 @@
 				"import/order": "off",
 				"import/extensions": "off",
 				"react/react-in-jsx-scope": "off",
+				"react/require-default-props": "off",
+				"react/jsx-props-no-spreading": "off",
+				"no-shadow": "off", // replaced by ts-eslint rule below
+				"@typescript-eslint/no-shadow": "error",
 				"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
 				"react/function-component-definition": [
 					2,

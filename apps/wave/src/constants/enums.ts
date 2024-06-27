@@ -73,6 +73,10 @@ export enum EnumTheme {
 	DARK = 'dark',
 }
 
+export enum EnumOAuthProvider {
+	GOOGLE = 'google',
+}
+
 // export enum EnumLevel {
 // 	SUCCESS = 'success',
 // 	WARN = 'warn',
