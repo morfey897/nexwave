@@ -1,6 +1,6 @@
 import ArrowUp from '~root/icons/ArrowUp';
-import EllipsisIcon from '~root/icons/ElipsisIcon';
 import PiggyIcon from '~root/icons/PiggyIcon';
+import HoverCardInfoBlock from './HoverCardInfoBlock';
 
 const InfoBlock = () => (
 	<div className='mr-5 shrink-0 snap-start'>
@@ -28,7 +28,7 @@ const InfoBlock = () => (
 					{/* In the future, data will come from a request */}
 				</p>
 				<span className='ml-6 cursor-pointer'>
-					<EllipsisIcon />
+					<HoverCardInfoBlock />
 					{/* In the future, data will come from a request */}
 				</span>
 			</div>

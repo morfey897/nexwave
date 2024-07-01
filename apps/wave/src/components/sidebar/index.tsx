@@ -36,7 +36,7 @@ const Sidebar = () => {
 
 	return (
 		<Box
-			className={clsx('relative z-10 w-0 md:w-[54px] lg:w-[250px]')}
+			className={clsx('relative z-20 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
 			{/*  */}

@@ -111,7 +111,7 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 							<Form.Control asChild>
 								<input
 									type='email'
-									className='bg-secondary border-stroke inline-flex rounded-md border py-3 pl-5 pr-4 text-base data-[invalid]:border-red-1'
+									className='bg-secondary border-stroke data-[invalid]:border-red-1 inline-flex rounded-md border py-3 pl-5 pr-4 text-base'
 									required
 								/>
 							</Form.Control>
