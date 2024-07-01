@@ -26,8 +26,13 @@
 				"react/require-default-props": "off",
 				"react/jsx-props-no-spreading": "off",
 				"no-shadow": "off", // replaced by ts-eslint rule below
+				"react/prop-types": "off", // replaced by ts-eslint rule below
 				"@typescript-eslint/no-shadow": "error",
 				"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+				"@typescript-eslint/no-explicit-any": [
+					"error",
+					{ "ignoreRestArgs": true, "fixToUnknown": true }
+				],
 				"react/function-component-definition": [
 					2,
 					{

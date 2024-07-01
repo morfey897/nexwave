@@ -219,21 +219,21 @@
 			"headline": "We lost this page",
 			"subheadline": "We searched high and low, but couldn’t find what you’re looking for. Let’s find a better place for you to go."
 		},
-		"auth": {
-			"headline": "Session expired",
-			"subheadline": "Please sign in again to continue"
-		},
 		"sign_in": {
+			"headline": "Sign in",
+			"subheadline": "Welcome back! Please sign in to your account",
 			"with_google": "Sign in with Google",
 			"with_email": "or sign in with email",
 			"forgot_password": "Forgot password?",
-			"dont_have_account": "Don't have an account yet? Sign up",
+			"dont_have_account_rt": "Don't have an account yet? <span>Sign up</span>",
 			"submit": "Sign in"
 		},
 		"sign_up": {
+			"headline": "Sign up",
+			"subheadline": "Create an account to get started",
 			"with_google": "Sign up with Google",
 			"with_email": "or sign up with email",
-			"have_account": "Already have an account? Sign in?",
+			"have_account_rt": "Already have an account? <span>Sign in</span>",
 			"submit": "Sign up"
 		},
 		"add_project": {

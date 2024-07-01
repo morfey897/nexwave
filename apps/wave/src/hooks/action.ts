@@ -1,11 +1,12 @@
 'use client';
+
 import { IResponse } from '~types';
 import { useCallback, useState } from 'react';
-import useSWR from 'swr';
 import { EnumResponseStatus } from '~enums';
 import { WENT_WRONG } from '~errorCodes';
+import useSWR from 'swr';
 
-export function useAction<P = any, R = any>(
+export function useAction<P = unknown, R = unknown>(
 	serverAction: (props: P) => Promise<R>
 ) {
 	const [result, setResult] = useState<R | null>(null);
@@ -16,8 +17,8 @@ export function useAction<P = any, R = any>(
 	}, []);
 
 	const action = useCallback(async (props: P) => {
-		const result = await serverAction(props);
-		setResult(result);
+		const actionResult = await serverAction(props);
+		setResult(actionResult);
 		setPending(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -39,7 +40,7 @@ export function useAction<P = any, R = any>(
 const fetcher = (...args: unknown[]) =>
 	fetch(...(args as [RequestInfo, RequestInit])).then((res) => res.json());
 
-export function useAPI<R = any>(
+export function useAPI<R = unknown>(
 	key: Parameters<typeof useSWR>[0],
 	params?: Parameters<typeof useSWR>[2]
 ): {

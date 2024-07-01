@@ -58,7 +58,7 @@ const ItemList = () => {
 		() =>
 			LINKS.map((item, index) => ({
 				...item,
-				name: t(item.name),
+				name: !!item.name && t(item.name),
 				key: item.href || `${item.type}/${index}`,
 				href: item.href ? dynamicHref(item.href, { uuid: 'me' }) : undefined,
 			})),

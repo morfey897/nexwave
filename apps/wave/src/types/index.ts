@@ -7,11 +7,11 @@ export type TUID = {
 };
 
 export interface IError {
-	code: string;
+	code: string[];
 	message: string;
 }
 
-export interface IResponse<T extends any = undefined> {
+export interface IResponse<T = unknown> {
 	status: EnumResponseStatus;
 	error?: IError;
 	data?: T;

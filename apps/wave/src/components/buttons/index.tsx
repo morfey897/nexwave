@@ -1,5 +1,5 @@
-import Button, { type IButtonProps } from './Button';
+import * as Button from './Button';
 import Group from './Group';
 
-export { Group, Button, IButtonProps };
+export { Group, Button };
 export default Button;

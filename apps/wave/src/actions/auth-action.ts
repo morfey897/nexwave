@@ -1,17 +1,18 @@
 'use server';
+
 import { redirect } from 'next/navigation';
 import { signAuth } from '~lib/jwt';
-import { validate } from '~utils/validation';
+import { signinSchema, signupSchema } from '~lib/validation';
 import * as ErrorCodes from '~errorCodes';
 import { IResponse } from '~types';
-import { EnumResponseStatus } from '~enums';
 import { cookies } from 'next/headers';
 import googleOAuthClient from '~lib/googleOAuth';
 import { getUser, updateUser } from '~models/user';
 import { start } from '~models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '~utils/cookies';
-import { EnumApiRoutes } from '~enums';
+import { EnumApiRoutes, EnumResponseStatus } from '~enums';
 import { parseError, doError } from '~utils';
+import * as Yup from 'yup';
 
 export async function signOut() {
 	cookies().set(sessionCookie(null));
@@ -20,7 +21,7 @@ export async function signOut() {
 }
 
 export async function signInWithOauth(formData: FormData): Promise<never> {
-	const redirect_to = (formData.get('redirect_to')?.toString() || '').trim();
+	const redirectTo = (formData.get('redirect_to')?.toString() || '').trim();
 	const provider = formData.get('provider')?.toString() || '';
 
 	if (provider === 'google') {
@@ -41,7 +42,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 			).toString(),
 			state: signAuth(
 				{
-					redirect_to: redirect_to.replace(/^[\w\d]*:?\/{2}[^\/]+/, ''),
+					redirect_to: redirectTo.replace(/^[\w\d]*:?\/{2}[^/]+/, ''),
 					state: 'log_in',
 				},
 				'5m'
@@ -62,28 +63,30 @@ export async function signInWithEmailAndPassword(
 			email: (formData.get('email')?.toString() || '').trim().toLowerCase(),
 			password: (formData.get('password')?.toString() || '').trim(),
 		};
-		const invalid = validate([
-			{ value: email, key: 'email' },
-			{ value: password, key: 'password' },
-		]);
-		if (invalid.length) {
-			throw doError(invalid.join(','));
-		}
 
-		const result = await getUser({ email, password });
+		await signinSchema.validate(
+			{
+				email,
+				password,
+			},
+			{ abortEarly: false, disableStackTrace: true, strict: true }
+		);
 
-		if (!!result) {
+		const result = await getUser({ login: email, password });
+
+		if (result) {
 			await updateUser(result.uuid, { lastLoginAt: new Date() });
 			cookies().set(sessionCookie(result));
 			cookies().set(trailCookie('1'));
 			cookies().set(refreshCookie(result));
 			return { status: EnumResponseStatus.SUCCESS };
-		} else {
-			throw doError(ErrorCodes.CREDENTIAL_MISMATCH);
 		}
+
+		throw new Yup.ValidationError(ErrorCodes.CREDENTIAL_MISMATCH);
 	} catch (error) {
-		console.log('ERROR', error);
-		return { status: EnumResponseStatus.FAILED, error: parseError(error) };
+		const parsedError = parseError(error);
+		console.log('ERROR', parsedError);
+		return { status: EnumResponseStatus.FAILED, error: parsedError };
 	}
 }
 
@@ -122,19 +125,19 @@ export async function signUpWithEmailAndPassword(
 		cookies().set(sessionCookie(user));
 		cookies().set(trailCookie('1'));
 		cookies().set(refreshCookie(user));
-		//TODO if user has project redirect to project page
-		//TODO if user has invitations redirect to invitations page
+		// TODO if user has project redirect to project page
+		// TODO if user has invitations redirect to invitations page
 		return { status: EnumResponseStatus.SUCCESS };
 	} catch (error) {
-		const er = error as unknown as any;
-		if (er.constraint === 'users_email_unique') {
-			error = {
-				code: ErrorCodes.EMAIL_EXISTS,
-				message: 'Email already exists',
-			};
+		let newError = error as Error;
+		// @ts-expect-error error could be anything
+		if (error?.constraint === 'users_email_unique') {
+			newError = new Error('Email already exists', {
+				cause: { code: ErrorCodes.EMAIL_EXISTS },
+			});
 		}
 
-		console.log('ERROR', error);
-		return { status: EnumResponseStatus.FAILED, error: parseError(error) };
+		console.log('ERROR', newError);
+		return { status: EnumResponseStatus.FAILED, error: parseError(newError) };
 	}
 }

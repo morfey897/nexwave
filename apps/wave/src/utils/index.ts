@@ -1,16 +1,27 @@
 import { humanId } from 'human-id';
 import { EnumColor, EnumTheme } from '~enums';
 import { nanoid } from 'nanoid';
+import { ValidationError } from 'yup';
+import { IError } from '~types';
+
+interface InternalError {
+	cause: {
+		code?: string;
+		redirect?: boolean;
+		message: string;
+	};
+}
 
 export const addZiro = (str: string | number) => `0${str}`.slice(-2);
 
 export function isNotNull<T>(key: string) {
-	return (item: any): item is T => item[key] !== null;
+	// @ts-expect-error key could be anything
+	return (item: unknown): item is T => item[key] !== null;
 }
 
 export function dynamicHref(
 	href: string,
-	params: Record<string, string | number | boolean | Object>
+	params: Record<string, string | number | boolean>
 ) {
 	return Object.entries(params).reduce(
 		(acc, [key, value]) => acc.replace(`[${key}]`, value.toString()),
@@ -31,7 +42,7 @@ export const abbrev = (
 	const [first, last] =
 		pairs.find((list) => !!list && !!list[0] && !!list[1]) ||
 		Math.random().toString(36).substring(2, 2);
-	return `${!!first ? first[0] : ''}${!!last ? last[0] : ''}`.toUpperCase();
+	return `${first ? first[0] : ''}${last ? last[0] : ''}`.toUpperCase();
 };
 
 export const fullname = (
@@ -53,7 +64,7 @@ export function generateName(adjectiveCount: number = 2) {
 	return humanId({
 		separator: ' ',
 		capitalize: true,
-		adjectiveCount: adjectiveCount,
+		adjectiveCount,
 	});
 }
 
@@ -61,28 +72,39 @@ export function generateColor() {
 	return random<EnumColor>(Object.values(EnumColor));
 }
 
-export function parseError(error: any) {
+export function parseError(error: unknown): IError {
+	if (error instanceof ValidationError) {
+		return {
+			code: error.errors,
+			message: error.message,
+		};
+	}
 	return {
-		code: String(error?.code || error?.cause?.code || 'unknown'),
-		message: String(error.message || 'Unknown error'),
+		// @ts-expect-error error could be anything
+		code: [String(error?.code || error?.cause?.code || 'unknown')],
+		// @ts-expect-error error could be anything
+		message: String(error.message || error?.cause?.message || 'Unknown error'),
 	};
 }
 
-export function parseRedirect(error: any) {
+export function parseRedirect(error: unknown) {
 	return {
+		// @ts-expect-error error could be anything
 		shouldRedirect: (error?.redirect || error?.cause?.redirect) === true,
+		// @ts-expect-error error could be anything
 		url: String(error?.url || error?.cause?.url || ''),
 	};
 }
 
 export const hasAccess = (permission: number | undefined, role: number) =>
+	// eslint-disable-next-line no-bitwise
 	((permission || 0) & role) === role;
 
 export const doRedirect = (url: string) =>
-	new Error('Redirect', { cause: { redirect: true, url } });
+	new Error('Redirect', { cause: { redirect: true, url } }) as InternalError;
 
 export const doError = (code: string, message?: string) =>
-	new Error(message || 'InternalError', { cause: { code } });
+	new Error(message || 'InternalError', { cause: { code } }) as InternalError;
 
 export const getSystemTheme = () =>
 	window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -90,7 +112,7 @@ export const getSystemTheme = () =>
 		: EnumTheme.LIGHT;
 
 export const getClassTheme = () => {
-	const classList = document.documentElement.classList;
+	const { classList } = document.documentElement;
 	if (
 		classList.contains(EnumTheme.DARK) ||
 		classList.contains(EnumTheme.LIGHT)

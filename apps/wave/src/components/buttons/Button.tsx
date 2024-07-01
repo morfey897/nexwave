@@ -1,44 +1,24 @@
+import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
-export interface IButtonProps {
+interface IButtonProps {
 	message?: string | number | undefined;
-	variant?:
-		| 'default'
-		| 'text'
-		| 'primary'
-		| 'secondary'
-		| 'warn'
-		| 'danger'
-		| 'light'
-		| 'dark';
-	isFullWidth?: boolean;
 	icon?: React.ReactNode;
 	iconAfter?: React.ReactNode;
-	shadow?: boolean;
-	tag?: 'button' | 'link' | 'a' | 'div' | 'span';
+	// eslint-disable-next-line react/no-unused-prop-types
+	variant?: 'default' | 'text' | 'primary' | 'secondary';
+	// eslint-disable-next-line react/no-unused-prop-types
+	isFullWidth?: boolean;
 }
-
-function Button<
-	T extends
-		React.HTMLAttributes<unknown> = React.ButtonHTMLAttributes<HTMLButtonElement>,
->({
-	variant = 'default',
-	shadow = true,
+const componentClassName = ({
 	isFullWidth = true,
 	icon,
-	message,
 	iconAfter,
-	children,
+	variant = 'default',
 	className,
-	tag = 'button',
-	...props
-}: IButtonProps & T) {
-	// | React.AnchorHTMLAttributes<HTMLAnchorElement>
-	// | React.HTMLAttributes<HTMLDivElement>
-	// | React.HTMLAttributes<HTMLSpanElement>
-
-	const componentClassName = clsx(
+}: IButtonProps & { className?: string }) =>
+	clsx(
 		'disabled:contrast-[.6]',
 		'flex items-center justify-center rounded-md tracking-wide shrink-0 transition-all duration-200 border',
 		isFullWidth && 'w-full',
@@ -47,145 +27,95 @@ function Button<
 		// Padding
 		(!!icon || !!iconAfter) && 'gap-2',
 		// Size
-		variant != 'text' && 'px-6 py-3',
-		// {
-		// 	'px-2 py-1 text-xs space-x-1': size === 'xs',
-		// 	'px-4 py-1.5 text-sm space-x-2': size === 'sm',
-		// 	'px-5 py-2 text-base space-x-2.5': size === 'md',
-		// 	'px-6 py-3 text-xl space-x-3': size === 'lg',
-		// },
+		variant !== 'text' && 'px-6 py-3',
 		// Text color
 		{
 			// Default
-			'text-primary-text': variant === 'default',
+			'text-primary-text': variant === 'default' || variant === 'text',
 			// Primary & Secondary
-			'text-white':
-				variant === 'primary' ||
-				variant === 'secondary' ||
-				variant === 'warn' ||
-				variant === 'danger',
+			'text-white': variant === 'primary' || variant === 'secondary',
 			// Text
-			'text-gray-700 hover:text-gray-800 dark:text-gray-200 dark:hover:text-gray-300 disabled:dark:text-gray-700 disabled:text-gray-300':
-				variant === 'text',
 		},
 		// Background color
 		{
 			// Default
-			'border-dark-7 dark:border-dark-5': variant === 'default',
-			// Light
-			// 'border-slate-100 dark:border-slate-900 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-900 hover:border-white dark:hover:border-slate-800':
-			// 	variant === 'light',
-			// 'border-white dark:border-slate-800 bg-slate-100 hover:bg-white dark:bg-slate-900 dark:hover:bg-slate-800 hover:border-slate-100 dark:hover:border-slate-900':
-			// 	variant === 'dark',
+			'border-dark-7 dark:border-dark-5 hover:ring-2': variant === 'default',
 			// Primary
-			// 'border-blue-500 dark:border-blue-600 bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600 disabled:bg-blue-400 disabled:dark:bg-blue-700':
 			'bg-blue-1 dark:bg-blue-2 border-blue-1 dark:border-blue-2 hover:bg-blue-2 dark:hover:bg-blue-1 disabled:bg-blue-1 disabled:dark:bg-blue-2':
 				variant === 'primary',
-			// // Secondary
-			// 'border-green-700 dark:border-green-800 bg-green-700 hover:bg-green-800 dark:hover:bg-green-700 dark:bg-green-800 disabled:bg-green-400 disabled:dark:bg-green-700':
-			// 	variant === 'secondary',
-			// // Warn
-			// 'border-orange-500 dark:border-orange-600 bg-orange-500 hover:bg-orange-600 dark:hover:bg-orange-500 dark:bg-orange-600 disabled:bg-orange-400 disabled:dark:bg-orange-700':
-			// 	variant === 'warn',
-			// // Danger
-			// 'border-red-500 dark:border-red-600 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500 dark:bg-red-600 disabled:bg-red-400 disabled:dark:bg-red-700':
-			// 	variant === 'danger',
 			// Text
-			'border-0': variant === 'text',
+			'border-0 hover:decoration-1 hover:underline disabled:no-underline disabled:decoration-0':
+				variant === 'text',
 		},
-		// Shadow
-		// shadow && {
-		// 	// Default
-		// 	'hover:shadow-md hover:shadow-slate-400': variant === 'default',
-		// 	// Primary
-		// 	'hover:shadow-md hover:shadow-blue-600 hover:dark:hover:bg-blue-500':
-		// 		variant === 'primary',
-		// 	// Secondary
-		// 	'hover:shadow-md hover:shadow-green-800 hover:dark:hover:bg-green-700':
-		// 		variant === 'secondary',
-		// 	// Warn
-		// 	'hover:shadow-md hover:shadow-orange-600 hover:dark:hover:bg-orange-500':
-		// 		variant === 'warn',
-		// 	// Danger
-		// 	'hover:shadow-md hover:shadow-red-600 hover:dark:hover:bg-red-500':
-		// 		variant === 'danger',
-		// 	// Text
-		// 	'shadow-none': variant === 'text',
-		// },
 		'disabled:cursor-not-allowed',
-		// 'disabled:shadow-none ',
-		// 'hover:shadow-md hover:shadow-blue-500',
 		className
 	);
-	const content = (
-		<>
-			{icon}
-			{!!message && <span className='message truncate'>{message}</span>}
-			{iconAfter}
-			{children}
-		</>
-	);
 
-	switch (tag) {
-		case 'button': {
-			const { type, ...btnProps } =
-				props as React.ButtonHTMLAttributes<HTMLButtonElement>;
+const Content = ({
+	icon,
+	message,
+	iconAfter,
+	children,
+}: IButtonProps & { children?: React.ReactNode }) => (
+	<>
+		{icon}
+		{!!message && <span className='message truncate'>{message}</span>}
+		{iconAfter}
+		{children}
+	</>
+);
 
-			const buttonType =
-				type === 'button' || type === 'reset' || type === 'submit'
-					? type
-					: 'button';
+const Button = ({
+	type = 'button',
+	...btnProps
+}: IButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+	<button
+		{...btnProps}
+		className={componentClassName(btnProps)}
+		type={
+			type === 'button' || type === 'reset' || type === 'submit'
+				? // eslint-disable-next-line react/button-has-type
+					type
+				: 'button'
+		}
+	>
+		<Content {...btnProps} />
+	</button>
+);
 
-			return (
-				// eslint-disable-next-line react/button-has-type
-				<button className={componentClassName} {...btnProps} type={buttonType}>
-					{content}
-				</button>
-			);
-		}
-		case 'link': {
-			const { href, ...rest } =
-				props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
-			return (
-				<Link className={componentClassName} href={href || ''} {...rest}>
-					{content}
-				</Link>
-			);
-		}
-		case 'a': {
-			return (
-				<a
-					className={componentClassName}
-					{...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-				>
-					{content}
-				</a>
-			);
-		}
-		case 'div': {
-			return (
-				<div
-					className={componentClassName}
-					{...(props as React.HTMLAttributes<HTMLDivElement>)}
-				>
-					{content}
-				</div>
-			);
-		}
-		case 'span': {
-			return (
-				<span
-					className={componentClassName}
-					{...(props as React.HTMLAttributes<HTMLSpanElement>)}
-				>
-					{content}
-				</span>
-			);
-		}
-		default:
-			return null;
-	}
-	return null;
-}
+const Link = ({
+	href,
+	...linkProps
+}: IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+	<NextLink
+		{...linkProps}
+		className={componentClassName(linkProps)}
+		href={href || ''}
+	>
+		<Content {...linkProps} />
+	</NextLink>
+);
+
+const Anchor = (
+	props: IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
+) => (
+	<a {...props} className={componentClassName(props)}>
+		<Content {...props} />
+	</a>
+);
+
+const Div = (props: IButtonProps & React.HTMLAttributes<HTMLDivElement>) => (
+	<div {...props} className={componentClassName(props)}>
+		<Content {...props} />
+	</div>
+);
+
+const Span = (props: IButtonProps & React.HTMLAttributes<HTMLSpanElement>) => (
+	<span {...props} className={componentClassName(props)}>
+		<Content {...props} />
+	</span>
+);
+
+export { Link, Anchor, Div, Span };
 
 export default Button;

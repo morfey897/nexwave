@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+
 const config: Config = {
 	darkMode: 'class',
 	content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -164,6 +165,7 @@ const config: Config = {
 			},
 		},
 	},
+	// eslint-disable-next-line global-require
 	plugins: [require('@tailwindcss/forms')],
 };
 export default config;

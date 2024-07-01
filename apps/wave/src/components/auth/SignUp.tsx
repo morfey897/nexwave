@@ -1,6 +1,7 @@
 'use client';
 
 import * as Form from '@radix-ui/react-form';
+import { useEffect } from 'react';
 import {
 	EnumOAuthProvider,
 	EnumProtectedRoutes,
@@ -14,10 +15,8 @@ import Button from '~components/buttons/Button';
 import Input from '~components/form/Input';
 import SpanBlock from '~components/richText/SpanBlock';
 import { useAction } from '~hooks/action';
-import { signInWithEmailAndPassword } from '~actions/auth-action';
-import { useEffect } from 'react';
-import Spinner from '../spinner';
-import * as ErrorCodes from '~errorCodes';
+import { signUpWithEmailAndPassword } from '~actions/auth-action';
+import Spinner from '~components/spinner';
 
 function SignIn({
 	changeMode,
@@ -28,10 +27,8 @@ function SignIn({
 }) {
 	const t = useTranslations();
 	const { action, submit, reset, pending, result } = useAction(
-		signInWithEmailAndPassword
+		signUpWithEmailAndPassword
 	);
-
-	const errors = result?.error?.code;
 
 	useEffect(() => {
 		if (result?.status === EnumResponseStatus.SUCCESS) {
@@ -50,14 +47,14 @@ function SignIn({
 						disabled: pending,
 					}}
 				>
-					{t('page.sign_in.with_google')}
+					{t('page.sign_up.with_google')}
 				</OAuthForm>
 			</Box>
 			<div className='my-4 flex items-center justify-between'>
 				<span className='border-stroke w-1/5 border-b' />
 
 				<p className='text-secondary-text text-center text-sm'>
-					{t('page.sign_in.with_email')}
+					{t('page.sign_up.with_email')}
 				</p>
 
 				<span className='border-stroke w-1/5 border-b' />
@@ -69,54 +66,77 @@ function SignIn({
 				onSubmit={submit}
 			>
 				<Input
-					serverInvalid={
-						errors?.includes(ErrorCodes.MISSING_EMAIL) ||
-						errors?.includes(ErrorCodes.INVALID_EMAIL)
-					}
-					label={t('form.email')}
-					name='email'
+					label={t('form.name')}
 					required
 					messages={[
 						{
 							name: 'valueMissing',
-							match: 'valueMissing',
-							forceMatch: errors?.includes(ErrorCodes.MISSING_EMAIL),
+							match: 'typeMismatch',
 							children: 'Please enter your email',
 						},
 						{
 							name: 'typeMismatch',
 							match: 'typeMismatch',
-							forceMatch: errors?.includes(ErrorCodes.INVALID_EMAIL),
 							children: 'Please provide a valid email',
 						},
 					]}
 				/>
 				<Input
-					serverInvalid={errors?.includes(ErrorCodes.MISSING_PASSWORD)}
-					label={t('form.password')}
-					type='password'
-					name='password'
+					label={t('form.email')}
+					type='email'
 					required
 					messages={[
 						{
 							name: 'valueMissing',
-							match: 'valueMissing',
-							forceMatch: errors?.includes(ErrorCodes.MISSING_PASSWORD),
-							children: 'Please enter your password',
+							match: 'typeMismatch',
+							children: 'Please enter your email',
+						},
+						{
+							name: 'typeMismatch',
+							match: 'typeMismatch',
+							children: 'Please provide a valid email',
 						},
 					]}
 				/>
-
-				<Form.Message>
-					{errors?.includes(ErrorCodes.CREDENTIAL_MISMATCH) &&
-						t('error.credential_mismatch')}
-				</Form.Message>
-
+				<Input
+					label={t('form.password')}
+					type='password'
+					required
+					messages={[
+						{
+							name: 'valueMissing',
+							match: 'typeMismatch',
+							children: 'Please enter your email',
+						},
+						{
+							name: 'typeMismatch',
+							match: 'typeMismatch',
+							children: 'Please provide a valid email',
+						},
+					]}
+				/>
+				<Input
+					label={t('form.confirm_password')}
+					type='password'
+					required
+					messages={[
+						{
+							name: 'valueMissing',
+							match: 'typeMismatch',
+							children: 'Please enter your email',
+						},
+						{
+							name: 'typeMismatch',
+							match: 'typeMismatch',
+							children: 'Please provide a valid email',
+						},
+					]}
+				/>
 				<Form.Submit asChild>
 					<Button
 						type='submit'
 						variant='primary'
-						message={t('page.sign_in.submit')}
+						message={t('page.sign_up.submit')}
 						disabled={pending}
 						icon={pending ? <Spinner /> : undefined}
 					/>
@@ -130,7 +150,7 @@ function SignIn({
 					className='gap-2'
 					disabled={pending}
 				>
-					{t.rich('page.sign_in.dont_have_account_rt', {
+					{t.rich('page.sign_up.have_account_rt', {
 						span: SpanBlock,
 					})}
 				</Button>

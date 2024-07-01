@@ -13,7 +13,7 @@ function OAuthForm({
 	redirectTo?: string;
 	children: React.ReactNode;
 	buttonProps?: React.ComponentProps<
-		typeof Button<React.ButtonHTMLAttributes<HTMLButtonElement>>
+		typeof Button
 	>;
 }) {
 	return (
