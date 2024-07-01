@@ -66,6 +66,7 @@ function SignIn({
 				onSubmit={submit}
 			>
 				<Input
+					name='name'
 					label={t('form.name')}
 					required
 					messages={[
@@ -82,6 +83,7 @@ function SignIn({
 					]}
 				/>
 				<Input
+					name='email'
 					label={t('form.email')}
 					type='email'
 					required
@@ -99,6 +101,7 @@ function SignIn({
 					]}
 				/>
 				<Input
+					name='password'
 					label={t('form.password')}
 					type='password'
 					required
@@ -116,6 +119,7 @@ function SignIn({
 					]}
 				/>
 				<Input
+					name='confirm_password'
 					label={t('form.confirm_password')}
 					type='password'
 					required

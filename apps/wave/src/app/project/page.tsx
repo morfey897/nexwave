@@ -47,6 +47,13 @@ export default async function Project() {
 		<>
 			<InfoBlockCarousel />
 			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
+			<div className='mt-12 h-[370px] w-full rounded-lg  bg-white'></div>
 		</>
 	);
 }

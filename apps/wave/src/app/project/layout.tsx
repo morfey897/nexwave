@@ -27,7 +27,6 @@ export default async function ProjectLayout({
 			<Sidebar />
 			<div className='w-1/2 flex-grow pl-8 pr-2 lg:px-16 '>
 				<Header />
-				<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
 				<main>{children}</main>
 			</div>
 		</div>

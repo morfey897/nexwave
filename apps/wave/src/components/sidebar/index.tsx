@@ -36,7 +36,7 @@ const Sidebar = () => {
 
 	return (
 		<Box
-			className={clsx('relative z-10 w-0 md:w-[54px] lg:w-[250px]')}
+			className={clsx('relative z-20 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
 			{/*  */}
@@ -48,7 +48,7 @@ const Sidebar = () => {
 								<Link href='#' className='flex items-center md:px-2 lg:ps-2.5'>
 									<LogoSidebar />
 									<span className='self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:block dark:text-white'>
-										<span className='from-cyan-1-cyan-1 to-blue-1-blue-1 bg-gradient-to-r bg-clip-text text-transparent'>
+										<span className='from-cyan-1 to-blue-1 bg-gradient-to-r bg-clip-text text-transparent'>
 											NEX
 										</span>
 										WAVE
