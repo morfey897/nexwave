@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+} */
+@layer base {
+  :root {
+    --gray-1: rgb(243, 244, 246);
+    --gray-2: rgb(229, 231, 235);
+    --gray-3: rgb(209 213 219);
+    --gray-4: rgb(156, 163, 175);
+    --gray-5: rgb(107, 114, 128);
+    --gray-6: rgb(75, 85, 99);
+    --gray-7: rgb(55, 65, 81);
+    --gray-8: rgb(31, 41, 55);
+    --gray-9: rgb(17, 24, 39);
+  }
+  .dark {
+    --gray-1: rgb(17, 24, 39);
+    --gray-2: rgb(31, 41, 55);
+    --gray-3: rgb(55, 65, 81);
+    --gray-4: rgb(75, 85, 99);
+    --gray-5: rgb(229, 231, 235);
+    --gray-6: rgb(156, 163, 175);
+    --gray-7: rgb(229, 231, 235);
+    --gray-8: rgb(255 255 255);
+    --gray-9: rgb(229, 231, 235);
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+td {
+  padding: 0;
+}
+
+.hide-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.dark input {
+  color-scheme: dark;
+}

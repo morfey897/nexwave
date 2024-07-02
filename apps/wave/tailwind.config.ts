@@ -59,6 +59,7 @@ const config: Config = {
 				primary: 'var(--primary)',
 				secondary: 'var(--secondary)',
 				'primary-text': 'var(--primary-text)',
+				'primary-text-gray': 'var(--primary-text-gray)',
 				'secondary-text': 'var(--secondary-text)',
 				stroke: 'var(--stroke)',
 				main: 'var(--main)',
