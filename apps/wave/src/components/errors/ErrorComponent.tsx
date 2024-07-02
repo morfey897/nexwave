@@ -1,6 +1,7 @@
-'use client'; // Error components must be Client Components
+'use client';
+
 import { BiSolidErrorAlt } from 'react-icons/bi';
-import Button from '~components/buttons';
+import { Button } from '~components/buttons/Button';
 import { LOCALES } from '@nw/config';
 import { useMessages } from '~hooks/i18n';
 

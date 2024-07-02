@@ -7,12 +7,33 @@ import * as ErrorCodes from '~errorCodes';
 import { IResponse } from '~types';
 import { cookies } from 'next/headers';
 import googleOAuthClient from '~lib/googleOAuth';
-import { getUser, updateUser } from '~models/user';
+import { ICurrentUser, getUser, updateUser } from '~models/user';
 import { start } from '~models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '~utils/cookies';
 import { EnumApiRoutes, EnumResponseStatus } from '~enums';
 import { parseError, doError } from '~utils';
 import * as Yup from 'yup';
+import { COOKIES } from '@nw/config';
+
+async function updateUserLoginMetadata(
+	user: ICurrentUser | null,
+	method: string = 'password'
+) {
+	if (!user) return null;
+	const result = await updateUser(user.id, {
+		loginMetadata: {
+			ip: '',
+			device: cookies().get(COOKIES.DEVICE)?.value || '',
+			method,
+			timestamp: Date.now(),
+		},
+	});
+	if (!result) return null;
+	cookies().set(sessionCookie(result));
+	cookies().set(trailCookie('1'));
+	cookies().set(refreshCookie(result));
+	return result;
+}
 
 export async function signOut() {
 	cookies().set(sessionCookie(null));
@@ -55,37 +76,35 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 	throw doError(ErrorCodes.INVALID_PROVIDER);
 }
 
-export async function signInWithEmailAndPassword(
+export async function signInWithLoginAndPassword(
 	formData: FormData
 ): Promise<IResponse> {
 	try {
-		const { email, password } = {
-			email: (formData.get('email')?.toString() || '').trim().toLowerCase(),
+		const { login, password } = {
+			login: (formData.get('login')?.toString() || '').trim().toLowerCase(),
 			password: (formData.get('password')?.toString() || '').trim(),
 		};
 
+		console.log('LOGIN:', login, password);
+
 		await signinSchema.validate(
 			{
-				email,
+				login,
 				password,
 			},
-			{ abortEarly: false, disableStackTrace: true, strict: true }
+			{ abortEarly: false, disableStackTrace: true }
 		);
 
-		const result = await getUser({ login: email, password });
+		const userData = await getUser({ login, password });
+		console.log('USER_DATA:', userData);
+		const updatedUser = await updateUserLoginMetadata(userData);
 
-		if (result) {
-			await updateUser(result.uuid, { lastLoginAt: new Date() });
-			cookies().set(sessionCookie(result));
-			cookies().set(trailCookie('1'));
-			cookies().set(refreshCookie(result));
-			return { status: EnumResponseStatus.SUCCESS };
-		}
-
-		throw new Yup.ValidationError(ErrorCodes.CREDENTIAL_MISMATCH);
+		if (!updatedUser)
+			throw new Yup.ValidationError(ErrorCodes.CREDENTIAL_MISMATCH);
+		return { status: EnumResponseStatus.SUCCESS };
 	} catch (error) {
 		const parsedError = parseError(error);
-		console.log('ERROR', parsedError);
+		console.error('PARSED_ERROR:', parsedError);
 		return { status: EnumResponseStatus.FAILED, error: parsedError };
 	}
 }
@@ -94,50 +113,52 @@ export async function signUpWithEmailAndPassword(
 	formData: FormData
 ): Promise<IResponse> {
 	try {
-		const { name, email, password, confirmPassword } = {
+		const { name, login, password, confirmPassword, langs, timezone } = {
 			name: (formData.get('name')?.toString() || '').trim(),
-			email: (formData.get('email')?.toString() || '').trim().toLowerCase(),
+			login: (formData.get('login')?.toString() || '').trim().toLowerCase(),
 			password: (formData.get('password')?.toString() || '').trim(),
+			timezone: (formData.get('timezone')?.toString() || '').trim(),
+			langs: (formData.get('langs')?.toString() || '').trim().split(','),
 			confirmPassword: (
 				formData.get('confirm_password')?.toString() || ''
 			).trim(),
 		};
-		const invalid = validate([
-			{ value: email, key: 'email' },
-			{ value: password, key: 'password' },
-		]);
-		if (password !== confirmPassword || !confirmPassword) {
-			invalid.push(ErrorCodes.INVALID_PASSWORD);
-		}
-		if (invalid.length) {
-			throw doError(invalid.join(','));
-		}
+		await signupSchema.validate(
+			{
+				name,
+				login,
+				confirmPassword,
+				password,
+			},
+			{ abortEarly: false, disableStackTrace: true }
+		);
 
-		const { user } = await start({
-			email: email,
-			emailVerified: false,
-			name: name,
-			password: password,
+		const user = await start({
+			login,
+			name,
+			password,
+			timezone,
+			langs,
 		});
 
-		if (!user) throw doError(ErrorCodes.WENT_WRONG);
-		await updateUser(user.uuid, { lastLoginAt: new Date() });
-		cookies().set(sessionCookie(user));
-		cookies().set(trailCookie('1'));
-		cookies().set(refreshCookie(user));
-		// TODO if user has project redirect to project page
-		// TODO if user has invitations redirect to invitations page
+		const updatedUser = await updateUserLoginMetadata(user);
+		if (!updatedUser) throw new Yup.ValidationError(ErrorCodes.WENT_WRONG);
+
 		return { status: EnumResponseStatus.SUCCESS };
 	} catch (error) {
-		let newError = error as Error;
-		// @ts-expect-error error could be anything
-		if (error?.constraint === 'users_email_unique') {
-			newError = new Error('Email already exists', {
-				cause: { code: ErrorCodes.EMAIL_EXISTS },
-			});
-		}
+		// let newError = error as Error;
+		// // @ts-expect-error error could be anything
+		// if (error?.constraint === 'users_email_unique') {
+		// 	newError = new Error('Email already exists', {
+		// 		cause: { code: ErrorCodes.EMAIL_EXISTS },
+		// 	});
+		// }
 
-		console.log('ERROR', newError);
-		return { status: EnumResponseStatus.FAILED, error: parseError(newError) };
+		console.log('ERROR:', error);
+
+		const parsedError = parseError(error);
+
+		console.log('PARSED_ERROR', parsedError);
+		return { status: EnumResponseStatus.FAILED, error: parsedError };
 	}
 }

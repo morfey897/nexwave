@@ -29,6 +29,16 @@
 				"react/prop-types": "off", // replaced by ts-eslint rule below
 				"@typescript-eslint/no-shadow": "error",
 				"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+				"no-bitwise": "off",
+				"no-use-before-define": [
+					"error",
+					{
+						"functions": false,
+						"classes": true,
+						"variables": true,
+						"allowNamedExports": false
+					}
+				],
 				"@typescript-eslint/no-explicit-any": [
 					"error",
 					{ "ignoreRestArgs": true, "fixToUnknown": true }

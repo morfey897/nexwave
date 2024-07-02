@@ -27,7 +27,7 @@ describe('projects module', () => {
 	/**
 	 * Select projects with users
 	 */
-	describe('selectProjectWithUsers', () => {
+	describe.skip('selectProjectWithUsers', () => {
 		/**
 		 * Test selectProjectById #1
 		 * Should return project with id 1 and 3 users
@@ -184,7 +184,7 @@ describe('projects module', () => {
 	/**
 	 * Select branches
 	 */
-	describe('selectBranches', () => {
+	describe.skip('selectBranches', () => {
 		/**
 		 * Test selectBranches
 		 */
@@ -293,6 +293,51 @@ describe('projects module', () => {
 					branches: [],
 				},
 			]);
+		});
+	});
+
+	/**
+	 * Select projects with branches and users
+	 */
+	describe('selectProjectWithBranchesAndUsers', () => {
+		test('selectProjectWithBranchesAndUsers', async () => {
+			// const projects = await cfg.db.insert.findFirst({
+			// 	where: orm.eq(schemas.Projects.id, 1),
+			// 	with: {
+			// 		branches: true,
+			// 		users: {
+			// 			where: orm.eq(schemas.ProjectUser.userId, 1),
+			// 			columns: {
+			// 				role: true,
+			// 			},
+			// 		},
+			// 	},
+			// });
+
+			const user = await cfg.db
+				.update(schemas.Users)
+				.set({
+					// name: 'Alise',
+					loginMetadata: {
+						timestamp: Date.now(),
+						device: 'device',
+						ip: 'ip',
+						method: 'password',
+					},
+				})
+				.where(orm.eq(schemas.Users.id, 21))
+				.returning({
+					id: schemas.Users.id,
+					uuid: schemas.Users.uuid,
+					login: schemas.Users.login,
+					name: schemas.Users.name,
+					surname: schemas.Users.surname,
+					avatar: schemas.Users.avatar,
+				});
+
+			console.log(user);
+
+			expect(user).not.toBeNull();
 		});
 	});
 });

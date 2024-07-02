@@ -10,14 +10,15 @@ import { useTranslations } from 'next-intl';
 import OAuthForm from './OAuthForm';
 import GoogleIcon from '~root/icons/GoogleIcon';
 import { Box } from '../layout';
-import Button from '~components/buttons/Button';
+import { Button } from '~components/buttons/Button';
 import Input from '~components/form/Input';
 import SpanBlock from '~components/richText/SpanBlock';
 import { useAction } from '~hooks/action';
-import { signInWithEmailAndPassword } from '~actions/auth-action';
+import { signInWithLoginAndPassword } from '~actions/auth-action';
 import { useEffect } from 'react';
 import Spinner from '../spinner';
 import * as ErrorCodes from '~errorCodes';
+import ErrorCopy from '~components/errors/ErrorCopy';
 
 function SignIn({
 	changeMode,
@@ -28,10 +29,10 @@ function SignIn({
 }) {
 	const t = useTranslations();
 	const { action, submit, reset, pending, result } = useAction(
-		signInWithEmailAndPassword
+		signInWithLoginAndPassword
 	);
 
-	const errors = result?.error?.code;
+	const errorCodes = result?.error?.code;
 
 	useEffect(() => {
 		if (result?.status === EnumResponseStatus.SUCCESS) {
@@ -70,29 +71,32 @@ function SignIn({
 			>
 				<Input
 					serverInvalid={
-						errors?.includes(ErrorCodes.MISSING_EMAIL) ||
-						errors?.includes(ErrorCodes.INVALID_EMAIL)
+						errorCodes?.includes(ErrorCodes.MISSING_LOGIN) ||
+						errorCodes?.includes(ErrorCodes.INVALID_LOGIN)
 					}
-					label={t('form.email')}
-					name='email'
+					label={t('form.login')}
+					name='login'
 					required
 					messages={[
 						{
 							name: 'valueMissing',
 							match: 'valueMissing',
-							forceMatch: errors?.includes(ErrorCodes.MISSING_EMAIL),
-							children: 'Please enter your email',
+							forceMatch: errorCodes?.includes(ErrorCodes.MISSING_LOGIN),
+							children: t('error.missing_login'),
 						},
 						{
 							name: 'typeMismatch',
 							match: 'typeMismatch',
-							forceMatch: errors?.includes(ErrorCodes.INVALID_EMAIL),
-							children: 'Please provide a valid email',
+							forceMatch: errorCodes?.includes(ErrorCodes.INVALID_LOGIN),
+							children: t('error.invalid_login'),
 						},
 					]}
 				/>
 				<Input
-					serverInvalid={errors?.includes(ErrorCodes.MISSING_PASSWORD)}
+					serverInvalid={
+						errorCodes?.includes(ErrorCodes.MISSING_PASSWORD) ||
+						errorCodes?.includes(ErrorCodes.INVALID_PASSWORD)
+					}
 					label={t('form.password')}
 					type='password'
 					name='password'
@@ -101,16 +105,28 @@ function SignIn({
 						{
 							name: 'valueMissing',
 							match: 'valueMissing',
-							forceMatch: errors?.includes(ErrorCodes.MISSING_PASSWORD),
-							children: 'Please enter your password',
+							forceMatch: errorCodes?.includes(ErrorCodes.MISSING_PASSWORD),
+							children: t('error.missing_password'),
+						},
+						{
+							name: 'typeMismatch',
+							match: 'typeMismatch',
+							forceMatch: errorCodes?.includes(ErrorCodes.INVALID_PASSWORD),
+							children: t('error.invalid_password'),
 						},
 					]}
 				/>
 
-				<Form.Message>
-					{errors?.includes(ErrorCodes.CREDENTIAL_MISMATCH) &&
-						t('error.credential_mismatch')}
-				</Form.Message>
+				<ErrorCopy
+					className='my-6'
+					codes={errorCodes}
+					list={{
+						[ErrorCodes.INVALID_LOGIN]: false,
+						[ErrorCodes.MISSING_LOGIN]: false,
+						[ErrorCodes.INVALID_PASSWORD]: false,
+						[ErrorCodes.MISSING_PASSWORD]: false,
+					}}
+				/>
 
 				<Form.Submit asChild>
 					<Button

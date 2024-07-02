@@ -84,9 +84,9 @@ export enum EnumOAuthProvider {
 // }
 
 // export enum EnumState {
-//   DRAFT = 'draft',
-//   ACTIVE = 'active',
-//   INACTIVE = 'inactive',
+// 	DRAFT = 'draft',
+// 	ACTIVE = 'active',
+// 	INACTIVE = 'inactive',
 // }
 
 // export enum EnumRepresent {
@@ -101,13 +101,13 @@ export enum EnumOAuthProvider {
 //   YEAR = 'year',
 // }
 
-// export enum EnumRole {
-// 	owner = 'owner',
-// 	super = 'super',
-// 	admin = 'admin',
-// 	manager = 'manager',
-// 	user = 'user',
-// }
+export enum EnumRole {
+	owner = 'owner',
+	super = 'super',
+	admin = 'admin',
+	manager = 'manager',
+	user = 'user',
+}
 
 // TODO take from DB
 export enum EnumColor {
@@ -123,11 +123,11 @@ export enum EnumColor {
 	GRAY = 'gray',
 }
 
-// export enum EnumCurrency {
-// 	UAH = 'UAH',
-// 	USD = 'USD',
-// 	EUR = 'EUR',
-// }
+export enum EnumCurrency {
+	UAH = 'UAH',
+	USD = 'USD',
+	EUR = 'EUR',
+}
 
 // COLORS = Object.values(EnumColor);
 // CURRENCIES = Object.values(EnumCurrency);

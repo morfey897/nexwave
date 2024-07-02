@@ -1,8 +1,8 @@
 import db from '~lib/storage';
 import { schemas, orm } from '@nw/storage';
 import { TUID } from '~types';
-import { verifyAuth } from '~lib/jwt';
-import { isEmail, isPhone, isUUID } from '~utils/validation';
+import { verifyUser } from '~utils/cookies';
+import { isLogin, isUUID } from '~utils/validation';
 
 export interface ICurrentUser extends TUID {
 	login: string;
@@ -19,16 +19,13 @@ export interface ICurrentUser extends TUID {
 export async function getUserFromSession(
 	session: string | null | undefined
 ): Promise<ICurrentUser | null> {
+	if (!session) return null;
 	let user: ICurrentUser | null = null;
-
 	try {
-		if (!session) throw new Error('Invalid session');
-
-		const payload = await verifyAuth<{ user: ICurrentUser }>(session);
-		user = payload?.user || null;
-		const isValidUser = !!user && !!user.id && !!user.uuid && !!user.login;
-		if (!isValidUser || user === null) throw new Error('Invalid user');
+		const payload = await verifyUser(session);
+		user = await getUserByUUID(payload?.uuid);
 	} catch (error) {
+		/* empty */
 		user = null;
 	}
 	return user;
@@ -76,7 +73,32 @@ export async function getUserFromSession(
 // }
 
 /**
- * Get user by email and password
+ * Get user by UUID
+ * @param uuid
+ * @returns
+ */
+async function getUserByUUID(
+	uuid: string | undefined | null
+): Promise<ICurrentUser | null> {
+	if (!uuid || !isUUID(uuid)) return null;
+	const list = await db
+		.select({
+			id: schemas.Users.id,
+			uuid: schemas.Users.uuid,
+			login: schemas.Users.login,
+			name: schemas.Users.name,
+			surname: schemas.Users.surname,
+			avatar: schemas.Users.avatar,
+		})
+		.from(schemas.Users)
+		.where(orm.eq(schemas.Users.uuid, uuid))
+		.limit(1);
+
+	return list && list.length ? list[0] : null;
+}
+
+/**
+ * Get user by login and password
  * @param param
  * @returns
  */
@@ -119,47 +141,43 @@ export async function getUser({
  * @param param
  * @returns
  */
-// export async function createUser({
-// 	email,
-// 	emailVerified,
-// 	password,
-// 	name,
-// 	avatar,
-// 	surname,
-// }: {
-// 	email: string;
-// 	emailVerified: boolean;
-// 	password: string | null;
-// 	name?: string;
-// 	avatar?: string;
-// 	surname?: string;
-// }): Promise<ICurrentUser | null> {
-// 	if (!isEmail(email) || !password) return null;
-// 	const list = await db
-// 		.insert(schemas.user)
-// 		.values({
-// 			email: email,
-// 			emailVerified: emailVerified,
-// 			name: name || null,
-// 			surname: surname || null,
-// 			avatar: avatar || null,
-// 			password: password
-// 				? orm.sql<string>`crypt(${password}, gen_salt('bf'))`
-// 				: null,
-// 		})
-// 		.returning({
-// 			id: schemas.user.id,
-// 			uuid: schemas.user.uuid,
-// 			email: schemas.user.email,
-// 			emailVerified: schemas.user.emailVerified,
-// 			name: schemas.user.name,
-// 			surname: schemas.user.surname,
-// 			avatar: schemas.user.avatar,
-// 		});
+export async function createUser({
+	login,
+	password,
+	name,
+	avatar,
+	surname,
+}: {
+	login: string;
+	password: string | null;
+	name?: string;
+	avatar?: string;
+	surname?: string;
+}): Promise<ICurrentUser | null> {
+	if (!isLogin(login) || !password) return null;
+	const list = await db
+		.insert(schemas.Users)
+		.values({
+			login,
+			name: name || null,
+			surname: surname || null,
+			avatar: avatar || null,
+			password: password
+				? orm.sql<string>`crypt(${password}, gen_salt('bf'))`
+				: null,
+		})
+		.returning({
+			id: schemas.Users.id,
+			uuid: schemas.Users.uuid,
+			login: schemas.Users.login,
+			name: schemas.Users.name,
+			surname: schemas.Users.surname,
+			avatar: schemas.Users.avatar,
+		});
 
-// 	const user: ICurrentUser | null = list && list.length ? list[0] : null;
-// 	return user;
-// }
+	const user: ICurrentUser | null = list && list.length ? list[0] : null;
+	return user;
+}
 
 /**
  * Update user
@@ -167,29 +185,35 @@ export async function getUser({
  * @returns
  */
 export async function updateUser(
-	uuid: string,
+	userId: number,
 	{
 		name,
 		avatar,
 		surname,
-		lastLoginAt,
+		loginMetadata,
 	}: {
 		name?: string;
 		avatar?: string;
 		surname?: string;
-		lastLoginAt?: Date;
+		loginMetadata: {
+			method?: string;
+			device: string;
+			ip: string;
+			timestamp: number;
+		};
 	}
 ): Promise<ICurrentUser | null> {
-	if (!isUUID(uuid)) return null;
+	if (!userId) return null;
+
 	const list = await db
 		.update(schemas.Users)
 		.set({
+			loginMetadata,
 			...(name ? { name } : {}),
 			...(surname ? { surname } : {}),
 			...(avatar ? { avatar } : {}),
-			...(lastLoginAt ? { lastLoginAt } : {}),
 		})
-		.where(orm.eq(schemas.Users.uuid, uuid))
+		.where(orm.eq(schemas.Users.id, userId))
 		.returning({
 			id: schemas.Users.id,
 			uuid: schemas.Users.uuid,

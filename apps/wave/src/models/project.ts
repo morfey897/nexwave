@@ -1,11 +1,15 @@
-import db from '@/lib/storage';
-import { schemas, orm } from '@nw/storage';
-import { TUID } from '@/types/common';
-import { generateColor, generateName, generateShortId } from '@/utils';
-import { EnumRole, EnumColor, EnumState, EnumCurrency } from '@/enums';
-import { hasAccess } from '@/utils';
-import { CREATE, READ, UPDATE, DELETE } from '@/crud';
-import { isNumber, isIdOurUUID } from '@/utils/validation';
+import db from '~lib/storage';
+import { schemas, orm, StateEnum } from '@nw/storage';
+import { TUID } from '~types';
+import {
+	generateColor,
+	generateName,
+	generateShortId,
+	hasAccess,
+} from '~utils';
+import { EnumRole, EnumColor, EnumCurrency } from '~enums';
+import { CREATE, READ, UPDATE, DELETE } from '~crud';
+import { isNumber, isIdOurUUID } from '~utils/validation';
 import { RRule } from 'rrule';
 
 const ALL_ACCESS = [
@@ -44,27 +48,23 @@ interface IAccess {
 	roles: Record<string, number>;
 }
 
-export interface IProject extends TUID, Omit<IAccess, 'role' | 'roles'> {
+interface IInfo {
 	name: string;
-	createdAt: Date;
-	color: string | null;
-	image: string | null;
-	currency: string | null;
-	state: string | null;
-	branches: IBranch[];
-}
-
-export interface IBranch extends TUID {
-	projectId: number;
-	name: string;
-	createdAt: Date;
-	image: string | null;
-	state: string | null;
-	spaces: Array<{ shortId: string; name: string }>;
-}
-
-export interface IFullBranch extends IBranch {
 	info: string | null;
+	image: string | null;
+	color: string | null;
+	currency: string | null;
+	timezone: string | null;
+	langs: string[] | null;
+
+	state: StateEnum;
+
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export interface IBranch extends TUID, IInfo {
+	projectId: number;
 	address: {
 		country?: string;
 		city?: string;
@@ -72,65 +72,87 @@ export interface IFullBranch extends IBranch {
 		address_line_2?: string;
 	};
 	contacts: Record<string, string>;
+	spaces: Array<{ id: string; name: string }>;
 }
 
-export interface IFullProject
-	extends Omit<IProject, 'permission'>,
-		Omit<IAccess, 'permission'> {
-	info: string | null;
-	groups: Record<string, string>;
-	branches: IFullBranch[];
+export interface IProject extends TUID, IInfo, IAccess {
+	// Children
+	branches: IBranch[];
 }
 
-const compareBranches = (a: IBranch, b: IBranch) =>
-	a.name > b.name ? -1 : a.name < b.name ? 1 : 0;
+const compareBranches = (a: IBranch, b: IBranch) => {
+	if (a.name === b.name) return 0;
+	return a.name < b.name ? 1 : -1;
+};
 
-const _executeSelectProject = async (
-	userId: number,
-	id?: number,
-	uuid?: string
-) =>
-	await db
-		.select({
-			id: schemas.project.id,
-			uuid: schemas.project.uuid,
-			createdAt: schemas.project.createdAt,
-			color: schemas.project.color,
-			name: schemas.project.name,
-			image: schemas.project.image,
-			state: schemas.project.state,
-			info: schemas.project.info,
-			currency: schemas.project.currency,
-			groups: schemas.project.groups,
-			_roles: schemas.project.roles,
-			_role: schemas.projectToUser.role,
-			_branch: schemas.branch,
-		})
-		.from(schemas.user)
-		.leftJoin(
-			schemas.projectToUser,
-			orm.eq(schemas.projectToUser.userId, schemas.user.id)
-		)
-		.leftJoin(
-			schemas.project,
-			orm.eq(schemas.projectToUser.projectId, schemas.project.id)
-		)
-		.leftJoin(
-			schemas.branch,
-			orm.eq(schemas.branch.projectId, schemas.project.id)
-		)
-		.where(
-			orm.and(
-				orm.eq(schemas.user.id, userId),
-				orm.isNotNull(schemas.projectToUser),
-				id != undefined
-					? orm.eq(schemas.project.id, id)
-					: uuid != undefined
-						? orm.eq(schemas.project.uuid, uuid)
-						: undefined
-			)
-		)
-		.execute();
+const executeSelectProject = async (projectId: number, userId: number) => {
+	const fullProject = await db.query.Projects.findFirst({
+		where: orm.eq(schemas.Projects.id, projectId),
+		with: {
+			branches: true,
+			users: {
+				where: orm.eq(schemas.ProjectUser.userId, userId),
+				columns: {
+					role: true,
+				},
+			},
+		},
+	});
+	if (!fullProject) return null;
+
+	const { role } = fullProject.users[0];
+	const permission = fullProject.roles[role] || 0;
+
+	const project: IProject = {
+		...fullProject,
+		branches: fullProject.branches,
+		role,
+		permission,
+	};
+	return project;
+};
+
+// const executeSelectProject = (userId: number, id?: number, uuid?: string) =>
+// 	db
+// 		.select({
+// 			id: schemas.Projects.id,
+// 			uuid: schemas.Projects.uuid,
+// 			createdAt: schemas.Projects.createdAt,
+// 			color: schemas.Projects.color,
+// 			name: schemas.Projects.name,
+// 			image: schemas.Projects.image,
+// 			state: schemas.Projects.state,
+// 			info: schemas.Projects.info,
+// 			currency: schemas.Projects.currency,
+// 			_roles: schemas.project.roles,
+// 			_role: schemas.projectToUser.role,
+// 			_branch: schemas.branch,
+// 		})
+// 		.from(schemas.user)
+// 		.leftJoin(
+// 			schemas.projectToUser,
+// 			orm.eq(schemas.projectToUser.userId, schemas.user.id)
+// 		)
+// 		.leftJoin(
+// 			schemas.project,
+// 			orm.eq(schemas.projectToUser.projectId, schemas.project.id)
+// 		)
+// 		.leftJoin(
+// 			schemas.branch,
+// 			orm.eq(schemas.branch.projectId, schemas.project.id)
+// 		)
+// 		.where(
+// 			orm.and(
+// 				orm.eq(schemas.user.id, userId),
+// 				orm.isNotNull(schemas.projectToUser),
+// 				id != undefined
+// 					? orm.eq(schemas.project.id, id)
+// 					: uuid != undefined
+// 						? orm.eq(schemas.project.uuid, uuid)
+// 						: undefined
+// 			)
+// 		)
+// 		.execute();
 
 /**
  * Deploy new project
@@ -144,6 +166,8 @@ export async function deployNewProject(
 		name?: string;
 		currency?: string;
 		info?: string;
+		timezone?: string;
+		langs?: string[];
 	}
 ): Promise<IProject | null> {
 	if (!isNumber(ownerId)) return null;
@@ -159,52 +183,39 @@ export async function deployNewProject(
 			? (value?.currency as EnumCurrency)
 			: EnumCurrency.UAH;
 
-	const project = await db.transaction(
-		async (trx): Promise<IProject | null> => {
+	const newProjectId = await db.transaction(
+		async (trx): Promise<number | null> => {
 			const [newProject] = await trx
-				.insert(schemas.project)
+				.insert(schemas.Projects)
 				.values({
-					ownerId,
 					name: nameValue,
 					color: colorValue,
-					state: EnumState.DRAFT,
+					state: StateEnum.Inactive,
 					currency: currencyValue,
 					info: value?.info || null,
+					langs: value?.langs || [],
+					timezone: value?.timezone || null,
 					roles: ROLES,
 				})
 				.returning({
-					id: schemas.project.id,
-					uuid: schemas.project.uuid,
-					createdAt: schemas.project.createdAt,
-					color: schemas.project.color,
-					name: schemas.project.name,
-					image: schemas.project.image,
-					state: schemas.project.state,
-					currency: schemas.project.currency,
-					_roles: schemas.project.roles,
+					id: schemas.Projects.id,
 				});
+
 			if (!newProject) {
 				trx.rollback();
 				return null;
 			}
 
 			const [branch] = await trx
-				.insert(schemas.branch)
+				.insert(schemas.Branches)
 				.values({
 					projectId: newProject.id,
 					name: generateName(),
-					state: EnumState.DRAFT,
-					spaces: [{ shortId: generateShortId(6), name: generateName(0) }],
+					state: StateEnum.Inactive,
+					spaces: [{ id: generateShortId(6), name: generateName(0) }],
 				})
 				.returning({
-					id: schemas.branch.id,
-					uuid: schemas.branch.uuid,
-					name: schemas.branch.name,
-					image: schemas.branch.image,
-					state: schemas.branch.state,
-					spaces: schemas.branch.spaces,
-					projectId: schemas.branch.projectId,
-					createdAt: schemas.branch.createdAt,
+					id: schemas.Branches.id,
 				});
 
 			if (!branch) {
@@ -213,40 +224,31 @@ export async function deployNewProject(
 			}
 
 			const [junction] = await trx
-				.insert(schemas.projectToUser)
+				.insert(schemas.ProjectUser)
 				.values({
 					userId: ownerId,
 					projectId: newProject.id,
 					role: EnumRole.owner,
 				})
 				.returning({
-					userId: schemas.projectToUser.userId,
-					projectId: schemas.projectToUser.projectId,
-					_role: schemas.projectToUser.role,
+					userId: schemas.ProjectUser.userId,
+					projectId: schemas.ProjectUser.projectId,
+					role: schemas.ProjectUser.role,
 				});
 			if (!junction) {
 				trx.rollback();
 				return null;
 			}
-
-			return newProject && branch && junction
-				? {
-						id: newProject.id,
-						uuid: newProject.uuid,
-						name: newProject.name,
-						image: newProject.image,
-						color: newProject.color,
-						createdAt: newProject.createdAt,
-						state: newProject.state,
-						currency: newProject.currency,
-						permission: newProject._roles[junction._role],
-						branches: [branch],
-					}
-				: null;
+			return newProject.id;
 		}
 	);
 
-	return project as IProject;
+	const project =
+		newProjectId != null
+			? await executeSelectProject(newProjectId, ownerId)
+			: null;
+
+	return project;
 }
 
 /**
@@ -419,7 +421,6 @@ export async function getFullProjectByUserId(
 					info: proj.info,
 					roles: proj._roles as Record<string, number>,
 					role: proj._role as string,
-					groups: proj.groups as Record<string, string>,
 					branches: !!branch ? [branch] : [],
 				};
 				acc.push(project);

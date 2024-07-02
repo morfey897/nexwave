@@ -1,5 +1,5 @@
 import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
-import Button from '~components/buttons';
+import { Button } from '~components/buttons/Button';
 import { EnumProtectedRoutes } from '~enums';
 import { useTranslations } from 'next-intl';
 

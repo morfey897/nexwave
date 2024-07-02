@@ -116,6 +116,6 @@ const Span = (props: IButtonProps & React.HTMLAttributes<HTMLSpanElement>) => (
 	</span>
 );
 
-export { Link, Anchor, Div, Span };
+export { Link, Anchor, Div, Span, Button };
 
 export default Button;

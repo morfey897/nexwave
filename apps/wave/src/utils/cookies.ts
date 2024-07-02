@@ -1,16 +1,24 @@
 import { COOKIES } from '@nw/config';
-import { signAuth } from '~lib/jwt';
+import { signAuth, verifyAuth } from '~lib/jwt';
 
-export const sessionCookie = (user: { uuid: string } | null) => ({
+type TSessionUser = { uuid: string };
+
+export const verifyUser = (session: string) =>
+	verifyAuth<TSessionUser>(session);
+
+export const sessionCookie = (user: TSessionUser | null) => ({
 	name: COOKIES.SESSION,
 	value: user
-		? signAuth({ user }, process.env.NEXT_PRIVATE_JWT_EXPIRES_IN! || '1h')
+		? signAuth(
+				{ uuid: user.uuid },
+				process.env.NEXT_PRIVATE_JWT_EXPIRES_IN! || '1h'
+			)
 		: '',
 	maxAge: user ? undefined : -1,
 	...(user ? { httpOnly: true, secure: true } : {}),
 });
 
-export const refreshCookie = (user: { uuid: string } | null) => ({
+export const refreshCookie = (user: TSessionUser | null) => ({
 	name: COOKIES.REFRESH_TOKEN,
 	value: user
 		? signAuth(

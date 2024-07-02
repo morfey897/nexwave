@@ -1,4 +1,5 @@
 'use client';
+
 import clsx from 'clsx';
 import Link from 'next/link';
 import SidebarBurgerIcon from '~icons/SidebarBurgerIcon';
@@ -7,13 +8,12 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { Box } from '~root/components/layout';
 import { useDevice } from '~root/hooks/device';
-import { EnumDeviceType } from '~constants/enums';
+import { EnumDeviceType, EnumProtectedRoutes } from '~constants/enums';
 import ItemList from './components/ItemList';
 import CardItem from './components/CardItem';
 import Separator from './components/Separator';
 import useNWStore from '~lib/store';
 import DropdownMenuSidebar from './components/DropdownMenuSidebar';
-import ThemeChecker from '../application/ThemeChecker';
 import ThemeSwithcer from '~root/app/kitchensink/components/ThemeSwitcher';
 
 const Sidebar = () => {
@@ -45,7 +45,10 @@ const Sidebar = () => {
 					<aside className='h-screen' aria-label='Sidebar'>
 						<div className='bg-secondary flex h-full flex-col rounded-r-sm px-3 py-4 md:px-0 lg:px-3'>
 							<div className='mb-5 flex'>
-								<Link href='#' className='flex items-center md:px-2 lg:ps-2.5'>
+								<Link
+									href={EnumProtectedRoutes.APP}
+									className='flex items-center md:px-2 lg:ps-2.5'
+								>
 									<LogoSidebar />
 									<span className='self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:block dark:text-white'>
 										<span className='from-cyan-1 to-blue-1 bg-gradient-to-r bg-clip-text text-transparent'>
@@ -56,6 +59,8 @@ const Sidebar = () => {
 								</Link>
 								<Collapsible.Trigger asChild className='block md:hidden'>
 									<button
+										aria-label='Toggle Sidebar'
+										type='button'
 										onClick={toggleSidebar}
 										className='text-gray-5 hover:bg-gray-2 cursor-pointer rounded-md'
 									>

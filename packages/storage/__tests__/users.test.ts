@@ -12,7 +12,7 @@ describe('user module', () => {
 	afterAll(async () => {
 		const users = await cfg.db
 			.delete(schemas.Users)
-			.where(orm.like(schemas.Users.login, utils.whereTestLogin('email::user')))
+			.where(orm.like(schemas.Users.login, utils.whereTestLogin('user')))
 			.returning({
 				id: schemas.Users.id,
 				login: schemas.Users.login,
@@ -48,7 +48,7 @@ describe('user module', () => {
 	 * Test create new user
 	 */
 	describe('createNewUser', () => {
-		const login = utils.generateTestLogin('email::user');
+		const login = utils.generateTestLogin('user');
 		const password = utils.generateTestPassword();
 		test('createNewUser', async () => {
 			const [user] = await cfg.db
@@ -107,7 +107,7 @@ describe('user module', () => {
 	 * Should throw error
 	 */
 	describe('createDublicateUser', () => {
-		const login = utils.generateTestLogin('email::user');
+		const login = utils.generateTestLogin('user');
 		const password = utils.generateTestPassword();
 		test('createNewUser', async () => {
 			const [user] = await cfg.db

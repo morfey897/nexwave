@@ -1,11 +1,12 @@
 'use client';
+
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import {
 	HiOutlineArrowLongLeft,
 	HiOutlineArrowLongRight,
 } from 'react-icons/hi2';
-import { Button } from '~components/buttons';
+import { Button } from '~components/buttons/Button';
 
 type TTableFooterProps = {
 	onPage?: (page: number) => void;

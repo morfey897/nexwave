@@ -1,6 +1,6 @@
 // import { getInvitations, type IInvitation } from '@/models/invitation';
-// import { deployNewProject, type IProject } from '@/models/project';
-// import { createUser, type ICurrentUser } from '@/models/user';
+import { deployNewProject } from '~models/project';
+import { createUser, type ICurrentUser } from '~models/user';
 
 /**
  * First contact with the app
@@ -12,33 +12,39 @@
  * @param password - string
  */
 export async function start({
-	email,
-	emailVerified,
+	login,
 	name,
 	surname,
 	avatar,
 	password,
+	timezone,
+	langs,
 }: {
-	email: string;
-	emailVerified: boolean;
+	login: string;
 	name?: string;
 	surname?: string;
 	avatar?: string;
 	password: string | null;
-}): Promise<{
-	// user: ICurrentUser | null;
-	// project: IProject | null;
-	// invitations: IInvitation[] | null;
-}> {
-	// const user = await createUser({
-	// 	email: email,
-	// 	emailVerified: emailVerified,
-	// 	password: password,
-	// 	name: name,
-	// 	surname: surname,
-	// 	avatar: avatar,
-	// });
+	timezone?: string;
+	langs?: string[];
+}): Promise<ICurrentUser | null> {
+	// Generate user
+	const user = await createUser({
+		login,
+		password,
+		name,
+		surname,
+		avatar,
+	});
 
+	if (!user) {
+		return null;
+	}
+
+	// Generate project
+	await deployNewProject(user.id, { timezone, langs });
+
+	// TODO if user has project redirect to project page
 	// if (user) {
 	// 	// TODO think about inactive projects
 	// 	const invitations = await getInvitations({ email: user.email });
@@ -50,7 +56,5 @@ export async function start({
 	// 	}
 	// }
 
-	// return { user, project: null, invitations: null };
-
-	return {};
+	return user;
 }

@@ -1,7 +1,9 @@
 'use client';
+
 import clsx from 'clsx';
 import DropDown from '~components/dropdown';
-import { Button, Group } from '~components/buttons';
+import { Button } from '~components/buttons/Button';
+import Group from '~components/buttons/Group';
 
 interface IFilter {
 	onChange?: (uid: string) => void;

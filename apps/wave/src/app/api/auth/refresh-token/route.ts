@@ -6,9 +6,10 @@ import { sessionCookie } from '~utils/cookies';
 import { USER_UNAUTHORIZED } from '~errorCodes';
 import { parseError } from '~utils';
 
-const refreshCookie = async (refresh_token: string, session: string) => {
-	const refreshPayload = await verifyAuth<{ uuid: string }>(refresh_token);
+const refreshCookie = async (refreshToken: string, session: string) => {
+	const refreshPayload = await verifyAuth<{ uuid: string }>(refreshToken);
 	const sessionPayload = decode<{ uuid: string }>(session);
+
 	if (
 		!sessionPayload ||
 		!refreshPayload ||
@@ -20,13 +21,13 @@ const refreshCookie = async (refresh_token: string, session: string) => {
 };
 
 export async function GET(request: NextRequest) {
-	const refresh_token =
+	const refreshToken =
 		request.cookies.get(COOKIES.REFRESH_TOKEN)?.value ||
 		request.headers.get('Authorization')?.replace('Bearer ', '') ||
 		'';
 	const session = request.cookies.get(COOKIES.SESSION)?.value || '';
 
-	const user = await refreshCookie(refresh_token, session);
+	const user = await refreshCookie(refreshToken, session);
 	if (!user) {
 		return NextResponse.json(
 			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },
@@ -39,11 +40,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-	const refresh_token =
+	const refreshToken =
 		request.headers.get('Authorization')?.replace('Bearer ', '') || '';
 	const session = (await request.text()) || '';
 
-	const user = await refreshCookie(refresh_token, session);
+	const user = await refreshCookie(refreshToken, session);
 	if (!user) {
 		return NextResponse.json(
 			{ error: parseError({ code: USER_UNAUTHORIZED }), success: false },

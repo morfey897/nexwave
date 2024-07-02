@@ -5,6 +5,7 @@ export const MISSING_PASSWORD = 'auth/missing-password';
 export const INVALID_EMAIL = 'auth/invalid-email';
 export const INVALID_PASSWORD = 'auth/wrong-password';
 export const WEAK_PASSWORD = 'auth/weak-password';
+export const LOGIN_EXISTS = 'auth/login-already-in-use';
 export const EMAIL_EXISTS = 'auth/email-already-in-use';
 export const CREDENTIAL_MISMATCH = 'auth/custom-token-mismatch';
 export const USER_UNAUTHORIZED = 'user/unauthorized';

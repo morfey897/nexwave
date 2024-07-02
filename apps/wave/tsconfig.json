@@ -22,6 +22,7 @@
 			// Path to files
 			"~errorCodes": ["./src/constants/errorCodes.ts"],
 			"~enums": ["./src/constants/enums.ts"],
+			"~crud": ["./src/constants/crud.ts"],
 			"~utils": ["./src/utils/index.ts"],
 			"~types": ["./src/types/index.ts"],
 			"~icons": ["./src/icons/index.ts"],
