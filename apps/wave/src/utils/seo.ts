@@ -13,63 +13,59 @@ export const getTitle = (pageTitle: string, rootTitle?: String) =>
 		.filter((a) => !!a)
 		.join(' | ');
 
-export const generateViewport = (): Viewport => {
-	return {
-		width: 'device-width',
-		initialScale: 1,
-		minimumScale: 1,
-		userScalable: false,
-		viewportFit: 'cover',
+export const generateViewport = (): Viewport => ({
+	width: 'device-width',
+	initialScale: 1,
+	minimumScale: 1,
+	userScalable: false,
+	viewportFit: 'cover',
 
-		themeColor: [
-			{
-				color: '#161616',
-				media: '(prefers-color-scheme: dark)',
-			},
-			{
-				color: '#ffffff',
-				media: '(prefers-color-scheme: light)',
-			},
-		],
-	};
-};
+	themeColor: [
+		{
+			color: '#161616',
+			media: '(prefers-color-scheme: dark)',
+		},
+		{
+			color: '#ffffff',
+			media: '(prefers-color-scheme: light)',
+		},
+	],
+});
 
 export const getLayoutMetadata = (
 	title?: string,
 	description?: string
-): Metadata => {
-	return {
-		title: title,
-		description: description,
-		applicationName: process.env.NEXT_PUBLIC_TITLE,
-		appleWebApp: {
-			capable: true,
-			title: process.env.NEXT_PUBLIC_TITLE,
-			statusBarStyle: 'default',
-		},
-		formatDetection: {
-			telephone: false,
-		},
+): Metadata => ({
+	title,
+	description,
+	applicationName: process.env.NEXT_PUBLIC_TITLE,
+	appleWebApp: {
+		capable: true,
+		title: process.env.NEXT_PUBLIC_TITLE,
+		statusBarStyle: 'default',
+	},
+	formatDetection: {
+		telephone: false,
+	},
 
-		metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || ''),
+	metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || ''),
 
-		icons: [
-			{
-				rel: 'apple-touch-icon',
-				url: '/assets/apple-touch-icon.png',
-				sizes: '180x180',
-			},
-			{
-				rel: 'mask-icon',
-				url: '/assets/safari-pinned-tab.svg',
-				color: '#161616',
-			},
-			{ rel: 'icon', url: '/assets/favicon-32x32.png', sizes: '32x32' },
-			{ rel: 'icon', url: '/assets/favicon-16x16.png', sizes: '16x16' },
-		],
-		manifest: '/manifest.json',
-	};
-};
+	icons: [
+		{
+			rel: 'apple-touch-icon',
+			url: '/assets/apple-touch-icon.png',
+			sizes: '180x180',
+		},
+		{
+			rel: 'mask-icon',
+			url: '/assets/safari-pinned-tab.svg',
+			color: '#161616',
+		},
+		{ rel: 'icon', url: '/assets/favicon-32x32.png', sizes: '32x32' },
+		{ rel: 'icon', url: '/assets/favicon-16x16.png', sizes: '16x16' },
+	],
+	manifest: '/manifest.json',
+});
 
 export const getMetadata = (page: PageType): Metadata => {
 	const pathname = getPathname();

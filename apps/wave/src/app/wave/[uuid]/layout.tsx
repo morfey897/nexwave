@@ -1,6 +1,6 @@
 import React from 'react';
-import Head from 'next/head';
 
+import type { Metadata } from 'next';
 import { getUserFromSession } from '~/models/user';
 import { getProjectByUserId } from '~/models/project';
 import { notFound } from 'next/navigation';
@@ -9,6 +9,24 @@ import { getSession, getTheme } from '~/utils/headers';
 import { EnumTheme } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
 import ColorSchema from '~/components/user/ColorSchema';
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { uuid: string };
+}): Promise<Metadata> {
+	const user = await getUserFromSession(getSession());
+	if (!user) {
+		return notFound();
+	}
+
+	const project = await getProjectByUserId(user?.id, params.uuid);
+	return {
+		other: {
+			custom_meta: project?.color || 'blue',
+		},
+	};
+}
 
 export default async function ProjectLayout({
 	children,
