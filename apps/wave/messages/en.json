@@ -98,7 +98,8 @@
 		"sort_by": "Sort by",
 		"discard": "Discard",
 		"more_less": "More/less",
-		"settings": "Settings"
+		"settings": "Settings",
+		"my_profile": "My profile"
 	},
 	"i18n": {
 		"uk": {
@@ -211,7 +212,9 @@
 		"services": "Services",
 		"calendar": "Calendar",
 		"employees": "Employees",
-		"access": "Access"
+		"access": "Access",
+		"light_mode": "Light Theme",
+		"dark_mode": "Dark Theme"
 	},
 
 	"page": {

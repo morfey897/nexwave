@@ -1,12 +1,37 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import RightArrow from '~icons/RightArrow';
-import SidebarMockIcon from '~icons/SidebarMockIcon';
+import ProfileIcon from '~icons/ProfileIcon';
+import SignOutIcon from '~icons/SignOutIcon';
+import LangIcon from '~icons/LangIcon';
 import { Box, Flex } from '~components/layout';
 import { Button } from '~components/buttons/Button';
+import Separator from './Separator';
+import ThemeSwithcer from './ThemeSwitcher';
+import { useTranslations, useLocale } from 'next-intl';
+import { useCallback } from 'react';
+import { signOut } from '~actions/auth-action';
+import { useRouter } from 'next/navigation';
+import { EnumProtectedRoutes } from '~enums';
+import useNWStore from '~lib/store';
+import { fullname } from '~utils';
 
 function CardItem() {
+	const t = useTranslations();
+	const locale = useLocale();
+	const user = useNWStore((state) => state.user);
+	const destroyStore = useNWStore((state) => state.dengirousDestroyStore);
+
+	const route = useRouter();
+
+	const onSignOut = useCallback(async () => {
+		destroyStore();
+		await signOut();
+		route.push(EnumProtectedRoutes.APP);
+	}, [route, destroyStore]);
+
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger className='outline-none'>
@@ -20,7 +45,7 @@ function CardItem() {
 					/>
 					<Flex justify='space-between' align='center' className='w-full'>
 						<Box className='ml-3 text-left md:hidden lg:block'>
-							<p className='text-sm font-medium'>Mariya Desoja</p>
+							<p className='text-sm font-medium'>{fullname(user)}</p>
 							<p className='text-primary-text text-xs'>Manager</p>
 						</Box>
 						<RightArrow />
@@ -31,27 +56,34 @@ function CardItem() {
 				side='left'
 				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
 			>
-				<div className='bg-secondary w-64 rounded-lg py-2.5 px-px shadow-xl'>
+				<div className='bg-secondary w-60 space-y-4 rounded-lg px-px py-2.5 shadow-xl'>
 					<DropdownMenu.Item className='outline-none'>
-						<Button variant='text'>My Profile</Button>
-						{/* <Link href='#' className='mb-5 ml-3 mt-5 flex items-center'>
-							<Box flexShrink='0'>
-								<SidebarMockIcon />
-							</Box>
-							<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>
-								Ballet School
-							</span>
-						</Link> */}
+						<Button
+							variant='tertiary'
+							icon={<ProfileIcon />}
+							className='!justify-start px-3'
+							message={t('button.my_profile')}
+						/>
 					</DropdownMenu.Item>
+					<Separator className='mx-3' />
 					<DropdownMenu.Item className='outline-none'>
-						<Link href='#' className='mb-5 ml-3 mt-5 flex items-center'>
-							<Box flexShrink='0'>
-								<SidebarMockIcon />
-							</Box>
-							<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>
-								Pole Dance
-							</span>
-						</Link>
+						<Button
+							variant='tertiary'
+							icon={<LangIcon />}
+							className='!justify-start px-3'
+							message={t(`i18n.${locale}.title`)}
+						/>
+					</DropdownMenu.Item>
+					<ThemeSwithcer className='!justify-start px-3' />
+					<Separator className='mx-3' />
+					<DropdownMenu.Item className='outline-none'>
+						<Button
+							onClick={onSignOut}
+							variant='tertiary'
+							icon={<SignOutIcon />}
+							className='!justify-start px-3'
+							message={t('button.sign_out')}
+						/>
 					</DropdownMenu.Item>
 				</div>
 			</DropdownMenu.Content>

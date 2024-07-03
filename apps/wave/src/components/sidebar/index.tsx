@@ -14,7 +14,6 @@ import CardItem from './components/CardItem';
 import Separator from './components/Separator';
 import useNWStore from '~lib/store';
 import DropdownMenuSidebar from './components/DropdownMenuSidebar';
-import ThemeSwithcer from '~root/app/kitchensink/components/ThemeSwitcher';
 
 const Sidebar = () => {
 	const device = useDevice();
@@ -74,7 +73,6 @@ const Sidebar = () => {
 							<div className='mt-auto'>
 								<Separator />
 							</div>
-							<ThemeSwithcer />
 							<CardItem />
 						</div>
 					</aside>

@@ -7,7 +7,7 @@ interface IButtonProps {
 	icon?: React.ReactNode;
 	iconAfter?: React.ReactNode;
 	// eslint-disable-next-line react/no-unused-prop-types
-	variant?: 'default' | 'text' | 'primary' | 'secondary';
+	variant?: 'default' | 'text' | 'primary' | 'secondary' | 'tertiary';
 	// eslint-disable-next-line react/no-unused-prop-types
 	isFullWidth?: boolean;
 }
@@ -31,7 +31,8 @@ const componentClassName = ({
 		// Text color
 		{
 			// Default
-			'text-primary-text': variant === 'default' || variant === 'text',
+			'text-primary-text':
+				variant === 'default' || variant === 'text' || variant === 'tertiary',
 			// Primary & Secondary
 			'text-white': variant === 'primary' || variant === 'secondary',
 			// Text
@@ -43,6 +44,9 @@ const componentClassName = ({
 			// Primary
 			'bg-blue-1 dark:bg-blue-2 border-blue-1 dark:border-blue-2 hover:bg-blue-2 dark:hover:bg-blue-1 disabled:bg-blue-1 disabled:dark:bg-blue-2':
 				variant === 'primary',
+			// Tertiary
+			'hover:bg-gray-2 border-transparent dark:hover:bg-gray-700':
+				variant === 'tertiary',
 			// Text
 			'border-0 hover:decoration-1 hover:underline disabled:no-underline disabled:decoration-0':
 				variant === 'text',
@@ -67,11 +71,24 @@ const Content = ({
 
 const Button = ({
 	type = 'button',
+	icon,
+	message,
+	iconAfter,
+	children,
+	isFullWidth,
+	variant,
+	className,
 	...btnProps
 }: IButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => (
 	<button
 		{...btnProps}
-		className={componentClassName(btnProps)}
+		className={componentClassName({
+			isFullWidth,
+			icon,
+			iconAfter,
+			variant,
+			className,
+		})}
 		type={
 			type === 'button' || type === 'reset' || type === 'submit'
 				? // eslint-disable-next-line react/button-has-type
@@ -79,43 +96,118 @@ const Button = ({
 				: 'button'
 		}
 	>
-		<Content {...btnProps} />
+		<Content icon={icon} iconAfter={iconAfter} message={message}>
+			{children}
+		</Content>
 	</button>
 );
 
 const Link = ({
 	href,
+	icon,
+	message,
+	iconAfter,
+	children,
+	isFullWidth,
+	variant,
+	className,
 	...linkProps
 }: IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
 	<NextLink
 		{...linkProps}
-		className={componentClassName(linkProps)}
+		className={componentClassName({
+			isFullWidth,
+			icon,
+			iconAfter,
+			variant,
+			className,
+		})}
 		href={href || ''}
 	>
-		<Content {...linkProps} />
+		<Content icon={icon} iconAfter={iconAfter} message={message}>
+			{children}
+		</Content>
 	</NextLink>
 );
 
-const Anchor = (
-	props: IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
-) => (
-	<a {...props} className={componentClassName(props)}>
-		<Content {...props} />
+const Anchor = ({
+	icon,
+	message,
+	iconAfter,
+	children,
+	isFullWidth,
+	variant,
+	className,
+	...props
+}: IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+	<a
+		{...props}
+		className={componentClassName({
+			isFullWidth,
+			icon,
+			iconAfter,
+			variant,
+			className,
+		})}
+	>
+		<Content icon={icon} iconAfter={iconAfter} message={message}>
+			{children}
+		</Content>
 	</a>
 );
 
-const Div = (props: IButtonProps & React.HTMLAttributes<HTMLDivElement>) => (
-	<div {...props} className={componentClassName(props)}>
-		<Content {...props} />
+const DivButton = ({
+	icon,
+	message,
+	iconAfter,
+	children,
+	isFullWidth,
+	variant,
+	className,
+	...props
+}: IButtonProps & React.HTMLAttributes<HTMLDivElement>) => (
+	<div
+		{...props}
+		className={componentClassName({
+			isFullWidth,
+			icon,
+			iconAfter,
+			variant,
+			className,
+		})}
+	>
+		<Content icon={icon} iconAfter={iconAfter} message={message}>
+			{children}
+		</Content>
 	</div>
 );
 
-const Span = (props: IButtonProps & React.HTMLAttributes<HTMLSpanElement>) => (
-	<span {...props} className={componentClassName(props)}>
-		<Content {...props} />
+const SpanButton = ({
+	icon,
+	message,
+	iconAfter,
+	children,
+	isFullWidth,
+	variant,
+	className,
+	...props
+}: IButtonProps & React.HTMLAttributes<HTMLSpanElement>) => (
+	<span
+		{...props}
+		className={componentClassName({
+			isFullWidth,
+			icon,
+			iconAfter,
+			variant,
+			className,
+		})}
+	>
+		<Content icon={icon} iconAfter={iconAfter} message={message}>
+			{children}
+		</Content>
 	</span>
 );
 
-export { Link, Anchor, Div, Span, Button };
+export { Link, Anchor, DivButton, SpanButton, Button };
 
 export default Button;

@@ -9,7 +9,7 @@ import {
 } from '~utils';
 import { EnumRole, EnumColor, EnumCurrency } from '~enums';
 import { CREATE, READ, UPDATE, DELETE } from '~crud';
-import { isNumber, isIdOurUUID } from '~utils/validation';
+import { isNumber, isIdOurUUID, isUUID } from '~utils/validation';
 import { RRule } from 'rrule';
 
 const ALL_ACCESS = [
@@ -85,9 +85,9 @@ const compareBranches = (a: IBranch, b: IBranch) => {
 	return a.name < b.name ? 1 : -1;
 };
 
-const executeSelectProject = async (projectId: number, userId: number) => {
+const executeSelectProject = async (userId: number, projectUUID: string) => {
 	const fullProject = await db.query.Projects.findFirst({
-		where: orm.eq(schemas.Projects.id, projectId),
+		where: orm.eq(schemas.Projects.uuid, projectUUID),
 		with: {
 			branches: true,
 			users: {
@@ -100,7 +100,7 @@ const executeSelectProject = async (projectId: number, userId: number) => {
 	});
 	if (!fullProject) return null;
 
-	const { role } = fullProject.users[0];
+	const { role } = fullProject.users[0] || {};
 	const permission = fullProject.roles[role] || 0;
 
 	const project: IProject = {
@@ -111,48 +111,6 @@ const executeSelectProject = async (projectId: number, userId: number) => {
 	};
 	return project;
 };
-
-// const executeSelectProject = (userId: number, id?: number, uuid?: string) =>
-// 	db
-// 		.select({
-// 			id: schemas.Projects.id,
-// 			uuid: schemas.Projects.uuid,
-// 			createdAt: schemas.Projects.createdAt,
-// 			color: schemas.Projects.color,
-// 			name: schemas.Projects.name,
-// 			image: schemas.Projects.image,
-// 			state: schemas.Projects.state,
-// 			info: schemas.Projects.info,
-// 			currency: schemas.Projects.currency,
-// 			_roles: schemas.project.roles,
-// 			_role: schemas.projectToUser.role,
-// 			_branch: schemas.branch,
-// 		})
-// 		.from(schemas.user)
-// 		.leftJoin(
-// 			schemas.projectToUser,
-// 			orm.eq(schemas.projectToUser.userId, schemas.user.id)
-// 		)
-// 		.leftJoin(
-// 			schemas.project,
-// 			orm.eq(schemas.projectToUser.projectId, schemas.project.id)
-// 		)
-// 		.leftJoin(
-// 			schemas.branch,
-// 			orm.eq(schemas.branch.projectId, schemas.project.id)
-// 		)
-// 		.where(
-// 			orm.and(
-// 				orm.eq(schemas.user.id, userId),
-// 				orm.isNotNull(schemas.projectToUser),
-// 				id != undefined
-// 					? orm.eq(schemas.project.id, id)
-// 					: uuid != undefined
-// 						? orm.eq(schemas.project.uuid, uuid)
-// 						: undefined
-// 			)
-// 		)
-// 		.execute();
 
 /**
  * Deploy new project
@@ -183,8 +141,8 @@ export async function deployNewProject(
 			? (value?.currency as EnumCurrency)
 			: EnumCurrency.UAH;
 
-	const newProjectId = await db.transaction(
-		async (trx): Promise<number | null> => {
+	const newProjectUUID = await db.transaction(
+		async (trx): Promise<string | null> => {
 			const [newProject] = await trx
 				.insert(schemas.Projects)
 				.values({
@@ -199,6 +157,7 @@ export async function deployNewProject(
 				})
 				.returning({
 					id: schemas.Projects.id,
+					uuid: schemas.Projects.uuid,
 				});
 
 			if (!newProject) {
@@ -239,13 +198,13 @@ export async function deployNewProject(
 				trx.rollback();
 				return null;
 			}
-			return newProject.id;
+			return newProject.uuid;
 		}
 	);
 
 	const project =
-		newProjectId != null
-			? await executeSelectProject(newProjectId, ownerId)
+		newProjectUUID != null
+			? await executeSelectProject(ownerId, newProjectUUID)
 			: null;
 
 	return project;
@@ -327,59 +286,20 @@ export async function removeUserFromProject({
  * @param props - { id?: number; uuid?: string }
  * @returns
  */
-export async function getProjectsByUserId(
-	userId: number | null | undefined,
-	props?: {
-		id?: number;
-		uuid?: string;
-	}
-): Promise<IProject[] | null> {
-	if (!isNumber(userId) || typeof userId !== 'number') return null;
-	const projects = await _executeSelectProject(userId, props?.id, props?.uuid);
-
-	const filteredProjects = projects
-		.filter((item) => item._role !== null)
-		.reduce((acc: IProject[], proj) => {
-			const project = acc.find((item) => item.id === proj.id);
-			const branch: IBranch | null = proj._branch
-				? {
-						id: proj._branch.id,
-						uuid: proj._branch.uuid,
-						projectId: proj._branch.projectId,
-						name: proj._branch.name,
-						createdAt: proj._branch.createdAt,
-						image: proj._branch.image,
-						state: proj._branch.state,
-						spaces: proj._branch.spaces,
-					}
-				: null;
-			if (project) {
-				if (!!branch) {
-					project.branches.push(branch);
-				}
-			} else {
-				const project: IProject = {
-					id: proj.id as number,
-					uuid: proj.uuid as string,
-					name: proj.name as string,
-					createdAt: proj.createdAt as Date,
-					image: proj.image,
-					currency: proj.currency,
-					state: proj.state,
-					color: proj.color,
-					permission: (proj._roles || {})[proj._role || ''] || 0,
-					branches: !!branch ? [branch] : [],
-				};
-				acc.push(project);
-			}
-			return acc;
-		}, []);
-
-	filteredProjects.forEach((project) => {
-		project.branches.sort(compareBranches);
-	});
-
-	return filteredProjects.length > 0 ? filteredProjects : null;
+export async function getProjectByUserId(
+	userId: number | undefined,
+	projectUUID: string | undefined
+): Promise<IProject | null> {
+	if (
+		!isNumber(userId) ||
+		!isUUID(projectUUID) ||
+		typeof userId !== 'number' ||
+		typeof projectUUID !== 'string'
+	)
+		return null;
+	const project = await executeSelectProject(userId, projectUUID);
+	if (!project?.permission) return null;
+	return project;
 }
 
 /**

@@ -1,33 +1,40 @@
 'use client';
-import { useCallback, useState, useLayoutEffect, useMemo } from 'react';
+
+import { useCallback, useLayoutEffect, useMemo } from 'react';
 import { COOKIES } from '@nw/config';
 import { EnumTheme } from '~enums';
 import { getClassTheme, getSystemTheme } from '~utils';
+import useNWStore from '~root/lib/store';
 
 export function useTheme() {
-	const [theme, setTheme] = useState<EnumTheme | undefined>();
+	const setTheme = useNWStore((state) => state.setTheme);
+	const theme = useNWStore((state) => state.theme);
 
 	useLayoutEffect(() => {
 		const classTheme = getClassTheme();
 		if (classTheme) {
-			setTheme(classTheme);
+			if (classTheme !== theme) {
+				setTheme(classTheme);
+			}
 		} else {
 			const systemTheme = getSystemTheme();
-			setTheme(systemTheme);
+			if (systemTheme !== theme) {
+				setTheme(systemTheme);
+			}
 		}
-	}, []);
+	}, [theme, setTheme]);
 
 	const onSetTheme = useCallback(
 		(value: EnumTheme) => {
 			if (value !== theme) {
-				const classList = document.documentElement.classList;
+				const { classList } = document.documentElement;
 				classList.remove(EnumTheme.LIGHT, EnumTheme.DARK);
 				classList.add(value);
 				document.cookie = `${COOKIES.THEME}=${value};path=/`;
 				setTheme(value);
 			}
 		},
-		[theme]
+		[theme, setTheme]
 	);
 
 	const toggleTheme = useCallback(() => {

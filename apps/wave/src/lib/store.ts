@@ -1,39 +1,50 @@
+/* eslint-disable no-param-reassign */
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-// import type { ICurrentUser } from '@/models/user';
-// import type { IProject } from '@/models/project';
-// import { sign } from 'crypto';
+import { EnumTheme } from '~enums';
+import type { ICurrentUser } from '~models/user';
+import type { IProject } from '~models/project';
 
 export interface INWStore {
-	user: any | null;
-	project: any | null;
+	user: ICurrentUser | null;
+	project: IProject | null;
+	theme: EnumTheme | null;
 	ui: {
 		sidebar: boolean;
 	};
 }
 
 interface INWStoreAction {
-	updateProject: (project: Partial<any>) => void;
+	updateProject: (project: Partial<IProject>) => void;
 	setState: (state: Partial<INWStore>) => void;
 	setUI: (ui: Partial<INWStore['ui']>) => void;
-	_destroyStore: () => void;
+	setTheme: (theme: EnumTheme) => void;
+	dengirousDestroyStore: () => void;
 }
 
 const useNWStore = create(
 	devtools(
-		immer<INWStore & INWStoreAction>((set, get) => ({
+		immer<INWStore & INWStoreAction>((set) => ({
+			theme: EnumTheme.LIGHT,
 			ui: {
 				sidebar: false,
 			},
 			user: null,
 			project: null,
+			setTheme: (theme: EnumTheme) =>
+				set((state) => {
+					state.theme = theme;
+				}),
 			setUI: (ui: Partial<INWStore['ui']>) =>
 				set((state) => {
 					state.ui = { ...state.ui, ...ui };
 				}),
 			setState: (st: Partial<INWStore>) =>
 				set((state) => {
+					if (st.theme) {
+						state.theme = st.theme;
+					}
 					if (st.user) {
 						state.user = st.user;
 					}
@@ -41,8 +52,8 @@ const useNWStore = create(
 						state.project = st.project;
 					}
 				}),
-			_destroyStore: () => set({ user: null, project: null }),
-			updateProject: (project: Partial<any>) =>
+			dengirousDestroyStore: () => set({ user: null, project: null }),
+			updateProject: (project: Partial<IProject>) =>
 				set((state) => {
 					if (state.project === null) {
 						state.project = {
@@ -50,7 +61,7 @@ const useNWStore = create(
 							uuid: project.uuid || '',
 							createdAt: project.createdAt || new Date(),
 							permission: project.permission || 0,
-						} as any;
+						} as IProject;
 					}
 					if (typeof project.name === 'string') {
 						state.project.name = project.name;
