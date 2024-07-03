@@ -103,16 +103,16 @@
 	--secondary-text: var(--primary-text);
 
 	/* User colors */
-	--user-selected-blue: var(--blue-1);
-	--user-selected-green: var(--green-1);
-	--user-selected-yellow: var(--yellow-1);
-	--user-selected-purple: var(--purple-1);
-	--user-selected-cyan: var(--cyan-1);
-	--user-selected-orange: var(--orange-1);
-	--user-selected-teal: var(--teal-1);
-	--user-selected-pink: var(--pink-1);
+	--user-blue: var(--blue-1);
+	--user-green: var(--green-1);
+	--user-yellow: var(--yellow-1);
+	--user-purple: var(--purple-1);
+	--user-cyan: var(--cyan-1);
+	--user-orange: var(--orange-1);
+	--user-teal: var(--teal-1);
+	--user-pink: var(--pink-1);
 
-	--user-selected: var(--user-selected-blue);
+	--user-selected: var(--user-blue);
 }
 
 .dark {

@@ -8,7 +8,6 @@ import UpdateStore from '~/components/user/UpdateStore';
 import { getSession, getTheme } from '~/utils/headers';
 import { EnumTheme } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
-import ColorSchema from '~/components/user/ColorSchema';
 
 export async function generateMetadata({
 	params,
@@ -22,6 +21,7 @@ export async function generateMetadata({
 
 	const project = await getProjectByUserId(user?.id, params.uuid);
 	return {
+		title: project?.name || process.env.NEXT_PUBLIC_TITLE,
 		other: {
 			custom_meta: project?.color || 'blue',
 		},
@@ -49,7 +49,13 @@ export default async function ProjectLayout({
 
 	return (
 		<>
-			<ColorSchema color={project.color} />
+			<style>
+				{`
+				:root {
+						--user-selected: var(--user-${project.color});
+					}
+				`}
+			</style>
 			<UpdateStore
 				state={{ project, user, theme: (theme as EnumTheme) || null }}
 			/>
