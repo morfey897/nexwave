@@ -1,6 +1,6 @@
 import toMS from 'ms';
 import { previousMonday } from 'date-fns';
-import { addZiro } from '~utils';
+import { addZiro } from '~/utils';
 
 export const ms = (time: string | number) => toMS(time.toString());
 export const sec = (time: string | number) => Math.ceil(ms(time) / 1000);

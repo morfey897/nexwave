@@ -1,6 +1,6 @@
 import { cookies, headers } from 'next/headers';
 import { COOKIES, HEADERS, LOCALES } from '@nw/config';
-import { EnumDeviceType } from '~enums';
+import { EnumDeviceType } from '~/constants/enums';
 
 export const getTheme = () => cookies().get(COOKIES.THEME)?.value;
 

@@ -1,6 +1,6 @@
 import { TUID } from './common';
 import { TGenerator } from './view';
-import { EnumSortBy } from '~enums';
+import { EnumSortBy } from '~/constants/enums';
 
 interface IHeadProps<T extends TUID> {
 	flex?: number;

@@ -1,5 +1,5 @@
 'use client';
-import { EnumDeviceType } from '~constants/enums';
+import { EnumDeviceType } from '~/constants/enums';
 import { useCallback, useState, useEffect, useMemo } from 'react';
 
 const MIN_WIDTH = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { EnumProtectedRoutes } from '~enums';
+import { EnumProtectedRoutes } from '~/constants/enums';
 
 const ButtonBlock = (chunks: React.ReactNode) => (
 	<NextLink

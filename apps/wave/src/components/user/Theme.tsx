@@ -1,7 +1,8 @@
 'use client';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+
+import { useLayoutEffect } from 'react';
 import { COOKIES } from '@nw/config';
-import { getClassTheme, getSystemTheme } from '~utils';
+import { getClassTheme, getSystemTheme } from '~/utils';
 
 function Theme() {
 	useLayoutEffect(() => {

@@ -1,10 +1,10 @@
 import * as Popover from '@radix-ui/react-popover';
 import { useState } from 'react';
-import EllipsisIcon from '~root/icons/ElipsisIcon';
-import RightArrowFull from '~root/icons/RightArrowFull';
-import LeftArrowFull from '~root/icons/LeftArrowFull';
-import PencilIcon from '~root/icons/PencilIcon';
-import TrashIcon from '~root/icons/TrashIcon';
+import EllipsisIcon from '~/icons/ElipsisIcon';
+import RightArrowFull from '~/icons/RightArrowFull';
+import LeftArrowFull from '~/icons/LeftArrowFull';
+import PencilIcon from '~/icons/PencilIcon';
+import TrashIcon from '~/icons/TrashIcon';
 import clsx from 'clsx';
 
 const HoverCardInfoBlock = () => {

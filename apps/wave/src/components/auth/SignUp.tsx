@@ -6,19 +6,19 @@ import {
 	EnumOAuthProvider,
 	EnumProtectedRoutes,
 	EnumResponseStatus,
-} from '~constants/enums';
+} from '~/constants/enums';
 import { useTranslations } from 'next-intl';
 import OAuthForm from './OAuthForm';
-import GoogleIcon from '~root/icons/GoogleIcon';
+import GoogleIcon from '~/icons/GoogleIcon';
 import { Box } from '../layout';
-import { Button } from '~components/buttons/Button';
-import Input from '~components/form/Input';
-import SpanBlock from '~components/richText/SpanBlock';
-import { useAction } from '~hooks/action';
-import { signUpWithEmailAndPassword } from '~actions/auth-action';
-import Spinner from '~components/spinner';
-import ErrorCopy from '~components/errors/ErrorCopy';
-import * as ErrorCodes from '~errorCodes';
+import { Button } from '~/components/buttons/Button';
+import Input from '~/components/form/Input';
+import SpanBlock from '~/components/richText/SpanBlock';
+import { useAction } from '~/hooks/action';
+import { signUpWithEmailAndPassword } from '~/actions/auth-action';
+import Spinner from '~/components/spinner';
+import ErrorCopy from '~/components/errors/ErrorCopy';
+import * as ErrorCodes from '~/constants/errorCodes';
 
 function ButtonBlockHOC(onClick: (() => void) | undefined) {
 	const ButtonBlock = (chunks: React.ReactNode) => (

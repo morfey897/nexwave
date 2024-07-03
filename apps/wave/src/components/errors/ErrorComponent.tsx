@@ -1,9 +1,9 @@
 'use client';
 
 import { BiSolidErrorAlt } from 'react-icons/bi';
-import { Button } from '~components/buttons/Button';
+import { Button } from '~/components/buttons/Button';
 import { LOCALES } from '@nw/config';
-import { useMessages } from '~hooks/i18n';
+import { useMessages } from '~/hooks/i18n';
 
 const MESSAGES = {
 	[LOCALES.EN]: {

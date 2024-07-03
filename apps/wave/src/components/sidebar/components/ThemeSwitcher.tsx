@@ -1,13 +1,13 @@
 'use client';
 
 import * as Switch from '@radix-ui/react-switch';
-import { useTheme } from '~hooks/theme';
-import { useMounted } from '~hooks/mounted';
+import { useTheme } from '~/hooks/theme';
+import { useMounted } from '~/hooks/mounted';
 import { useTranslations } from 'next-intl';
-import { EnumTheme } from '~enums';
-import MoonFullIcon from '~icons/MoonFullIcon';
+import { EnumTheme } from '~/constants/enums';
+import MoonFullIcon from '~/icons/MoonFullIcon';
 import clsx from 'clsx';
-import { DivButton } from '~components/buttons/Button';
+import { DivButton } from '~/components/buttons/Button';
 
 const Toggle = ({
 	theme,

@@ -6,14 +6,14 @@ export enum EnumRoutes {
 }
 
 export enum EnumProtectedRoutes {
-	APP = '/project',
-	ROOT = '/project/[uuid]',
-	CLIENTS = '/project/[uuid]/clients',
-	USERS = '/project/[uuid]/users',
-	SERVICES = '/project/[uuid]/services',
-	PRODUCTS = '/project/[uuid]/products',
-	TIMETABLE = '/project/[uuid]/timetable',
-	SETTINGS = '/project/[uuid]/settings',
+	APP = '/wave',
+	ROOT = '/wave/[uuid]',
+	CLIENTS = '/wave/[uuid]/clients',
+	USERS = '/wave/[uuid]/users',
+	SERVICES = '/wave/[uuid]/services',
+	PRODUCTS = '/wave/[uuid]/products',
+	TIMETABLE = '/wave/[uuid]/timetable',
+	SETTINGS = '/wave/[uuid]/settings',
 }
 
 export enum EnumApiRoutes {

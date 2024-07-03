@@ -1,5 +1,5 @@
 import { COOKIES } from '@nw/config';
-import { signAuth, verifyAuth } from '~lib/jwt';
+import { signAuth, verifyAuth } from '~/lib/jwt';
 
 type TSessionUser = { uuid: string };
 

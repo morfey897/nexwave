@@ -1,17 +1,20 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import RightArrow from '~root/icons/RightArrow';
-import SidebarMockIcon from '~root/icons/SidebarMockIcon';
-import { Box } from '~root/components/layout';
+import RightArrow from '~/icons/RightArrow';
+import SidebarMockIcon from '~/icons/SidebarMockIcon';
+import { Box } from '~/components/layout';
+import useNWStore from '~/lib/store';
 
 function DropdownMenuSidebar() {
+	const project = useNWStore((state) => state.project);
+
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
 					<SidebarMockIcon />
 					<span className='text-primary-text items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex'>
-						Ballet School
+						{project ? project.name : 'Select Project'}
 						<RightArrow />
 					</span>
 				</div>

@@ -19,31 +19,18 @@
 			}
 		],
 		"paths": {
-			// Path to files
-			"~errorCodes": ["./src/constants/errorCodes.ts"],
-			"~enums": ["./src/constants/enums.ts"],
-			"~crud": ["./src/constants/crud.ts"],
-			"~utils": ["./src/utils/index.ts"],
-			"~types": ["./src/types/index.ts"],
-			"~icons": ["./src/icons/index.ts"],
-			// Add the following paths
-			"~root/*": ["./src/*"],
-			"~components/*": ["./src/components/*"],
-			"~constants/*": ["./src/constants/*"],
-			"~schemas/*": ["./src/schemas/*"],
-			"~lib/*": ["./src/lib/*"],
-			"~utils/*": ["./src/utils/*"],
-			"~models/*": ["./src/models/*"],
-			"~dialogs/*": ["./src/dialogs/*"],
-			"~actions/*": ["./src/actions/*"],
-			"~types/*": ["./src/types/*"],
-			"~hooks/*": ["./src/hooks/*"],
-			"~icons/*": ["./src/icons/*"],
-			"~styles/*": ["./src/styles/*"],
+			// Path to root
+			"~/*": ["./src/*"],
 			// Path to packages
 			"@packages/*": ["../../packages/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"src/**/*"
+	],
 	"exclude": ["node_modules"]
 }

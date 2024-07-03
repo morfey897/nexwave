@@ -1,3 +1,5 @@
+import { EnumRole } from '~/constants/enums';
+
 // Create
 export const CREATE = {
 	// Project section
@@ -32,4 +34,34 @@ export const DELETE = {
 // Read
 export const READ = {
 	EVENT: 512,
+} as const;
+
+const ALL_ACCESS = [
+	...(Object.values(CREATE) as number[]),
+	...(Object.values(UPDATE) as number[]),
+	...(Object.values(READ) as number[]),
+	...(Object.values(DELETE) as number[]),
+].reduce((acc, item) => acc | item, 0);
+
+const ROLE_SUPER = ALL_ACCESS;
+const ROLE_ADMIN = ROLE_SUPER & ~UPDATE.PROJECT_ACCESS;
+const ROLE_MANAGER =
+	ROLE_ADMIN &
+	~(
+		DELETE.PROJECT |
+		DELETE.PROJECT_GROUP |
+		DELETE.BRANCH |
+		UPDATE.UNPUBLISH_BRANCH |
+		UPDATE.UNPUBLISH_PROJECT |
+		CREATE.BRANCH
+	);
+const ROLE_USER =
+	ROLE_MANAGER & ~(UPDATE.PROJECT_GROUP | UPDATE.PROJECT | UPDATE.BRANCH);
+
+export const ROLES = {
+	[EnumRole.owner]: ALL_ACCESS,
+	[EnumRole.super]: ROLE_SUPER,
+	[EnumRole.admin]: ROLE_ADMIN,
+	[EnumRole.user]: ROLE_USER,
+	[EnumRole.manager]: ROLE_MANAGER,
 } as const;

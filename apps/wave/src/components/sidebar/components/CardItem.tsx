@@ -2,21 +2,21 @@
 
 import Image from 'next/image';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import RightArrow from '~icons/RightArrow';
-import ProfileIcon from '~icons/ProfileIcon';
-import SignOutIcon from '~icons/SignOutIcon';
-import LangIcon from '~icons/LangIcon';
-import { Box, Flex } from '~components/layout';
-import { Button } from '~components/buttons/Button';
+import RightArrow from '~/icons/RightArrow';
+import ProfileIcon from '~/icons/ProfileIcon';
+import SignOutIcon from '~/icons/SignOutIcon';
+import LangIcon from '~/icons/LangIcon';
+import { Box, Flex } from '~/components/layout';
+import { Button } from '~/components/buttons/Button';
 import Separator from './Separator';
 import ThemeSwithcer from './ThemeSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
 import { useCallback } from 'react';
-import { signOut } from '~actions/auth-action';
+import { signOut } from '~/actions/auth-action';
 import { useRouter } from 'next/navigation';
-import { EnumProtectedRoutes } from '~enums';
-import useNWStore from '~lib/store';
-import { fullname } from '~utils';
+import { EnumProtectedRoutes } from '~/constants/enums';
+import useNWStore from '~/lib/store';
+import { fullname } from '~/utils';
 
 function CardItem() {
 	const t = useTranslations();

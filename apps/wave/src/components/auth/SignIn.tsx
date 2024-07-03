@@ -5,20 +5,20 @@ import {
 	EnumOAuthProvider,
 	EnumProtectedRoutes,
 	EnumResponseStatus,
-} from '~constants/enums';
+} from '~/constants/enums';
 import { useTranslations } from 'next-intl';
 import OAuthForm from './OAuthForm';
-import GoogleIcon from '~root/icons/GoogleIcon';
+import GoogleIcon from '~/icons/GoogleIcon';
 import { Box } from '../layout';
-import { Button } from '~components/buttons/Button';
-import Input from '~components/form/Input';
-import SpanBlock from '~components/richText/SpanBlock';
-import { useAction } from '~hooks/action';
-import { signInWithLoginAndPassword } from '~actions/auth-action';
+import { Button } from '~/components/buttons/Button';
+import Input from '~/components/form/Input';
+import SpanBlock from '~/components/richText/SpanBlock';
+import { useAction } from '~/hooks/action';
+import { signInWithLoginAndPassword } from '~/actions/auth-action';
 import { useEffect } from 'react';
 import Spinner from '../spinner';
-import * as ErrorCodes from '~errorCodes';
-import ErrorCopy from '~components/errors/ErrorCopy';
+import * as ErrorCodes from '~/constants/errorCodes';
+import ErrorCopy from '~/components/errors/ErrorCopy';
 
 function SignIn({
 	changeMode,

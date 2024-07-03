@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { COOKIES, LOCALES } from '@nw/config';
-import { TLocale } from '~types';
+import { TLocale } from '~/types';
 import { useMemo } from 'react';
 
 /**

@@ -2,11 +2,11 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { getI18n, getTheme } from '~utils/headers';
-import { generateViewport, getMetadata } from '~utils/seo';
-import '~styles/globals.css';
+import { getI18n, getTheme } from '~/utils/headers';
+import { generateViewport, getMetadata } from '~/utils/seo';
+import '~/styles/globals.css';
 import clsx from 'clsx';
-import Theme from '~root/components/user/Theme';
+import Theme from '~/components/user/Theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,7 +28,7 @@ export default async function RootLayout({
 	const theme = getTheme();
 	const messages = await getMessages({ locale });
 	return (
-		<html lang={locale} className={theme || ''}>
+		<html lang={locale} className={theme || ''} suppressHydrationWarning>
 			<Theme />
 			<body
 				className={clsx(inter.className, 'bg-primary', 'text-secondary-text')}

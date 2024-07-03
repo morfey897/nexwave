@@ -1,17 +1,17 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { signAuth } from '~lib/jwt';
-import { signinSchema, signupSchema } from '~lib/validation';
-import * as ErrorCodes from '~errorCodes';
-import { IResponse } from '~types';
+import { signAuth } from '~/lib/jwt';
+import { signinSchema, signupSchema } from '~/lib/validation';
+import * as ErrorCodes from '~/constants/errorCodes';
+import { IResponse } from '~/types';
 import { cookies } from 'next/headers';
-import googleOAuthClient from '~lib/googleOAuth';
-import { ICurrentUser, getUser, updateUser } from '~models/user';
-import { start } from '~models/start';
-import { sessionCookie, refreshCookie, trailCookie } from '~utils/cookies';
-import { EnumApiRoutes, EnumResponseStatus } from '~enums';
-import { parseError, doError } from '~utils';
+import googleOAuthClient from '~/lib/googleOAuth';
+import { ICurrentUser, getUser, updateUser } from '~/models/user';
+import { start } from '~/models/start';
+import { sessionCookie, refreshCookie, trailCookie } from '~/utils/cookies';
+import { EnumApiRoutes, EnumResponseStatus } from '~/constants/enums';
+import { parseError, doError } from '~/utils';
 import * as Yup from 'yup';
 import { COOKIES } from '@nw/config';
 

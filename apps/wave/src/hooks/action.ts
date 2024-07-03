@@ -1,9 +1,9 @@
 'use client';
 
-import { IResponse } from '~types';
+import { IResponse } from '~/types';
 import { useCallback, useState } from 'react';
-import { EnumResponseStatus } from '~enums';
-import { WENT_WRONG } from '~errorCodes';
+import { EnumResponseStatus } from '~/constants/enums';
+import { WENT_WRONG } from '~/constants/errorCodes';
 import useSWR from 'swr';
 
 export function useAction<P = unknown, R = unknown>(

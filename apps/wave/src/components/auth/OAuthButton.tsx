@@ -1,5 +1,5 @@
 import React from 'react';
-import { signInWithOauth } from '~actions/auth-action';
+import { signInWithOauth } from '~/actions/auth-action';
 
 function OAuthButton({
 	redirect_to,

@@ -1,7 +1,7 @@
 'use client';
 import BaseInput, { type TInput } from './BaseInput';
 import { useRef, useEffect, useState } from 'react';
-import Spinner from '~components/spinner';
+import Spinner from '~/components/spinner';
 
 function Masked({
 	maskedProps,

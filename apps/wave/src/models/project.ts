@@ -1,46 +1,16 @@
-import db from '~lib/storage';
+import db from '~/lib/storage';
 import { schemas, orm, StateEnum } from '@nw/storage';
-import { TUID } from '~types';
+import { TUID } from '~/types';
 import {
 	generateColor,
 	generateName,
 	generateShortId,
 	hasAccess,
-} from '~utils';
-import { EnumRole, EnumColor, EnumCurrency } from '~enums';
-import { CREATE, READ, UPDATE, DELETE } from '~crud';
-import { isNumber, isIdOurUUID, isUUID } from '~utils/validation';
+} from '~/utils';
+import { EnumRole, EnumColor, EnumCurrency } from '~/constants/enums';
+import { ROLES } from '~/constants/crud';
+import { isNumber, isIdOurUUID, isUUID } from '~/utils/validation';
 import { RRule } from 'rrule';
-
-const ALL_ACCESS = [
-	...(Object.values(CREATE) as number[]),
-	...(Object.values(UPDATE) as number[]),
-	...(Object.values(READ) as number[]),
-	...(Object.values(DELETE) as number[]),
-].reduce((acc, item) => acc | item, 0);
-
-const ROLE_SUPER = ALL_ACCESS;
-const ROLE_ADMIN = ROLE_SUPER & ~UPDATE.PROJECT_ACCESS;
-const ROLE_MANAGER =
-	ROLE_ADMIN &
-	~(
-		DELETE.PROJECT |
-		DELETE.PROJECT_GROUP |
-		DELETE.BRANCH |
-		UPDATE.UNPUBLISH_BRANCH |
-		UPDATE.UNPUBLISH_PROJECT |
-		CREATE.BRANCH
-	);
-const ROLE_USER =
-	ROLE_MANAGER & ~(UPDATE.PROJECT_GROUP | UPDATE.PROJECT | UPDATE.BRANCH);
-
-const ROLES = {
-	[EnumRole.owner]: ALL_ACCESS,
-	[EnumRole.super]: ROLE_SUPER,
-	[EnumRole.admin]: ROLE_ADMIN,
-	[EnumRole.user]: ROLE_USER,
-	[EnumRole.manager]: ROLE_MANAGER,
-} as const;
 
 interface IAccess {
 	role: string;
@@ -75,6 +45,8 @@ export interface IBranch extends TUID, IInfo {
 	spaces: Array<{ id: string; name: string }>;
 }
 
+export interface IPreProject extends TUID, IAccess {}
+
 export interface IProject extends TUID, IInfo, IAccess {
 	// Children
 	branches: IBranch[];
@@ -85,7 +57,7 @@ const compareBranches = (a: IBranch, b: IBranch) => {
 	return a.name < b.name ? 1 : -1;
 };
 
-const executeSelectProject = async (userId: number, projectUUID: string) => {
+async function executeSelectProject(userId: number, projectUUID: string) {
 	const fullProject = await db.query.Projects.findFirst({
 		where: orm.eq(schemas.Projects.uuid, projectUUID),
 		with: {
@@ -110,7 +82,7 @@ const executeSelectProject = async (userId: number, projectUUID: string) => {
 		permission,
 	};
 	return project;
-};
+}
 
 /**
  * Deploy new project
@@ -283,7 +255,7 @@ export async function removeUserFromProject({
 /**
  * Get project by user id
  * @param userId - number
- * @param props - { id?: number; uuid?: string }
+ * @param projectUUID - string
  * @returns
  */
 export async function getProjectByUserId(
@@ -300,6 +272,49 @@ export async function getProjectByUserId(
 	const project = await executeSelectProject(userId, projectUUID);
 	if (!project?.permission) return null;
 	return project;
+}
+
+/**
+ * Get projects for user id
+ * @param userId - number
+ * @returns
+ */
+export async function getProjectsForUserId(
+	userId: number | undefined
+): Promise<IPreProject[] | null> {
+	if (!isNumber(userId) || typeof userId !== 'number') return null;
+	const result = await db.query.ProjectUser.findMany({
+		where: orm.eq(schemas.ProjectUser.userId, userId),
+		columns: {
+			role: true,
+		},
+		with: {
+			project: {
+				columns: {
+					id: true,
+					roles: true,
+					uuid: true,
+				},
+			},
+		},
+	});
+
+	return result
+		.map(({ role, project }) => {
+			const permission = project.roles[role] || 0;
+			return {
+				id: project.id,
+				uuid: project.uuid,
+				roles: project.roles,
+				role,
+				permission,
+			};
+		})
+		.sort((a, b) => {
+			if (a.permission === b.permission) return 0;
+			return a.permission < b.permission ? 1 : -1;
+		})
+		.filter((item) => item.permission > 0);
 }
 
 /**

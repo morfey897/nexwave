@@ -1,8 +1,8 @@
 import { humanId } from 'human-id';
-import { EnumColor, EnumTheme } from '~enums';
+import { EnumColor, EnumTheme } from '~/constants/enums';
 import { nanoid } from 'nanoid';
 import { ValidationError } from 'yup';
-import { IError } from '~types';
+import { IError } from '~/types';
 
 interface InternalError {
 	cause: {
@@ -19,12 +19,16 @@ export function isNotNull<T>(key: string) {
 	return (item: unknown): item is T => item[key] !== null;
 }
 
-export function dynamicHref(
+export function buildDynamicHref(
 	href: string,
-	params: Record<string, string | number | boolean>
-) {
+	params: { uuid: string; id?: number }
+): string;
+export function buildDynamicHref(
+	href: string,
+	params: { [key: string]: string | number }
+): string {
 	return Object.entries(params).reduce(
-		(acc, [key, value]) => acc.replace(`[${key}]`, value.toString()),
+		(acc, [key, value]) => acc.replace(`[${key}]`, String(value)),
 		href
 	);
 }

@@ -3,11 +3,11 @@
 import { compareAsc, format } from 'date-fns';
 import { useCallback, useMemo } from 'react';
 import clsx from 'clsx';
-import { useNow } from '~hooks/calendar';
-import { toIsoDate } from '~utils/datetime';
+import { useNow } from '~/hooks/calendar';
+import { toIsoDate } from '~/utils/datetime';
 import { HiChevronRight, HiChevronLeft } from 'react-icons/hi';
-import { useDateLocale } from '~hooks/datetime';
-import { Button } from '~components/buttons/Button';
+import { useDateLocale } from '~/hooks/datetime';
+import { Button } from '~/components/buttons/Button';
 
 function ChangeDate({
 	onChange,

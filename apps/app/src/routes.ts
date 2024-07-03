@@ -5,14 +5,15 @@ export const ACCEPT_INVITE = '/handshake/[uuid]/accept-invite';
 export const VERIFY_EMAIL = '/handshake/[uuid]/verify-email';
 
 /// Protected routes ///
-export const APP = '/project';
-export const ROOT = '/project/[uuid]';
-export const CLIENTS = '/project/[uuid]/clients';
-export const USERS = '/project/[uuid]/users';
-export const SERVICES = '/project/[uuid]/services';
-export const PRODUCTS = '/project/[uuid]/products';
-export const TIMETABLE = '/project/[uuid]/timetable';
-export const SETTINGS = '/project/[uuid]/settings';
+export const APP = '/app';
+export const ROOT = '/app/[uuid]';
+export const CLIENTS = '/app/[uuid]/clients';
+export const USERS = '/app/[uuid]/users';
+export const SERVICES = '/app/[uuid]/services';
+export const PRODUCTS = '/app/[uuid]/products';
+export const TIMETABLE = '/app/[uuid]/timetable';
+export const SETTINGS = '/app/[uuid]/settings';
+export const PROFILE = '/app/profile';
 
 /// API routes ///
 export const API = {

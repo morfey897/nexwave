@@ -1,8 +1,8 @@
-import db from '~lib/storage';
+import db from '~/lib/storage';
 import { schemas, orm } from '@nw/storage';
-import { TUID } from '~types';
-import { verifyUser } from '~utils/cookies';
-import { isLogin, isUUID } from '~utils/validation';
+import { TUID } from '~/types';
+import { verifyUser } from '~/utils/cookies';
+import { isLogin, isUUID } from '~/utils/validation';
 
 export interface ICurrentUser extends TUID {
 	login: string;

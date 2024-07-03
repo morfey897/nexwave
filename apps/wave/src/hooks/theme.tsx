@@ -2,9 +2,9 @@
 
 import { useCallback, useLayoutEffect, useMemo } from 'react';
 import { COOKIES } from '@nw/config';
-import { EnumTheme } from '~enums';
-import { getClassTheme, getSystemTheme } from '~utils';
-import useNWStore from '~root/lib/store';
+import { EnumTheme } from '~/constants/enums';
+import { getClassTheme, getSystemTheme } from '~/utils';
+import useNWStore from '~/lib/store';
 
 export function useTheme() {
 	const setTheme = useNWStore((state) => state.setTheme);

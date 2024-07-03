@@ -4,8 +4,8 @@ import { COOKIES, LOCALES } from '@nw/config';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
-import { EnumDeviceType } from '~enums';
-import { TLocale } from '~types';
+import { EnumDeviceType } from '~/constants/enums';
+import { TLocale } from '~/types';
 
 export const computeDevice = (request: NextRequest) => {
 	const userAgent = request.headers.get('user-agent');

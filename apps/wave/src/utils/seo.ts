@@ -1,5 +1,5 @@
 import { Metadata, Viewport } from 'next';
-import { getPathname } from '~utils/headers';
+import { getPathname } from '~/utils/headers';
 
 type PageType = {
 	title?: string;

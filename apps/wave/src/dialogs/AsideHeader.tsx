@@ -2,8 +2,8 @@
 
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
-import { Button } from '~components/buttons/Button';
-import Headline from '~components/headline';
+import { Button } from '~/components/buttons/Button';
+import Headline from '~/components/headline';
 
 function AsideHeader({
 	className,

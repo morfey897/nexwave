@@ -1,5 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
-import { getI18n } from '~utils/headers';
+import { getI18n } from '~/utils/headers';
 
 export default getRequestConfig(async () => {
 	const locale = getI18n();

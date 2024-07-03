@@ -1,5 +1,5 @@
 import { LOCALES } from '@nw/config';
-import { EnumResponseStatus } from '~enums';
+import { EnumResponseStatus } from '~/constants/enums';
 
 export type TUID = {
 	id: number;

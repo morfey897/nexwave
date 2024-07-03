@@ -1,8 +1,12 @@
 /* eslint-disable no-useless-escape */
 
 import * as Yup from 'yup';
-import * as ErrorCodes from '~errorCodes';
-import { EMAIL_REGEXP, PHONE_REGEXP, PASSWORD_REGEXP } from '~utils/validation';
+import * as ErrorCodes from '~/constants/errorCodes';
+import {
+	EMAIL_REGEXP,
+	PHONE_REGEXP,
+	PASSWORD_REGEXP,
+} from '~/utils/validation';
 
 export const emailSchema = Yup.string().matches(
 	EMAIL_REGEXP,

@@ -1,6 +1,6 @@
 // import { getInvitations, type IInvitation } from '@/models/invitation';
-import { deployNewProject } from '~models/project';
-import { createUser, type ICurrentUser } from '~models/user';
+import { deployNewProject } from '~/models/project';
+import { createUser, type ICurrentUser } from '~/models/user';
 
 /**
  * First contact with the app

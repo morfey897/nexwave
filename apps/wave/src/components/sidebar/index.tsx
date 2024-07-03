@@ -2,24 +2,26 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import SidebarBurgerIcon from '~icons/SidebarBurgerIcon';
-import LogoSidebar from '~icons/LogoSidebar';
+import SidebarBurgerIcon from '~/icons/SidebarBurgerIcon';
+import LogoSidebar from '~/icons/LogoSidebar';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { Box } from '~root/components/layout';
-import { useDevice } from '~root/hooks/device';
-import { EnumDeviceType, EnumProtectedRoutes } from '~constants/enums';
+import { Box } from '~/components/layout';
+import { useDevice } from '~/hooks/device';
+import { EnumDeviceType, EnumProtectedRoutes } from '~/constants/enums';
 import ItemList from './components/ItemList';
 import CardItem from './components/CardItem';
 import Separator from './components/Separator';
-import useNWStore from '~lib/store';
+import useNWStore from '~/lib/store';
 import DropdownMenuSidebar from './components/DropdownMenuSidebar';
+import { buildDynamicHref } from '~/utils';
 
 const Sidebar = () => {
 	const device = useDevice();
 	const [mounted, setMounted] = useState(false);
 	const ui = useNWStore((state) => state.ui);
 	const setUI = useNWStore((state) => state.setUI);
+	const project = useNWStore((state) => state.project);
 
 	useLayoutEffect(() => {
 		if (device === EnumDeviceType.DESKTOP || device === EnumDeviceType.TABLET) {
@@ -38,14 +40,17 @@ const Sidebar = () => {
 			className={clsx('relative z-20 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
-			{/*  */}
 			<Collapsible.Root className='fixed' open={mounted}>
 				<Collapsible.Content className='animate-slideRightAndFade data-[state=closed]:animate-slideLeftAndFade shadow-md will-change-[opacity,transform]'>
 					<aside className='h-screen' aria-label='Sidebar'>
 						<div className='bg-secondary flex h-full flex-col rounded-r-sm px-3 py-4 md:px-0 lg:px-3'>
 							<div className='mb-5 flex'>
 								<Link
-									href={EnumProtectedRoutes.APP}
+									href={
+										project
+											? buildDynamicHref(EnumProtectedRoutes.APP, project)
+											: '#'
+									}
 									className='flex items-center md:px-2 lg:ps-2.5'
 								>
 									<LogoSidebar />

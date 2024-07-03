@@ -1,6 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { schemas, orm } from '../src';
 import * as utils from '../__utils__';
+import { uuid } from 'drizzle-orm/pg-core';
 
 let cfg: ReturnType<typeof utils.configDB>;
 
@@ -301,43 +302,33 @@ describe('projects module', () => {
 	 */
 	describe('selectProjectWithBranchesAndUsers', () => {
 		test('selectProjectWithBranchesAndUsers', async () => {
-			// const projects = await cfg.db.insert.findFirst({
-			// 	where: orm.eq(schemas.Projects.id, 1),
-			// 	with: {
-			// 		branches: true,
-			// 		users: {
-			// 			where: orm.eq(schemas.ProjectUser.userId, 1),
-			// 			columns: {
-			// 				role: true,
-			// 			},
-			// 		},
-			// 	},
-			// });
-
-			const user = await cfg.db
-				.update(schemas.Users)
-				.set({
-					// name: 'Alise',
-					loginMetadata: {
-						timestamp: Date.now(),
-						device: 'device',
-						ip: 'ip',
-						method: 'password',
+			const prUsers = await cfg.db.query.ProjectUser.findMany({
+				where: orm.eq(schemas.ProjectUser.userId, 19),
+				columns: {
+					role: true,
+				},
+				with: {
+					project: {
+						columns: {
+							id: true,
+							name: true,
+							roles: true,
+							uuid: true,
+						},
 					},
-				})
-				.where(orm.eq(schemas.Users.id, 21))
-				.returning({
-					id: schemas.Users.id,
-					uuid: schemas.Users.uuid,
-					login: schemas.Users.login,
-					name: schemas.Users.name,
-					surname: schemas.Users.surname,
-					avatar: schemas.Users.avatar,
-				});
+					// branches: true,
+					// users: {
+					// where: orm.eq(schemas.ProjectUser.userId, 1),
+					// columns: {
+					// 	role: true,
+					// },
+					// },
+				},
+			});
 
-			console.log(user);
+			console.log(prUsers);
 
-			expect(user).not.toBeNull();
+			expect(prUsers).not.toBeNull();
 		});
 	});
 });

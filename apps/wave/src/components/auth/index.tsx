@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import { useCallback, useState } from 'react';
-import { useMounted } from '~root/hooks/mounted';
+import { useMounted } from '~/hooks/mounted';
 import Spinner from '../spinner';
 
 const Overlay = () => (

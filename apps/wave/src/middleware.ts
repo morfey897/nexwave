@@ -1,8 +1,8 @@
 import { COOKIES, HEADERS } from '@nw/config';
 import { NextRequest, NextResponse } from 'next/server';
-// import { EnumApiRoutes, EnumProtectedRoutes } from '~enums';
-// import { getSession, getRefreshToken } from '~utils/headers';
-import { computeLocale, computeDevice, updateCookie } from '~utils/middleware';
+// import { EnumApiRoutes, EnumProtectedRoutes } from '~/constants/enums';
+// import { getSession, getRefreshToken } from '~/utils/headers';
+import { computeLocale, computeDevice, updateCookie } from '~/utils/middleware';
 
 /**
  * Custom middleware

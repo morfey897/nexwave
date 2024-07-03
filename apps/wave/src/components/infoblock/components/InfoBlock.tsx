@@ -1,5 +1,5 @@
-import ArrowUp from '~root/icons/ArrowUp';
-import PiggyIcon from '~root/icons/PiggyIcon';
+import ArrowUp from '~/icons/ArrowUp';
+import PiggyIcon from '~/icons/PiggyIcon';
 import HoverCardInfoBlock from './HoverCardInfoBlock';
 
 const InfoBlock = () => (

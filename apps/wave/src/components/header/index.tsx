@@ -1,5 +1,5 @@
-import HeaderClients from './headerClients';
-import HeaderDashboard from './headerDashboard';
+import HeaderClients from './clients';
+import HeaderDashboard from './dashboard';
 
 const Header = () => <HeaderClients />;
 

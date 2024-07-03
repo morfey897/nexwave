@@ -3,8 +3,8 @@
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import * as ErrorCodes from '~errorCodes';
-import ButtoBlock from '~components/richText/ButtonBlock';
+import * as ErrorCodes from '~/constants/errorCodes';
+import ButtoBlock from '~/components/richText/ButtonBlock';
 
 /**
  * Default error messages

@@ -1,12 +1,12 @@
 import { useTranslations } from 'next-intl';
-import CalendarIcon from '~icons/CalendarIcon';
-import ClientsIcon from '~icons/ClientsIcon';
-import DashboardIcon from '~icons/DashboardIcon';
-import EmployeeIcon from '~icons/EmployeesIcon';
-import ProductsIcon from '~icons/ProductIscon';
-import ServicesIcon from '~icons/ServicesIcon';
-import SettingsIcon from '~icons/SettingsIcon';
-import { SidebarItem } from '~types';
+import CalendarIcon from '~/icons/CalendarIcon';
+import ClientsIcon from '~/icons/ClientsIcon';
+import DashboardIcon from '~/icons/DashboardIcon';
+import EmployeeIcon from '~/icons/EmployeesIcon';
+import ProductsIcon from '~/icons/ProductIscon';
+import ServicesIcon from '~/icons/ServicesIcon';
+import SettingsIcon from '~/icons/SettingsIcon';
+import { SidebarItem } from '~/types';
 
 export default function SidebarIconsSettings(): SidebarItem[] {
 	const t = useTranslations();

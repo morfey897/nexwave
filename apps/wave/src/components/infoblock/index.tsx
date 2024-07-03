@@ -1,8 +1,8 @@
 'use client';
 import { useState, useRef, useCallback, useLayoutEffect } from 'react';
 import InfoBlock from './components/InfoBlock';
-import { useDevice } from '~root/hooks/device';
-import { EnumDeviceType } from '~enums';
+import { useDevice } from '~/hooks/device';
+import { EnumDeviceType } from '~/constants/enums';
 
 const InfoBlockCarousel = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);

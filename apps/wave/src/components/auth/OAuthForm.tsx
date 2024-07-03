@@ -1,7 +1,7 @@
 import React from 'react';
-import { signInWithOauth } from '~actions/auth-action';
-import { EnumOAuthProvider } from '~enums';
-import Button from '~components/buttons/Button';
+import { signInWithOauth } from '~/actions/auth-action';
+import { EnumOAuthProvider } from '~/constants/enums';
+import Button from '~/components/buttons/Button';
 
 function OAuthForm({
 	redirectTo,
@@ -12,9 +12,7 @@ function OAuthForm({
 	provider: EnumOAuthProvider;
 	redirectTo?: string;
 	children: React.ReactNode;
-	buttonProps?: React.ComponentProps<
-		typeof Button
-	>;
+	buttonProps?: React.ComponentProps<typeof Button>;
 }) {
 	return (
 		<form

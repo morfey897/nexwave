@@ -2,9 +2,9 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { EnumTheme } from '~enums';
-import type { ICurrentUser } from '~models/user';
-import type { IProject } from '~models/project';
+import { EnumTheme } from '~/constants/enums';
+import type { ICurrentUser } from '~/models/user';
+import type { IProject } from '~/models/project';
 
 export interface INWStore {
 	user: ICurrentUser | null;

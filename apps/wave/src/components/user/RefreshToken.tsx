@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { EnumApiRoutes } from '~enums';
+import { EnumApiRoutes } from '~/constants/enums';
 import { useRouter } from 'next/navigation';
-import { ms } from '~utils/datetime';
+import { ms } from '~/utils/datetime';
 
 function RefreshToken({ refreshToken }: { refreshToken: string | undefined }) {
 	const router = useRouter();

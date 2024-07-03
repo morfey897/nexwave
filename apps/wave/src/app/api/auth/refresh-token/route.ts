@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decode, verifyAuth } from '~lib/jwt';
+import { decode, verifyAuth } from '~/lib/jwt';
 import { COOKIES } from '@nw/config';
 import { cookies } from 'next/headers';
-import { sessionCookie } from '~utils/cookies';
-import { USER_UNAUTHORIZED } from '~errorCodes';
-import { parseError } from '~utils';
+import { sessionCookie } from '~/utils/cookies';
+import { USER_UNAUTHORIZED } from '~/constants/errorCodes';
+import { parseError } from '~/utils';
 
 const refreshCookie = async (refreshToken: string, session: string) => {
 	const refreshPayload = await verifyAuth<{ uuid: string }>(refreshToken);

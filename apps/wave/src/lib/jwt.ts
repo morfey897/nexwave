@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { sec } from '~utils/datetime';
+import { sec } from '~/utils/datetime';
 
 export function sign<T extends object>(payload: T, expiresIn: string) {
 	return signPayload(
