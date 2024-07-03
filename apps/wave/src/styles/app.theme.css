@@ -129,3 +129,15 @@
 	--green-8: var(--dark-3);
 	--green-2: var(--green-1);
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+	@apply w-2 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	@apply rounded-full bg-gray-500;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	@apply bg-gray-700;
+}

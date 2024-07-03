@@ -2,7 +2,7 @@ import ExportClientsHeader from './ExportClientsHeader';
 import ImportClientsHeader from './ImportClientsHeader';
 
 const ButtonsClientsHeader = () => (
-	<div className='flex gap-5'>
+	<div className='hidden gap-5 md:flex'>
 		<ImportClientsHeader />
 		<ExportClientsHeader />
 	</div>
