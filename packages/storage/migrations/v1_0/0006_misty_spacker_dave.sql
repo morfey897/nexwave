@@ -1,1 +1,0 @@
-ALTER TABLE "projects" ADD COLUMN "visited_at" timestamp DEFAULT now() NOT NULL;

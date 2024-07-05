@@ -114,29 +114,6 @@ export const Projects = pgTable('projects', {
 		.$type<Record<string, number>>() // Record<string, number> is the same as { [key: string]: 1|2|4|8|16|32|64|128|256|512|1024|2048|4096|8192|16384|32768|... }
 		.default({})
 		.notNull(),
-});
-
-/**
- * Schema for branches table
- */
-export const Branches = pgTable('branches', {
-	id: serial('id').primaryKey(),
-	uuid: uuid('uuid')
-		.default(sql`gen_random_uuid()`)
-		.notNull(),
-	name: varchar('name', { length: 255 }).notNull(),
-	info: text('info'),
-	image: text('image'),
-	color: varchar('color', { length: 32 }),
-	currency: varchar('currency', { length: 32 }),
-	timezone: varchar('timezone', { length: 32 }),
-	langs: jsonb('langs').$type<Array<string>>().default([]),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').defaultNow().notNull(),
-	state: stateEnum('state').default(StateEnum.Inactive).notNull(),
-	projectId: integer('project_id')
-		.notNull()
-		.references(() => Projects.id),
 	address: jsonb('address')
 		.$type<{
 			country?: string;
@@ -183,9 +160,9 @@ export const Events = pgTable('events', {
 		.notNull(),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
-	branchId: integer('branch_id')
+	projectId: integer('project_id')
 		.notNull()
-		.references(() => Branches.id),
+		.references(() => Projects.id),
 	name: varchar('name', { length: 255 }).notNull(),
 	info: text('info'),
 	color: varchar('color', { length: 32 }),
@@ -200,7 +177,7 @@ export const Events = pgTable('events', {
 		byday?: string;
 	}>(),
 
-	spaceId: varchar('space_id', { length: 32 }), //from branch:spaces
+	spaceId: varchar('space_id', { length: 32 }), //from project:spaces
 	capacity: integer('capacity').default(0),
 });
 
@@ -263,18 +240,9 @@ export const ProjectClient = pgTable(
 //////////// Relations ////////////
 
 export const ProjectsRelations = relations(Projects, ({ many, one }) => ({
-	branches: many(Branches),
 	users: many(ProjectUser),
 	clients: many(ProjectClient),
 	invitations: many(Invitations),
-}));
-
-export const BranchesRelations = relations(Branches, ({ one, many }) => ({
-	project: one(Projects, {
-		fields: [Branches.projectId],
-		references: [Projects.id],
-	}),
-	events: many(Events),
 }));
 
 export const UsersRelations = relations(Users, ({ many }) => ({
@@ -298,9 +266,9 @@ export const ClientsRelations = relations(Users, ({ many }) => ({
 }));
 
 export const EventsRelations = relations(Events, ({ one, many }) => ({
-	branch: one(Branches, {
-		fields: [Events.branchId],
-		references: [Branches.id],
+	project: one(Projects, {
+		fields: [Events.projectId],
+		references: [Projects.id],
 	}),
 	registrations: many(EventRegistrations),
 }));

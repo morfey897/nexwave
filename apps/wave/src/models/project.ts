@@ -11,6 +11,7 @@ import { EnumRole, EnumColor, EnumCurrency } from '~/constants/enums';
 import { ROLES } from '~/constants/crud';
 import { isNumber, isIdOurUUID, isUUID } from '~/utils/validation';
 import { RRule } from 'rrule';
+import { MOCK_AVAILABLE_PROJECTS, MOCKED_PROJECT } from '~/__mock__/project';
 
 interface IAccess {
 	role: string;
@@ -49,7 +50,6 @@ export interface IPreProject extends TUID, IAccess {}
 
 export interface IProject extends TUID, IInfo, IAccess {
 	// Children
-	branches: IBranch[];
 }
 
 const compareBranches = (a: IBranch, b: IBranch) => {
@@ -61,7 +61,6 @@ async function executeSelectProject(userId: number, projectUUID: string) {
 	const fullProject = await db.query.Projects.findFirst({
 		where: orm.eq(schemas.Projects.uuid, projectUUID),
 		with: {
-			branches: true,
 			users: {
 				where: orm.eq(schemas.ProjectUser.userId, userId),
 				columns: {
@@ -262,6 +261,7 @@ export async function getProjectByUserId(
 	userId: number | undefined,
 	projectUUID: string | undefined
 ): Promise<IProject | null> {
+	if (process.env.SKIP_AUTHENTICATION === 'true') return MOCKED_PROJECT;
 	if (
 		!isNumber(userId) ||
 		!isUUID(projectUUID) ||
@@ -282,6 +282,9 @@ export async function getProjectByUserId(
 export async function getProjectsForUserId(
 	userId: number | undefined
 ): Promise<IPreProject[] | null> {
+	if (process.env.SKIP_AUTHENTICATION === 'true')
+		return MOCK_AVAILABLE_PROJECTS;
+
 	if (!isNumber(userId) || typeof userId !== 'number') return null;
 	const result = await db.query.ProjectUser.findMany({
 		where: orm.eq(schemas.ProjectUser.userId, userId),

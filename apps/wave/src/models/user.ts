@@ -3,6 +3,7 @@ import { schemas, orm } from '@nw/storage';
 import { TUID } from '~/types';
 import { verifyUser } from '~/utils/cookies';
 import { isLogin, isUUID } from '~/utils/validation';
+import { MOCK_USER } from '~/__mock__/user';
 
 export interface ICurrentUser extends TUID {
 	login: string;
@@ -19,6 +20,7 @@ export interface ICurrentUser extends TUID {
 export async function getUserFromSession(
 	session: string | null | undefined
 ): Promise<ICurrentUser | null> {
+	if (process.env.SKIP_AUTHENTICATION === 'true') return MOCK_USER;
 	if (!session) return null;
 	let user: ICurrentUser | null = null;
 	try {
