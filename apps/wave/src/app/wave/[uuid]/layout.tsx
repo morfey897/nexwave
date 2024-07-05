@@ -6,7 +6,7 @@ import { getProjectByUserId } from '~/models/project';
 import { notFound } from 'next/navigation';
 import UpdateStore from '~/components/user/UpdateStore';
 import { getSession, getTheme } from '~/utils/headers';
-import { EnumTheme, EnumColor } from '~/constants/enums';
+import { EnumTheme } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
 import { getColorSchema } from '~/utils';
 
