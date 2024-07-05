@@ -1,7 +1,7 @@
 const ExpensesChart = () => (
 	<svg
-		width='542'
-		height='326'
+		width='full'
+		height='full'
 		viewBox='0 0 542 326'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'

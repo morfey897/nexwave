@@ -13,7 +13,10 @@ function DropdownMenuSidebar() {
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
 					<SidebarMockIcon />
-					<span className='text-primary-text items-center gap-5 self-center whitespace-nowrap px-3 text-xl font-semibold md:hidden lg:flex'>
+					<span
+						className='text-primary-text w-60 items-center gap-5 self-center overflow-hidden whitespace-normal px-3 text-xl font-semibold md:hidden lg:flex'
+						style={{ width: '13ch', overflowWrap: 'break-word' }}
+					>
 						{project ? project.name : 'Select Project'}
 						<RightArrow />
 					</span>

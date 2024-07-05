@@ -1,13 +1,13 @@
 import React from 'react';
-import Template from './tpl';
+import Wrapper from './wrapper';
 
 function Page() {
 	return (
-		<Template>
+		<Wrapper>
 			<div>
 				<h1>Project Clients</h1>
 			</div>
-		</Template>
+		</Wrapper>
 	);
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '~/components/header/clients';
 
-function Template({ children }: { children: React.ReactNode }) {
+function Wrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			<Header />
@@ -10,4 +10,4 @@ function Template({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export default Template;
+export default Wrapper;
