@@ -41,7 +41,7 @@ export function findDynamicPath(pathname: string, dynamicPaths: string[]) {
 }
 
 export const abbrev = (
-	pairs: Array<Array<string | undefined | null> | undefined | null>
+	...pairs: Array<Array<string | undefined | null> | undefined | null>
 ) => {
 	const [first, last] =
 		pairs.find((list) => !!list && !!list[0] && !!list[1]) ||

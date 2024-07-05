@@ -3,15 +3,15 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
 import RightArrow from '~/icons/RightArrow';
-import SidebarMockIcon from '~/icons/SidebarMockIcon';
 import { Box } from '~/components/layout';
 import useNWStore from '~/lib/store';
 import { useAPI } from '~/hooks/action';
 import { EnumApiRoutes, EnumProtectedRoutes } from '~/constants/enums';
 import { IProject } from '~/types';
 import { useCallback, useState } from 'react';
-import { buildDynamicHref, getColorSchema } from '~/utils';
+import { abbrev, buildDynamicHref } from '~/utils';
 import CheckIcon from '~/icons/CheckIcon';
+import Picture from '~/components/picture';
 
 const Skeleton = () => (
 	<div>
@@ -41,7 +41,13 @@ function DropdownMenuSidebar() {
 		<DropdownMenu.Root onOpenChange={onOpenChange}>
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
-					<SidebarMockIcon />
+					<Picture
+						name={project?.name}
+						photo={project?.image}
+						abbrev={abbrev([project?.name.split(' ')])}
+						color={project?.color}
+						size={42}
+					/>
 					<span
 						className='text-primary-text w-60 items-center gap-5 self-center overflow-hidden whitespace-normal px-3 text-xl font-semibold md:hidden lg:flex'
 						style={{ width: '13ch', overflowWrap: 'break-word' }}
@@ -69,8 +75,12 @@ function DropdownMenuSidebar() {
 									className='mb-5 ml-3 mt-5 flex items-center'
 								>
 									<Box flexShrink='0'>
-										<SidebarMockIcon
-											fill={getColorSchema(innerProject.color)}
+										<Picture
+											name={innerProject.name}
+											photo={innerProject.image}
+											abbrev={abbrev(innerProject.name.split(' '))}
+											color={innerProject.color}
+											size={42}
 										/>
 									</Box>
 									<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>

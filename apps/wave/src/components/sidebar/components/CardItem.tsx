@@ -14,10 +14,9 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useCallback } from 'react';
 import { signOut } from '~/actions/auth-action';
 import { useRouter } from 'next/navigation';
-import { EnumProtectedRoutes } from '~/constants/enums';
 import useNWStore from '~/lib/store';
 import { fullname } from '~/utils';
-import { EnumRole } from '~/constants/enums';
+import { EnumRole, EnumProtectedRoutes } from '~/constants/enums';
 
 const Roles = Object.values(EnumRole) as string[];
 

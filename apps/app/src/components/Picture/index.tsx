@@ -37,7 +37,7 @@ function Picture({
 			{!!photo ? (
 				<picture>
 					<img
-						className={clsx('rounded-full object-cover')}
+						className={clsx('rounded-lg object-cover')}
 						src={photo}
 						alt={name || 'picture'}
 						style={{ width: size, height: size }}
