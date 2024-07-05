@@ -64,22 +64,9 @@ const ItemList = () => {
 	const project = useNWStore((state) => state.project);
 	const pathname = usePathname();
 
-	// .map((item) => {
-	// 	if (item?.type === 'divider') {
-	// 		return (
-
-	// 		);
-	// 	}
-	// 	if (item?.type === 'link') {
-	// 		return (
-
-	// 		);
-	// 	}
-	// 	return null;
-	// })
 	const links = useMemo(
 		() =>
-			LINKS.map((item, index) => {
+			LINKS.map((item) => {
 				if (item.type === 'divider') {
 					return (
 						<li key={item.key}>

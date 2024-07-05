@@ -3,8 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { EnumTheme } from '~/constants/enums';
-import type { ICurrentUser } from '~/models/user';
-import type { IProject } from '~/models/project';
+import type { ICurrentUser, IProject } from '~/types';
 
 export interface INWStore {
 	user: ICurrentUser | null;
@@ -77,9 +76,6 @@ const useNWStore = create(
 					}
 					if (typeof project.state === 'string') {
 						state.project.state = project.state;
-					}
-					if (Array.isArray(project.branches)) {
-						state.project.branches = project.branches;
 					}
 				}),
 		}))

@@ -1,27 +1,31 @@
-// export const dynamic = "force-dynamic";
-// export const revalidate = 0
+import { getUserFromSession } from '~/models/user';
+import { NextResponse } from 'next/server';
+import { getProjectsForUserId } from '~/models/project';
+import { EnumResponseStatus } from '~/constants/enums';
+import { parseError } from '~/utils';
+import * as ErrorCodes from '~/constants/errorCodes';
+import { getSession } from '~/utils/headers';
+import * as Yup from 'yup';
 
-// import { getUserFromSession } from '@/models/user';
-// import { NextRequest, NextResponse } from 'next/server';
-// import { getProjectsByUserId } from '@/models/project';
-// import { EnumResponse } from '@/enums';
-// import { doError, parseError } from '@/utils';
-// import * as ErrorCodes from '@/errorCodes';
-// import { getSession } from '@/headers';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-// export async function GET(request: NextRequest) {
-// 	try {
-// 		const user = await getUserFromSession(getSession());
-// 		if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
+export async function GET() {
+	try {
+		const user = await getUserFromSession(getSession());
+		if (!user) throw new Yup.ValidationError(ErrorCodes.USER_UNAUTHORIZED);
 
-// 		const projects = await getProjectsByUserId(user.id);
+		const projects = await getProjectsForUserId(user.id);
 
-// 		return NextResponse.json({ status: EnumResponse.SUCCESS, data: projects });
-// 	} catch (error) {
-// 		console.log('ERROR', error);
-// 		return NextResponse.json({
-// 			status: EnumResponse.FAILED,
-// 			error: parseError(error),
-// 		});
-// 	}
-// }
+		return NextResponse.json({
+			status: EnumResponseStatus.SUCCESS,
+			data: projects,
+		});
+	} catch (error) {
+		console.log('ERROR', error);
+		return NextResponse.json({
+			status: EnumResponseStatus.FAILED,
+			error: parseError(error),
+		});
+	}
+}

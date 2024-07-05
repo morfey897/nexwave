@@ -72,6 +72,11 @@ export function generateName(adjectiveCount: number = 2) {
 	});
 }
 
+export const getColorSchema = (color: string | EnumColor | undefined | null) =>
+	color && (Object.values(EnumColor) as string[]).includes(color)
+		? color
+		: EnumColor.BLUE;
+
 export function generateColor() {
 	return random<EnumColor>(Object.values(EnumColor));
 }

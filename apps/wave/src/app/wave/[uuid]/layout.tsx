@@ -8,6 +8,7 @@ import UpdateStore from '~/components/user/UpdateStore';
 import { getSession, getTheme } from '~/utils/headers';
 import { EnumTheme, EnumColor } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
+import { getColorSchema } from '~/utils';
 
 export async function generateMetadata({
 	params,
@@ -47,18 +48,12 @@ export default async function ProjectLayout({
 		return <AccessDenied />;
 	}
 
-	const color =
-		project.color &&
-		(Object.values(EnumColor) as string[]).includes(project.color)
-			? project.color
-			: EnumColor.BLUE;
-
 	return (
 		<>
 			<style>
 				{`
 				:root {
-						--user-selected: var(--user-${color});
+						--user-selected: var(--user-${getColorSchema(project?.color)});
 					}
 				`}
 			</style>
