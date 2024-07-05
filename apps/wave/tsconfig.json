@@ -22,7 +22,7 @@
 			// Path to root
 			"~/*": ["./src/*"],
 			// Path to packages
-			"@packages/*": ["../../packages/*"]
+			"packages/*": ["../../packages/*"]
 		}
 	},
 	"include": [

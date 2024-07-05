@@ -19,7 +19,11 @@ export const isLogin = (login?: string) => isEmail(login) || isPhone(login);
 export const isPassword = (password?: string) =>
 	!!password && PASSWORD_REGEXP.test(password);
 
-export const isUUID = (uuid?: string) => !!uuid && UUID_REGEXP.test(uuid);
+export const isUUID = (uuid?: string | null | undefined) =>
+	typeof uuid === 'string' && UUID_REGEXP.test(uuid);
+
+export const isNumber = (number: number | null | undefined) =>
+	typeof number === 'number' && !Number.isNaN(number);
 
 export const isTime = (time?: string) => {
 	if (!time) return false;
@@ -33,8 +37,6 @@ export const isDate = (date?: string) =>
 export const isDateTime = (date?: string) =>
 	!!date && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(date);
 
-export const isNumber = (number: unknown) =>
-	typeof number === 'number' && !Number.isNaN(number);
 export const isValidDate = (date: Date) =>
 	date instanceof Date && !Number.isNaN(date.getTime());
 export const isIdOurUUID = (

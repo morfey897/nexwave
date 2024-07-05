@@ -1,4 +1,4 @@
-import { ICurrentUser } from '~/models/user';
+import { ICurrentUser } from '~/types';
 
 export const MOCK_USER: ICurrentUser = {
 	id: 1,

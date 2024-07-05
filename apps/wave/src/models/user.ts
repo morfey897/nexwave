@@ -1,78 +1,9 @@
 import db from '~/lib/storage';
 import { schemas, orm } from '@nw/storage';
-import { TUID } from '~/types';
+import { ICurrentUser } from '~/types';
 import { verifyUser } from '~/utils/cookies';
 import { isLogin, isUUID } from '~/utils/validation';
 import { MOCK_USER } from '~/__mock__/user';
-
-export interface ICurrentUser extends TUID {
-	login: string;
-	name?: string | null;
-	surname?: string | null;
-	avatar?: string | null;
-}
-
-/**
- * Get current user from session
- * @param session
- * @returns {ICurrentUser | null}
- */
-export async function getUserFromSession(
-	session: string | null | undefined
-): Promise<ICurrentUser | null> {
-	if (process.env.SKIP_AUTHENTICATION === 'true') return MOCK_USER;
-	if (!session) return null;
-	let user: ICurrentUser | null = null;
-	try {
-		const payload = await verifyUser(session);
-		user = await getUserByUUID(payload?.uuid);
-	} catch (error) {
-		/* empty */
-		user = null;
-	}
-	return user;
-}
-
-/**
- * Find user by unique params
- * @param param
- * @returns
- */
-// export async function findUserByParams({
-// 	email,
-// 	uuid,
-// 	id,
-// }: {
-// 	email?: string;
-// 	uuid?: string;
-// 	id?: number;
-// }): Promise<ICurrentUser | null> {
-// 	const where = email
-// 		? orm.eq(schemas.Users.login, email)
-// 		: uuid
-// 			? orm.eq(schemas.user.uuid, uuid)
-// 			: id
-// 				? orm.eq(schemas.user.id, id)
-// 				: null;
-
-// 	if (!where) return null;
-
-// 	const list = await db
-// 		.select({
-// 			id: schemas.user.id,
-// 			uuid: schemas.user.uuid,
-// 			email: schemas.user.email,
-// 			emailVerified: schemas.user.emailVerified,
-// 			name: schemas.user.name,
-// 			surname: schemas.user.surname,
-// 			avatar: schemas.user.avatar,
-// 		})
-// 		.from(schemas.user)
-// 		.where(where)
-// 		.limit(1);
-
-// 	return list && list.length ? list[0] : null;
-// }
 
 /**
  * Get user by UUID
@@ -97,6 +28,27 @@ async function getUserByUUID(
 		.limit(1);
 
 	return list && list.length ? list[0] : null;
+}
+
+/**
+ * Get current user from session
+ * @param session
+ * @returns {ICurrentUser | null}
+ */
+export async function getUserFromSession(
+	session: string | null | undefined
+): Promise<ICurrentUser | null> {
+	if (process.env.SKIP_AUTHENTICATION === 'true') return MOCK_USER;
+	if (!session) return null;
+	let user: ICurrentUser | null = null;
+	try {
+		const payload = await verifyUser(session);
+		user = await getUserByUUID(payload?.uuid);
+	} catch (error) {
+		/* empty */
+		user = null;
+	}
+	return user;
 }
 
 /**
