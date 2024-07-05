@@ -6,7 +6,7 @@ import { getProjectByUserId } from '~/models/project';
 import { notFound } from 'next/navigation';
 import UpdateStore from '~/components/user/UpdateStore';
 import { getSession, getTheme } from '~/utils/headers';
-import { EnumTheme } from '~/constants/enums';
+import { EnumTheme, EnumColor } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
 
 export async function generateMetadata({
@@ -47,12 +47,18 @@ export default async function ProjectLayout({
 		return <AccessDenied />;
 	}
 
+	const color =
+		project.color &&
+		(Object.values(EnumColor) as string[]).includes(project.color)
+			? project.color
+			: EnumColor.BLUR;
+
 	return (
 		<>
 			<style>
 				{`
 				:root {
-						--user-selected: var(--user-${project.color});
+						--user-selected: var(--user-${color});
 					}
 				`}
 			</style>

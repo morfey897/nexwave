@@ -1,1 +1,0 @@
-ALTER TABLE "events" ALTER COLUMN "rrule" SET DATA TYPE jsonb;

@@ -1,23 +1,24 @@
 import 'dotenv/config';
+import { getTableName } from 'drizzle-orm';
 import { promises as fs } from 'fs';
 import { createDB, orm } from '@/db';
 import {
 	Users,
 	Projects,
 	Clients,
-	Branches,
 	ProjectUser,
 	ProjectClient,
 	Events,
 } from '@/schemas';
 import ms from 'ms';
 import { parse } from 'csv-parse/sync';
+import { join } from 'path';
+import { PgTableWithColumns } from 'drizzle-orm/pg-core';
 
 const PRIORITY: Record<string, number> = {
 	users: 1,
 	clients: 2,
 	projects: 3,
-	branches: 4,
 	project_user: 5,
 	project_client: 6,
 	events: 7,
@@ -32,6 +33,29 @@ function skipIfEmpty(value: Object) {
 	}, {} as any);
 }
 
+async function updateMaxValue(
+	db: ReturnType<typeof createDB>['db'],
+	config: { tableName: string; id: string }
+) {
+	const nextVal = (
+		await db.execute(
+			orm.sql`SELECT nextval(pg_get_serial_sequence(${config.tableName}, ${config.id})) as neeext`
+		)
+	).rows[0].neeext;
+
+	const maxId = (
+		await db.execute(
+			orm.sql`SELECT MAX(${config.id}) as maxId FROM ${orm.sql.raw(config.tableName)}`
+		)
+	).rows[0].maxid;
+
+	if (Number(maxId) + 1 > Number(nextVal)) {
+		await db.execute(
+			orm.sql`SELECT setval(pg_get_serial_sequence(${orm.sql.raw(config.tableName)}, ${config.id}), ${Number(maxId) + 1});`
+		);
+	}
+}
+
 const [, , path, seed] = process.argv;
 void (async function () {
 	const timestamp = new Date().getTime();
@@ -40,7 +64,7 @@ void (async function () {
 		connectionString: process.env.POSTGRES_URL!,
 	});
 
-	const directory = path || './seed';
+	const directory = join('./seeds', path || '');
 	const files = (await fs.readdir(directory))
 		.map((file) => ({
 			id: file.toLowerCase().split('.')[0],
@@ -96,6 +120,10 @@ void (async function () {
 							},
 						});
 				}
+				await updateMaxValue(db, {
+					tableName: getTableName(Users),
+					id: Users.id.name,
+				});
 				break;
 			}
 			case 'projects': {
@@ -116,6 +144,10 @@ void (async function () {
 							}),
 						});
 				}
+				await updateMaxValue(db, {
+					tableName: getTableName(Projects),
+					id: Projects.id.name,
+				});
 				break;
 			}
 			case 'clients': {
@@ -142,36 +174,10 @@ void (async function () {
 							},
 						});
 				}
-				break;
-			}
-			case 'branches': {
-				for (const record of records) {
-					await db
-						.insert(Branches)
-						.values({
-							...record,
-							langs: record.langs ? JSON.parse(record.langs) : undefined,
-							address: record.address ? JSON.parse(record.address) : undefined,
-							contacts: record.contacts
-								? JSON.parse(record.contacts)
-								: undefined,
-							spaces: record.spaces ? JSON.parse(record.spaces) : undefined,
-						})
-						.onConflictDoUpdate({
-							target: Branches.id,
-							set: skipIfEmpty({
-								...record,
-								langs: record.langs ? JSON.parse(record.langs) : undefined,
-								address: record.address
-									? JSON.parse(record.address)
-									: undefined,
-								contacts: record.contacts
-									? JSON.parse(record.contacts)
-									: undefined,
-								spaces: record.spaces ? JSON.parse(record.spaces) : undefined,
-							}),
-						});
-				}
+				await updateMaxValue(db, {
+					tableName: getTableName(Clients),
+					id: Clients.id.name,
+				});
 				break;
 			}
 			case 'project_user': {
@@ -226,6 +232,10 @@ void (async function () {
 							});
 					}
 				}
+				await updateMaxValue(db, {
+					tableName: getTableName(Events),
+					id: Events.id.name,
+				});
 				break;
 		}
 		console.log(`Seeding ${id} done.`);

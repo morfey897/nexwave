@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
---> statement-breakpoint
 DO $$ BEGIN
  CREATE TYPE "gender" AS ENUM('male', 'female', 'none');
 EXCEPTION
@@ -17,25 +15,6 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "branches" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"uuid" uuid DEFAULT gen_random_uuid() NOT NULL,
-	"name" varchar(255) NOT NULL,
-	"info" text,
-	"image" text,
-	"color" varchar(32),
-	"currency" varchar(32),
-	"timezone" varchar(32),
-	"langs" jsonb DEFAULT '[]'::jsonb,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL,
-	"state" "state" DEFAULT 'inactive' NOT NULL,
-	"project_id" integer NOT NULL,
-	"address" jsonb DEFAULT '{}'::jsonb NOT NULL,
-	"contacts" jsonb DEFAULT '{}'::jsonb NOT NULL,
-	"spaces" jsonb DEFAULT '[]'::jsonb NOT NULL
-);
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "clients" (
 	"id" serial PRIMARY KEY NOT NULL,
@@ -71,7 +50,7 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"uuid" uuid DEFAULT gen_random_uuid() NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
-	"branch_id" integer NOT NULL,
+	"project_id" integer NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"info" text,
 	"color" varchar(32),
@@ -119,7 +98,10 @@ CREATE TABLE IF NOT EXISTS "projects" (
 	"currency" varchar(32),
 	"timezone" varchar(32),
 	"langs" jsonb DEFAULT '[]'::jsonb,
-	"roles" jsonb DEFAULT '{}'::jsonb NOT NULL
+	"roles" jsonb DEFAULT '{}'::jsonb NOT NULL,
+	"address" jsonb DEFAULT '{}'::jsonb NOT NULL,
+	"contacts" jsonb DEFAULT '{}'::jsonb NOT NULL,
+	"spaces" jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
@@ -142,12 +124,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "branches" ADD CONSTRAINT "branches_project_id_projects_id_fk" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "event_registrations" ADD CONSTRAINT "event_registrations_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -160,7 +136,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "events" ADD CONSTRAINT "events_branch_id_branches_id_fk" FOREIGN KEY ("branch_id") REFERENCES "branches"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "events" ADD CONSTRAINT "events_project_id_projects_id_fk" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -178,7 +154,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "project_client" ADD CONSTRAINT "project_client_client_id_users_id_fk" FOREIGN KEY ("client_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "project_client" ADD CONSTRAINT "project_client_client_id_clients_id_fk" FOREIGN KEY ("client_id") REFERENCES "clients"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

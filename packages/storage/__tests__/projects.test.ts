@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { schemas, orm } from '../src';
+import { schemas, orm, GenderEnum } from '../src';
 import * as utils from '../__utils__';
 import { uuid } from 'drizzle-orm/pg-core';
 
@@ -183,148 +183,29 @@ describe('projects module', () => {
 	});
 
 	/**
-	 * Select branches
-	 */
-	describe.skip('selectBranches', () => {
-		/**
-		 * Test selectBranches
-		 */
-		test('selectBranches', async () => {
-			const projects = await cfg.db.query.Projects.findMany({
-				columns: {
-					id: true,
-					name: true,
-					currency: true,
-					color: true,
-					timezone: true,
-					langs: true,
-				},
-				where: orm.eq(schemas.Projects.id, 1),
-				with: {
-					branches: {
-						columns: {
-							id: true,
-							name: true,
-							address: true,
-							color: true,
-							contacts: true,
-							currency: true,
-							timezone: true,
-							langs: true,
-							spaces: true,
-						},
-					},
-				},
-			});
-			expect(projects).toEqual([
-				{
-					id: 1,
-					name: 'United States',
-					timezone: 'America/New_York',
-					currency: 'USD',
-					color: 'green',
-					langs: ['en-us'],
-					branches: [
-						{
-							id: 1,
-							name: 'Andersen, Alvarado and Mullins',
-							currency: 'USD',
-							timezone: 'Europe/Amsterdam',
-							color: 'blue',
-							langs: ['en'],
-							address: {
-								address_line: '3398 Katherine Alley Apt. 398',
-								city: 'West Thomasville',
-								country: 'Luxembourg',
-							},
-							contacts: {
-								phone: '569-426-7807',
-							},
-							spaces: [
-								{ id: 1, name: 'north' },
-								{ id: 2, name: 'realize' },
-								{ id: 3, name: 'energy' },
-								{ id: 4, name: 'serious' },
-							],
-						},
-					],
-				},
-			]);
-		});
-
-		/**
-		 * Test selectBranches and no branches
-		 */
-		test('selectBranches and no branches', async () => {
-			const projects = await cfg.db.query.Projects.findMany({
-				columns: {
-					id: true,
-					name: true,
-					currency: true,
-					color: true,
-					timezone: true,
-					langs: true,
-				},
-				where: orm.eq(schemas.Projects.id, 1),
-				with: {
-					branches: {
-						where: orm.eq(schemas.Branches.id, 0),
-						columns: {
-							id: true,
-							name: true,
-							address: true,
-							color: true,
-							contacts: true,
-							currency: true,
-							timezone: true,
-							langs: true,
-							spaces: true,
-						},
-					},
-				},
-			});
-			expect(projects).toEqual([
-				{
-					id: 1,
-					name: 'United States',
-					timezone: 'America/New_York',
-					currency: 'USD',
-					color: 'green',
-					langs: ['en-us'],
-					branches: [],
-				},
-			]);
-		});
-	});
-
-	/**
 	 * Select projects with branches and users
 	 */
 	describe('selectProjectWithBranchesAndUsers', () => {
 		test('selectProjectWithBranchesAndUsers', async () => {
-			const prUsers = await cfg.db.query.ProjectUser.findMany({
-				where: orm.eq(schemas.ProjectUser.userId, 19),
-				columns: {
-					role: true,
-				},
-				with: {
-					project: {
-						columns: {
-							id: true,
-							name: true,
-							roles: true,
-							uuid: true,
-						},
-					},
-					// branches: true,
-					// users: {
-					// where: orm.eq(schemas.ProjectUser.userId, 1),
-					// columns: {
-					// 	role: true,
-					// },
-					// },
-				},
-			});
+			const prUsers = await cfg.db
+				.insert(schemas.Users)
+				.values({
+					name: 'Charlie',
+					surname: 'New',
+					login: 'charlie_new@nexwave.com.ua',
+					password: orm.sql<string>`crypt(${'password3'}, gen_salt('bf'))`,
+					birthday: '1979-07-23',
+					gender: GenderEnum.Male,
+					// contacts: '',
+				})
+				.returning({
+					id: schemas.Users.id,
+					uuid: schemas.Users.uuid,
+					login: schemas.Users.login,
+					name: schemas.Users.name,
+					surname: schemas.Users.surname,
+					avatar: schemas.Users.avatar,
+				});
 
 			console.log(prUsers);
 

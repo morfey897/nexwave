@@ -109,18 +109,15 @@ export enum EnumRole {
 	user = 'user',
 }
 
-// TODO take from DB
 export enum EnumColor {
-	RED = 'red',
+	BLUE = 'blue',
 	GREN = 'green',
-	BLUR = 'blue',
 	YELLOW = 'yellow',
-	INDIGO = 'indigo',
-	ORANGE = 'orange',
-	SKYBLUE = 'skyblue',
 	PURPLE = 'purple',
+	CYAN = 'cyan',
+	ORANGE = 'orange',
 	PINK = 'pink',
-	GRAY = 'gray',
+	TEAL = 'teal',
 }
 
 export enum EnumCurrency {
@@ -128,7 +125,3 @@ export enum EnumCurrency {
 	USD = 'USD',
 	EUR = 'EUR',
 }
-
-// COLORS = Object.values(EnumColor);
-// CURRENCIES = Object.values(EnumCurrency);
-// WEEK_DAYS = Object.values(EnumWeekDay);

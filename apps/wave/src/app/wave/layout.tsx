@@ -27,23 +27,17 @@ export default async function ProjectLayout({
 		<div className='flex min-h-screen'>
 			<Sidebar />
 			<div className='w-1/2 flex-grow pl-8 pr-2 lg:px-16 '>
-				{process.env.SKIP_AUTHENTICATION !== 'true' || hasUser ? (
-					children
-				) : (
-					<Loading />
-				)}
+				{hasUser ? children : <Loading />}
 			</div>
 			{/* For production */}
-			{process.env.SKIP_AUTHENTICATION !== 'true' && hasUser && (
+			{hasUser && (
 				<>
 					<UpdateStore state={{ user, theme: (theme as EnumTheme) || null }} />
 					<RefreshToken refreshToken={refreshToken} />
 				</>
 			)}
 			{/* For production */}
-			{process.env.SKIP_AUTHENTICATION !== 'true' && !hasUser && (
-				<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
-			)}
+			{!hasUser && <AuthView mode={hasTrail ? 'signIn' : 'signUp'} />}
 		</div>
 	);
 }
