@@ -14,11 +14,11 @@ export default async function Project() {
 				<PieChartLight />
 			</div>
 			<div className='flex flex-wrap justify-between gap-5'>
-				<div className='flex h-1/2 w-full flex-wrap'>
+				<div className='flex h-1/2 w-full flex-wrap md:flex-nowrap'>
 					<IncomeChart />
 					<ExpensesChart />
 				</div>
-				<div className='flex h-1/2 w-full'>
+				<div className='flex h-1/2 w-full flex-wrap md:flex-nowrap'>
 					<SeasonChart />
 					<PopularChart />
 				</div>
