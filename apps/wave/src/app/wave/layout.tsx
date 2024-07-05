@@ -29,15 +29,14 @@ export default async function ProjectLayout({
 			<div className='w-1/2 flex-grow pl-8 pr-2 lg:px-16 '>
 				{hasUser ? children : <Loading />}
 			</div>
-			{/* For production */}
-			{hasUser && (
+			{hasUser ? (
 				<>
 					<UpdateStore state={{ user, theme: (theme as EnumTheme) || null }} />
 					<RefreshToken refreshToken={refreshToken} />
 				</>
+			) : (
+				<AuthView mode={hasTrail ? 'signIn' : 'signUp'} />
 			)}
-			{/* For production */}
-			{!hasUser && <AuthView mode={hasTrail ? 'signIn' : 'signUp'} />}
 		</div>
 	);
 }

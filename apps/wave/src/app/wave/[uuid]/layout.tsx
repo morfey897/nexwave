@@ -51,7 +51,7 @@ export default async function ProjectLayout({
 		project.color &&
 		(Object.values(EnumColor) as string[]).includes(project.color)
 			? project.color
-			: EnumColor.BLUR;
+			: EnumColor.BLUE;
 
 	return (
 		<>
