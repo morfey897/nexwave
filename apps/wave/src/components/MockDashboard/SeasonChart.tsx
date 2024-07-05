@@ -1,7 +1,7 @@
 const SeasonChart = () => (
 	<svg
-		width='542'
-		height='392'
+		width='full'
+		height='full'
 		viewBox='0 0 550 392'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'

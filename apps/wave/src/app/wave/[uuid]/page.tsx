@@ -4,21 +4,25 @@ import PieChartLight from '~/components/MockDashboard/PieChartLight';
 import PopularChart from '~/components/MockDashboard/PopularChart';
 import SeasonChart from '~/components/MockDashboard/SeasonChart';
 import InfoBlockCarousel from '~/components/infoblock';
-import Template from './tpl';
+import Wrapper from './wrapper';
 
 export default async function Project() {
 	return (
-		<Template>
+		<Wrapper>
 			<InfoBlockCarousel />
 			<div className='mt-5'>
 				<PieChartLight />
 			</div>
 			<div className='flex flex-wrap justify-between gap-5'>
-				<IncomeChart />
-				<ExpensesChart />
-				<SeasonChart />
-				<PopularChart />
+				<div className='flex h-1/2 w-full flex-wrap'>
+					<IncomeChart />
+					<ExpensesChart />
+				</div>
+				<div className='flex h-1/2 w-full'>
+					<SeasonChart />
+					<PopularChart />
+				</div>
 			</div>
-		</Template>
+		</Wrapper>
 	);
 }
