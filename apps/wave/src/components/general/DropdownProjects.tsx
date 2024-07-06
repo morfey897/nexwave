@@ -70,6 +70,11 @@ function DropdownProjects({
 								key={innerProject.uuid}
 							>
 								<Link
+									onClick={(event) => {
+										if (innerProject.uuid === project?.uuid) {
+											event.preventDefault();
+										}
+									}}
 									href={buildDynamicHref(EnumProtectedRoutes.APP, innerProject)}
 									className='mb-5 ml-3 mt-5 flex items-center'
 								>
@@ -82,7 +87,7 @@ function DropdownProjects({
 											size={42}
 										/>
 									</Box>
-									<span className='text-secondary-text w-[13ch] self-center overflow-hidden whitespace-normal break-words  px-3 text-xl font-semibold'>
+									<span className='text-secondary-text w-[13ch] self-center overflow-hidden whitespace-normal break-words px-3 text-xl font-semibold'>
 										{innerProject.name}
 									</span>
 									{project?.uuid === innerProject.uuid && (

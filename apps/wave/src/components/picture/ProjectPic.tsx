@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { getColorSchema } from '~/utils';
 
-function Picture({
+function ProjectPic({
 	className,
 	size,
 	photo,
@@ -21,7 +21,7 @@ function Picture({
 			className={clsx(
 				'shrink-0 rounded-lg',
 				'flex items-center justify-center',
-				'text-primary-text',
+				'font-medium text-white',
 				className
 			)}
 			style={{
@@ -48,4 +48,4 @@ function Picture({
 	);
 }
 
-export default Picture;
+export default ProjectPic;
