@@ -11,7 +11,7 @@ import { IProject } from '~/types';
 import { useCallback, useState } from 'react';
 import { abbrev, buildDynamicHref } from '~/utils';
 import CheckIcon from '~/icons/CheckIcon';
-import Picture from '~/components/picture';
+import ProjectPic from '~/components/picture/ProjectPic';
 import Skeleton from '~/components/skeleton/DropDownProjectSkeleton';
 import clsx from 'clsx';
 
@@ -37,7 +37,7 @@ function DropdownProjects({
 		<DropdownMenu.Root onOpenChange={onOpenChange}>
 			<DropdownMenu.Trigger className='outline-none'>
 				<div className='mb-5 flex cursor-pointer items-center outline-none md:px-2 lg:ps-2.5'>
-					<Picture
+					<ProjectPic
 						name={project?.name}
 						photo={project?.image}
 						abbrev={abbrev(project?.name.split(' '))}
@@ -79,7 +79,7 @@ function DropdownProjects({
 									className='mb-5 ml-3 mt-5 flex items-center'
 								>
 									<Box flexShrink='0'>
-										<Picture
+										<ProjectPic
 											name={innerProject.name}
 											photo={innerProject.image}
 											abbrev={abbrev(innerProject.name.split(' '))}
