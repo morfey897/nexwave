@@ -3,12 +3,15 @@
 import useNWStore from '~/lib/store';
 import ToggleGroup from './components/ToggleGroup';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import DropdownMenuHeader from './components/DropdownMenuHeader';
+import DropdownProjects from '~/components/general/DropdownProjects';
 import HoverCardHeader from './components/HoverCardHeader';
 import HoverCardWeekHeader from './components/HoverCardWeekHeader';
+import { useTranslations } from 'next-intl';
 
 const HeaderDashboard = () => {
+	const t = useTranslations();
 	const seUI = useNWStore((state) => state.setUI);
+	const project = useNWStore((state) => state.project);
 
 	return (
 		<header className='bg-primary sticky top-0 z-10 flex h-24 w-full items-center justify-between self-start'>
@@ -23,11 +26,13 @@ const HeaderDashboard = () => {
 						<HamburgerIcon />
 					</button>
 					<div className='flex h-full flex-col items-center justify-around md:hidden'>
-						<DropdownMenuHeader />
+						<DropdownProjects side='bottom' />
 					</div>
 				</div>
 				<div className='flex justify-between'>
-					<h1 className='text-xl font-semibold dark:text-white'>Dashboard</h1>
+					<h1 className='text-xl font-semibold dark:text-white'>
+						{t('page.dashboard.headline')}
+					</h1>
 					<div className='flex gap-5 md:hidden'>
 						<HoverCardWeekHeader />
 						<div className='mr-3'>
@@ -35,8 +40,9 @@ const HeaderDashboard = () => {
 						</div>
 					</div>
 				</div>
-				<p className='hidden text-sm text-gray-500 md:block'>
-					General statistic for Ballet School
+				<p className='text-secondary-text hidden text-sm md:block'>
+					{project?.name &&
+						t('page.dashboard.subheadline', { name: project.name })}
 				</p>
 			</div>
 			<div className='hidden w-full items-center justify-end gap-5 md:flex md:w-auto'>

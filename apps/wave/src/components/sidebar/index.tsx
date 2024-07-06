@@ -5,7 +5,7 @@ import Link from 'next/link';
 import SidebarBurgerIcon from '~/icons/SidebarBurgerIcon';
 import LogoSidebar from '~/icons/LogoSidebar';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { Box } from '~/components/layout';
 import { useDevice } from '~/hooks/device';
 import { EnumDeviceType, EnumProtectedRoutes } from '~/constants/enums';
@@ -13,34 +13,48 @@ import ItemList from './components/ItemList';
 import CardItem from './components/CardItem';
 import Separator from './components/Separator';
 import useNWStore from '~/lib/store';
-import DropdownMenuSidebar from './components/DropdownMenuSidebar';
+import DropdownProjects from '~/components/general/DropdownProjects';
 import { buildDynamicHref } from '~/utils';
+import { usePathname } from 'next/navigation';
+import { useMounted } from '~/hooks/mounted';
 
 const Sidebar = () => {
 	const device = useDevice();
-	const [mounted, setMounted] = useState(false);
+	const isMounted = useMounted();
 	const ui = useNWStore((state) => state.ui);
 	const setUI = useNWStore((state) => state.setUI);
 	const project = useNWStore((state) => state.project);
+	const pathname = usePathname();
 
-	useLayoutEffect(() => {
-		if (device === EnumDeviceType.DESKTOP || device === EnumDeviceType.TABLET) {
-			setMounted(true);
-		} else {
-			setMounted(ui.sidebar);
+	useLayoutEffect(() => {}, [pathname]);
+
+	useEffect(() => {
+		if (ui.sidebar === true) {
+			setUI({ sidebar: false });
 		}
-	}, [device, ui.sidebar]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [pathname, setUI]);
 
 	const toggleSidebar = useCallback(() => {
 		setUI({ sidebar: !ui.sidebar });
 	}, [ui.sidebar, setUI]);
+
+	const isOpen = useMemo(() => {
+		if (device === EnumDeviceType.NONE) return false;
+
+		return (
+			device === EnumDeviceType.DESKTOP ||
+			device === EnumDeviceType.TABLET ||
+			ui.sidebar
+		);
+	}, [ui.sidebar, device]);
 
 	return (
 		<Box
 			className={clsx('relative z-20 w-0 md:w-[54px] lg:w-[250px]')}
 			flexShrink='0'
 		>
-			<Collapsible.Root className='fixed' open={mounted}>
+			<Collapsible.Root className='fixed' open={isMounted && isOpen}>
 				<Collapsible.Content className='animate-slideRightAndFade data-[state=closed]:animate-slideLeftAndFade shadow-md will-change-[opacity,transform]'>
 					<aside className='h-screen' aria-label='Sidebar'>
 						<div className='bg-secondary flex h-full flex-col rounded-r-sm px-3 py-4 md:px-0 lg:px-3'>
@@ -72,7 +86,9 @@ const Sidebar = () => {
 									</button>
 								</Collapsible.Trigger>
 							</div>
-							<DropdownMenuSidebar />
+							<div className='hidden md:block'>
+								<DropdownProjects side='left' sideOffset={12} />
+							</div>
 							<Separator />
 							<ItemList />
 							<div className='mt-auto'>

@@ -229,7 +229,7 @@
 		"sign_in": {
 			"headline": "Sign in",
 			"subheadline": "Welcome back! Please sign in to your account",
-			"with_google": "Sign in with Google",
+			"with_google": "Sign in with Google 2",
 			"with_email": "or sign in with email",
 			"forgot_password": "Forgot password?",
 			"dont_have_account_rt": "Don't have an account yet? <span>Sign up</span>",
@@ -281,7 +281,7 @@
 		},
 		"clients": {
 			"headline": "Clients",
-			"subheadline": "Here you can find all clients",
+			"subheadline": "Clients of {name}",
 			"headline_empty": "No clients yet",
 			"subheadline_empty": "You can add new client by clicking on the button below"
 		},
@@ -297,6 +297,10 @@
 			"tab_groups": "Groups",
 			"tab_access": "Access",
 			"tab_state": "State"
+		},
+		"dashboard": {
+			"headline": "Dashboard",
+			"subheadline": "General statistic for {name}"
 		}
 	}
 }
