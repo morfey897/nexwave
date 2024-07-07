@@ -1,0 +1,1 @@
+ALTER TABLE "clients" ADD COLUMN "last_visit_at" timestamp;

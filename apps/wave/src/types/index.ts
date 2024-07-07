@@ -1,6 +1,8 @@
 import { LOCALES } from '@nw/config';
-import { StateEnum } from '@nw/storage';
+import { StateEnum, IUser } from '@nw/storage';
 import { EnumResponseStatus } from '~/constants/enums';
+
+export type TLocale = (typeof LOCALES.LIST)[number];
 
 export type TUID = {
 	id: number;
@@ -18,12 +20,6 @@ export interface IResponse<T = unknown> {
 	data?: T;
 }
 
-export interface IAccess {
-	role: string;
-	permission: number;
-	roles: Record<string, number>;
-}
-
 export interface IInfo {
 	name: string;
 	info: string | null;
@@ -39,15 +35,9 @@ export interface IInfo {
 	updatedAt: Date;
 }
 
-export interface ICurrentUser extends TUID {
-	login: string;
-	name?: string | null;
-	surname?: string | null;
-	avatar?: string | null;
+export interface IClient extends TUID {
+	name: string;
+	surname: string;
+	phone?: string;
+	avatar?: string;
 }
-
-export interface IProject extends TUID, IInfo, IAccess {
-	// Children
-}
-
-export type TLocale = (typeof LOCALES.LIST)[number];

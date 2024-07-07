@@ -283,7 +283,12 @@
 			"headline": "Clients",
 			"subheadline": "Clients of {name}",
 			"headline_empty": "No clients yet",
-			"subheadline_empty": "You can add new client by clicking on the button below"
+			"subheadline_empty": "You can add new client by clicking on the button below",
+			"name": "Name / Phone number",
+			"badges": "Badges",
+			"season_tickets": "Season tickets",
+			"last_visit": "Last visit",
+			"actions": "Actions"
 		},
 		"timetable": {
 			"headline": "Timetable",

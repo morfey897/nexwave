@@ -3,10 +3,10 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { EnumTheme } from '~/constants/enums';
-import type { ICurrentUser, IProject } from '~/types';
+import type { IUser, IProject } from '@nw/storage';
 
 export interface INWStore {
-	user: ICurrentUser | null;
+	user: IUser | null;
 	project: IProject | null;
 	theme: EnumTheme | null;
 	ui: {

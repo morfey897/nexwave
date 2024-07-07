@@ -50,6 +50,7 @@ export const Clients = pgTable('clients', {
 	avatar: text('avatar'),
 	gender: genderEnum('gender').default(GenderEnum.None).notNull(),
 	bio: text('bio'),
+	lastVisitAt: timestamp('last_visit_at'),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	contacts: jsonb('contacts')

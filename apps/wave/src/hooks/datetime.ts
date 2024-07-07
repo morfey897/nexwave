@@ -1,4 +1,4 @@
-import { LOCALES } from '@packages/config';
+import { LOCALES } from '@nw/config';
 import { enUS, ru, uk } from 'date-fns/locale';
 import { addDays } from 'date-fns';
 

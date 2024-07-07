@@ -1,8 +1,8 @@
-import ExpensesChart from '~/components/MockDashboard/ExpensesChart';
-import IncomeChart from '~/components/MockDashboard/IncomeChart';
-import PieChartLight from '~/components/MockDashboard/PieChartLight';
-import PopularChart from '~/components/MockDashboard/PopularChart';
-import SeasonChart from '~/components/MockDashboard/SeasonChart';
+import ExpensesChart from '~/pages/dashboard/ExpensesChart';
+import IncomeChart from '~/pages/dashboard/IncomeChart';
+import PieChartLight from '~/pages/dashboard/PieChartLight';
+import PopularChart from '~/pages/dashboard/PopularChart';
+import SeasonChart from '~/pages/dashboard/SeasonChart';
 import InfoBlockCarousel from '~/components/infoblock';
 import Wrapper from './wrapper';
 
