@@ -7,8 +7,8 @@ const TableSettings = () => (
 		<DropdownMenu.Trigger>
 			<ColumnsIcon />
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content className='bg-secondary custom-scrollbar animate-slideUpAndFade relative mt-2 h-[356px] w-[250px] overflow-auto rounded-md shadow-md will-change-[opacity,transform]'>
-			<div className='p-3 px-5'>
+		<DropdownMenu.Content className='bg-secondary custom-scrollbar animate-slideUpAndFade relative z-30 mt-2 h-[356px] w-[250px] overflow-auto rounded-md shadow-md will-change-[opacity,transform]'>
+			<div className='p-3 px-5 '>
 				<ul>
 					<li className='mt-4'>
 						<CheckboxFilterClientsHeader
