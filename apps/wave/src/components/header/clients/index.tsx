@@ -17,10 +17,10 @@ const HeaderClients = () => {
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-10 mb-5 mt-5 flex h-24 w-full items-center justify-between md:h-36'>
+		<header className='bg-primary sticky top-0 z-10 mt-5 flex w-full items-center justify-between pb-5'>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
-					<div className='mb-5 flex justify-between md:hidden'>
+					<div className='flex justify-between md:hidden'>
 						<button
 							type='button'
 							className='mt-1 block md:hidden'
@@ -50,7 +50,7 @@ const HeaderClients = () => {
 					</div>
 					<ButtonsClientsHeader />
 				</div>
-				<div className='hidden justify-between md:flex'>
+				<div className='mt-5 hidden justify-between md:flex'>
 					<SearchInput />
 					<div className='flex gap-5'>
 						<FilterClientsHeader />

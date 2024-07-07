@@ -9,10 +9,6 @@ body {
 	padding: 0;
 }
 
-td {
-	padding: 0;
-}
-
 .hide-scroll {
 	scrollbar-width: none;
 	-ms-overflow-style: none;

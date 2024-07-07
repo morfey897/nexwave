@@ -96,7 +96,7 @@
 	--green-8: rgba(218, 248, 230, 1);
 
 	/* BG & text colors */
-	--primary: var(--gray-1);
+	--primary: var(--gray-2);
 	--secondary: var(--white);
 
 	--primary-text: var(--dark-1);
@@ -141,3 +141,27 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
 	@apply bg-gray-700;
 }
+
+.table-row > div {
+	@apply px-4 py-2;
+}
+
+.table-row-group > .table-row > div {
+	@apply border-stroke dark:border-dark-5 border-t;
+}
+
+/* .table-header-group > .table-row > div:not([style*="display:none"]) {
+	@apply rounded-ss-lg;
+} */
+/* 
+.table-header-group > .table-row > div:last-child:not([hidden]) {
+	@apply rounded-se-lg;
+}
+
+.table-row-group > .table-row:last-child > div:first-child:not([hidden]) {
+	@apply rounded-es-lg;
+}
+
+.table-row-group > .table-row:last-child > div:last-child:not([hidden]) {
+	@apply rounded-ee-lg;
+} */
