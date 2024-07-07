@@ -150,10 +150,10 @@
 	@apply border-stroke dark:border-dark-5 border-t;
 }
 
-/* .table-header-group > .table-row > div:not([style*="display:none"]) {
+.table-header-group > .table-row > div:first-child {
 	@apply rounded-ss-lg;
-} */
-/* 
+}
+ 
 .table-header-group > .table-row > div:last-child:not([hidden]) {
 	@apply rounded-se-lg;
 }
@@ -164,4 +164,4 @@
 
 .table-row-group > .table-row:last-child > div:last-child:not([hidden]) {
 	@apply rounded-ee-lg;
-} */
+}
