@@ -11,7 +11,7 @@ import FilterClientsHeader from './components/FilterClientsHeader/FilterClientsH
 import TableSettings from './components/TableSettings';
 import { useTranslations } from 'next-intl';
 
-const HeaderClients = () => {
+const HeaderEmployees = () => {
 	const t = useTranslations();
 	const seUI = useNWStore((state) => state.setUI);
 	const project = useNWStore((state) => state.project);
@@ -35,7 +35,7 @@ const HeaderClients = () => {
 					</div>
 					<div className='flex flex-row justify-between md:flex-col'>
 						<h1 className='text-xl font-semibold dark:text-white'>
-							{t('page.clients.headline')}
+							{t('page.employees.headline')}
 						</h1>
 						<div className='flex gap-5 md:hidden'>
 							<HoverCardClientsHeader />
@@ -45,7 +45,7 @@ const HeaderClients = () => {
 						</div>
 						<p className='text-secondary-text hidden text-sm md:block'>
 							{project?.name &&
-								t('page.clients.subheadline', { name: project.name })}
+								t('page.employees.subheadline', { name: project.name })}
 						</p>
 					</div>
 					<ButtonsClientsHeader />
@@ -62,46 +62,4 @@ const HeaderClients = () => {
 	);
 };
 
-export default HeaderClients;
-
-// return (
-// 	<header className='bg-primary sticky top-0 z-10 mb-5 mt-5 flex h-36 w-full items-center self-start'>
-
-// 		<div className='flex h-full flex-col justify-around md:w-auto'>
-// 			<div className='flex justify-between md:hidden'>
-// 				<button
-// 					type='button'
-// 					className='block md:hidden'
-// 					onClick={() => seUI({ sidebar: true })}
-// 					aria-label='Toggle Sidebar'
-// 				>
-// 					<HamburgerIcon />
-// 				</button>
-// 				<div className='flex h-full flex-col items-center justify-around md:hidden'>
-// 					<DropdownMenuHeader />
-// 				</div>
-// 			</div>
-// 			<div className='flex flex-col justify-between'>
-// 				<h1 className='text-xl font-semibold dark:text-white'>Clients</h1>
-// 				<div className='flex gap-5 md:hidden'>
-// 					<HoverCardWeekHeader />
-// 					<div className='mr-3'>
-// 						<HoverCardHeader />
-// 					</div>
-// 				</div>
-// 				<p className='hidden text-sm text-gray-500 md:block'>
-// 					Clients of Ballet School
-// 				</p>
-// 			</div>
-// 		</div>
-// 		<div className='flex w-full'>
-// 			<SearchInput />
-// 			<FilterClientsHeader />
-// 			<TableSettings />
-// 		</div>
-// 		{/* <div className='hidden h-full w-full flex-col justify-around md:flex md:w-auto'>
-// 			<ButtonsClientsHeader />
-
-// 		</div> */}
-// 	</header>
-// );
+export default HeaderEmployees;

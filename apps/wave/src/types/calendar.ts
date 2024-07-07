@@ -1,4 +1,3 @@
-import { TUID } from './common';
 import { TGenerator } from './view';
 
 export type TTimes = {
@@ -7,7 +6,7 @@ export type TTimes = {
 	step: number;
 };
 
-export interface INode extends TUID {
+export interface INode {
 	date: Date | string;
 	duration: number;
 }

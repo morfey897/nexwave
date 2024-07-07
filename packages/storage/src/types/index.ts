@@ -29,6 +29,10 @@ export interface IClient extends IUser {
 	lastVisitAt: Date | null;
 }
 
+export interface IEmployee extends IUser {
+	role: string;
+}
+
 export interface IProject extends TUID, IDate, IAccess {
 	name: string;
 	info: string | null;

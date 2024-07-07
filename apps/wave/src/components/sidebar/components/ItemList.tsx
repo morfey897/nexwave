@@ -50,7 +50,7 @@ const LINKS = [
 	{
 		name: 'general.employees',
 		Icon: EmployeeIcon,
-		href: EnumProtectedRoutes.USERS,
+		href: EnumProtectedRoutes.EMPLOYEES,
 	},
 	{
 		name: 'general.settings',
@@ -83,7 +83,7 @@ const ItemList = () => {
 								href={href}
 								className={clsx(
 									'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg focus:border-b-0 dark:hover:bg-gray-700',
-									isActive(pathname, href) && 'bg-gray-2 dark:bg-gray-700'
+									isActive(pathname || '', href) && 'bg-gray-2 dark:bg-gray-700'
 								)}
 							>
 								<span>{item.Icon && <item.Icon />}</span>

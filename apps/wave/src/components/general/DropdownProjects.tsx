@@ -7,7 +7,7 @@ import { Box } from '~/components/layout';
 import useNWStore from '~/lib/store';
 import { useAPI } from '~/hooks/action';
 import { EnumApiRoutes, EnumProtectedRoutes } from '~/constants/enums';
-import { IProject } from '~/types';
+import { IProject } from '@nw/storage';
 import { useCallback, useState } from 'react';
 import { abbrev, buildDynamicHref } from '~/utils';
 import CheckIcon from '~/icons/CheckIcon';

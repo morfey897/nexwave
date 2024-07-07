@@ -16,14 +16,8 @@ import { signOut } from '~/actions/auth-action';
 import { useRouter } from 'next/navigation';
 import useNWStore from '~/lib/store';
 import { fullname } from '~/utils';
-import { EnumRole, EnumProtectedRoutes } from '~/constants/enums';
-
-const Roles = Object.values(EnumRole) as string[];
-
-const CustomRole = (role: string) => {
-	const roleComponent = () => <span className='text-blue-500'>{role}</span>;
-	return roleComponent;
-};
+import { EnumProtectedRoutes } from '~/constants/enums';
+import Roles from '~/components/roles';
 
 function CardItem() {
 	const t = useTranslations();
@@ -54,18 +48,10 @@ function CardItem() {
 					<Flex justify='space-between' align='center' className='w-full'>
 						<Box className='ml-3 text-left md:hidden lg:block'>
 							<p className='text-sm font-medium'>{fullname(user)}</p>
-							<p className='text-primary-text text-xs'>
-								{/* Has role in translation */}
-								{project?.role &&
-									Roles.includes(project.role) &&
-									t(`crud.role.${project.role}`)}
-								{/* Has not role in translation */}
-								{project?.role &&
-									!Roles.includes(project.role) &&
-									t.rich('crud.role.your_role_rt', {
-										span: CustomRole(project.role),
-									})}
-							</p>
+							<Roles
+								className='text-primary-text text-xs'
+								role={project?.role}
+							/>
 						</Box>
 						<RightArrow />
 					</Flex>

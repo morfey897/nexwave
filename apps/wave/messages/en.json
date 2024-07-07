@@ -203,7 +203,6 @@
 		"page_of_": "{page} / {maxPage}",
 		"app": "Root",
 		"timetable": "Timetable",
-		"users": "Users",
 		"dashboard": "Dashboard",
 		"products": "Products",
 		"settings": "Settings",
@@ -288,6 +287,15 @@
 			"badges": "Badges",
 			"season_tickets": "Season tickets",
 			"last_visit": "Last visit",
+			"actions": "Actions"
+		},
+		"employees": {
+			"headline": "Employees",
+			"subheadline": "Employees of {name}",
+			"name": "Name / Phone number",
+			"access": "Access level",
+			"badges": "Badges",
+			"schedule": "Schedule",
 			"actions": "Actions"
 		},
 		"timetable": {

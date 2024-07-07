@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { EnumDeviceType } from '~/constants/enums';
-import { TUID } from '~/types';
+import { TUID } from '@nw/storage';
 
 export type TGenerator<T extends TUID = TUID> = React.FC<{
 	item: T;

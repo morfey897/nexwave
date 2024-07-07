@@ -9,7 +9,7 @@ export enum EnumProtectedRoutes {
 	APP = '/wave',
 	ROOT = '/wave/[uuid]',
 	CLIENTS = '/wave/[uuid]/clients',
-	USERS = '/wave/[uuid]/users',
+	EMPLOYEES = '/wave/[uuid]/employees',
 	SERVICES = '/wave/[uuid]/services',
 	PRODUCTS = '/wave/[uuid]/products',
 	TIMETABLE = '/wave/[uuid]/timetable',

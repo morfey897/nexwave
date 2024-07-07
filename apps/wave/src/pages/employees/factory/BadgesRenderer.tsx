@@ -1,16 +1,17 @@
 import React, { useMemo } from 'react';
-import { IClient } from '@nw/storage';
-import { BadgeLevel } from '~/components/badges/Badge';
+
+import { IEmployee } from '@nw/storage';
 import Badges from '~/components/badges';
+import { BadgeLevel } from '~/components/badges/Badge';
 
 const getLevel = (title: string): BadgeLevel => {
-	if (title === 'problem' || title === 'inactive') return 'error';
-	if (title === 'loyal') return 'success';
-	if (title === 'vip') return 'warn';
+	if (title === 'dismissed') return 'error';
+	if (title === 'works') return 'success';
+	if (title === 'vacancy') return 'warn';
 	return 'info';
 };
 
-function BadgesGenerator({ item }: { item: IClient }) {
+function BadgesGenerator({ item }: { item: IEmployee }) {
 	const badges = useMemo(
 		() =>
 			(item.meta.badges || '').split(',').map((title) => ({

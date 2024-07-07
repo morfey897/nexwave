@@ -1,5 +1,5 @@
 import { StateEnum } from '@nw/storage';
-import { IProject } from '~/types';
+import { IProject } from '@nw/storage';
 import { ROLES } from '~/constants/crud';
 import { EnumRole, EnumColor, EnumCurrency } from '~/constants/enums';
 
@@ -19,4 +19,7 @@ export const MOCKED_PROJECT: IProject = {
 	langs: ['en', 'uk'],
 	createdAt: new Date(),
 	updatedAt: new Date(),
+	address: {},
+	contacts: {},
+	spaces: [],
 };
