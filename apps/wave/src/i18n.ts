@@ -1,4 +1,6 @@
 import { getRequestConfig } from 'next-intl/server';
+import { IntlErrorCode } from 'next-intl';
+
 import { getI18n } from '~/utils/headers';
 
 export default getRequestConfig(async () => {
@@ -14,5 +16,13 @@ export default getRequestConfig(async () => {
 	return {
 		locale,
 		messages,
+		getMessageFallback({ namespace, key, error }) {
+			const path = [namespace, key].filter((part) => part != null).join('.');
+
+			if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+				return `${path} is not yet translated`;
+			}
+			return `Dear developer, please fix this message: ${path}`;
+		},
 	};
 });

@@ -1,4 +1,5 @@
 'use client';
+
 import { EnumDeviceType } from '~/constants/enums';
 import { useCallback, useState, useEffect, useMemo } from 'react';
 
@@ -13,7 +14,7 @@ const MIN_WIDTH = {
 export const useMediaQuery = (query: string) => {
 	const [targetReached, setTargetReached] = useState(false);
 
-	const updateTarget = useCallback((event: any) => {
+	const updateTarget = useCallback((event: MediaQueryListEvent) => {
 		if (event.matches) setTargetReached(true);
 		else setTargetReached(false);
 	}, []);

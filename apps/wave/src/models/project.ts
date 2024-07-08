@@ -1,5 +1,5 @@
 import db from '~/lib/storage';
-import { schemas, orm, StateEnum } from '@nw/storage';
+import { schemas, orm, StateEnum, IProject, IAccess } from '@nw/storage';
 import {
 	generateColor,
 	generateName,
@@ -10,7 +10,6 @@ import { EnumRole, EnumColor, EnumCurrency } from '~/constants/enums';
 import { ROLES } from '~/constants/crud';
 import { isNumber, isUUID } from '~/utils/validation';
 import { MOCKED_PROJECT } from '~/__mock__/project';
-import { IProject, IAccess } from '~/types';
 
 async function executeAccessProject(
 	userId: number,

@@ -1,6 +1,5 @@
 import db from '~/lib/storage';
-import { schemas, orm } from '@nw/storage';
-import { ICurrentUser } from '~/types';
+import { schemas, orm, IUser } from '@nw/storage';
 import { verifyUser } from '~/utils/cookies';
 import { isLogin, isUUID } from '~/utils/validation';
 import { MOCK_USER } from '~/__mock__/user';
@@ -12,35 +11,41 @@ import { MOCK_USER } from '~/__mock__/user';
  */
 async function getUserByUUID(
 	uuid: string | undefined | null
-): Promise<ICurrentUser | null> {
+): Promise<IUser | null> {
 	if (!uuid || !isUUID(uuid)) return null;
-	const list = await db
-		.select({
-			id: schemas.Users.id,
-			uuid: schemas.Users.uuid,
-			login: schemas.Users.login,
-			name: schemas.Users.name,
-			surname: schemas.Users.surname,
-			avatar: schemas.Users.avatar,
-		})
-		.from(schemas.Users)
-		.where(orm.eq(schemas.Users.uuid, uuid))
-		.limit(1);
+	const user = await db.query.Users.findFirst({
+		where: orm.eq(schemas.Users.uuid, uuid),
+		columns: {
+			id: true,
+			uuid: true,
+			login: true,
+			name: true,
+			gender: true,
+			surname: true,
+			avatar: true,
+			bio: true,
+			birthday: true,
+			contacts: true,
+			meta: true,
+			createdAt: true,
+			updatedAt: true,
+		},
+	});
 
-	return list && list.length ? list[0] : null;
+	return user || null;
 }
 
 /**
  * Get current user from session
  * @param session
- * @returns {ICurrentUser | null}
+ * @returns {IUser | null}
  */
 export async function getUserFromSession(
 	session: string | null | undefined
-): Promise<ICurrentUser | null> {
+): Promise<IUser | null> {
 	if (process.env.SKIP_AUTHENTICATION === 'true') return MOCK_USER;
 	if (!session) return null;
-	let user: ICurrentUser | null = null;
+	let user: IUser | null = null;
 	try {
 		const payload = await verifyUser(session);
 		user = await getUserByUUID(payload?.uuid);
@@ -61,33 +66,34 @@ export async function getUser({
 	password,
 }: {
 	login: string;
-	password: string | null;
-}): Promise<ICurrentUser | null> {
-	const where =
-		password === null
-			? orm.eq(schemas.Users.login, login)
-			: orm.and(
-					orm.eq(schemas.Users.login, login),
-					orm.eq(
-						schemas.Users.password,
-						orm.sql<string>`crypt(${password}, password)`
-					)
-				);
+	password: string;
+}): Promise<IUser | null> {
+	const user = await db.query.Users.findFirst({
+		where: orm.and(
+			orm.eq(schemas.Users.login, login),
+			orm.eq(
+				schemas.Users.password,
+				orm.sql<string>`crypt(${password}, password)`
+			)
+		),
+		columns: {
+			id: true,
+			uuid: true,
+			login: true,
+			name: true,
+			gender: true,
+			surname: true,
+			avatar: true,
+			bio: true,
+			birthday: true,
+			contacts: true,
+			meta: true,
+			createdAt: true,
+			updatedAt: true,
+		},
+	});
 
-	const list = await db
-		.select({
-			id: schemas.Users.id,
-			uuid: schemas.Users.uuid,
-			login: schemas.Users.login,
-			name: schemas.Users.name,
-			surname: schemas.Users.surname,
-			avatar: schemas.Users.avatar,
-		})
-		.from(schemas.Users)
-		.where(where)
-		.limit(1);
-
-	return list && list.length ? list[0] : null;
+	return user || null;
 }
 
 /**
@@ -107,7 +113,7 @@ export async function createUser({
 	name?: string;
 	avatar?: string;
 	surname?: string;
-}): Promise<ICurrentUser | null> {
+}): Promise<IUser | null> {
 	if (!isLogin(login) || !password) return null;
 	const list = await db
 		.insert(schemas.Users)
@@ -121,15 +127,11 @@ export async function createUser({
 				: null,
 		})
 		.returning({
-			id: schemas.Users.id,
 			uuid: schemas.Users.uuid,
-			login: schemas.Users.login,
-			name: schemas.Users.name,
-			surname: schemas.Users.surname,
-			avatar: schemas.Users.avatar,
 		});
 
-	const user: ICurrentUser | null = list && list.length ? list[0] : null;
+	if (!list || !list.length) return null;
+	const user = await getUserByUUID(list[0].uuid);
 	return user;
 }
 
@@ -139,7 +141,7 @@ export async function createUser({
  * @returns
  */
 export async function updateUser(
-	userId: number,
+	userUUID: string | undefined | null,
 	{
 		name,
 		avatar,
@@ -156,10 +158,10 @@ export async function updateUser(
 			timestamp: number;
 		};
 	}
-): Promise<ICurrentUser | null> {
-	if (!userId) return null;
+): Promise<IUser | null> {
+	if (typeof userUUID !== 'string' || !isUUID(userUUID)) return null;
 
-	const list = await db
+	await db
 		.update(schemas.Users)
 		.set({
 			loginMetadata,
@@ -167,15 +169,10 @@ export async function updateUser(
 			...(surname ? { surname } : {}),
 			...(avatar ? { avatar } : {}),
 		})
-		.where(orm.eq(schemas.Users.id, userId))
-		.returning({
-			id: schemas.Users.id,
-			uuid: schemas.Users.uuid,
-			login: schemas.Users.login,
-			name: schemas.Users.name,
-			surname: schemas.Users.surname,
-			avatar: schemas.Users.avatar,
-		});
+		.where(orm.eq(schemas.Users.uuid, userUUID))
+		.execute();
 
-	return list && list.length ? list[0] : null;
+	const user = await getUserByUUID(userUUID);
+
+	return user;
 }

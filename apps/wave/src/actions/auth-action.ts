@@ -7,7 +7,7 @@ import * as ErrorCodes from '~/constants/errorCodes';
 import { IResponse } from '~/types';
 import { cookies } from 'next/headers';
 import googleOAuthClient from '~/lib/googleOAuth';
-import { ICurrentUser, getUser, updateUser } from '~/models/user';
+import { getUser, updateUser } from '~/models/user';
 import { start } from '~/models/start';
 import { sessionCookie, refreshCookie, trailCookie } from '~/utils/cookies';
 import { EnumApiRoutes, EnumResponseStatus } from '~/constants/enums';
@@ -16,11 +16,11 @@ import * as Yup from 'yup';
 import { COOKIES } from '@nw/config';
 
 async function updateUserLoginMetadata(
-	user: ICurrentUser | null,
+	user: Awaited<ReturnType<typeof getUser>>,
 	method: string = 'password'
 ) {
 	if (!user) return null;
-	const result = await updateUser(user.id, {
+	const result = await updateUser(user.uuid, {
 		loginMetadata: {
 			ip: '',
 			device: cookies().get(COOKIES.DEVICE)?.value || '',
@@ -85,8 +85,6 @@ export async function signInWithLoginAndPassword(
 			password: (formData.get('password')?.toString() || '').trim(),
 		};
 
-		console.log('LOGIN:', login, password);
-
 		await signinSchema.validate(
 			{
 				login,
@@ -96,7 +94,6 @@ export async function signInWithLoginAndPassword(
 		);
 
 		const userData = await getUser({ login, password });
-		console.log('USER_DATA:', userData);
 		const updatedUser = await updateUserLoginMetadata(userData);
 
 		if (!updatedUser)
@@ -104,7 +101,6 @@ export async function signInWithLoginAndPassword(
 		return { status: EnumResponseStatus.SUCCESS };
 	} catch (error) {
 		const parsedError = parseError(error);
-		console.error('PARSED_ERROR:', parsedError);
 		return { status: EnumResponseStatus.FAILED, error: parsedError };
 	}
 }

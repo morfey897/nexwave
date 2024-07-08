@@ -1,13 +1,14 @@
 import React from 'react';
-import Wrapper from './wrapper';
+
+import Header from '~/pages/clients/Header';
+import Body from '~/pages/clients/Body';
 
 function Page() {
 	return (
-		<Wrapper>
-			<div>
-				<h1>Project Clients</h1>
-			</div>
-		</Wrapper>
+		<>
+			<Header />
+			<Body />
+		</>
 	);
 }
 

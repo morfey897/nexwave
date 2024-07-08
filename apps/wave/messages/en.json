@@ -203,7 +203,6 @@
 		"page_of_": "{page} / {maxPage}",
 		"app": "Root",
 		"timetable": "Timetable",
-		"users": "Users",
 		"dashboard": "Dashboard",
 		"products": "Products",
 		"settings": "Settings",
@@ -229,7 +228,7 @@
 		"sign_in": {
 			"headline": "Sign in",
 			"subheadline": "Welcome back! Please sign in to your account",
-			"with_google": "Sign in with Google",
+			"with_google": "Sign in with Google 2",
 			"with_email": "or sign in with email",
 			"forgot_password": "Forgot password?",
 			"dont_have_account_rt": "Don't have an account yet? <span>Sign up</span>",
@@ -281,9 +280,23 @@
 		},
 		"clients": {
 			"headline": "Clients",
-			"subheadline": "Here you can find all clients",
+			"subheadline": "Clients of {name}",
 			"headline_empty": "No clients yet",
-			"subheadline_empty": "You can add new client by clicking on the button below"
+			"subheadline_empty": "You can add new client by clicking on the button below",
+			"name": "Name / Phone number",
+			"badges": "Badges",
+			"season_tickets": "Season tickets",
+			"last_visit": "Last visit",
+			"actions": "Actions"
+		},
+		"employees": {
+			"headline": "Employees",
+			"subheadline": "Employees of {name}",
+			"name": "Name / Phone number",
+			"access": "Access level",
+			"badges": "Badges",
+			"schedule": "Schedule",
+			"actions": "Actions"
 		},
 		"timetable": {
 			"headline": "Timetable",
@@ -297,6 +310,10 @@
 			"tab_groups": "Groups",
 			"tab_access": "Access",
 			"tab_state": "State"
+		},
+		"dashboard": {
+			"headline": "Dashboard",
+			"subheadline": "General statistic for {name}"
 		}
 	}
 }

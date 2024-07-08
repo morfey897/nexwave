@@ -7,25 +7,21 @@ import { Box } from '~/components/layout';
 import useNWStore from '~/lib/store';
 import { useAPI } from '~/hooks/action';
 import { EnumApiRoutes, EnumProtectedRoutes } from '~/constants/enums';
-import { IProject } from '~/types';
+import { IProject } from '@nw/storage';
 import { useCallback, useState } from 'react';
 import { abbrev, buildDynamicHref } from '~/utils';
 import CheckIcon from '~/icons/CheckIcon';
-import Picture from '~/components/picture';
+import ProjectPic from '~/components/picture/ProjectPic';
+import Skeleton from '~/components/skeleton/DropDownProjectSkeleton';
+import clsx from 'clsx';
 
-const Skeleton = () => (
-	<div>
-		<div className='flex w-64 animate-pulse items-center space-x-4 rounded-lg p-4 shadow'>
-			<div className='bg-primary h-[42px] w-[42px] rounded-lg' />
-			<div className='flex-1'>
-				<div className='bg-primary mb-2 h-4 w-3/4 rounded ' />
-				<div className='bg-primary h-4 w-1/2 rounded ' />
-			</div>
-		</div>
-	</div>
-);
-
-function DropdownMenuSidebar() {
+function DropdownProjects({
+	side,
+	sideOffset,
+}: {
+	side: 'left' | 'top' | 'right' | 'bottom' | undefined;
+	sideOffset?: number;
+}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const project = useNWStore((state) => state.project);
 
@@ -40,17 +36,19 @@ function DropdownMenuSidebar() {
 	return (
 		<DropdownMenu.Root onOpenChange={onOpenChange}>
 			<DropdownMenu.Trigger className='outline-none'>
-				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
-					<Picture
+				<div className='mb-5 flex cursor-pointer items-center outline-none md:px-2 lg:ps-2.5'>
+					<ProjectPic
 						name={project?.name}
 						photo={project?.image}
-						abbrev={abbrev([project?.name.split(' ')])}
+						abbrev={abbrev(project?.name.split(' '))}
 						color={project?.color}
 						size={42}
 					/>
 					<span
-						className='text-primary-text w-60 items-center gap-5 self-center overflow-hidden whitespace-normal px-3 text-xl font-semibold md:hidden lg:flex'
-						style={{ width: '13ch', overflowWrap: 'break-word' }}
+						className={clsx(
+							'hidden lg:flex',
+							'text-primary-text w-[13ch] items-center gap-5 self-center overflow-hidden whitespace-normal break-words px-3 text-xl font-semibold'
+						)}
 					>
 						{project ? project.name : 'Select Project'}
 						<RightArrow />
@@ -58,10 +56,11 @@ function DropdownMenuSidebar() {
 				</div>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content
-				side='left'
+				side={side}
+				sideOffset={sideOffset}
 				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
 			>
-				<div className='bg-secondary w-64 rounded-lg p-1 shadow-xl'>
+				<div className='bg-secondary w-[266px] rounded-lg p-1 shadow-xl'>
 					{pending ? (
 						<Skeleton />
 					) : (
@@ -71,11 +70,16 @@ function DropdownMenuSidebar() {
 								key={innerProject.uuid}
 							>
 								<Link
+									onClick={(event) => {
+										if (innerProject.uuid === project?.uuid) {
+											event.preventDefault();
+										}
+									}}
 									href={buildDynamicHref(EnumProtectedRoutes.APP, innerProject)}
 									className='mb-5 ml-3 mt-5 flex items-center'
 								>
 									<Box flexShrink='0'>
-										<Picture
+										<ProjectPic
 											name={innerProject.name}
 											photo={innerProject.image}
 											abbrev={abbrev(innerProject.name.split(' '))}
@@ -83,7 +87,7 @@ function DropdownMenuSidebar() {
 											size={42}
 										/>
 									</Box>
-									<span className='text-secondary-text self-center whitespace-nowrap px-3 text-xl font-semibold'>
+									<span className='text-secondary-text w-[13ch] self-center overflow-hidden whitespace-normal break-words px-3 text-xl font-semibold'>
 										{innerProject.name}
 									</span>
 									{project?.uuid === innerProject.uuid && (
@@ -101,4 +105,4 @@ function DropdownMenuSidebar() {
 	);
 }
 
-export default DropdownMenuSidebar;
+export default DropdownProjects;

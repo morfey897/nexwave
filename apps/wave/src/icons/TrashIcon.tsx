@@ -1,7 +1,7 @@
-const TrashIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const TrashIcon = ({ width, height }: React.SVGProps<SVGSVGElement>) => (
 	<svg
-		width={props.width || '18'}
-		height={props.height || '20'}
+		width={width || '18'}
+		height={height || '20'}
 		viewBox='0 0 18 20'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'
