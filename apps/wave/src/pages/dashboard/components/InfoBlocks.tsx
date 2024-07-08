@@ -1,8 +1,18 @@
 'use client';
-import { useState, useRef, useCallback, useLayoutEffect } from 'react';
-import InfoBlock from './components/InfoBlock';
+
+import { useState, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
+import InfoBlock from './InfoBlock';
 import { useDevice } from '~/hooks/device';
 import { EnumDeviceType } from '~/constants/enums';
+
+const SLIDES = [
+	{ id: 1, title: 'Slide 1' },
+	{ id: 2, title: 'Slide 2' },
+	{ id: 3, title: 'Slide 3' },
+	{ id: 4, title: 'Slide 4' },
+	{ id: 5, title: 'Slide 5' },
+	{ id: 6, title: 'Slide 6' },
+];
 
 const InfoBlockCarousel = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,25 +26,18 @@ const InfoBlockCarousel = () => {
 		setIsDesktop(device === EnumDeviceType.DESKTOP);
 	}, [device]);
 
-	const slides = [
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-		<InfoBlock />,
-	]; // Will come from DB
-
-	const totalSlides = Math.floor((slides.length - 1) / (isDesktop ? 3 : 2));
+	const totalSlides = useMemo(() => {
+		const total = Math.floor((SLIDES.length - 1) / (isDesktop ? 3 : 2));
+		return Array(total)
+			.fill(0)
+			.map((page) => page);
+	}, [isDesktop]);
 
 	const handleScroll = useCallback(
 		(e: React.UIEvent<HTMLElement>) => {
 			if (!isScrolling) {
-				const slideWidth = (e.currentTarget as HTMLDivElement).offsetWidth;
-				const scrollLeft = (e.currentTarget as HTMLDivElement).scrollLeft;
-				setCurrentSlide(Math.round(scrollLeft / slideWidth));
+				const { scrollLeft, offsetWidth } = e.currentTarget as HTMLDivElement;
+				setCurrentSlide(Math.round(scrollLeft / offsetWidth));
 			}
 		},
 		[isScrolling]
@@ -57,24 +60,24 @@ const InfoBlockCarousel = () => {
 				onScroll={handleScroll}
 				className='hide-scroll flex snap-x snap-mandatory justify-between overflow-auto py-1'
 			>
-				{slides.map((slide, index) => (
-					<div key={index}>{slide}</div>
+				{SLIDES.map((slide) => (
+					<div key={slide.id}>
+						<InfoBlock />
+					</div>
 				))}
 			</div>
 			<div className='invisible mt-2 flex justify-center space-x-2 md:visible'>
-				{Array(totalSlides)
-					.fill()
-					.map((_, i) => (
-						<div
-							key={i}
-							onClick={() => handleDotClick(i)}
-							onKeyDown={() => handleDotClick(i)}
-							className={`h-2 w-2 cursor-pointer rounded-full ${currentSlide === i ? 'bg-gray-500' : 'bg-gray-300'}`}
-							tabIndex={0}
-							role='button'
-							aria-label={`Go to ${i + 1}`}
-						/>
-					))}
+				{totalSlides.map((page) => (
+					<div
+						key={page}
+						onClick={() => handleDotClick(page)}
+						onKeyDown={() => handleDotClick(page)}
+						className={`h-2 w-2 cursor-pointer rounded-full ${currentSlide === page ? 'bg-gray-500' : 'bg-gray-300'}`}
+						tabIndex={0}
+						role='button'
+						aria-label={`Go to ${page + 1}`}
+					/>
+				))}
 			</div>
 		</>
 	);

@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import FilterIcon from '~/icons/FilterIcon';
-import CheckboxFilterClientsHeader from './FilterClientsHeader/CheckboxFilterClientsHeader';
+import CheckboxFilterClientsHeader from '../../../components/controls/CheckboxFilter';
 
 const HoverSettingsClientsHeader = () => (
 	<DropdownMenu.Root>

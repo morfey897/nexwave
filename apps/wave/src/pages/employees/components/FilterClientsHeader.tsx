@@ -1,5 +1,5 @@
 import FilterIcon from '~/icons/FilterIcon';
-import CheckboxFilterClientsHeader from './CheckboxFilterClientsHeader';
+import CheckboxFilter from '~/components/controls/CheckboxFilter';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 const FilterClientsHeader = () => (
@@ -19,21 +19,21 @@ const FilterClientsHeader = () => (
 				<span className='text-primary-text-gray font-inter text-base font-medium leading-6'>
 					Badge
 				</span>
-				<ul>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='regular' label='Regular' />
+				<ul className='gap-y-2'>
+					<li>
+						<CheckboxFilter label='Regular' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='newbie' label='Newbie' />
+					<li>
+						<CheckboxFilter label='Newbie' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='vip' label='VIP' />
+					<li>
+						<CheckboxFilter label='VIP' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='problem' label='Problem' />
+					<li>
+						<CheckboxFilter label='Problem' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='blocked' label='Blocked' />
+					<li>
+						<CheckboxFilter label='Blocked' />
 					</li>
 				</ul>
 			</div>
@@ -42,15 +42,15 @@ const FilterClientsHeader = () => (
 					Season Ticket
 				</span>
 
-				<ul>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='active' label='Active' />
+				<ul className='gap-y-2'>
+					<li>
+						<CheckboxFilter label='Active' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='paused' label='Paused' />
+					<li>
+						<CheckboxFilter label='Paused' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='no' label='No' />
+					<li>
+						<CheckboxFilter label='No' />
 					</li>
 				</ul>
 			</div>
@@ -58,25 +58,20 @@ const FilterClientsHeader = () => (
 				<span className='text-primary-text-gray font-inter text-base font-medium leading-6'>
 					Start Date
 				</span>
-				<ul>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='lastYear' label='Last year' />
+				<ul className='gap-y-2'>
+					<li>
+						<CheckboxFilter label='Last year' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='last6Month' label='Last 6 month' />
+					<li>
+						<CheckboxFilter label='Last 6 month' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='last3Month' label='Last 3 month' />
+					<li>
+						<CheckboxFilter label='Last 3 month' />
 					</li>
-					<li className='mt-4'>
-						<CheckboxFilterClientsHeader id='lastMonth' label='Last month' />
+					<li>
+						<CheckboxFilter label='Last month' />
 					</li>
 				</ul>
-			</div>
-			<div className='p-3 px-5'>
-				<span className='text-primary-text-gray font-inter text-base font-medium leading-6'>
-					Last Visit
-				</span>
 			</div>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>

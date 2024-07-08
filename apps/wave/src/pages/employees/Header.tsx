@@ -7,7 +7,7 @@ import HoverCardHeader from './components/HoverSettingsClientsHeader';
 import HoverCardClientsHeader from './components/HoverCardClientsHeader';
 import ButtonsClientsHeader from './components/ButtonsClientsHeader/ButtonsClientsHeader';
 import SearchInput from './components/SearchInput';
-import FilterClientsHeader from './components/FilterClientsHeader/FilterClientsHeader';
+import FilterClientsHeader from './components/FilterClientsHeader';
 import TableSettings from './components/TableSettings';
 import { useTranslations } from 'next-intl';
 

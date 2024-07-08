@@ -15,9 +15,14 @@ const HoverCardInfoBlock = () => {
 	return (
 		<Popover.Root open={open} onOpenChange={setOpen}>
 			<Popover.Trigger asChild>
-				<span className='cursor-pointer' onClick={() => setOpen(true)}>
+				<button
+					type='button'
+					className='cursor-pointer'
+					onClick={() => setOpen(true)}
+					aria-label='Open menu'
+				>
 					<EllipsisIcon />
-				</span>
+				</button>
 			</Popover.Trigger>
 			<Popover.Content
 				className='data-[side=bottom]:animate-slideUpAndFade data-[side=right]:animate-slideLeftAndFade data-[side=left]:animate-slideRightAndFade data-[side=top]:animate-slideDownAndFade bg-secondary mt-5 h-[189px] w-[254px] rounded-md shadow-md outline-none data-[state=open]:transition-all'
