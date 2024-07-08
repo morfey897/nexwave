@@ -1,13 +1,17 @@
 import React from 'react';
 import ProjectPic from '~/components/picture/PersonPic';
-import { IClient } from '@nw/storage';
 
-function NameRenderer({ item }: { item: IClient }) {
-	const fullName = [item.name, item.surname]
-		.filter((v) => Boolean(v))
-		.join(' ');
+export type INameProps = {
+	login: string;
+	name: string | null | undefined;
+	surname: string | null | undefined;
+	avatar: string | null | undefined;
+	phone: string | null | undefined;
+};
 
-	const phone = item.contacts?.phone;
+function NameRenderer({ item }: { item: INameProps }) {
+	const { name, surname, phone, login } = item;
+	const fullName = [name, surname].filter((v) => Boolean(v)).join(' ') || login;
 
 	return (
 		<div className='relative flex cursor-pointer items-center gap-x-2'>

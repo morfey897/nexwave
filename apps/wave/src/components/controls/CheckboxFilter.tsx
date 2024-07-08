@@ -4,8 +4,10 @@ import CheckIcon from '~/icons/CheckIcon';
 
 const CheckboxFilter = ({
 	label,
+	name,
 	checked,
 }: {
+	name: string;
 	label: string;
 	checked?: boolean;
 }) => {
@@ -15,6 +17,7 @@ const CheckboxFilter = ({
 			<Checkbox.Root
 				className='border-stroke flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-[4px] border bg-white outline-none'
 				defaultChecked={checked}
+				name={name}
 				id={id}
 			>
 				<Checkbox.Indicator className='text-violet11'>

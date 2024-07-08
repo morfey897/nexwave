@@ -1,18 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IEmployee } from '@nw/storage';
 import { BADGES, SCHEDULE, NAME, ACCESS, ACTIONS } from '~/constants/keys';
-import NameRenderer from './NameRenderer';
+import NameRenderer from '~/components/renderers/NameRenderer';
+import BadgesGenerator from '~/components/renderers/BadgesRenderer';
 import AccessRenderer from './AccessRenderer';
 import ActionsRenderer from './ActionsRenderer';
-import BadgesGenerator from './BadgesRenderer';
 import TicketsRenderer from './ScheduleRenderer';
+import { BadgeLevel } from '~/components/badges/Badge';
+
+const getLevel = (title: string): BadgeLevel => {
+	if (title === 'dismissed') return 'error';
+	if (title === 'works') return 'success';
+	if (title === 'vacancy') return 'warn';
+	return 'info';
+};
 
 const factory = (key: string, item: IEmployee) => {
 	switch (key) {
 		case NAME:
-			return <NameRenderer item={item} />;
+			return (
+				<NameRenderer
+					item={{
+						login: item.login,
+						avatar: item.avatar,
+						name: item.name,
+						surname: item.surname,
+						phone: item.contacts.phone,
+					}}
+				/>
+			);
 		case BADGES:
-			return <BadgesGenerator item={item} />;
+			return (
+				<BadgesGenerator
+					item={(item.meta.badges || '').split(',').map((title) => ({
+						title,
+						level: getLevel(title.toLowerCase()),
+					}))}
+				/>
+			);
 		case SCHEDULE:
 			return <TicketsRenderer item={item} />;
 		case ACCESS:

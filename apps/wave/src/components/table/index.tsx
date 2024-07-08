@@ -3,10 +3,6 @@ import React from 'react';
 import { EnumDeviceType } from '~/constants/enums';
 import { TUID } from '@nw/storage';
 
-export type TGenerator<T extends TUID = TUID> = React.FC<{
-	item: T;
-}>;
-
 export interface IHeadProps {
 	key: string;
 	title: React.ReactNode;
@@ -29,7 +25,7 @@ function Table<T extends TUID = TUID>({
 	return (
 		<div className='min-w-full'>
 			<div className='table w-full'>
-				<div className='text-primary-text bg-gray-1 dark:bg-dark-3 sticky top-[110px] z-10 table-header-group md:top-[130px]'>
+				<div className='text-primary-text bg-gray-1 dark:bg-dark-3 sticky top-[110px] z-10 table-header-group md:top-[136px]'>
 					<div className='table-row'>
 						{header.map(({ title, key, device, alignX }) => (
 							<div

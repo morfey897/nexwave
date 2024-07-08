@@ -23,7 +23,10 @@ const ImportClientsHeader = () => (
 						Import clients?
 					</AlertDialog.Title>
 					<AlertDialog.Cancel asChild>
-						<button className='text-gray-5 hover:bg-gray-2 cursor-pointer rounded-md'>
+						<button
+							type='button'
+							className='text-gray-5 hover:bg-gray-2 cursor-pointer rounded-md'
+						>
 							<SidebarBurgerIcon />
 						</button>
 					</AlertDialog.Cancel>
@@ -33,12 +36,18 @@ const ImportClientsHeader = () => (
 				</AlertDialog.Description>
 				<div className='flex justify-end gap-[25px]'>
 					<AlertDialog.Cancel asChild>
-						<button className='bg-primary hover:bg-blue-5 hover:text-primary-text-gray flex items-center rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200'>
+						<button
+							type='button'
+							className='bg-primary hover:bg-blue-5 hover:text-primary-text-gray flex items-center rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200'
+						>
 							Cancel
 						</button>
 					</AlertDialog.Cancel>
 					<AlertDialog.Action asChild>
-						<button className='bg-blue-1 hover:bg-blue-5 hover:text-primary-text-gray text-secondary flex items-center rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200'>
+						<button
+							type='button'
+							className='bg-blue-1 hover:bg-blue-5 hover:text-primary-text-gray text-secondary flex items-center rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200'
+						>
 							Import
 						</button>
 					</AlertDialog.Action>

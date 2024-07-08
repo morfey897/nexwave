@@ -3,13 +3,13 @@
 import useNWStore from '~/lib/store';
 import HamburgerIcon from '~/icons/HamburgerIcon';
 import DropdownProjects from '~/components/general/DropdownProjects';
-import HoverCardHeader from './components/HoverSettingsClientsHeader';
-import HoverCardClientsHeader from './components/HoverCardClientsHeader';
+import HoverCardClientsHeader from './components/HoverCard';
 import ButtonsClientsHeader from './components/ButtonsClientsHeader/ButtonsClientsHeader';
 import SearchInput from './components/SearchInput';
-import FilterClientsHeader from './components/FilterClientsHeader';
+import Filters from './components/Filters';
 import TableSettings from './components/TableSettings';
 import { useTranslations } from 'next-intl';
+import FilterIcon from '~/icons/FilterIcon';
 
 const HeaderEmployees = () => {
 	const t = useTranslations();
@@ -17,7 +17,7 @@ const HeaderEmployees = () => {
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-10 mt-5 flex w-full items-center justify-between pb-5'>
+		<header className='bg-primary sticky top-0 z-20 mt-5 flex w-full items-center justify-between pb-5'>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
 					<div className='flex justify-between md:hidden'>
@@ -40,7 +40,9 @@ const HeaderEmployees = () => {
 						<div className='flex gap-5 md:hidden'>
 							<HoverCardClientsHeader />
 							<div className='mr-3'>
-								<HoverCardHeader />
+								<Filters>
+									<FilterIcon width={24} height={24} />
+								</Filters>
 							</div>
 						</div>
 						<p className='text-secondary-text hidden text-sm md:block'>
@@ -53,7 +55,16 @@ const HeaderEmployees = () => {
 				<div className='mt-5 hidden justify-between md:flex'>
 					<SearchInput />
 					<div className='flex gap-5'>
-						<FilterClientsHeader />
+						<Filters>
+							<div className='relative h-[48px] w-[250px]'>
+								<select className='border-stroke text-primary-text-gray font-inter h-full w-full cursor-pointer rounded-md pl-12 text-base font-normal leading-6'>
+									<option value=''>Filter</option>
+								</select>
+								<div className='absolute left-6 top-1/2 -translate-y-1/2 transform'>
+									<FilterIcon />
+								</div>
+							</div>
+						</Filters>
 						<TableSettings />
 					</div>
 				</div>

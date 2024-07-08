@@ -12,18 +12,43 @@ import {
 	SEASON_TICKETS,
 	ACTIONS,
 } from '~/constants/keys';
-import NameRenderer from './NameRenderer';
+import NameRenderer from '~/components/renderers/NameRenderer';
 import LastVisitRenderer from './LastVisitRenderer';
 import ActionsRenderer from './ActionsRenderer';
-import BadgesGenerator from './BadgesRenderer';
+import BadgesGenerator from '~/components/renderers/BadgesRenderer';
 import TicketsRenderer from './TicketsRenderer';
+import { BadgeLevel } from '~/components/badges/Badge';
+
+const getLevel = (title: string): BadgeLevel => {
+	if (title === 'problem' || title === 'inactive') return 'error';
+	if (title === 'loyal') return 'success';
+	if (title === 'vip') return 'warn';
+	return 'info';
+};
 
 const factory = (key: string, item: IClient) => {
 	switch (key) {
 		case NAME:
-			return <NameRenderer item={item} />;
+			return (
+				<NameRenderer
+					item={{
+						login: item.login,
+						avatar: item.avatar,
+						name: item.name,
+						surname: item.surname,
+						phone: item.contacts.phone,
+					}}
+				/>
+			);
 		case BADGES:
-			return <BadgesGenerator item={item} />;
+			return (
+				<BadgesGenerator
+					item={(item.meta.badges || '').split(',').map((title) => ({
+						title,
+						level: getLevel(title.toLowerCase()),
+					}))}
+				/>
+			);
 		case SEASON_TICKETS:
 			return <TicketsRenderer item={item} />;
 		case LAST_VISIT:
