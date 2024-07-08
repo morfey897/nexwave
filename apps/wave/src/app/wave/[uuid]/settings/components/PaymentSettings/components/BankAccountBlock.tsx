@@ -35,10 +35,12 @@ const BankAccountBlock = () => {
 					className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 				></input>
 			</div>
-			<Button
-				message={'History'}
-				className='text-user-selected border-user-selected mt-5 w-[110px]'
-			/>
+			<div className='mt-5 w-[110px]'>
+				<Button
+					message={'History'}
+					className='text-user-selected border-user-selected'
+				/>
+			</div>
 		</div>
 	);
 };

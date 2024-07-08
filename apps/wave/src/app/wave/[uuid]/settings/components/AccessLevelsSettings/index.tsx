@@ -10,15 +10,21 @@ const AccessLevelsSettings = () => (
 		<div className='overflow-auto'>
 			<AccessLevelsTable />
 		</div>
-		<Button
-			className='text-user-selected border-user-selected mt-3 w-[150px]'
-			message='Add row'
-			icon={<RoundedPlus />}
-		/>
+		<div className='mt-3 w-[150px]'>
+			<Button
+				className='text-user-selected border-user-selected'
+				message='Add row'
+				icon={<RoundedPlus />}
+			/>
+		</div>
 		<div className='flex justify-end'>
 			<div className='flex flex-row gap-2'>
-				<Button message='Cancel' className='w-[108px]' />
-				<Button message='Save' variant='primary' className='w-[94px]' />
+				<div className='w-[108px]'>
+					<Button message='Cancel' />
+				</div>
+				<div className='w-[94px]'>
+					<Button message='Save' variant='primary' />
+				</div>
 			</div>
 		</div>
 	</div>

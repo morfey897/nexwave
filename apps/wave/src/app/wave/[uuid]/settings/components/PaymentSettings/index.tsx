@@ -17,8 +17,12 @@ const PaymentSettings = () => (
 		</div>
 		<div className='flex justify-end'>
 			<div className='flex flex-row gap-2'>
-				<Button message='Cancel' className='w-[108px]' />
-				<Button message='Save' variant='primary' className='w-[94px]' />
+				<div className='w-[108px]'>
+					<Button message='Cancel' />
+				</div>
+				<div className='w-[94px]'>
+					<Button message='Save' variant='primary' />
+				</div>
 			</div>
 		</div>
 	</div>
