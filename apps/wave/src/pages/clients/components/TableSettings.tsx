@@ -9,7 +9,7 @@ const TableSettings = () => (
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content className='bg-secondary custom-scrollbar animate-slideUpAndFade relative z-30 mt-2 h-[356px] w-[250px] overflow-auto rounded-md shadow-md will-change-[opacity,transform]'>
 			<div className='p-3 px-5 '>
-				<ul className='gap-y-2'>
+				<ul className='space-y-4'>
 					<li>
 						<CheckboxFilterClientsHeader label='Name / Phone number' checked />
 					</li>

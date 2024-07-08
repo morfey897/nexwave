@@ -19,7 +19,7 @@ const FilterClientsHeader = () => (
 				<span className='text-primary-text-gray font-inter text-base font-medium leading-6'>
 					Badge
 				</span>
-				<ul className='gap-y-2'>
+				<ul className='space-y-4'>
 					<li>
 						<CheckboxFilterClientsHeader label='Regular' />
 					</li>

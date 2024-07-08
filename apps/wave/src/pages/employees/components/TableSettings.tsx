@@ -1,6 +1,6 @@
 import ColumnsIcon from '~/icons/ColumnsIcon';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import CheckboxFilterClientsHeader from './FilterClientsHeader/CheckboxFilterClientsHeader';
+import CheckboxFilterClientsHeader from '~/components/controls/CheckboxFilter';
 
 const TableSettings = () => (
 	<DropdownMenu.Root>
