@@ -4,14 +4,14 @@ import { throttle } from 'lodash';
 const isBrowser = () => typeof window === 'object';
 
 const getScrollTop = () => {
-	let h = document.documentElement,
-		b = document.body;
+	const h = document.documentElement;
+		const b = document.body;
 	return h.scrollTop || b.scrollTop;
 };
 
 const getScrollPercent = () => {
-	let h = document.documentElement,
-		b = document.body;
+	const h = document.documentElement;
+		const b = document.body;
 	return (
 		(h.scrollTop || b.scrollTop) /
 		((h.scrollHeight || b.scrollHeight) - h.clientHeight)
@@ -19,8 +19,8 @@ const getScrollPercent = () => {
 };
 
 const isScroll = (threshold: number | string) => {
-	let h = document.documentElement,
-		b = document.body;
+	const h = document.documentElement;
+		const b = document.body;
 
 	const top = h.scrollTop || b.scrollTop;
 

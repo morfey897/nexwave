@@ -39,7 +39,7 @@ const SecondHallBlock = () => {
 						value={nameSecondHall}
 						onChange={(e) => setNameSecondHall(e.target.value)}
 						className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-					></input>
+					 />
 				</div>
 				<div className='relative my-6'>
 					<label
@@ -56,7 +56,7 @@ const SecondHallBlock = () => {
 						value={descriptionSecondHall}
 						onChange={(e) => setDescriptionSecondHall(e.target.value)}
 						className='border-gray-3 bg-secondary mt-1 block h-[110px] w-full resize-none rounded-md border px-3 py-2 text-start shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-					></textarea>
+					 />
 				</div>
 			</div>
 			<PhotosBlockHalls />

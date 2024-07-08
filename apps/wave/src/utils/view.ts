@@ -135,6 +135,6 @@ export function cellStyle(rect: TRect): TRect {
 		y: rect.y,
 		height: rect.height,
 		x: left,
-		width: width,
+		width,
 	};
 }

@@ -12,17 +12,17 @@ const PaymentBlock = () => (
 		</div>
 		<div className='flex flex-row gap-10'>
 			<div className='flex flex-col gap-2'>
-				<CheckboxSettings id='cash' label='Cash' checked={true} />
-				<CheckboxSettings id='card' label='Card' checked={true} />
+				<CheckboxSettings name='cash' label='Cash' checked />
+				<CheckboxSettings name='card' label='Card' checked />
 				<CheckboxSettings
-					id='bank-transfer'
+					name='bank-transfer'
 					label='Bank Transfer'
-					checked={true}
+					checked
 				/>
 				<CheckboxSettings
-					id='internet-banking'
+					name='internet-banking'
 					label='Internet Banking'
-					checked={true}
+					checked
 				/>
 			</div>
 		</div>

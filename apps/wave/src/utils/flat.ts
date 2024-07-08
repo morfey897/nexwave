@@ -2,7 +2,7 @@ type FlattenObject<T> = {
 	[K in keyof T]: T[K] extends object ? FlattenObject<T[K]> : T[K];
 };
 
-export function flatten<T extends Record<string, any>>(
+export function flatten<T extends Record<string, unknown>>(
 	obj: T,
 	prefix = ''
 ): FlattenObject<T> {
@@ -12,9 +12,12 @@ export function flatten<T extends Record<string, any>>(
 		if (obj.hasOwnProperty(key)) {
 			const propName = prefix ? `${prefix}.${key}` : key;
 			if (typeof obj[key] === 'object' && obj[key] !== null) {
-				Object.assign(result, flatten(obj[key], propName));
+				Object.assign(
+					result,
+					flatten(obj[key] as unknown as Record<string, unknown>, propName)
+				);
 			} else {
-				(result as Record<string, any>)[propName] = obj[key];
+				(result as Record<string, unknown>)[propName] = obj[key];
 			}
 		}
 	}
@@ -22,7 +25,7 @@ export function flatten<T extends Record<string, any>>(
 	return result;
 }
 
-export function unflatten<T extends Record<string, any>>(
+export function unflatten<T extends Record<string, unknown>>(
 	obj: FlattenObject<T>
 ): T {
 	const result = {} as T;
@@ -30,17 +33,17 @@ export function unflatten<T extends Record<string, any>>(
 	for (const key in obj) {
 		if (obj.hasOwnProperty(key)) {
 			const keys = key.split('.');
-			let current = result;
+			let current: unknown = result;
 
 			for (let i = 0; i < keys.length; i++) {
 				const prop = keys[i];
-				if (!current[prop]) {
-					(current as Record<string, any>)[prop] = {} as T;
+				if (!(current as Record<string, unknown>)[prop]) {
+					(current as Record<string, unknown>)[prop] = {} as T;
 				}
 				if (i === keys.length - 1) {
-					(current as Record<string, any>)[prop] = obj[key];
+					(current as Record<string, unknown>)[prop] = obj[key];
 				}
-				current = current[prop];
+				current = (current as Record<string, unknown>)[prop];
 			}
 		}
 	}

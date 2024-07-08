@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import Wrapper from './wrapper';
 import * as Tabs from '@radix-ui/react-tabs';

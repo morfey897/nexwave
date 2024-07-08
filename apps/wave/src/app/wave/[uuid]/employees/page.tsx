@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Header from '~/pages/employees/Header';
-import Body from '~/pages/employees/Body';
+import Header from '~/blocks/employees/Header';
+import Body from '~/blocks/employees/Body';
 
 function Page() {
 	return (

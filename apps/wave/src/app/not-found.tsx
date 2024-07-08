@@ -1,5 +1,5 @@
 import { HiOutlineArrowLongLeft } from 'react-icons/hi2';
-import { Button } from '~/components/buttons/Button';
+import { Button, Link } from '~/components/buttons/Button';
 import { EnumProtectedRoutes } from '~/constants/enums';
 import { useTranslations } from 'next-intl';
 
@@ -27,9 +27,8 @@ export default function Page() {
 								icon={<HiOutlineArrowLongLeft size={24} />}
 							/>
 
-							<Button<React.AnchorHTMLAttributes<HTMLAnchorElement>>
+							<Link
 								href={EnumProtectedRoutes.APP}
-								tag='link'
 								variant='primary'
 								message={t('button.go_home')}
 							/>

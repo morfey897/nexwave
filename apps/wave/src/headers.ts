@@ -1,6 +1,6 @@
 import { cookies, headers } from 'next/headers';
 import { COOKIES, HEADERS, LOCALES } from '@nw/config';
-import { EnumDeviceType } from '@/constants/enums';
+import { EnumDeviceType } from '~/constants/enums';
 
 export const getLocale = (): string =>
 	cookies().get(COOKIES.LOCALE)?.value ||

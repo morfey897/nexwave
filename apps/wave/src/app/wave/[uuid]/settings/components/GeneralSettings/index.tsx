@@ -1,4 +1,4 @@
-import Button from '~/components/buttons/Button';
+import { Button } from '~/components/buttons/Button';
 import ColorThemeBlock from './ColorThemeBlock';
 import InfoBlock from './InfoBlock';
 import LogoBlock from './LogoBlock';

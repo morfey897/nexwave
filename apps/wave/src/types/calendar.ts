@@ -1,4 +1,4 @@
-import { TGenerator } from './view';
+// import { TGenerator } from './view';
 
 export type TTimes = {
 	min: number;
@@ -14,5 +14,5 @@ export interface INode {
 export interface ICalendarProps<T extends INode> {
 	dates: Array<string>;
 	events: Array<T>;
-	Generator: TGenerator<T>;
+	// Generator: TGenerator<T>;
 }

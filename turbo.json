@@ -1,25 +1,31 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "tasks": {
-    "build": {
-      "outputs": ["dist/**"],
-      "dependsOn": ["^build"]
-    },
+	"$schema": "https://turbo.build/schema.json",
+	"tasks": {
+		"app#build": {
+			"outputs": [".next/**", "!.next/cache/**"],
+			"dependsOn": ["^build"],
+			"env": ["NEXT_PUBLIC_*", "!NEXT_PUBLIC_GIT_*", "NEXT_PRIVATE_*"]
+		},
 
-    "app#build": {
-      "outputs": [".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_*", "!NEXT_PUBLIC_GIT_*", "NEXT_PRIVATE_*"]
-    },
+		"wave#build": {
+			"outputs": [".next/**", "!.next/cache/**"],
+			"dependsOn": ["^build"],
+			"env": ["NEXT_PUBLIC_*", "!NEXT_PUBLIC_GIT_*", "NEXT_PRIVATE_*"]
+		},
 
-    "lint": {},
-    "format": {},
-    "test": {},
-    "dev": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build"]
-    },
-    "clear": {}
-  }
+		"build": {
+			"outputs": ["dist/**"],
+			"dependsOn": ["^build"]
+		},
+
+		"lint": {},
+		"format": {},
+		"test": {},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
+		"clear": {}
+	}
 }

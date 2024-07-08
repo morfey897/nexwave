@@ -25,6 +25,7 @@
 				"react/react-in-jsx-scope": "off",
 				"react/require-default-props": "off",
 				"react/jsx-props-no-spreading": "off",
+				"@typescript-eslint/no-unused-vars": "off",
 				"no-shadow": "off", // replaced by ts-eslint rule below
 				"react/prop-types": "off", // replaced by ts-eslint rule below
 				"@typescript-eslint/no-shadow": "error",

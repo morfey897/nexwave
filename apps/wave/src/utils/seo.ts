@@ -8,7 +8,7 @@ type PageType = {
 	ogDescription?: string;
 };
 
-export const getTitle = (pageTitle: string, rootTitle?: String) =>
+export const getTitle = (pageTitle: string, rootTitle?: string) =>
 	[(pageTitle || '').trim(), (rootTitle || '').trim()]
 		.filter((a) => !!a)
 		.join(' | ');

@@ -55,7 +55,7 @@ export const addTime = (
 	d: Date | string | number | ReturnType<typeof toTime>,
 	plus: ReturnType<typeof toTime>
 ) => {
-	let time =
+	const time =
 		typeof d === 'string' || typeof d === 'number' || d instanceof Date
 			? toTime(d)
 			: d;
@@ -86,4 +86,4 @@ export const strTimeToMinutes = (time: string) => {
 };
 
 export const timeToTime = (time: ReturnType<typeof toTime>) =>
-	addZiro(time.hh) + ':' + addZiro(time.mm);
+	`${addZiro(time.hh)  }:${  addZiro(time.mm)}`;

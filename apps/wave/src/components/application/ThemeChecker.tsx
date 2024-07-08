@@ -1,10 +1,11 @@
 'use client';
+
 import { useEffect } from 'react';
 import { COOKIES } from '@nw/config';
 
 function ThemeChecker() {
 	useEffect(() => {
-		const classList = document.documentElement.classList;
+		const {classList} = document.documentElement;
 		if (!classList.contains('dark') && !classList.contains('light')) {
 			const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
 				? 'dark'

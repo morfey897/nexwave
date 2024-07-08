@@ -1,5 +1,4 @@
-import { StateEnum } from '@nw/storage';
-import { IProject } from '@nw/storage';
+import { StateEnum , IProject } from '@nw/storage';
 import { ROLES } from '~/constants/crud';
 import { EnumRole, EnumColor, EnumCurrency } from '~/constants/enums';
 

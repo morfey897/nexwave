@@ -1,4 +1,4 @@
-import Button from '~/components/buttons/Button';
+import { Button } from '~/components/buttons/Button';
 import AccessLevelsTable from './components/AccessLevelsTable';
 import RoundedPlus from '~/icons/RoundedPlus';
 

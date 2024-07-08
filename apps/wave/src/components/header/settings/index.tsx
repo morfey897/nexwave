@@ -36,7 +36,7 @@ const HeaderSettings = () => {
 					<div className='hidden md:block'>
 						<Button
 							icon={<RoundedPlus fill='white' />}
-							message={'Add business'}
+							message="Add business"
 							variant='primary'
 						/>
 					</div>

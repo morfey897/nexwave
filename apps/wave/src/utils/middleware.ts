@@ -1,8 +1,7 @@
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import { COOKIES, LOCALES } from '@nw/config';
-import { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextRequest , NextResponse } from 'next/server';
 import UAParser from 'ua-parser-js';
 import { EnumDeviceType } from '~/constants/enums';
 import { TLocale } from '~/types';
