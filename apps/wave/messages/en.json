@@ -287,7 +287,15 @@
 			"badges": "Badges",
 			"season_tickets": "Season tickets",
 			"last_visit": "Last visit",
-			"actions": "Actions"
+			"actions": "Actions",
+			"action": {
+				"enroll": "Enroll to class",
+				"pause": "Pause session ticket",
+				"block": "Block user",
+				"unblock": "Unblock user",
+				"edit": "Edit",
+				"delete": "Delete"
+			}
 		},
 		"employees": {
 			"headline": "Employees",

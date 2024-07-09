@@ -1,7 +1,7 @@
-const PencilIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const PencilIcon = ({ width, height }: React.SVGProps<SVGSVGElement>) => (
 	<svg
-		width={props.width || '20'}
-		height={props.height || '20'}
+		width={width || '20'}
+		height={height || '20'}
 		viewBox='0 0 20 20'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'

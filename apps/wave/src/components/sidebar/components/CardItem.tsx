@@ -1,13 +1,9 @@
 'use client';
 
+import { LOCALES, COOKIES } from '@nw/config';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import RightArrow from '~/icons/RightArrow';
-import ProfileIcon from '~/icons/ProfileIcon';
-import SignOutIcon from '~/icons/SignOutIcon';
-import LangIcon from '~/icons/LangIcon';
 import { Box, Flex } from '~/components/layout';
-import { Button } from '~/components/buttons/Button';
-import Separator from './Separator';
+import { Button, DivButton } from '~/components/buttons/Button';
 import ThemeSwithcer from './ThemeSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
 import { useCallback } from 'react';
@@ -19,6 +15,14 @@ import { EnumProtectedRoutes } from '~/constants/enums';
 import Roles from '~/components/roles';
 import Picture from '~/components/picture/Picture';
 import { isEmail } from '~/utils/validation';
+import {
+	RightArrow,
+	ProfileIcon,
+	SignOutIcon,
+	LangIcon,
+	CheckIcon,
+} from '~/icons';
+import clsx from 'clsx';
 
 const UserSkeleton = () => (
 	<div className='flex animate-pulse items-center'>
@@ -34,13 +38,21 @@ function CardItem() {
 	const project = useNWStore((state) => state.project);
 	const destroyStore = useNWStore((state) => state.dengirousDestroyStore);
 
-	const route = useRouter();
+	const router = useRouter();
 
 	const onSignOut = useCallback(async () => {
 		destroyStore();
 		await signOut();
-		route.push(EnumProtectedRoutes.APP);
-	}, [route, destroyStore]);
+		router.push(EnumProtectedRoutes.APP);
+	}, [router, destroyStore]);
+
+	const onChangeLocale = useCallback(
+		(newLocale: string) => {
+			document.cookie = `${COOKIES.LOCALE}=${newLocale};path=/`;
+			router.refresh();
+		},
+		[router]
+	);
 
 	return (
 		<DropdownMenu.Root>
@@ -79,7 +91,7 @@ function CardItem() {
 				side='left'
 				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
 			>
-				<div className='bg-secondary w-60 space-y-4 rounded-lg px-px py-2.5 shadow-xl'>
+				<div className='bg-secondary min-w-60 rounded-lg px-px py-2.5 shadow-xl'>
 					<DropdownMenu.Item className='outline-none'>
 						<Button
 							variant='tertiary'
@@ -88,17 +100,58 @@ function CardItem() {
 							message={t('button.my_profile')}
 						/>
 					</DropdownMenu.Item>
-					<Separator className='mx-3' />
-					<DropdownMenu.Item className='outline-none'>
-						<Button
-							variant='tertiary'
-							icon={<LangIcon />}
-							className='!justify-start px-3'
-							message={t(`i18n.${locale}.title`)}
-						/>
-					</DropdownMenu.Item>
-					<ThemeSwithcer className='!justify-start px-3' />
-					<Separator className='mx-3' />
+					<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
+					<DropdownMenu.Group>
+						<DropdownMenu.Sub>
+							<DropdownMenu.SubTrigger className='outline-none data-[disabled]:pointer-events-none'>
+								<DivButton
+									variant='tertiary'
+									icon={<LangIcon />}
+									iconAfter={
+										<span className='pl-5'>
+											<RightArrow />
+										</span>
+									}
+									className='!justify-start px-3'
+									message={t(`i18n.${locale}.title`)}
+								/>
+							</DropdownMenu.SubTrigger>
+							<DropdownMenu.Portal>
+								<DropdownMenu.SubContent
+									className={clsx(
+										'data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade',
+										'bg-secondary min-w-[220px] rounded-md p-[5px] shadow-xl will-change-[opacity,transform]',
+										'outline-none'
+									)}
+									sideOffset={2}
+									alignOffset={-5}
+								>
+									{LOCALES.LIST.map((loc) => (
+										<DropdownMenu.Item key={loc} className='outline-none'>
+											<Button
+												variant='tertiary'
+												className='!justify-start'
+												icon={
+													<div
+														className={clsx(
+															'flex items-center justify-center rounded-lg border-2 px-2 py-1 text-[12px] font-semibold uppercase'
+														)}
+													>
+														<span>{t(`i18n.${loc}.abr`)}</span>
+													</div>
+												}
+												iconAfter={loc === locale ? <CheckIcon /> : undefined}
+												onClick={() => onChangeLocale(loc)}
+												message={t(`i18n.${loc}.title`)}
+											/>
+										</DropdownMenu.Item>
+									))}
+								</DropdownMenu.SubContent>
+							</DropdownMenu.Portal>
+						</DropdownMenu.Sub>
+						<ThemeSwithcer className='!justify-start px-3' />
+					</DropdownMenu.Group>
+					<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
 					<DropdownMenu.Item className='outline-none'>
 						<Button
 							onClick={onSignOut}

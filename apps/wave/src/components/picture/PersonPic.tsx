@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import PersonCircleIcon from '~/icons/PersonCircleIcon';
+import ProfileIcon from '~/icons/ProfileIcon';
 
 function PersonPic({
 	className,
@@ -35,7 +35,7 @@ function PersonPic({
 					/>
 				</picture>
 			) : (
-				<PersonCircleIcon width={size} height={size} />
+				<ProfileIcon width={size} height={size} />
 			)}
 		</div>
 	);

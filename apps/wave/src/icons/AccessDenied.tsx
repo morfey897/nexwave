@@ -1,6 +1,9 @@
 import React from 'react';
 
-const AccessDenied = ({ width, height }: React.SVGProps<SVGSVGElement>) => (
+const AccessDenied = ({
+	width,
+	height,
+}: React.SVGProps<SVGSVGElement>) => (
 	<svg
 		fill='var(--user-selected)'
 		strokeWidth='0'
