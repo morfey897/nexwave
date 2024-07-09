@@ -26,6 +26,7 @@ const ImportClientsHeader = () => (
 						<button
 							type='button'
 							className='text-gray-5 hover:bg-gray-2 cursor-pointer rounded-md'
+							aria-label='Close modal'
 						>
 							<SidebarBurgerIcon />
 						</button>
