@@ -17,6 +17,13 @@ import useNWStore from '~/lib/store';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
+const ItemSkeleton = () => (
+	<div className='flex animate-pulse items-center p-2'>
+		<div className='h-6 w-6 rounded bg-gray-700' />
+		<div className='ml-3 block h-6 w-32 rounded bg-gray-700 md:hidden lg:block' />
+	</div>
+);
+
 const isActive = (pathName: string, route: string) =>
 	pathName.replace(/\/+$/, '') === route.replace(/\/+$/, '');
 
@@ -76,21 +83,26 @@ const ItemList = () => {
 				}
 
 				if (item.href) {
-					const href = project ? buildDynamicHref(item.href, project) : '#';
+					const href = project ? buildDynamicHref(item.href, project) : '';
 					return (
 						<li key={item.href}>
-							<Link
-								href={href}
-								className={clsx(
-									'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg dark:hover:bg-gray-700',
-									isActive(pathname || '', href) && 'bg-gray-2 dark:bg-gray-700'
-								)}
-							>
-								<span>{item.Icon && <item.Icon />}</span>
-								<span className='ms-3 md:hidden lg:block'>
-									{item.name && t(item.name)}
-								</span>
-							</Link>
+							{href ? (
+								<Link
+									href={href}
+									className={clsx(
+										'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg dark:hover:bg-gray-700',
+										isActive(pathname || '', href) &&
+											'bg-gray-2 dark:bg-gray-700'
+									)}
+								>
+									<span>{item.Icon && <item.Icon />}</span>
+									<span className='ms-3 md:hidden lg:block'>
+										{item.name && t(item.name)}
+									</span>
+								</Link>
+							) : (
+								<ItemSkeleton />
+							)}
 						</li>
 					);
 				}

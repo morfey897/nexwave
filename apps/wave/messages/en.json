@@ -228,7 +228,7 @@
 		"sign_in": {
 			"headline": "Sign in",
 			"subheadline": "Welcome back! Please sign in to your account",
-			"with_google": "Sign in with Google 2",
+			"with_google": "Sign in with Google",
 			"with_email": "or sign in with email",
 			"forgot_password": "Forgot password?",
 			"dont_have_account_rt": "Don't have an account yet? <span>Sign up</span>",

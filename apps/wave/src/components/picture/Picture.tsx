@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { getColorSchema } from '~/utils';
 
-function ProjectPic({
+function Picture({
 	className,
 	size,
 	photo,
@@ -48,4 +48,4 @@ function ProjectPic({
 	);
 }
 
-export default ProjectPic;
+export default Picture;

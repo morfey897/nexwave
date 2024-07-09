@@ -1,5 +1,6 @@
 'use client';
-import ProjectPic from '~/components/picture/ProjectPic';
+
+import Picture from '~/components/picture/Picture';
 import useNWStore from '~/lib/store';
 import { abbrev } from '~/utils';
 
@@ -16,7 +17,7 @@ const LogoBlock = () => {
 				</span>
 			</div>
 			<div className='border-stroke mt-5 flex h-[120px] w-[120px] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-6'>
-				<ProjectPic
+				<Picture
 					name={project?.name}
 					photo={project?.image}
 					abbrev={abbrev(project?.name.split(' '))}

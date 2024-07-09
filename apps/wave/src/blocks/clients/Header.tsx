@@ -2,7 +2,7 @@
 
 import useNWStore from '~/lib/store';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import DropdownProjects from '~/components/general/DropdownProjects';
+import DropdownProjects from '~/components/sidebar/components/DropdownProjects';
 import HoverCard from './components/HoverCard';
 import ButtonsClientsHeader from './components/ButtonsClientsHeader/ButtonsClientsHeader';
 import SearchInput from './components/SearchInput';
@@ -10,6 +10,7 @@ import Filters from './components/Filters';
 import TableSettings from './components/TableSettings';
 import { useTranslations } from 'next-intl';
 import FilterIcon from '~/icons/FilterIcon';
+import HeaderWrapper from '~/components/general/HeaderWrapper';
 
 const HeaderClients = () => {
 	const t = useTranslations();
@@ -17,7 +18,7 @@ const HeaderClients = () => {
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-20 mt-5 flex w-full items-center justify-between pb-5'>
+		<HeaderWrapper>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
 					<div className='flex justify-between md:hidden'>
@@ -69,7 +70,7 @@ const HeaderClients = () => {
 					</div>
 				</div>
 			</div>
-		</header>
+		</HeaderWrapper>
 	);
 };
 

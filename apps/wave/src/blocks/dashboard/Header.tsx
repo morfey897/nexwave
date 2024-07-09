@@ -3,10 +3,11 @@
 import useNWStore from '~/lib/store';
 import ToggleGroup from './components/ToggleGroup';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import DropdownProjects from '~/components/general/DropdownProjects';
+import DropdownProjects from '~/components/sidebar/components/DropdownProjects';
 import HoverCardHeader from './components/HoverCardHeader';
 import HoverCardWeekHeader from './components/HoverCardWeekHeader';
 import { useTranslations } from 'next-intl';
+import HeaderWrapper from '~/components/general/HeaderWrapper';
 
 const HeaderDashboard = () => {
 	const t = useTranslations();
@@ -14,7 +15,7 @@ const HeaderDashboard = () => {
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-10 flex h-24 w-full items-center justify-between self-start'>
+		<HeaderWrapper>
 			<div className='flex h-full w-full flex-col justify-around md:w-auto md:justify-center'>
 				<div className='flex justify-between'>
 					<button
@@ -49,7 +50,7 @@ const HeaderDashboard = () => {
 				<ToggleGroup />
 				<HoverCardHeader />
 			</div>
-		</header>
+		</HeaderWrapper>
 	);
 };
 

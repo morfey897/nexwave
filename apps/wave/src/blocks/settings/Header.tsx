@@ -2,16 +2,17 @@
 
 import useNWStore from '~/lib/store';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import Button from '~/components/buttons/Button';
+import { Button } from '~/components/buttons/Button';
 import RoundedPlus from '~/icons/RoundedPlus';
-import DropdownProjects from '~/components/general/DropdownProjects';
+import DropdownProjects from '~/components/sidebar/components/DropdownProjects';
+import HeaderWrapper from '~/components/general/HeaderWrapper';
 
 const Header = () => {
 	const seUI = useNWStore((state) => state.setUI);
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-10 flex h-32 w-full items-center justify-between'>
+		<HeaderWrapper className='!mt-10'>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
 					<div className='mb-5 flex justify-between md:hidden'>
@@ -36,13 +37,13 @@ const Header = () => {
 					<div className='hidden md:block'>
 						<Button
 							icon={<RoundedPlus fill='white' />}
-							message={'Add business'}
+							message='Add business'
 							variant='primary'
 						/>
 					</div>
 				</div>
 			</div>
-		</header>
+		</HeaderWrapper>
 	);
 };
 

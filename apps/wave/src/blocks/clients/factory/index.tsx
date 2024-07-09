@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import ProjectPic from '~/components/picture/PersonPic';
-import ThreeDotsVerticalIcon from '~/icons/ThreeDotsVerticalIcon';
-import { Flex } from '~/components/layout';
 import { IClient } from '@nw/storage';
-import { useDateLocale } from '~/hooks/datetime';
-import { differenceInDays, format } from 'date-fns';
 import {
 	BADGES,
 	LAST_VISIT,

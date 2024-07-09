@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import RightArrow from '~/icons/RightArrow';
 import ProfileIcon from '~/icons/ProfileIcon';
@@ -15,9 +14,18 @@ import { useCallback } from 'react';
 import { signOut } from '~/actions/auth-action';
 import { useRouter } from 'next/navigation';
 import useNWStore from '~/lib/store';
-import { fullname } from '~/utils';
+import { fullname, abbrev } from '~/utils';
 import { EnumProtectedRoutes } from '~/constants/enums';
 import Roles from '~/components/roles';
+import Picture from '~/components/picture/Picture';
+import { isEmail } from '~/utils/validation';
+
+const UserSkeleton = () => (
+	<div className='flex animate-pulse items-center'>
+		<div className='h-[42px] w-[42px] rounded bg-gray-700' />
+		<div className='ml-3 hidden h-6 w-24 rounded bg-gray-700 md:hidden lg:block' />
+	</div>
+);
 
 function CardItem() {
 	const t = useTranslations();
@@ -37,14 +45,20 @@ function CardItem() {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger className='outline-none'>
-				<div className='mb-5 hidden cursor-pointer items-center outline-none md:block md:px-2 lg:flex lg:ps-2.5'>
-					<Image
-						src='/assets/test-avatar.png'
-						alt='User profile'
-						width={40}
-						height={40}
-						className='rounded-lg'
-					/>
+				<div className='mb-5 flex cursor-pointer items-center outline-none md:px-2 lg:ps-2.5'>
+					{user ? (
+						<Picture
+							photo={user?.avatar}
+							name={fullname(user)}
+							size={40}
+							abbrev={abbrev(
+								[user?.name, user?.surname],
+								isEmail(user?.login) ? user?.login.split('@') : undefined
+							)}
+						/>
+					) : (
+						<UserSkeleton />
+					)}
 					<Flex
 						justify='space-between'
 						align='center'

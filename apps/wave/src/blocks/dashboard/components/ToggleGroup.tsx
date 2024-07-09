@@ -9,6 +9,7 @@ const ToggleGroup = () => {
 
 	const toggleGroupItemClasses = clsx(
 		'w-auto h-8 md:px-2 lg:px-3 rounded-l border rounded-r flex items-center text-base',
+		'text-nowrap',
 		// 'border-gray-3 hover:bg-gray-200 color-bg-gray-300 data-[state=on]:bg-user-selected data-[state=on]:text-primary-text bg-white',
 		'data-[state=on]:bg-user-selected data-[state=on]:text-white bg-secondary'
 	);

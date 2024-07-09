@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectPic from '~/components/picture/PersonPic';
+import PersonPic from '~/components/picture/PersonPic';
 
 export type INameProps = {
 	login: string;
@@ -15,7 +15,7 @@ function NameRenderer({ item }: { item: INameProps }) {
 
 	return (
 		<div className='relative flex cursor-pointer items-center gap-x-2'>
-			<ProjectPic size={40} photo={item.avatar} />
+			<PersonPic size={40} photo={item.avatar} />
 			<div>
 				<h2 className='text-primary-text hyphens-auto break-words font-medium'>
 					{fullName}

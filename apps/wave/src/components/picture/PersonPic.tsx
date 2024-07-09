@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import PersonCircleIcon from '~/icons/PersonCircleIcon';
 
-function ProjectPic({
+function PersonPic({
 	className,
 	size,
 	photo,
@@ -41,4 +41,4 @@ function ProjectPic({
 	);
 }
 
-export default ProjectPic;
+export default PersonPic;
