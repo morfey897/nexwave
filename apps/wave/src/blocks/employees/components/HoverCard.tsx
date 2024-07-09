@@ -7,9 +7,11 @@ const HoverCardClientsHeader = () => (
 		<DropdownMenu.Trigger>
 			<SearchIcon width={24} height={24} />
 		</DropdownMenu.Trigger>
-		<DropdownMenu.Content>
-			<SearchInput />
-		</DropdownMenu.Content>
+		<DropdownMenu.Portal>
+			<DropdownMenu.Content>
+				<SearchInput />
+			</DropdownMenu.Content>
+		</DropdownMenu.Portal>
 	</DropdownMenu.Root>
 );
 

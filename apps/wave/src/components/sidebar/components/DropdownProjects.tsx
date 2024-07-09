@@ -68,52 +68,57 @@ function DropdownProjects({
 					)}
 				</div>
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Content
-				side={side}
-				sideOffset={sideOffset}
-				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
-			>
-				<div className='bg-secondary w-[266px] rounded-lg p-1 shadow-xl'>
-					{pending ? (
-						<Skeleton />
-					) : (
-						result.data?.map((innerProject) => (
-							<DropdownMenu.Item
-								className='outline-none'
-								key={innerProject.uuid}
-							>
-								<Link
-									onClick={(event) => {
-										if (innerProject.uuid === project?.uuid) {
-											event.preventDefault();
-										}
-									}}
-									href={buildDynamicHref(EnumProtectedRoutes.APP, innerProject)}
-									className='mb-5 ml-3 mt-5 flex items-center'
+			<DropdownMenu.Portal>
+				<DropdownMenu.Content
+					side={side}
+					sideOffset={sideOffset}
+					className='animate-slideRightAndFade relative will-change-[opacity,transform]'
+				>
+					<div className='bg-secondary w-[266px] rounded-lg p-1 shadow-xl'>
+						{pending ? (
+							<Skeleton />
+						) : (
+							result.data?.map((innerProject) => (
+								<DropdownMenu.Item
+									className='outline-none'
+									key={innerProject.uuid}
 								>
-									<Box flexShrink='0'>
-										<Picture
-											name={innerProject.name}
-											photo={innerProject.image}
-											abbrev={abbrev(innerProject.name.split(' '))}
-											color={innerProject.color}
-											size={42}
-										/>
-									</Box>
-									<span className='text-secondary-text w-[13ch] self-center overflow-hidden whitespace-normal break-words px-3 text-xl font-semibold'>
-										{innerProject.name}
-									</span>
-									{project?.uuid === innerProject.uuid && (
+									<Link
+										onClick={(event) => {
+											if (innerProject.uuid === project?.uuid) {
+												event.preventDefault();
+											}
+										}}
+										href={buildDynamicHref(
+											EnumProtectedRoutes.APP,
+											innerProject
+										)}
+										className='mb-5 ml-3 mt-5 flex items-center'
+									>
 										<Box flexShrink='0'>
-											<CheckIcon width={20} height={20} />
+											<Picture
+												name={innerProject.name}
+												photo={innerProject.image}
+												abbrev={abbrev(innerProject.name.split(' '))}
+												color={innerProject.color}
+												size={42}
+											/>
 										</Box>
-									)}
-								</Link>
-							</DropdownMenu.Item>
-						))
-					)}
-				</div>
-			</DropdownMenu.Content>
+										<span className='text-secondary-text w-[13ch] self-center overflow-hidden whitespace-normal break-words px-3 text-xl font-semibold'>
+											{innerProject.name}
+										</span>
+										{project?.uuid === innerProject.uuid && (
+											<Box flexShrink='0'>
+												<CheckIcon width={20} height={20} />
+											</Box>
+										)}
+									</Link>
+								</DropdownMenu.Item>
+							))
+						)}
+					</div>
+				</DropdownMenu.Content>
+			</DropdownMenu.Portal>
 		</DropdownMenu.Root>
 	);
 }

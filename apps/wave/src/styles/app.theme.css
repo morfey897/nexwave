@@ -165,3 +165,7 @@
 .table-row-group > .table-row:last-child > div:last-child:not([hidden]) {
 	@apply rounded-ee-lg;
 }
+
+[data-radix-popper-content-wrapper] {
+	@apply !z-40;
+}

@@ -25,53 +25,55 @@ const ActionsRenderer = ({ item }: { item: IClient }) => {
 						<ThreeDotsVerticalIcon />
 					</span>
 				</DropdownMenu.Trigger>
-				<DropdownMenu.Content
-					side='left'
-					className='animate-slideRightAndFade relative z-30 will-change-[opacity,transform]'
-				>
-					<div className='bg-secondary space-y-2 rounded-lg px-px py-2.5 shadow-xl'>
-						<DropdownMenu.Item className='outline-none'>
-							<Button
-								variant='tertiary'
-								icon={<PersonAddIcon />}
-								className='!justify-start px-3'
-								message={t('page.clients.action.enroll')}
-							/>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item className='outline-none'>
-							<Button
-								variant='tertiary'
-								icon={<PauseCircleIcon />}
-								className='!justify-start px-3'
-								message={t(`page.clients.action.pause`)}
-							/>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item className='outline-none'>
-							<Button
-								variant='tertiary'
-								icon={<LockIcon />}
-								className='!justify-start px-3'
-								message={t('page.clients.action.block')}
-							/>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item className='outline-none'>
-							<Button
-								variant='tertiary'
-								icon={<PencilIcon />}
-								className='!justify-start px-3'
-								message={t('page.clients.action.edit')}
-							/>
-						</DropdownMenu.Item>
-						<DropdownMenu.Item className='outline-none'>
-							<Button
-								variant='tertiary'
-								icon={<TrashIcon />}
-								className='!justify-start px-3'
-								message={t('page.clients.action.delete')}
-							/>
-						</DropdownMenu.Item>
-					</div>
-				</DropdownMenu.Content>
+				<DropdownMenu.Portal>
+					<DropdownMenu.Content
+						side='left'
+						className='animate-slideRightAndFade relative z-30 will-change-[opacity,transform]'
+					>
+						<div className='bg-secondary space-y-2 rounded-lg px-px py-2.5 shadow-xl'>
+							<DropdownMenu.Item className='outline-none'>
+								<Button
+									variant='tertiary'
+									icon={<PersonAddIcon />}
+									className='!justify-start px-3'
+									message={t('page.clients.action.enroll')}
+								/>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item className='outline-none'>
+								<Button
+									variant='tertiary'
+									icon={<PauseCircleIcon />}
+									className='!justify-start px-3'
+									message={t(`page.clients.action.pause`)}
+								/>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item className='outline-none'>
+								<Button
+									variant='tertiary'
+									icon={<LockIcon />}
+									className='!justify-start px-3'
+									message={t('page.clients.action.block')}
+								/>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item className='outline-none'>
+								<Button
+									variant='tertiary'
+									icon={<PencilIcon />}
+									className='!justify-start px-3'
+									message={t('page.clients.action.edit')}
+								/>
+							</DropdownMenu.Item>
+							<DropdownMenu.Item className='outline-none'>
+								<Button
+									variant='tertiary'
+									icon={<TrashIcon />}
+									className='!justify-start px-3'
+									message={t('page.clients.action.delete')}
+								/>
+							</DropdownMenu.Item>
+						</div>
+					</DropdownMenu.Content>
+				</DropdownMenu.Portal>
 			</DropdownMenu.Root>
 		</Flex>
 	);

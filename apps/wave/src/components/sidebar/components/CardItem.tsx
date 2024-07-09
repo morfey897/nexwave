@@ -87,82 +87,84 @@ function CardItem() {
 					</Flex>
 				</div>
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Content
-				side='left'
-				className='animate-slideRightAndFade relative will-change-[opacity,transform]'
-			>
-				<div className='bg-secondary min-w-60 rounded-lg px-px py-2.5 shadow-xl'>
-					<DropdownMenu.Item className='outline-none'>
-						<Button
-							variant='tertiary'
-							icon={<ProfileIcon />}
-							className='!justify-start px-3'
-							message={t('button.my_profile')}
-						/>
-					</DropdownMenu.Item>
-					<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
-					<DropdownMenu.Group>
-						<DropdownMenu.Sub>
-							<DropdownMenu.SubTrigger className='outline-none data-[disabled]:pointer-events-none'>
-								<DivButton
-									variant='tertiary'
-									icon={<LangIcon />}
-									iconAfter={
-										<span className='pl-5'>
-											<RightArrow />
-										</span>
-									}
-									className='!justify-start px-3'
-									message={t(`i18n.${locale}.title`)}
-								/>
-							</DropdownMenu.SubTrigger>
-							<DropdownMenu.Portal>
-								<DropdownMenu.SubContent
-									className={clsx(
-										'data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade',
-										'bg-secondary min-w-[220px] rounded-md p-[5px] shadow-xl will-change-[opacity,transform]',
-										'outline-none'
-									)}
-									sideOffset={2}
-									alignOffset={-5}
-								>
-									{LOCALES.LIST.map((loc) => (
-										<DropdownMenu.Item key={loc} className='outline-none'>
-											<Button
-												variant='tertiary'
-												className='!justify-start'
-												icon={
-													<div
-														className={clsx(
-															'flex items-center justify-center rounded-lg border-2 px-2 py-1 text-[12px] font-semibold uppercase'
-														)}
-													>
-														<span>{t(`i18n.${loc}.abr`)}</span>
-													</div>
-												}
-												iconAfter={loc === locale ? <CheckIcon /> : undefined}
-												onClick={() => onChangeLocale(loc)}
-												message={t(`i18n.${loc}.title`)}
-											/>
-										</DropdownMenu.Item>
-									))}
-								</DropdownMenu.SubContent>
-							</DropdownMenu.Portal>
-						</DropdownMenu.Sub>
-						<ThemeSwithcer className='!justify-start px-3' />
-					</DropdownMenu.Group>
-					<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
-					<DropdownMenu.Item className='outline-none'>
-						<Button
-							onClick={onSignOut}
-							variant='tertiary'
-							icon={<SignOutIcon />}
-							className='!justify-start px-3'
-							message={t('button.sign_out')}
-						/>
-					</DropdownMenu.Item>
-				</div>
-			</DropdownMenu.Content>
+			<DropdownMenu.Portal>
+				<DropdownMenu.Content
+					side='left'
+					className='animate-slideRightAndFade relative will-change-[opacity,transform]'
+				>
+					<div className='bg-secondary min-w-60 rounded-lg px-px py-2.5 shadow-xl'>
+						<DropdownMenu.Item className='outline-none'>
+							<Button
+								variant='tertiary'
+								icon={<ProfileIcon />}
+								className='!justify-start px-3'
+								message={t('button.my_profile')}
+							/>
+						</DropdownMenu.Item>
+						<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
+						<DropdownMenu.Group>
+							<DropdownMenu.Sub>
+								<DropdownMenu.SubTrigger className='outline-none data-[disabled]:pointer-events-none'>
+									<DivButton
+										variant='tertiary'
+										icon={<LangIcon />}
+										iconAfter={
+											<span className='pl-5'>
+												<RightArrow />
+											</span>
+										}
+										className='!justify-start px-3'
+										message={t(`i18n.${locale}.title`)}
+									/>
+								</DropdownMenu.SubTrigger>
+								<DropdownMenu.Portal>
+									<DropdownMenu.SubContent
+										className={clsx(
+											'data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade',
+											'bg-secondary min-w-[220px] rounded-md p-[5px] shadow-xl will-change-[opacity,transform]',
+											'outline-none'
+										)}
+										sideOffset={2}
+										alignOffset={-5}
+									>
+										{LOCALES.LIST.map((loc) => (
+											<DropdownMenu.Item key={loc} className='outline-none'>
+												<Button
+													variant='tertiary'
+													className='!justify-start'
+													icon={
+														<div
+															className={clsx(
+																'flex items-center justify-center rounded-lg border-2 px-2 py-1 text-[12px] font-semibold uppercase'
+															)}
+														>
+															<span>{t(`i18n.${loc}.abr`)}</span>
+														</div>
+													}
+													iconAfter={loc === locale ? <CheckIcon /> : undefined}
+													onClick={() => onChangeLocale(loc)}
+													message={t(`i18n.${loc}.title`)}
+												/>
+											</DropdownMenu.Item>
+										))}
+									</DropdownMenu.SubContent>
+								</DropdownMenu.Portal>
+							</DropdownMenu.Sub>
+							<ThemeSwithcer className='!justify-start px-3' />
+						</DropdownMenu.Group>
+						<DropdownMenu.Separator className='border-gray-7 m-[5px] mx-3 h-[1px] border' />
+						<DropdownMenu.Item className='outline-none'>
+							<Button
+								onClick={onSignOut}
+								variant='tertiary'
+								icon={<SignOutIcon />}
+								className='!justify-start px-3'
+								message={t('button.sign_out')}
+							/>
+						</DropdownMenu.Item>
+					</div>
+				</DropdownMenu.Content>
+			</DropdownMenu.Portal>
 		</DropdownMenu.Root>
 	);
 }
