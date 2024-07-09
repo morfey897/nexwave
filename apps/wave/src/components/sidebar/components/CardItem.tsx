@@ -37,7 +37,7 @@ function CardItem() {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger className='outline-none'>
-				<div className='mb-5 hidden cursor-pointer items-center outline-none md:flex md:px-2 lg:ps-2.5'>
+				<div className='mb-5 hidden cursor-pointer items-center outline-none md:block md:px-2 lg:flex lg:ps-2.5'>
 					<Image
 						src='/assets/test-avatar.png'
 						alt='User profile'
@@ -45,7 +45,11 @@ function CardItem() {
 						height={40}
 						className='rounded-lg'
 					/>
-					<Flex justify='space-between' align='center' className='w-full'>
+					<Flex
+						justify='space-between'
+						align='center'
+						className='w-full md:hidden lg:flex'
+					>
 						<Box className='ml-3 text-left md:hidden lg:block'>
 							<p className='text-sm font-medium'>{fullname(user)}</p>
 							<Roles

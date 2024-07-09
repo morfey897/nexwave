@@ -2,16 +2,16 @@
 
 import useNWStore from '~/lib/store';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import DropdownMenuHeader from './components/DropdownMenuHeader';
 import Button from '~/components/buttons/Button';
 import RoundedPlus from '~/icons/RoundedPlus';
+import DropdownProjects from '~/components/general/DropdownProjects';
 
-const HeaderSettings = () => {
+const Header = () => {
 	const seUI = useNWStore((state) => state.setUI);
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<header className='bg-primary sticky top-0 z-10 mb-5 mt-5 flex h-24 w-full items-center justify-between md:h-36'>
+		<header className='bg-primary sticky top-0 z-10 flex h-32 w-full items-center justify-between'>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
 					<div className='mb-5 flex justify-between md:hidden'>
@@ -24,7 +24,7 @@ const HeaderSettings = () => {
 							<HamburgerIcon />
 						</button>
 						<div className='mt-1 flex h-full flex-col items-center justify-around md:hidden'>
-							<DropdownMenuHeader />
+							<DropdownProjects side='bottom' />
 						</div>
 					</div>
 					<div className='flex flex-row justify-between md:flex-col'>
@@ -36,7 +36,7 @@ const HeaderSettings = () => {
 					<div className='hidden md:block'>
 						<Button
 							icon={<RoundedPlus fill='white' />}
-							message="Add business"
+							message={'Add business'}
 							variant='primary'
 						/>
 					</div>
@@ -46,4 +46,4 @@ const HeaderSettings = () => {
 	);
 };
 
-export default HeaderSettings;
+export default Header;

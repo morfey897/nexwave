@@ -82,7 +82,7 @@ const ItemList = () => {
 							<Link
 								href={href}
 								className={clsx(
-									'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg focus:border-b-0 dark:hover:bg-gray-700',
+									'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg dark:hover:bg-gray-700',
 									isActive(pathname || '', href) && 'bg-gray-2 dark:bg-gray-700'
 								)}
 							>

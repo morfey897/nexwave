@@ -1,13 +1,14 @@
+'use client';
 import { useEffect, useState } from 'react';
 import PhotosBlockHalls from './PhotosBlockHalls';
 
-const FirstHallBlock = () => {
-	const [nameFirstHall, setNameFirstHall] = useState('');
-	const [descriptionFirstHall, setDescriptionFirstHall] = useState('');
+const SecondHallBlock = () => {
+	const [nameSecondHall, setNameSecondHall] = useState('');
+	const [descriptionSecondHall, setDescriptionSecondHall] = useState('');
 
 	useEffect(() => {
-		setNameFirstHall('Hall 1');
-		setDescriptionFirstHall(
+		setNameSecondHall('Hall 2');
+		setDescriptionSecondHall(
 			'Suitable for group classes. Equipment – rugs, mirrors.'
 		);
 	}, []);
@@ -17,7 +18,7 @@ const FirstHallBlock = () => {
 			<div className='flex flex-col'>
 				<div className='flex flex-col'>
 					<span className='font-inter text-base font-medium leading-6'>
-						Hall 1
+						Hall 2
 					</span>
 					<span className='font-inter text-primary-text-gray text-sm font-normal leading-6'>
 						Provide the name of your school and a short description.
@@ -25,38 +26,38 @@ const FirstHallBlock = () => {
 				</div>
 				<div className='relative my-6'>
 					<label
-						htmlFor='nameFirstHall'
+						htmlFor='nameSecondHall'
 						className='text-primary-text-gray bg-secondary absolute -top-2 left-4 px-1 text-sm'
 					>
 						Name <span className='text-red-600'>*</span>
 					</label>
 					<input
-						id='nameFirstHall'
-						name='nameFirstHall'
+						id='nameSecondHall'
+						name='nameSecondHall'
 						type='text'
-						autoComplete='nameFirstHall'
+						autoComplete='nameSecondHall'
 						required
-						value={nameFirstHall}
-						onChange={(e) => setNameFirstHall(e.target.value)}
+						value={nameSecondHall}
+						onChange={(e) => setNameSecondHall(e.target.value)}
 						className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-					 />
+					></input>
 				</div>
 				<div className='relative my-6'>
 					<label
-						htmlFor='descriptionFirstHall'
+						htmlFor='descriptionSecondHall'
 						className='text-primary-text-gray bg-secondary absolute -top-2 left-4 px-1 text-sm'
 					>
 						Description <span className='text-red-600'>*</span>
 					</label>
 					<textarea
-						id='descriptionFirstHall'
-						name='descriptionFirstHall'
-						autoComplete='descriptionFirstHall'
+						id='descriptionSecondHall'
+						name='descriptionSecondHall'
+						autoComplete='descriptionSecondHall'
 						required
-						value={descriptionFirstHall}
-						onChange={(e) => setDescriptionFirstHall(e.target.value)}
+						value={descriptionSecondHall}
+						onChange={(e) => setDescriptionSecondHall(e.target.value)}
 						className='border-gray-3 bg-secondary mt-1 block h-[110px] w-full resize-none rounded-md border px-3 py-2 text-start shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
-					 />
+					></textarea>
 				</div>
 			</div>
 			<PhotosBlockHalls />
@@ -64,4 +65,4 @@ const FirstHallBlock = () => {
 	);
 };
 
-export default FirstHallBlock;
+export default SecondHallBlock;

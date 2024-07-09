@@ -130,15 +130,15 @@
 	--green-2: var(--green-1);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
 	@apply w-2 rounded-full;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
 	@apply rounded-full bg-gray-500;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
 	@apply bg-gray-700;
 }
 
@@ -153,7 +153,7 @@
 .table-header-group > .table-row > div:first-child {
 	@apply rounded-ss-lg;
 }
- 
+
 .table-header-group > .table-row > div:last-child:not([hidden]) {
 	@apply rounded-se-lg;
 }
