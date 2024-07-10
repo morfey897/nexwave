@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import CheckboxSettings from '../../GeneralSettings/CheckboxSettings';
 import { useTranslations } from 'next-intl';
+import { AccessLevelsTablePermissions } from '~/types';
 
 const AccessLevelsTable = () => {
 	const t = useTranslations();
-	const [permissions, setPermissions] = useState({
+	const [permissions, setPermissions] = useState<AccessLevelsTablePermissions>({
 		viewCalendar: {
 			employee: false,
 			manager: true,
@@ -74,11 +75,14 @@ const AccessLevelsTable = () => {
 		},
 	});
 
-	const handleCheckboxChange = (func, role) => {
-		setPermissions({
-			...permissions,
-			[func]: { ...permissions[func], [role]: !permissions[func][role] },
-		});
+	const handleCheckboxChange = (func: string, role: string) => {
+		setPermissions((prevPermissions: AccessLevelsTablePermissions) => ({
+			...prevPermissions,
+			[func]: {
+				...prevPermissions[func],
+				[role]: !prevPermissions[func][role],
+			},
+		}));
 	};
 
 	return (
@@ -101,16 +105,16 @@ const AccessLevelsTable = () => {
 			</thead>
 			<tbody>
 				{Object.values(permissions).map((func) => (
-					<tr key={func.name}>
+					<tr key={func.name as string}>
 						<td className='text-primary-text-gray font-inter border-y px-4 py-2 text-sm font-normal leading-6'>
 							{func.name}
 						</td>
 						{['employee', 'manager', 'owner'].map((role) => (
 							<td key={role} className='border-y px-4 py-2'>
 								<CheckboxSettings
-									id={func.name}
-									onChange={() => handleCheckboxChange(func.name, role)}
-									checked={func[role]}
+									id={func.name as string}
+									label={func.label as string}
+									checked={func[role] as boolean}
 								/>
 							</td>
 						))}

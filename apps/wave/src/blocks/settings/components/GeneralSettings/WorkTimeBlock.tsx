@@ -4,6 +4,7 @@ import { useLocale } from 'next-intl';
 import { useDateLocale } from '~/hooks/datetime';
 import { WEEK_DAYS } from '~/constants/enums';
 import { capitalize } from 'lodash';
+import { Day } from 'date-fns';
 
 const WorkTimeBlock = () => {
 	const locale = useLocale();
@@ -14,9 +15,11 @@ const WorkTimeBlock = () => {
 			[0, 1, 2, 3, 4, 5, 6].map((i) => {
 				const day = ((dateLocale.options?.weekStartsOn || 0) + i) % 7;
 				return {
-					day: day,
+					day: day as Day,
 					value: WEEK_DAYS[day],
-					label: capitalize(dateLocale.localize?.day(day, { width: 'wide' })),
+					label: capitalize(
+						dateLocale.localize?.day(day as Day, { width: 'wide' })
+					),
 				};
 			}),
 		[dateLocale]

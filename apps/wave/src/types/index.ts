@@ -21,3 +21,11 @@ export interface ErrorLayoutProps {
 	instructions: string[];
 	showForgotPassword?: boolean;
 }
+
+interface Permission {
+	[role: string]: boolean | string;
+}
+
+export interface AccessLevelsTablePermissions {
+	[key: string]: Permission;
+}

@@ -39,6 +39,7 @@ const ColorThemeBlock = () => {
 	}, [initialValue, t]);
 
 	const customStyles = {
+		// @ts-expect-error: Temporary workaround for incompatible types
 		control: (provided, state) => ({
 			...provided,
 			backgroundColor: 'var(--color-bg-secondary)',
@@ -52,6 +53,7 @@ const ColorThemeBlock = () => {
 				borderColor: 'var(--gray-5)',
 			},
 		}),
+		// @ts-expect-error: Temporary workaround for incompatible types
 		option: (provided, state) => ({
 			...provided,
 			display: 'flex',
@@ -64,12 +66,14 @@ const ColorThemeBlock = () => {
 				backgroundColor: 'var(--gray-2)',
 			},
 		}),
+		// @ts-expect-error: Temporary workaround for incompatible types
 		singleValue: (provided, state) => ({
 			...provided,
 			display: 'flex',
 			alignItems: 'center',
 			color: state.data.color,
 		}),
+		// @ts-expect-error: Temporary workaround for incompatible types
 		menu: (provided) => ({
 			...provided,
 			backgroundColor: 'var(--secondary)',
@@ -112,6 +116,7 @@ const ColorThemeBlock = () => {
 					formatOptionLabel={formatOptionLabel}
 					className='mt-1'
 					value={selectedColor}
+					// @ts-expect-error: Temporary workaround for incompatible types
 					onChange={handleChange}
 					isSearchable={false}
 				/>
