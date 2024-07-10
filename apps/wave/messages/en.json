@@ -24,7 +24,9 @@
 		"invalid_date": "Invalid date",
 		"invalid_time_from": "Invalid start time",
 		"invalid_time_to": "Invalid end time",
-		"invalid_range": "Start time must be less than end time"
+		"invalid_range": "Start time must be less than end time",
+		"forgot_password": "Forgot password",
+		"advice": "What you can do:"
 	},
 	"form": {
 		"name": "Name",
@@ -99,7 +101,9 @@
 		"discard": "Discard",
 		"more_less": "More/less",
 		"settings": "Settings",
-		"my_profile": "My profile"
+		"my_profile": "My profile",
+		"contact_us": "Contact us",
+		"home_page": "Home page"
 	},
 	"i18n": {
 		"uk": {
