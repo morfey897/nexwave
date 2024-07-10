@@ -13,3 +13,11 @@ export interface IResponse<T = unknown> {
 	error?: IError;
 	data?: T;
 }
+
+export interface ErrorLayoutProps {
+	icon: React.ReactNode;
+	title: string;
+	description: string;
+	instructions: string[];
+	showForgotPassword?: boolean;
+}

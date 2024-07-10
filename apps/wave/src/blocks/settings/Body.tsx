@@ -8,7 +8,7 @@ function Body() {
 	return (
 		<div className='w-full'>
 			<Tabs.Root className='flex w-full flex-col' defaultValue='tab1'>
-				<div className='bg-primary sticky top-[8rem] z-10 md:top-[7rem]'>
+				<div className='bg-primary sticky top-[8.9rem] z-10 md:top-[4.5rem]'>
 					<Tabs.List
 						className='flex w-full flex-col md:w-[621px] md:flex-row'
 						aria-label='Manage your account'

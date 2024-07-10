@@ -12,7 +12,7 @@ const Header = () => {
 	const project = useNWStore((state) => state.project);
 
 	return (
-		<HeaderWrapper className='!mt-10'>
+		<HeaderWrapper className='mt-0'>
 			<div className='flex h-full w-full flex-col justify-around'>
 				<div className='flex flex-col justify-between md:flex-row'>
 					<div className='mb-5 flex justify-between md:hidden'>
