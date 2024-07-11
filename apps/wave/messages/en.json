@@ -103,7 +103,9 @@
 		"settings": "Settings",
 		"my_profile": "My profile",
 		"contact_us": "Contact us",
-		"home_page": "Home page"
+		"home_page": "Home page",
+		"assign_to_event": "Assign to event",
+		"add_vacation": "Add vacation"
 	},
 	"i18n": {
 		"uk": {

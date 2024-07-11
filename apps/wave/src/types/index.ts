@@ -29,3 +29,9 @@ interface Permission {
 export interface AccessLevelsTablePermissions {
 	[key: string]: Permission;
 }
+
+export interface EmployeeActionContentLayoutProps {
+	name: string;
+	value?: string | JSX.Element;
+	picture?: JSX.Element;
+}
