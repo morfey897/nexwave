@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { COLORS } from '~/constants/enums';
 import useNWStore from '~/lib/store';
 import { ColorOptionSelect } from '~/types/select';
+import { SelectSettings } from '~/components/select-settings/SelectSettings';
 
 const ColorThemeBlock = () => {
 	const t = useTranslations();
@@ -38,48 +39,6 @@ const ColorThemeBlock = () => {
 		}
 	}, [initialValue, t]);
 
-	const customStyles = {
-		// @ts-expect-error: Temporary workaround for incompatible types
-		control: (provided, state) => ({
-			...provided,
-			backgroundColor: 'var(--color-bg-secondary)',
-			borderColor: state.isFocused
-				? 'var(--blue-1)'
-				: 'var(--color-border-gray-5)',
-			boxShadow: state.isFocused
-				? '0 0 0 1px var(--color-border-gray-5)'
-				: null,
-			'&:hover': {
-				borderColor: 'var(--gray-5)',
-			},
-		}),
-		// @ts-expect-error: Temporary workaround for incompatible types
-		option: (provided, state) => ({
-			...provided,
-			display: 'flex',
-			alignItems: 'center',
-			color: state.data.color,
-			backgroundColor: state.isFocused
-				? 'var(--color-option-bg-hover)'
-				: 'var(--color-option-bg)',
-			'&:hover': {
-				backgroundColor: 'var(--gray-2)',
-			},
-		}),
-		// @ts-expect-error: Temporary workaround for incompatible types
-		singleValue: (provided, state) => ({
-			...provided,
-			display: 'flex',
-			alignItems: 'center',
-			color: state.data.color,
-		}),
-		// @ts-expect-error: Temporary workaround for incompatible types
-		menu: (provided) => ({
-			...provided,
-			backgroundColor: 'var(--secondary)',
-		}),
-	};
-
 	const formatOptionLabel = ({ label, color }: ColorOptionSelect) => (
 		<div className='flex items-center'>
 			<span
@@ -112,7 +71,7 @@ const ColorThemeBlock = () => {
 					id='color'
 					name='color'
 					options={colorOptions}
-					styles={customStyles}
+					styles={SelectSettings}
 					formatOptionLabel={formatOptionLabel}
 					className='mt-1'
 					value={selectedColor}

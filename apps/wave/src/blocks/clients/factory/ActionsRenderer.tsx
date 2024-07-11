@@ -7,13 +7,8 @@ import { IClient } from '@nw/storage';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useTranslations } from 'next-intl';
 import { Button } from '~/components/buttons/Button';
-import {
-	PersonAddIcon,
-	PauseCircleIcon,
-	LockIcon,
-	PencilIcon,
-	TrashIcon,
-} from '~/icons';
+import { PersonAddIcon, PauseCircleIcon, LockIcon, TrashIcon } from '~/icons';
+import EditViewAction from './EditViewAction';
 
 const ActionsRenderer = ({ item }: { item: IClient }) => {
 	const t = useTranslations();
@@ -56,12 +51,7 @@ const ActionsRenderer = ({ item }: { item: IClient }) => {
 								/>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item className='outline-none'>
-								<Button
-									variant='tertiary'
-									icon={<PencilIcon />}
-									className='!justify-start px-3'
-									message={t('page.clients.action.edit')}
-								/>
+								<EditViewAction />
 							</DropdownMenu.Item>
 							<DropdownMenu.Item className='outline-none'>
 								<Button

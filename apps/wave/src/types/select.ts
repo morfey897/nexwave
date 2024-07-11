@@ -9,3 +9,9 @@ export interface CurrencyOptionSelect {
 	label: string;
 	IconComponent: React.ComponentType | null;
 }
+
+export interface EditViewSelect {
+	label: string;
+	value?: string;
+	name?: string;
+}
