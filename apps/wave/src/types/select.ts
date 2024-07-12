@@ -15,3 +15,8 @@ export interface EditViewSelect {
 	value?: string;
 	name?: string;
 }
+
+export interface EditViewCallendarSelect {
+	label: string;
+	value?: string;
+}

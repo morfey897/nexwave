@@ -35,3 +35,13 @@ export interface EmployeeActionContentLayoutProps {
 	value?: string | JSX.Element;
 	picture?: JSX.Element;
 }
+
+export interface ViewActionContentLayoutProps {
+	name: string;
+	picture: JSX.Element | undefined;
+	number: string;
+	badge: JSX.Element;
+	iconBlock?: JSX.Element;
+	iconHidden?: JSX.Element;
+	iconPlus?: JSX.Element;
+}

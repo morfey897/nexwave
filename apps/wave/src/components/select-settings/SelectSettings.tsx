@@ -2,7 +2,8 @@ export const SelectSettings = {
 	// @ts-expect-error: Temporary workaround for incompatible types
 	control: (provided, state) => ({
 		...provided,
-		height: '44px',
+		height: state.selectProps.isMulti ? 'auto' : '44px',
+		paddingTop: state.selectProps.isMulti ? '10px' : '0px',
 		backgroundColor: 'var(--color-bg-secondary)',
 		borderColor: state.isFocused
 			? 'var(--blue-1)'
