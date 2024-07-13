@@ -15,11 +15,17 @@ import CalendarIcon from './__mock__/CalendarIcon';
 import MonthIcon from './__mock__/MonthIcon';
 import EventIcon from './__mock__/EventIcon';
 import { Flex, Box } from '~/components/layout';
+import { Button } from '~/components/buttons/Button';
+import { CirclePlusIcon } from '~/icons';
+import EditCalendar from './components/PencilIconEdit';
+import ViewCalendarAction from './components/ViewEmployeeAction';
 
 function Body({ items }: { items?: IClient[] }) {
 	const t = useTranslations();
 
 	const timetable = useNWStore((state) => state.ui.timetable);
+	const setEdit = useNWStore((state) => state.setEdit);
+
 	// const header = useMemo(
 	// 	() =>
 	// 		headerData.map((item) => ({
@@ -43,7 +49,12 @@ function Body({ items }: { items?: IClient[] }) {
 				)} */}
 				{timetable === 'week' && <WeekIcon />}
 				{timetable === 'day' && (
-					<Flex className='gap-x-4'>
+					<Flex
+						className='gap-x-4'
+						onClick={() => {
+							setEdit({ calendar: true });
+						}}
+					>
 						{/* <Box> */}
 						<DayIcon />
 						{/* </Box> */}
@@ -62,9 +73,19 @@ function Body({ items }: { items?: IClient[] }) {
 						</div>
 					</Flex>
 				)}
+
+				<Button
+					isFullWidth={false}
+					variant='primary'
+					message={t('page.timetable.add_event')}
+					className='fixed bottom-10 right-10'
+					icon={<CirclePlusIcon />}
+					onClick={() => setEdit({ event: true })}
+				/>
 			</main>
 			{/* Actions */}
-			{/* <EditViewAction /> */}
+			<EditCalendar />
+			<ViewCalendarAction />
 		</>
 	);
 }

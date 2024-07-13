@@ -1,3 +1,5 @@
+'use client';
+
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import SidebarBurgerIcon from '~/icons/SidebarBurgerIcon';
 import { Button } from '~/components/buttons/Button';
@@ -16,23 +18,29 @@ import CalendarActionContentLayout from './CalendarActionContentLayout';
 import RejectedTabs from './RejectedTabs';
 import QueueTabs from './QueueTabs';
 import PencilIconEdit from '../PencilIconEdit';
+import useNWStore from '~/lib/store';
+import { useCallback } from 'react';
 
 const ViewCalendarAction = () => {
 	const t = useTranslations();
 
+	const editCalendar = useNWStore((state) => state.edit.calendar);
+	const setEdit = useNWStore((state) => state.setEdit);
+
+	const handleOpenChange = useCallback(
+		(open: boolean) => {
+			if (!open) {
+				setEdit({ calendar: false });
+			}
+		},
+		[setEdit]
+	);
+
 	return (
-		<AlertDialog.Root>
-			<AlertDialog.Trigger asChild>
-				<Button
-					variant='tertiary'
-					icon={<PencilIcon />}
-					className='!justify-start px-3'
-					message={t('page.clients.action.edit')}
-				/>
-			</AlertDialog.Trigger>
+		<AlertDialog.Root open={editCalendar} onOpenChange={handleOpenChange}>
 			<AlertDialog.Portal>
-				<AlertDialog.Overlay className='fixed inset-0 z-20 backdrop-blur' />
-				<AlertDialog.Content className='data-[state=open]:animate-slideRightAndFade bg-secondary fixed right-0 top-0 z-30 h-full w-full translate-x-0 translate-y-0 rounded-r-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none md:w-auto'>
+				<AlertDialog.Overlay className='fixed inset-0 z-40 backdrop-blur' />
+				<AlertDialog.Content className='data-[state=open]:animate-slideRightAndFade bg-secondary fixed right-0 top-0 z-50 h-full w-full translate-x-0 translate-y-0 rounded-r-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none md:w-auto'>
 					<div className='flex justify-between'>
 						<AlertDialog.Title className='font-inter text-xl font-semibold leading-7'>
 							View event

@@ -41,6 +41,7 @@ import LockIcon from '~/icons/LockIcon';
 import ProfileIcon from '~/icons/ProfileIcon';
 import SuitcaseIcon from '~/icons/SuitcaseIcon';
 import CalendarPlusIcon from '~/icons/CalendarPlusIcon';
+import CirclePlusIcon from '~/icons/CirclePlusIcon';
 
 export {
 	AccessDenied,
@@ -86,4 +87,5 @@ export {
 	LockIcon,
 	ProfileIcon,
 	SuitcaseIcon,
+	CirclePlusIcon,
 };

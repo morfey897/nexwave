@@ -326,7 +326,8 @@
 		},
 		"timetable": {
 			"headline": "Timetable",
-			"subheadline": "Here you can find all events"
+			"subheadline": "Here you can find all events",
+			"add_event": "Add event"
 		},
 		"settings": {
 			"headline": "Settings",

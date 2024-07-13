@@ -17,6 +17,8 @@ export interface INWStore {
 	edit: {
 		client: IClient | null;
 		employee: IEmployee | null;
+		event: boolean;
+		calendar: boolean;
 	};
 }
 
@@ -40,6 +42,8 @@ const useNWStore = create(
 			edit: {
 				client: null,
 				employee: null,
+				event: false,
+				calendar: false,
 			},
 			user: null,
 			project: null,
@@ -73,7 +77,7 @@ const useNWStore = create(
 					user: null,
 					project: null,
 					ui: { sidebar: false, timetable: 'week' },
-					edit: { client: null, employee: null },
+					edit: { client: null, employee: null, event: false, calendar: false },
 				}),
 			updateProject: (project: Partial<IProject>) =>
 				set((state) => {
