@@ -114,7 +114,7 @@ export enum EnumRole {
 	super = 'super',
 	admin = 'admin',
 	manager = 'manager',
-	user = 'user',
+	viewer = 'viewer',
 }
 
 export enum EnumColor {

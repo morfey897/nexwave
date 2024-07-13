@@ -180,8 +180,8 @@
 			"owner": "Owner",
 			"super": "Super admin",
 			"admin": "Admin",
-			"user": "User",
 			"manager": "Manager",
+			"viewer": "Viewer",
 			"your_role_rt": "Your role: <span>Unknown</span>"
 		},
 		"create": {

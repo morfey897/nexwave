@@ -1,5 +1,5 @@
 id,name,state,color,currency,timezone,langs,roles
-1,United States,active,green,USD,America/New_York,"[""en-us""]","{""admin"":512,""editor"":256,""viewer"":128}"
-2,United Kingdom,active,blue,GBP,Europe/London,"[""en-gb""]","{""admin"":512,""editor"":256,""viewer"":128}"
-3,Germany,inactive,red,EUR,Europe/Berlin,"[""en"",""de""]","{""admin"":512,""editor"":256,""viewer"":128}"
-4,Ukraine,active,green,UAH,Europe/Kiev,"[""en"",""uk""]","{""admin"":512,""editor"":256,""viewer"":128}"
+1,United States,active,green,USD,America/New_York,"[""en-us""]","{""admin"":512,""manager"":256,""viewer"":128}"
+2,United Kingdom,active,blue,GBP,Europe/London,"[""en-gb""]","{""admin"":512,""manager"":256,""viewer"":128}"
+3,Germany,inactive,red,EUR,Europe/Berlin,"[""en"",""de""]","{""admin"":512,""manager"":256,""viewer"":128}"
+4,Ukraine,active,green,UAH,Europe/Kiev,"[""en"",""uk""]","{""admin"":512,""manager"":256,""viewer"":128}"

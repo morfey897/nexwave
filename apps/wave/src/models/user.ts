@@ -1,5 +1,5 @@
 import db from '~/lib/storage';
-import { schemas, orm, IUser } from '@nw/storage';
+import { schemas, orm, IUser, IEmployee } from '@nw/storage';
 import { verifyUser } from '~/utils/cookies';
 import { isLogin, isUUID } from '~/utils/validation';
 import { MOCK_USER } from '~/__mock__/user';
@@ -175,4 +175,64 @@ export async function updateUser(
 	const user = await getUserByUUID(userUUID);
 
 	return user;
+}
+
+/**
+ * Get users by project UUID
+ * @param userId - number
+ * @param projectUUID - string
+ * @returns
+ */
+export async function getEmployees({
+	projectUUID,
+}: {
+	projectUUID: string | undefined;
+}): Promise<IEmployee[] | null> {
+	if (!projectUUID || !isUUID(projectUUID)) return null;
+
+	const project = await db.query.Projects.findFirst({
+		where: orm.eq(schemas.Projects.uuid, projectUUID),
+		columns: {
+			id: true,
+		},
+	});
+	if (!project) return null;
+
+	const users = await db.query.ProjectUser.findMany({
+		where: orm.eq(schemas.ProjectUser.projectId, project.id),
+		columns: {
+			role: true,
+		},
+		with: {
+			project: {
+				columns: {
+					roles: true,
+				},
+			},
+			user: {
+				columns: {
+					id: true,
+					uuid: true,
+					login: true,
+					name: true,
+					gender: true,
+					surname: true,
+					avatar: true,
+					bio: true,
+					birthday: true,
+					contacts: true,
+					meta: true,
+					createdAt: true,
+					updatedAt: true,
+				},
+			},
+		},
+	});
+
+	return users
+		.filter(({ role, project }) => project.roles[role] || 0 > 0)
+		.map(({ user, role }) => ({
+			...user,
+			role,
+		}));
 }

@@ -1,19 +1,12 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { IClient } from '@nw/storage';
 import Table from '~/components/table';
-import getItems from './__mock__';
 import factory from './factory';
 import headerData from './table-header';
 import { useTranslations } from 'next-intl';
 import EditViewAction from './components/EditViewAction';
-import { useAction, useAPI } from '~/hooks/action';
-import useNWStore from '~/lib/store';
-import { buildDynamicHref } from '~/utils';
-import { EnumApiRoutes } from '~/constants/enums';
-import ErrorLayout from '~/components/errors/ErrorLayout';
-import { IoIosWarning } from 'react-icons/io';
 import Empty from '~/components/errors/Empty';
 
 function Body({ items }: { items?: IClient[] }) {

@@ -13,6 +13,7 @@ export async function getClients({
 }: {
 	projectUUID: string;
 }): Promise<IClient[] | null> {
+	if (!projectUUID || !isUUID(projectUUID)) return null;
 	const project = await db.query.Projects.findFirst({
 		where: orm.eq(schemas.Projects.uuid, projectUUID),
 		columns: {
