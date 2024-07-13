@@ -21,6 +21,7 @@ export enum EnumApiRoutes {
 	AUTH_REFRESH_TOKEN = '/api/auth/refresh-token',
 	EVENTS = '/api/events?[params]',
 	PROJECTS = '/api/projects',
+	CLIENTS = '/api/[uuid]/clients',
 }
 
 export enum EnumModalWindows {

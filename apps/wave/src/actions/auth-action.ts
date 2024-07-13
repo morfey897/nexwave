@@ -14,6 +14,7 @@ import { EnumApiRoutes, EnumResponseStatus } from '~/constants/enums';
 import { parseError, doError } from '~/utils';
 import * as Yup from 'yup';
 import { COOKIES } from '@nw/config';
+import { IUser } from 'packages/storage/dist';
 
 async function updateUserLoginMetadata(
 	user: Awaited<ReturnType<typeof getUser>>,
@@ -78,7 +79,7 @@ export async function signInWithOauth(formData: FormData): Promise<never> {
 
 export async function signInWithLoginAndPassword(
 	formData: FormData
-): Promise<IResponse> {
+): Promise<IResponse<IUser>> {
 	try {
 		const { login, password } = {
 			login: (formData.get('login')?.toString() || '').trim().toLowerCase(),
@@ -98,16 +99,20 @@ export async function signInWithLoginAndPassword(
 
 		if (!updatedUser)
 			throw new Yup.ValidationError(ErrorCodes.CREDENTIAL_MISMATCH);
-		return { status: EnumResponseStatus.SUCCESS };
+		return { status: EnumResponseStatus.SUCCESS, data: updatedUser };
 	} catch (error) {
 		const parsedError = parseError(error);
-		return { status: EnumResponseStatus.FAILED, error: parsedError };
+		return {
+			status: EnumResponseStatus.FAILED,
+			error: parsedError,
+			data: null,
+		};
 	}
 }
 
 export async function signUpWithEmailAndPassword(
 	formData: FormData
-): Promise<IResponse> {
+): Promise<IResponse<IUser>> {
 	try {
 		const { name, login, password, confirmPassword, langs, timezone } = {
 			name: (formData.get('name')?.toString() || '').trim(),
@@ -140,7 +145,7 @@ export async function signUpWithEmailAndPassword(
 		const updatedUser = await updateUserLoginMetadata(user);
 		if (!updatedUser) throw new Yup.ValidationError(ErrorCodes.WENT_WRONG);
 
-		return { status: EnumResponseStatus.SUCCESS };
+		return { status: EnumResponseStatus.SUCCESS, data: updatedUser };
 	} catch (error) {
 		// let newError = error as Error;
 		// // @ts-expect-error error could be anything
@@ -155,6 +160,10 @@ export async function signUpWithEmailAndPassword(
 		const parsedError = parseError(error);
 
 		console.log('PARSED_ERROR', parsedError);
-		return { status: EnumResponseStatus.FAILED, error: parsedError };
+		return {
+			status: EnumResponseStatus.FAILED,
+			error: parsedError,
+			data: null,
+		};
 	}
 }

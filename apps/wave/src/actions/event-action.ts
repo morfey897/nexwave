@@ -144,6 +144,7 @@ export async function actionCreateNewEvent(
 			code: ['error'],
 			message: 'Not implemented yet.',
 		},
+		data: null,
 	};
 }
 

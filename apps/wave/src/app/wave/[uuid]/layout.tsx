@@ -9,12 +9,9 @@ import { getSession, getTheme } from '~/utils/headers';
 import { EnumTheme } from '~/constants/enums';
 import AccessDenied from '~/components/access-denied';
 import { getColorSchema } from '~/utils';
+import { IParams } from '~/types';
 
-export async function generateMetadata({
-	params,
-}: {
-	params: { uuid: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: IParams): Promise<Metadata> {
 	const user = await getUserFromSession(getSession());
 	if (!user) {
 		return notFound();
@@ -34,8 +31,7 @@ export default async function ProjectLayout({
 	params,
 }: {
 	children: React.ReactNode;
-	params: { uuid: string };
-}) {
+} & IParams) {
 	const theme = getTheme();
 	const user = await getUserFromSession(getSession());
 	if (!user) {

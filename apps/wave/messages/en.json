@@ -35,19 +35,19 @@
 		"login": "Email / Phone Number",
 		"email": "Email",
 		"phone": "Phone number",
+		"birthday": "Birthday",
 		"password": "Password",
 		"confirm_password": "Comfirm Password",
 		"image": "Image",
 		"select_image": "Select image",
 		"color": "Color",
 		"select_color": "Select color",
-		"select_branch": "Select branch",
 		"select_space": "Select space",
 		"currency": "Currency",
 		"select_currency": "Select currency",
 		"project_name": "Project name",
 		"branch_name": "Branch name",
-		"image_hint": "Upload or darg & drop your file PNG or JPG",
+		"image_hint": "Upload or drag & drop your file PNG or JPG",
 		"info": "Short info...",
 		"bio": "Bio...",
 		"state": "State",
@@ -252,10 +252,6 @@
 			"headline": "Add new project",
 			"subheadline": "Here you can add new project"
 		},
-		"add_branch": {
-			"headline": "Add new branch",
-			"subheadline": "Here you can add new branch"
-		},
 		"add_event": {
 			"headline": "Add new event",
 			"subheadline": "Here you can add new event",
@@ -273,16 +269,6 @@
 			"end_never": "Never",
 			"end_on": "On",
 			"not_repeat": "Does no repeat"
-		},
-		"panel_projects": {
-			"headline": "Projects",
-			"subheadline": "Here you can find all projects",
-			"headline_empty": "No projects yet",
-			"subheadline_empty": "You can add new project by clicking on the button below"
-		},
-		"projects": {
-			"headline_rt": "Ready to get started on <span>a project</span>?",
-			"subheadline": "Click the button below to start a new project and organize both your tasks and team members. Alternatively, you can select a project from the existing list."
 		},
 		"clients": {
 			"headline": "Clients",
@@ -302,6 +288,13 @@
 				"edit": "Edit",
 				"delete": "Delete"
 			}
+		},
+		"edit_client": {
+			"headline": "View client",
+			"subheadline": "Here you can view client details",
+			"tab_general": "General",
+			"tab_physique": "Physique",
+			"tab_visits": "Visits"
 		},
 		"employees": {
 			"headline": "Employees",

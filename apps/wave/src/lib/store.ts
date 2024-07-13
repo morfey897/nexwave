@@ -11,6 +11,7 @@ export interface INWStore {
 	theme: EnumTheme | null;
 	ui: {
 		sidebar: boolean;
+		editClient: boolean;
 	};
 }
 
@@ -28,6 +29,7 @@ const useNWStore = create(
 			theme: EnumTheme.LIGHT,
 			ui: {
 				sidebar: false,
+				editClient: false,
 			},
 			user: null,
 			project: null,

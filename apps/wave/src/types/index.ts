@@ -3,15 +3,23 @@ import { EnumResponseStatus } from '~/constants/enums';
 
 export type TLocale = (typeof LOCALES.LIST)[number];
 
+export interface IParamsProps {
+	uuid: string;
+}
+
+export type IParams = {
+	params: IParamsProps;
+};
+
 export interface IError {
 	code: string[];
 	message: string;
 }
 
-export interface IResponse<T = unknown> {
+export interface IResponse<T = undefined> {
 	status: EnumResponseStatus;
 	error?: IError;
-	data?: T;
+	data: T | null;
 }
 
 export interface ErrorLayoutProps {

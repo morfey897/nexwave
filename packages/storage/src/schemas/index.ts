@@ -243,7 +243,7 @@ export const ProjectClient = pgTable(
 export const ProjectsRelations = relations(Projects, ({ many, one }) => ({
 	users: many(ProjectUser),
 	clients: many(ProjectClient),
-	invitations: many(Invitations),
+	// invitations: many(Invitations),
 }));
 
 export const UsersRelations = relations(Users, ({ many }) => ({
@@ -261,29 +261,40 @@ export const ProjectUserRelations = relations(ProjectUser, ({ one }) => ({
 	}),
 }));
 
-export const ClientsRelations = relations(Users, ({ many }) => ({
-	clients: many(ProjectUser),
-	eventRegistrations: many(EventRegistrations),
+export const ClientsRelations = relations(Clients, ({ many, one }) => ({
+	projects: many(ProjectClient),
+	// eventRegistrations: many(EventRegistrations),
 }));
 
-export const EventsRelations = relations(Events, ({ one, many }) => ({
+export const ProjectClientRelations = relations(ProjectClient, ({ one }) => ({
 	project: one(Projects, {
-		fields: [Events.projectId],
+		fields: [ProjectClient.projectId],
 		references: [Projects.id],
 	}),
-	registrations: many(EventRegistrations),
+	client: one(Clients, {
+		fields: [ProjectClient.clientId],
+		references: [Clients.id],
+	}),
 }));
 
-export const EventRegistrationsRelations = relations(
-	EventRegistrations,
-	({ one }) => ({
-		user: one(Users, {
-			fields: [EventRegistrations.userId],
-			references: [Users.id],
-		}),
-		event: one(Events, {
-			fields: [EventRegistrations.eventId],
-			references: [Events.id],
-		}),
-	})
-);
+// export const EventsRelations = relations(Events, ({ one, many }) => ({
+// 	project: one(Projects, {
+// 		fields: [Events.projectId],
+// 		references: [Projects.id],
+// 	}),
+// 	registrations: many(EventRegistrations),
+// }));
+
+// export const EventRegistrationsRelations = relations(
+// 	EventRegistrations,
+// 	({ one }) => ({
+// 		user: one(Users, {
+// 			fields: [EventRegistrations.userId],
+// 			references: [Users.id],
+// 		}),
+// 		event: one(Events, {
+// 			fields: [EventRegistrations.eventId],
+// 			references: [Events.id],
+// 		}),
+// 	})
+// );

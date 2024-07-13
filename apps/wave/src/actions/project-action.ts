@@ -1,5 +1,6 @@
 'use server';
 
+import { IProject } from '@nw/storage';
 import { EnumResponseStatus } from '~/constants/enums';
 import { IResponse } from '~/types';
 
@@ -30,7 +31,7 @@ import { IResponse } from '~/types';
  */
 export async function actionCreateNewProject(
 	formData: FormData
-): Promise<IResponse | never> {
+): Promise<IResponse<IProject>> {
 	// try {
 	// 	const user = await getUserFromSession(getSession());
 	// 	if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
@@ -57,7 +58,7 @@ export async function actionCreateNewProject(
 	// 	console.log('ERROR', error);
 	// 	return { status: EnumResponse.FAILED, error: parseError(error) };
 	// }
-	return { status: EnumResponseStatus.SUCCESS };
+	return { status: EnumResponseStatus.SUCCESS, data: null };
 }
 
 /**
@@ -106,7 +107,7 @@ export async function actionUpdateProject(
 	// 	console.log('ERROR', error);
 	// 	return { status: EnumResponse.FAILED, error: parseError(error) };
 	// }
-	return { status: EnumResponseStatus.SUCCESS, data: {} };
+	return { status: EnumResponseStatus.SUCCESS, data: null };
 }
 
 /**
@@ -181,7 +182,7 @@ export async function actionUpdateAccessProject(
  */
 export async function actionUpdateVisibilityProject(
 	formData: FormData
-): Promise<IResponse<unknown>> {
+): Promise<IResponse<IProject>> {
 	// try {
 	// 	const user = await getUserFromSession(getSession());
 	// 	if (!user) throw doError(ErrorCodes.USER_UNAUTHORIZED);
@@ -236,5 +237,5 @@ export async function actionUpdateVisibilityProject(
 	// 	console.log('ERROR', error);
 	// 	return { status: EnumResponse.FAILED, error: parseError(error) };
 	// }
-	return { status: EnumResponseStatus.SUCCESS, data: {} };
+	return { status: EnumResponseStatus.SUCCESS, data: null };
 }

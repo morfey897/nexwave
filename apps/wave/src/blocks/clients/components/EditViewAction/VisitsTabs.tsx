@@ -49,6 +49,7 @@ function VisitsTabs() {
 					options={optionsBadges}
 					styles={SelectSettings}
 					value={selectedOptionBadge}
+					isMulti
 					// @ts-expect-error: Temporary workaround for incompatible types
 					onChange={handleChangeBadges}
 					isSearchable={false}

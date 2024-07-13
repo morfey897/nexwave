@@ -1,17 +1,29 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import ThreeDotsVerticalIcon from '~/icons/ThreeDotsVerticalIcon';
 import { Flex } from '~/components/layout';
 import { IClient } from '@nw/storage';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useTranslations } from 'next-intl';
 import { Button } from '~/components/buttons/Button';
-import { PersonAddIcon, PauseCircleIcon, LockIcon, TrashIcon } from '~/icons';
-import EditViewAction from './EditViewAction';
+import {
+	PersonAddIcon,
+	PauseCircleIcon,
+	LockIcon,
+	TrashIcon,
+	PencilIcon,
+} from '~/icons';
+import useNWStore from '~/lib/store';
 
 const ActionsRenderer = ({ item }: { item: IClient }) => {
 	const t = useTranslations();
+	const setEditClient = useNWStore((state) => state.setUI);
+
+	const handleEditClient = useCallback(() => {
+		setEditClient({ editClient: true });
+	}, [setEditClient]);
+
 	return (
 		<Flex>
 			<DropdownMenu.Root>
@@ -51,7 +63,13 @@ const ActionsRenderer = ({ item }: { item: IClient }) => {
 								/>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item className='outline-none'>
-								<EditViewAction />
+								<Button
+									variant='tertiary'
+									icon={<PencilIcon />}
+									className='!justify-start px-3'
+									message={t('page.clients.action.edit')}
+									onClick={handleEditClient}
+								/>
 							</DropdownMenu.Item>
 							<DropdownMenu.Item className='outline-none'>
 								<Button
