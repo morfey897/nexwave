@@ -1,7 +1,8 @@
 import { ErrorLayoutProps } from '~/types';
-import Button from '../buttons/Button';
+import Button, { Link } from '../buttons/Button';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { EnumProtectedRoutes } from '~/constants/enums';
 
 const ErrorLayout: React.FC<ErrorLayoutProps> = ({
 	icon,
@@ -41,7 +42,11 @@ const ErrorLayout: React.FC<ErrorLayoutProps> = ({
 					</div>
 					<div className='mt-4 flex flex-row space-x-4'>
 						<div>
-							<Button message={t('button.home_page')} variant='primary' />
+							<Link
+								message={t('button.home_page')}
+								variant='primary'
+								href={EnumProtectedRoutes.APP}
+							/>
 						</div>
 						<div>
 							<Button message={t('button.contact_us')} />

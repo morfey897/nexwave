@@ -1,15 +1,15 @@
 // import { INode, ICalendarProps, TTimes } from '@/types/calendar';
-// import { useMemo } from 'react';
+import { useMemo } from 'react';
 // import { format, addDays } from 'date-fns';
 // import { useDateLocale } from '@/hooks/datetime';
-// import {
-// 	toIsoDate,
-// 	ssToTime,
-// 	toTime,
-// 	timeToMinutes,
-// 	sec,
-// 	timeToTime,
-// } from '@/utils/datetime';
+import {
+	toIsoDate,
+	ssToTime,
+	toTime,
+	timeToMinutes,
+	sec,
+	timeToTime,
+} from '~/utils/datetime';
 // import { addZiro } from '@/utils';
 // import {
 // 	cellStyle,
@@ -100,19 +100,19 @@
 //  * @param times
 //  * @returns
 //  */
-// export function useNow() {
-// 	const timer = useMemo(() => {
-// 		const now = new Date();
-// 		return {
-// 			date: toIsoDate(now),
-// 			hh: now.getHours(),
-// 			mm: now.getMinutes(),
-// 			ss: now.getSeconds(),
-// 		};
-// 	}, []);
+export function useNow() {
+	const timer = useMemo(() => {
+		const now = new Date();
+		return {
+			date: toIsoDate(now),
+			hh: now.getHours(),
+			mm: now.getMinutes(),
+			ss: now.getSeconds(),
+		};
+	}, []);
 
-// 	return timer;
-// }
+	return timer;
+}
 
 // /**
 //  * Body is a list of events

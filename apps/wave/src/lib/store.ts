@@ -11,6 +11,7 @@ export interface INWStore {
 	theme: EnumTheme | null;
 	ui: {
 		sidebar: boolean;
+		timetable: 'week' | 'day' | 'month';
 	};
 
 	edit: {
@@ -34,6 +35,7 @@ const useNWStore = create(
 			theme: EnumTheme.LIGHT,
 			ui: {
 				sidebar: false,
+				timetable: 'week',
 			},
 			edit: {
 				client: null,
@@ -70,7 +72,7 @@ const useNWStore = create(
 				set({
 					user: null,
 					project: null,
-					ui: { sidebar: false },
+					ui: { sidebar: false, timetable: 'week' },
 					edit: { client: null, employee: null },
 				}),
 			updateProject: (project: Partial<IProject>) =>
