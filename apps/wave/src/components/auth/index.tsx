@@ -28,7 +28,6 @@ function Auth({ mode }: { mode: 'signIn' | 'signUp' }) {
 
 	const route = useRouter();
 	const onConfirm = useCallback(() => {
-		console.log('onConfirm');
 		route.refresh();
 	}, [route]);
 

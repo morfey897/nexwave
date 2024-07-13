@@ -78,6 +78,13 @@ export enum EnumOAuthProvider {
 	GOOGLE = 'google',
 }
 
+export enum EnumClientBadge {
+	LOYAL = 'loyal',
+	VIP = 'vip',
+	PROBLEM = 'problem',
+	INACTIVE = 'inactive',
+}
+
 // export enum EnumLevel {
 // 	SUCCESS = 'success',
 // 	WARN = 'warn',

@@ -13,11 +13,12 @@ import ActionsRenderer from './ActionsRenderer';
 import BadgesGenerator from '~/components/renderers/BadgesRenderer';
 import TicketsRenderer from './TicketsRenderer';
 import { BadgeLevel } from '~/components/badges/Badge';
+import { EnumClientBadge } from '~/constants/enums';
 
 const getLevel = (title: string): BadgeLevel => {
-	if (title === 'problem' || title === 'inactive') return 'error';
-	if (title === 'loyal') return 'success';
-	if (title === 'vip') return 'warn';
+	if (title === EnumClientBadge.PROBLEM || title === EnumClientBadge.INACTIVE) return 'error';
+	if (title === EnumClientBadge.LOYAL) return 'success';
+	if (title === EnumClientBadge.VIP) return 'warn';
 	return 'info';
 };
 

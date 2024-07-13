@@ -89,16 +89,22 @@ export async function getClientByUUID(
  */
 export async function updateClient(
 	clientUUID: string,
-	{
-		data,
-	}: {
-		data: Partial<IClient>;
-	}
+	data: Partial<IClient>
 ): Promise<IClient | null> {
 	if (!clientUUID || !isUUID(clientUUID)) return null;
+
 	const clients = await db
 		.update(schemas.Clients)
-		.set(data)
+		.set({
+			...data,
+			contacts: Object.values(data.contacts || {}).some(Boolean)
+				? data.contacts
+				: undefined,
+			meta: Object.values(data.meta || {}).some(Boolean)
+				? data.meta
+				: undefined,
+			updatedAt: new Date(),
+		})
 		.where(orm.eq(schemas.Clients.uuid, clientUUID))
 		.returning({
 			id: schemas.Clients.id,

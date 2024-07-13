@@ -63,7 +63,8 @@
 		"to": "To",
 		"start": "Start",
 		"end": "End",
-		"service": "Service"
+		"service": "Service",
+		"last_visit": "Last visit"
 	},
 	"button": {
 		"sign_in": "Sign in",
