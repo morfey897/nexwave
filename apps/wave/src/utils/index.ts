@@ -44,9 +44,9 @@ export const abbrev = (
 	...pairs: Array<Array<string | undefined | null> | undefined | null>
 ) => {
 	const [first, last] =
-		pairs.find((list) => !!list && !!list[0] && !!list[1]) ||
+		pairs.find((list) => !!list?.[0] && (!!list?.[1] || !!list?.[0]?.[1])) ||
 		Math.random().toString(36).substring(2, 2);
-	return `${first ? first[0] : ''}${last ? last[0] : ''}`.toUpperCase();
+	return `${first ? first[0] : ''}${last ? last[0] : first?.[1] || ''}`.toUpperCase();
 };
 
 export const fullname = (

@@ -2,6 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { FaUserLock } from 'react-icons/fa';
+import { Link } from '../buttons/Button';
+import { EnumProtectedRoutes } from '~/constants/enums';
 
 function AccessDenied({
 	className,
@@ -27,12 +29,7 @@ function AccessDenied({
 			</p>
 
 			<div className='mt-6 w-full shrink-0 gap-x-3 sm:w-auto'>
-				{/* <button
-					onClick={reset}
-					className='w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600'
-				>
-					{t('button.try_again')}
-				</button> */}
+				<Link href={EnumProtectedRoutes.APP} message={t('button.try_again')} />
 			</div>
 		</div>
 	);

@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { EnumTheme } from '~/constants/enums';
-import type { IUser, IProject, IClient } from '@nw/storage';
+import type { IUser, IProject, IClient, IEmployee } from '@nw/storage';
 
 export interface INWStore {
 	user: IUser | null;
@@ -15,7 +15,7 @@ export interface INWStore {
 
 	edit: {
 		client: IClient | null;
-		user: IUser | null;
+		employee: IEmployee | null;
 	};
 }
 
@@ -37,7 +37,7 @@ const useNWStore = create(
 			},
 			edit: {
 				client: null,
-				user: null,
+				employee: null,
 			},
 			user: null,
 			project: null,
@@ -71,7 +71,7 @@ const useNWStore = create(
 					user: null,
 					project: null,
 					ui: { sidebar: false },
-					edit: { client: null, user: null },
+					edit: { client: null, employee: null },
 				}),
 			updateProject: (project: Partial<IProject>) =>
 				set((state) => {

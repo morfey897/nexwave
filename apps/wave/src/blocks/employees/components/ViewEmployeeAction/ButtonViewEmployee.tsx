@@ -1,21 +1,23 @@
 import { useTranslations } from 'next-intl';
 import Button from '~/components/buttons/Button';
-import CalendarIcon from '~/icons/CalendarIcon';
-import UnionIcon from '~/icons/UnionIcon';
+import Spinner from '~/components/spinner';
 
-const ButtonViewEmployee = () => {
+const ButtonViewEmployee = ({ pending }: { pending?: boolean }) => {
 	const t = useTranslations();
 
 	return (
-		<div className='mt-5 flex justify-end'>
-			<div className='flex flex-col gap-2 md:flex-row'>
-				<div className='w-full'>
-					<Button message={t('button.add_vacation')} icon={<UnionIcon />} />
+		<div className='flex justify-end'>
+			<div className='flex flex-row gap-2'>
+				<div className='w-[108px]'>
+					<Button message={t('button.cancel')} disabled={pending} />
 				</div>
-				<div className='w-full'>
+				<div className='w-[94px]'>
 					<Button
-						message={t('button.assign_to_event')}
-						icon={<CalendarIcon />}
+						message={t('button.save')}
+						variant='primary'
+						type='submit'
+						icon={pending ? <Spinner /> : undefined}
+						disabled={pending}
 					/>
 				</div>
 			</div>

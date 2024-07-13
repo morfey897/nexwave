@@ -1,34 +1,6 @@
 import Badge from '~/components/badges/Badge';
-import { PersonPic } from '~/components/picture';
 import PDFIcon from '~/icons/PDFIcon';
 import { EmployeeActionContentLayoutProps } from '~/types';
-
-export const GeneralViewEmployeeContent: EmployeeActionContentLayoutProps[] = [
-	{
-		name: 'Photo',
-		picture: <PersonPic className='block' />,
-	},
-	{
-		name: 'Name',
-		value: 'Davis Jen',
-	},
-	{
-		name: 'Phone number',
-		value: '+3839932020',
-	},
-	{
-		name: 'Date of birth',
-		value: '-',
-	},
-	{
-		name: 'Social media',
-		value: '-',
-	},
-	{
-		name: 'Access level',
-		value: 'Employee',
-	},
-];
 
 export const ExperienceViewEmployeeContent: EmployeeActionContentLayoutProps[] =
 	[
@@ -66,10 +38,6 @@ export const ExperienceViewEmployeeContent: EmployeeActionContentLayoutProps[] =
 	];
 
 export const WorkViewEmployeeContent: EmployeeActionContentLayoutProps[] = [
-	{
-		name: 'Work status',
-		value: <Badge title='Works' level='success' />,
-	},
 	{
 		name: 'Schedule',
 		value: 'Rest days, 10:00 – 15:00',

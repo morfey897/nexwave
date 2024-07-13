@@ -18,7 +18,7 @@ function Input({
 	placeholder,
 	...rest
 }: React.ComponentProps<typeof Field> & {
-	label: string;
+	label?: string;
 	messages?: Array<FormMessageProps>;
 	required?: React.InputHTMLAttributes<HTMLInputElement>['required'];
 	type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
@@ -39,7 +39,7 @@ function Input({
 	);
 
 	return (
-		<Field className='relative' {...rest}>
+		<Field className={clsx('relative', className)} {...rest}>
 			<Label className='text-primary-text-gray bg-secondary absolute -top-2 left-4 px-1 text-sm'>
 				{label}
 				{!!required && <span className='text-red-1 ml-1 mt-1'>*</span>}

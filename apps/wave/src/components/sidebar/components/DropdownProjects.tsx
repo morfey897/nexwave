@@ -90,7 +90,7 @@ function DropdownProjects({
 											}
 										}}
 										href={buildDynamicHref(
-											EnumProtectedRoutes.APP,
+											EnumProtectedRoutes.ROOT,
 											innerProject
 										)}
 										className='mb-5 ml-3 mt-5 flex items-center'

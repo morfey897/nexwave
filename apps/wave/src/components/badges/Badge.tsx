@@ -8,12 +8,17 @@ export type BadgeProps = {
 	level: BadgeLevel;
 };
 
-const Badge = ({ title, level }: BadgeProps) => (
+const Badge = ({
+	title,
+	level,
+	hoverEffect = true,
+}: BadgeProps & { hoverEffect?: boolean }) => (
 	<span
 		className={clsx(
 			'capitalize',
 			'border-secondary -ml-4 inline-block shrink-0 cursor-pointer rounded-full border-2 px-2.5 py-1 text-xs lg:first:ml-0 ',
-			'transition-all hover:z-20 hover:scale-110 hover:!opacity-100 group-hover:opacity-50',
+			!!hoverEffect &&
+				'transition-all hover:z-20 hover:scale-110 hover:!opacity-100 group-hover:opacity-50',
 			'dark:bg-dark-3',
 			{
 				'text-green-2 bg-green-8 dark:text-green-1': level === 'success',

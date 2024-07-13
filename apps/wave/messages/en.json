@@ -30,6 +30,8 @@
 	},
 	"form": {
 		"name": "Name",
+		"timezone": "Timezone",
+		"photo": "Photo",
 		"first_name": "First name",
 		"last_name": "Last name",
 		"login": "Email / Phone Number",
@@ -304,7 +306,22 @@
 			"access": "Access level",
 			"badges": "Badges",
 			"schedule": "Schedule",
-			"actions": "Actions"
+			"actions": "Actions",
+			"action": {
+				"assign": "Assign to event",
+				"vacation": "Add vacation",
+				"block": "Block employee",
+				"unblock": "Unblock employee",
+				"view": "View",
+				"delete": "Delete"
+			}
+		},
+		"view_employee": {
+			"headline": "View employee",
+			"subheadline": "Here you can view employee details",
+			"tab_general": "General",
+			"tab_work": "Work",
+			"tab_experience": "Experience"
 		},
 		"timetable": {
 			"headline": "Timetable",
@@ -314,10 +331,9 @@
 			"headline": "Settings",
 			"subheadline": "Here you can change settings of your project",
 			"tab_general": "General",
-			"tab_branches": "Branches",
-			"tab_groups": "Groups",
+			"tab_spaces": "Halls",
 			"tab_access": "Access",
-			"tab_state": "State"
+			"tab_payment": "Payment"
 		},
 		"dashboard": {
 			"headline": "Dashboard",

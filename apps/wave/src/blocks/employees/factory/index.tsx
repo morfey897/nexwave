@@ -1,16 +1,21 @@
 import { IEmployee } from '@nw/storage';
 import { BADGES, SCHEDULE, NAME, ACCESS, ACTIONS } from '~/constants/keys';
 import NameRenderer from '~/components/renderers/NameRenderer';
-import BadgesGenerator from '~/components/renderers/BadgesRenderer';
+import BadgesRenderer from '~/components/renderers/BadgesRenderer';
 import AccessRenderer from './AccessRenderer';
 import ActionsRenderer from './ActionsRenderer';
 import TicketsRenderer from './ScheduleRenderer';
 import { BadgeLevel } from '~/components/badges/Badge';
+import { EnumEmployeeBadge } from '~/constants/enums';
 
 const getLevel = (title: string): BadgeLevel => {
-	if (title === 'dismissed') return 'error';
-	if (title === 'works') return 'success';
-	if (title === 'vacancy') return 'warn';
+	if (
+		title === EnumEmployeeBadge.DISMISSED ||
+		title === EnumEmployeeBadge.BLOCKED
+	)
+		return 'error';
+	if (title === EnumEmployeeBadge.WORKS) return 'success';
+	if (title === EnumEmployeeBadge.VACANCY) return 'warn';
 	return 'info';
 };
 
@@ -36,7 +41,7 @@ const factory = (key: string, item: IEmployee) => {
 					title,
 					level: getLevel(title.toLowerCase()),
 				}));
-			return <BadgesGenerator item={budges} />;
+			return <BadgesRenderer item={budges} />;
 		case SCHEDULE:
 			return <TicketsRenderer item={item} />;
 		case ACCESS:

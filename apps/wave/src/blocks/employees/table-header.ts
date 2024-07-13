@@ -17,12 +17,11 @@ const header: IHeadProps[] = [
 		key: BADGES,
 		device: EnumDeviceType.TABLET,
 	},
-
-	{
-		title: undefined,
-		key: SCHEDULE,
-		device: EnumDeviceType.TABLET,
-	},
+	// {
+	// 	title: undefined,
+	// 	key: SCHEDULE,
+	// 	device: EnumDeviceType.TABLET,
+	// },
 	{
 		title: undefined,
 		key: ACTIONS,

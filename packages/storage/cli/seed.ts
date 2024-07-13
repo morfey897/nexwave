@@ -13,7 +13,6 @@ import {
 import ms from 'ms';
 import { parse } from 'csv-parse/sync';
 import { join } from 'path';
-import { PgTableWithColumns } from 'drizzle-orm/pg-core';
 
 const PRIORITY: Record<string, number> = {
 	users: 1,

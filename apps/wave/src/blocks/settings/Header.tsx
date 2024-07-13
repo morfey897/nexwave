@@ -6,8 +6,10 @@ import { Button } from '~/components/buttons/Button';
 import RoundedPlus from '~/icons/RoundedPlus';
 import DropdownProjects from '~/components/sidebar/components/DropdownProjects';
 import HeaderWrapper from '~/components/general/HeaderWrapper';
+import { useTranslations } from 'next-intl';
 
 const Header = () => {
+	const t = useTranslations();
 	const seUI = useNWStore((state) => state.setUI);
 	const project = useNWStore((state) => state.project);
 
@@ -29,9 +31,12 @@ const Header = () => {
 						</div>
 					</div>
 					<div className='flex flex-row justify-between md:flex-col'>
-						<h1 className='text-xl font-semibold dark:text-white'>Settings</h1>
+						<h1 className='text-xl font-semibold dark:text-white'>
+							{t('page.settings.headline')}
+						</h1>
 						<p className='hidden text-sm text-gray-500 md:block'>
-							Settings of {project?.name}
+							{project?.name &&
+								t('page.settings.subheadline', { name: project.name })}
 						</p>
 					</div>
 					<div className='hidden md:block'>

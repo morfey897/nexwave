@@ -30,11 +30,6 @@ function VisitsTabs() {
 	const t = useTranslations();
 	const client = useNWStore((state) => state.edit.client);
 	const route = useRouter();
-
-	// const [startDate, setStartDate] = useState('2024-04-12');
-	// const [lastVisit, setLastVisit] = useState('2024-04-12');
-	// const [selectedOptionBadge, setSelectedOptionBadge] =
-	// 	useState<EditViewSelect | null>(null);
 	const [selectedOptionTicket, setSelectedOptionTicket] =
 		useState<EditViewSelect | null>(null);
 
@@ -52,10 +47,6 @@ function VisitsTabs() {
 		{ label: 'Paused', name: 'paused' },
 		{ label: 'No', name: 'no' },
 	];
-
-	// const handleChangeBadges = (selectedOptionBadges: EditViewSelect) => {
-	// 	setSelectedOptionBadge(selectedOptionBadges as EditViewSelect);
-	// };
 
 	const handleChangeTicket = (selectedOptionTickets: EditViewSelect) => {
 		setSelectedOptionTicket(selectedOptionTickets as EditViewSelect);

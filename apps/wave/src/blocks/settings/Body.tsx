@@ -3,8 +3,10 @@ import GeneralSettings from './components/GeneralSettings';
 import HallsSettings from './components/HallsSettings';
 import AccessLevelsSettings from './components/AccessLevelsSettings';
 import PaymentSettings from './components/PaymentSettings';
+import { useTranslations } from 'next-intl';
 
 function Body() {
+	const t = useTranslations();
 	return (
 		<div className='w-full'>
 			<Tabs.Root className='flex w-full flex-col' defaultValue='tab1'>
@@ -17,25 +19,25 @@ function Body() {
 							className='text-primary-text-gray data-[state=active]:text-blue-1 border-user-selected flex h-[45px] flex-1 cursor-default select-none items-center justify-center px-5 text-[16px] font-semibold leading-6 outline-none data-[state=active]:border-b-2'
 							value='tab1'
 						>
-							General
+							{t('page.settings.tab_general')}
 						</Tabs.Trigger>
 						<Tabs.Trigger
 							className='text-primary-text-gray data-[state=active]:text-blue-1 border-user-selected flex h-[45px] flex-1 cursor-default select-none items-center justify-center px-5 text-[16px] font-semibold leading-6 outline-none data-[state=active]:border-b-2'
 							value='tab2'
 						>
-							Halls
+							{t('page.settings.tab_spaces')}
 						</Tabs.Trigger>
 						<Tabs.Trigger
 							className='text-primary-text-gray data-[state=active]:text-blue-1 border-user-selected flex h-[45px] flex-1 cursor-default select-none items-center justify-center px-5 text-[16px] font-semibold leading-6 outline-none data-[state=active]:border-b-2'
 							value='tab3'
 						>
-							Access levels
+							{t('page.settings.tab_access')}
 						</Tabs.Trigger>
 						<Tabs.Trigger
 							className='text-primary-text-gray data-[state=active]:text-blue-1 border-user-selected flex h-[45px] flex-1 cursor-default select-none items-center justify-center px-5 text-[16px] font-semibold leading-6 outline-none data-[state=active]:border-b-2'
 							value='tab4'
 						>
-							Payment
+							{t('page.settings.tab_payment')}
 						</Tabs.Trigger>
 					</Tabs.List>
 				</div>

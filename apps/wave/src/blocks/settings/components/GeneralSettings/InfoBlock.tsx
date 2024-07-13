@@ -1,19 +1,15 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import Input from '~/components/form/InputNew';
 import useNWStore from '~/lib/store';
 
 const InfoBlock = () => {
+	const t = useTranslations();
 	const project = useNWStore((state) => state.project);
-	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
-	const [timezone, setTimeZone] = useState('');
 
-	useEffect(() => {
-		setName(project?.name || '');
-		setDescription(project?.info || '');
-		setTimeZone('GMT+3 (Kyiv, Kyiv city, Ukraine');
-	}, [project]);
 	return (
 		<div className='flex flex-col'>
 			<div className='flex flex-col'>
@@ -22,7 +18,15 @@ const InfoBlock = () => {
 					Provide general information about your school.
 				</span>
 			</div>
-			<div className='relative my-6'>
+
+			<Input
+				className='my-6'
+				name='name'
+				label={t('form.name')}
+				required
+				defaultValue={project?.name}
+			/>
+			{/* <div className='relative my-6'>
 				<label
 					htmlFor='name'
 					className='text-primary-text-gray bg-secondary absolute -top-2 left-4 px-1 text-sm'
@@ -39,7 +43,7 @@ const InfoBlock = () => {
 					onChange={(e) => setName(e.target.value)}
 					className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 				></input>
-			</div>
+			</div> */}
 			<div className='relative my-6'>
 				<label
 					htmlFor='description'
@@ -51,13 +55,13 @@ const InfoBlock = () => {
 					id='description'
 					name='description'
 					autoComplete='description'
-					required
+					// required
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 					className='border-gray-3 bg-secondary mt-1 block h-[110px] w-full resize-none rounded-md border px-3 py-2 text-start shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 				></textarea>
 			</div>
-			<div className='relative my-6'>
+			{/* <div className='relative my-6'>
 				<label
 					htmlFor='time-zone'
 					className='text-primary-text-gray bg-secondary absolute -top-2 left-4 px-1 text-sm'
@@ -76,7 +80,13 @@ const InfoBlock = () => {
 					<option value='option2'>Option 2</option>
 					<option value='option3'>Option 3</option>
 				</select>
-			</div>
+			</div> */}
+			<Input
+				className='my-6'
+				name='timezone'
+				label={t('form.timezone')}
+				defaultValue={project?.timezone || ''}
+			/>
 			<div className='flex flex-col'>
 				<div className='flex flex-row gap-2'>
 					<div className='relative my-6 w-full'>
@@ -90,7 +100,7 @@ const InfoBlock = () => {
 							id='city'
 							name='city'
 							autoComplete='city'
-							required
+							// required
 							className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 						>
 							<option value=''>Kiev</option>
@@ -111,7 +121,7 @@ const InfoBlock = () => {
 							name='postcode'
 							type='text'
 							autoComplete='postcode'
-							required
+							// required
 							value={'01033'}
 							className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 						></input>
@@ -129,7 +139,7 @@ const InfoBlock = () => {
 							id='street'
 							name='street'
 							autoComplete='street'
-							required
+							// required
 							className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 						>
 							<option value=''>Prosta</option>
@@ -150,7 +160,7 @@ const InfoBlock = () => {
 							name='building'
 							type='text'
 							autoComplete='building'
-							required
+							// required
 							value={'20'}
 							className='border-gray-3 bg-secondary mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500'
 						></input>

@@ -85,6 +85,13 @@ export enum EnumClientBadge {
 	INACTIVE = 'inactive',
 }
 
+export enum EnumEmployeeBadge {
+	DISMISSED = 'dismissed',
+	WORKS = 'works',
+	VACANCY = 'vacancy',
+	BLOCKED = 'blocked',
+}
+
 // export enum EnumLevel {
 // 	SUCCESS = 'success',
 // 	WARN = 'warn',

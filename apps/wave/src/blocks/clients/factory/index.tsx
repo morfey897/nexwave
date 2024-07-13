@@ -10,7 +10,7 @@ import {
 import NameRenderer from '~/components/renderers/NameRenderer';
 import LastVisitRenderer from './LastVisitRenderer';
 import ActionsRenderer from './ActionsRenderer';
-import BadgesGenerator from '~/components/renderers/BadgesRenderer';
+import BadgesRenderer from '~/components/renderers/BadgesRenderer';
 import TicketsRenderer from './TicketsRenderer';
 import { BadgeLevel } from '~/components/badges/Badge';
 import { EnumClientBadge } from '~/constants/enums';
@@ -44,7 +44,7 @@ const factory = (key: string, item: IClient) => {
 					title,
 					level: getLevel(title.toLowerCase()),
 				}));
-			return <BadgesGenerator item={budges} />;
+			return <BadgesRenderer item={budges} />;
 		case SEASON_TICKETS:
 			return <TicketsRenderer item={item} />;
 		case LAST_VISIT:

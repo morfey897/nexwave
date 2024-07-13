@@ -39,11 +39,14 @@ import PersonAddIcon from '~/icons/PersonAddIcon';
 import PauseCircleIcon from '~/icons/PauseCircleIcon';
 import LockIcon from '~/icons/LockIcon';
 import ProfileIcon from '~/icons/ProfileIcon';
+import SuitcaseIcon from '~/icons/SuitcaseIcon';
+import CalendarPlusIcon from '~/icons/CalendarPlusIcon';
 
 export {
 	AccessDenied,
 	ArrowUp,
 	CalendarHeaderIcon,
+	CalendarPlusIcon,
 	CheckIcon,
 	ClientsIcon,
 	ColumnsIcon,
@@ -82,4 +85,5 @@ export {
 	PauseCircleIcon,
 	LockIcon,
 	ProfileIcon,
+	SuitcaseIcon,
 };

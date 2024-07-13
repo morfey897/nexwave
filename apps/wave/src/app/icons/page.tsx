@@ -16,6 +16,10 @@ export default function Page() {
 				<span>CalendarHeaderIcon</span>
 			</div>
 			<div>
+				<Icon.CalendarPlusIcon />
+				<span>CalendarPlusIcon</span>
+			</div>
+			<div>
 				<Icon.CheckIcon />
 				<span>CheckIcon</span>
 			</div>
@@ -166,6 +170,10 @@ export default function Page() {
 			<div>
 				<Icon.ProfileIcon />
 				<span>ProfileIcon</span>
+			</div>
+			<div>
+				<Icon.SuitcaseIcon />
+				<span>SuitcaseIcon</span>
 			</div>
 		</div>
 	);
