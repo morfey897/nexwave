@@ -58,7 +58,7 @@ function Body({ items }: { items?: IClient[] }) {
 						{/* <Box> */}
 						<DayIcon />
 						{/* </Box> */}
-						<div className='hidden lg:block'>
+						<div className='hidden xl:block'>
 							<CalendarIcon />
 						</div>
 					</Flex>
@@ -68,7 +68,7 @@ function Body({ items }: { items?: IClient[] }) {
 						{/* <Box> */}
 						<MonthIcon />
 						{/* </Box> */}
-						<div className='hidden lg:block'>
+						<div className='hidden xl:block'>
 							<EventIcon />
 						</div>
 					</Flex>
