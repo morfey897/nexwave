@@ -1,51 +1,55 @@
 'use client';
 
 import * as Form from '@radix-ui/react-form';
-import Image from 'next/image';
+import PersonPic from '~/components/picture/PersonPic';
 import { useState } from 'react';
 import ButtonEditViewAction from './ButtonEditViewAction';
 import { useTranslations } from 'next-intl';
 import Input from '~/components/form/InputNew';
+import useNWStore from '~/lib/store';
 
 function GeneralTabs() {
 	const t = useTranslations();
-	const [name, setName] = useState('');
-	const [phone, setPhone] = useState('');
-	const [selectedDate, setSelectedDate] = useState('');
+	const client = useNWStore((state) => state.edit.client);
 
 	return (
 		<Form.Root>
 			<div className='bg-secondary flex flex-col space-y-4'>
-				<div className='border-stroke flex h-[120px] w-[120px] cursor-pointer flex-col items-center justify-start rounded-md border-2 p-3'>
-					<Image
-						src='/assets/test-women-photo.png'
-						alt='Photos block'
-						width={120}
-						height={120}
-					/>
+				<div className='border-stroke flex h-[120px] w-[120px] cursor-pointer flex-col items-center justify-start rounded-md border-2'>
+					<PersonPic photo={client?.avatar} size={120} />
 				</div>
 				<Input
-					label={t('form.name')}
+					label={t('form.first_name')}
 					name='name'
-					defaultValue={'Anna'}
+					defaultValue={client?.name || ''}
+					required
+				/>
+				<Input
+					label={t('form.last_name')}
+					name='surname'
+					defaultValue={client?.surname || ''}
 					required
 				/>
 				<Input
 					label={t('form.phone')}
 					placeholder='+380'
 					name='phone'
-					// defaultValue={'1234567890'}
-					// required
+					defaultValue={client?.contacts['phone'] || ''}
 				/>
 				<Input
 					label={t('form.email')}
 					name='email'
 					type='email'
-					// defaultValue={'1234567890'}
+					defaultValue={client?.contacts['email'] || ''}
 					// required
 				/>
 
-				<Input label={t('form.birthday')} name='birthday' type='date' />
+				<Input
+					label={t('form.birthday')}
+					name='birthday'
+					type='date'
+					defaultValue={client?.birthday || ''}
+				/>
 
 				{/* <div className='relative'>
 					<input

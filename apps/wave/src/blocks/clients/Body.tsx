@@ -12,22 +12,12 @@ import { useAction, useAPI } from '~/hooks/action';
 import useNWStore from '~/lib/store';
 import { buildDynamicHref } from '~/utils';
 import { EnumApiRoutes } from '~/constants/enums';
+import ErrorLayout from '~/components/errors/ErrorLayout';
+import { IoIosWarning } from 'react-icons/io';
+import Empty from '~/components/errors/Empty';
 
-function Body() {
+function Body({ items }: { items?: IClient[] }) {
 	const t = useTranslations();
-	const [items] = useState([]);
-
-	// const {} = useAction(serverAction);
-
-	// const project = useNWStore((state) => state.project);
-
-	// const { result, pending } = useAPI<IClient[] | null>(() =>
-	// 	project && project.uuid
-	// 		? buildDynamicHref(EnumApiRoutes.CLIENTS, project)
-	// 		: null
-	// );
-
-	// console.log(project && buildDynamicHref(EnumApiRoutes.CLIENTS, project));
 
 	const header = useMemo(
 		() =>
@@ -42,6 +32,14 @@ function Body() {
 		<>
 			<main>
 				<Table<IClient> header={header} content={items} factory={factory} />
+				{!items?.length && (
+					<Empty
+						messages={{
+							headline: t('page.clients.headline_empty'),
+							subheadline: t('page.clients.subheadline_empty'),
+						}}
+					/>
+				)}
 			</main>
 			{/* Actions */}
 			<EditViewAction />

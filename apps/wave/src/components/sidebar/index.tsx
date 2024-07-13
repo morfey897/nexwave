@@ -2,19 +2,13 @@
 
 import clsx from 'clsx';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Box } from '~/components/layout';
-import { useDevice } from '~/hooks/device';
-import { EnumDeviceType } from '~/constants/enums';
 import useNWStore from '~/lib/store';
 import { usePathname } from 'next/navigation';
-import { useMounted } from '~/hooks/mounted';
 import Content from './Content';
-import Skeleton from './Skeleton';
 
 const Sidebar = () => {
-	const device = useDevice();
-	const isMounted = useMounted();
 	const ui = useNWStore((state) => state.ui);
 	const setUI = useNWStore((state) => state.setUI);
 	const pathname = usePathname();

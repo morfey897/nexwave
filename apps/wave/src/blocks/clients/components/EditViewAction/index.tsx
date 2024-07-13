@@ -13,18 +13,20 @@ import { useCallback } from 'react';
 
 const EditViewAction = () => {
 	const t = useTranslations();
-	const editClient = useNWStore((state) => state.ui.editClient);
-	const setEditClient = useNWStore((state) => state.setUI);
+	const client = useNWStore((state) => state.edit.client);
+	const setEdit = useNWStore((state) => state.setEdit);
 
 	const handleOpenChange = useCallback(
 		(open: boolean) => {
-			setEditClient({ editClient: open });
+			if (!open) {
+				setEdit({ client: null });
+			}
 		},
-		[setEditClient]
+		[setEdit]
 	);
 
 	return (
-		<AlertDialog.Root open={editClient} onOpenChange={handleOpenChange}>
+		<AlertDialog.Root open={!!client} onOpenChange={handleOpenChange}>
 			<AlertDialog.Portal>
 				<AlertDialog.Overlay className='fixed inset-0 z-40 backdrop-blur' />
 				<AlertDialog.Content className='data-[state=open]:animate-slideRightAndFade bg-secondary fixed right-0 top-0 z-30 z-50 h-full translate-x-0 translate-y-0 rounded-r-[6px] p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>

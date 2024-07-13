@@ -36,14 +36,14 @@ const factory = (key: string, item: IClient) => {
 				/>
 			);
 		case BADGES:
-			return (
-				<BadgesGenerator
-					item={(item.meta.badges || '').split(',').map((title) => ({
-						title,
-						level: getLevel(title.toLowerCase()),
-					}))}
-				/>
-			);
+			const budges = (item.meta.badges || '')
+				.split(',')
+				.filter((badge) => !!badge)
+				.map((title) => ({
+					title,
+					level: getLevel(title.toLowerCase()),
+				}));
+			return <BadgesGenerator item={budges} />;
 		case SEASON_TICKETS:
 			return <TicketsRenderer item={item} />;
 		case LAST_VISIT:

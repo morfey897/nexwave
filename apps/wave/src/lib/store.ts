@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { EnumTheme } from '~/constants/enums';
-import type { IUser, IProject } from '@nw/storage';
+import type { IUser, IProject, IClient } from '@nw/storage';
 
 export interface INWStore {
 	user: IUser | null;
@@ -11,7 +11,11 @@ export interface INWStore {
 	theme: EnumTheme | null;
 	ui: {
 		sidebar: boolean;
-		editClient: boolean;
+	};
+
+	edit: {
+		client: IClient | null;
+		user: IUser | null;
 	};
 }
 
@@ -20,6 +24,7 @@ interface INWStoreAction {
 	setState: (state: Partial<INWStore>) => void;
 	setUI: (ui: Partial<INWStore['ui']>) => void;
 	setTheme: (theme: EnumTheme) => void;
+	setEdit: (edit: Partial<INWStore['edit']>) => void;
 	dengirousDestroyStore: () => void;
 }
 
@@ -29,7 +34,10 @@ const useNWStore = create(
 			theme: EnumTheme.LIGHT,
 			ui: {
 				sidebar: false,
-				editClient: false,
+			},
+			edit: {
+				client: null,
+				user: null,
 			},
 			user: null,
 			project: null,
@@ -53,7 +61,18 @@ const useNWStore = create(
 						state.project = st.project;
 					}
 				}),
-			dengirousDestroyStore: () => set({ user: null, project: null }),
+
+			setEdit: (edit: Partial<INWStore['edit']>) =>
+				set((state) => {
+					state.edit = { ...state.edit, ...edit };
+				}),
+			dengirousDestroyStore: () =>
+				set({
+					user: null,
+					project: null,
+					ui: { sidebar: false },
+					edit: { client: null, user: null },
+				}),
 			updateProject: (project: Partial<IProject>) =>
 				set((state) => {
 					if (state.project === null) {

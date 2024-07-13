@@ -18,11 +18,11 @@ import useNWStore from '~/lib/store';
 
 const ActionsRenderer = ({ item }: { item: IClient }) => {
 	const t = useTranslations();
-	const setEditClient = useNWStore((state) => state.setUI);
+	const setEdit = useNWStore((state) => state.setEdit);
 
 	const handleEditClient = useCallback(() => {
-		setEditClient({ editClient: true });
-	}, [setEditClient]);
+		setEdit({ client: item });
+	}, [setEdit, item]);
 
 	return (
 		<Flex>

@@ -72,6 +72,18 @@ export function generateName(adjectiveCount: number = 2) {
 	});
 }
 
+export const generatePassword = () => {
+	const length = 8;
+	const characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+	let password = '';
+	for (let i = 0; i < length; i++) {
+		const randomIndex = Math.floor(Math.random() * characters.length);
+		password += characters[randomIndex];
+	}
+	return password;
+};
+
 export const getColorSchema = (color: string | EnumColor | undefined | null) =>
 	color && (Object.values(EnumColor) as string[]).includes(color)
 		? color
