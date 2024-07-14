@@ -62,6 +62,6 @@ export const ROLES = {
 	[EnumRole.owner]: ALL_ACCESS,
 	[EnumRole.super]: ROLE_SUPER,
 	[EnumRole.admin]: ROLE_ADMIN,
-	[EnumRole.user]: ROLE_USER,
+	[EnumRole.viewer]: ROLE_USER,
 	[EnumRole.manager]: ROLE_MANAGER,
 } as const;
