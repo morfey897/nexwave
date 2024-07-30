@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import { HiX } from 'react-icons/hi';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import Headline from '~/components/headline';
 
 function AsideHeader({
@@ -27,6 +27,7 @@ function AsideHeader({
 		>
 			{typeof onClose === 'function' && (
 				<Button
+					isFullWidth
 					variant='text'
 					className='absolute -right-4 top-1 hover:bg-gray-200 hover:underline dark:hover:bg-gray-800'
 					icon={<HiX size={28} />}

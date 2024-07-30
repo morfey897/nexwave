@@ -18,9 +18,9 @@ function CheckboxGroup({
 				</span>
 			)}
 			<ul className='space-y-4'>
-				{options.map(({ name, ...rest }) => (
-					<li key={name}>
-						<CheckboxFilter name={name} {...rest} />
+				{options.map((option) => (
+					<li key={option.name} data-name={option.name}>
+						<CheckboxFilter {...option} />
 					</li>
 				))}
 			</ul>

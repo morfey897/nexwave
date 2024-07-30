@@ -1,7 +1,7 @@
 'use client';
 
 import { BiSolidErrorAlt } from 'react-icons/bi';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import { LOCALES } from '@nw/config';
 import { useMessages } from '~/hooks/i18n';
 
@@ -44,7 +44,12 @@ function ErrorComponent({ reset }: { reset: () => void }) {
 					</p>
 
 					<div className='mt-6 w-full shrink-0 gap-x-3 sm:w-auto'>
-						<Button variant='primary' onClick={reset} message={t('cta')} />
+						<Button
+							isFullWidth
+							variant='primary'
+							onClick={reset}
+							message={t('cta')}
+						/>
 					</div>
 				</div>
 			</div>

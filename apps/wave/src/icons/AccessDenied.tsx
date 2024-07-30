@@ -3,9 +3,10 @@ import React from 'react';
 const AccessDenied = ({
 	width,
 	height,
+	fill,
 }: React.SVGProps<SVGSVGElement>) => (
 	<svg
-		fill='var(--user-selected)'
+		fill={fill || '#637381'}
 		strokeWidth='0'
 		viewBox='0 0 640 512'
 		height={height || '32'}

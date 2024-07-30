@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { IEmployee } from '@nw/storage';
 import Table from '~/components/table';
-import ViewEmployeeAction from './components/ViewEmployeeAction';
+import ViewEmployeeAction from './components/ViewAction';
 import factory from './factory';
 import headerData from './table-header';
 import { useTranslations } from 'next-intl';

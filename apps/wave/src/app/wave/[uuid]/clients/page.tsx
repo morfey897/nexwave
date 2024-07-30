@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Header from '~/blocks/clients/Header';
-import Body from '~/blocks/clients/Body';
+import Layout from '~/blocks/clients/Layout';
 
 import { getClients } from '~/models/clients';
 import { IParams } from '~/types';
@@ -12,10 +11,11 @@ async function Page({ params }: IParams) {
 	});
 
 	return (
-		<>
-			<Header />
-			<Body items={clients ?? undefined} />
-		</>
+		<Layout
+			body={{
+				items: clients ?? undefined,
+			}}
+		/>
 	);
 }
 

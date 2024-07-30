@@ -3,7 +3,7 @@
 import { LOCALES, COOKIES } from '@nw/config';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Box, Flex } from '~/components/layout';
-import { Button, DivButton } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import ThemeSwithcer from './ThemeSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
 import { useCallback } from 'react';
@@ -36,7 +36,7 @@ function CardItem() {
 	const locale = useLocale();
 	const user = useNWStore((state) => state.user);
 	const project = useNWStore((state) => state.project);
-	const destroyStore = useNWStore((state) => state.dengirousDestroyStore);
+	const destroyStore = useNWStore((state) => state.dangerousDestroyStore);
 
 	const router = useRouter();
 
@@ -95,6 +95,7 @@ function CardItem() {
 					<div className='bg-secondary min-w-60 rounded-lg px-px py-2.5 shadow-xl'>
 						<DropdownMenu.Item className='outline-none'>
 							<Button
+								isFullWidth
 								variant='tertiary'
 								icon={<ProfileIcon />}
 								className='!justify-start px-3'
@@ -105,7 +106,7 @@ function CardItem() {
 						<DropdownMenu.Group>
 							<DropdownMenu.Sub>
 								<DropdownMenu.SubTrigger className='outline-none data-[disabled]:pointer-events-none'>
-									<DivButton
+									<Button.Div
 										variant='tertiary'
 										icon={<LangIcon />}
 										iconAfter={

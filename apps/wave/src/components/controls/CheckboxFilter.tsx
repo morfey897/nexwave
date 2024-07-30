@@ -4,29 +4,26 @@ import CheckIcon from '~/icons/CheckIcon';
 
 const CheckboxFilter = ({
 	label,
-	name,
 	checked,
-}: {
-	name: string;
-	label: string;
-	checked?: boolean;
-}) => {
-	const id = useId();
+	id,
+	...rest
+}: React.ComponentProps<typeof Checkbox.Root> & { label?: string }) => {
+	const customID = useId();
 	return (
 		<div className='flex items-center'>
 			<Checkbox.Root
 				className='border-stroke flex h-[20px] w-[20px] appearance-none items-center justify-center rounded-[4px] border bg-white outline-none'
 				defaultChecked={checked}
-				name={name}
-				id={id}
+				id={id || customID}
+				{...rest}
 			>
-				<Checkbox.Indicator className='text-violet11'>
-					<CheckIcon />
+				<Checkbox.Indicator>
+					<CheckIcon userSelectedColor />
 				</Checkbox.Indicator>
 			</Checkbox.Root>
 			<label
-				className='font-inter text-primary-text-gray pl-[15px] text-[15px] text-base font-normal leading-6 text-black'
-				htmlFor={id}
+				className='font-inter text-primary-text-gray cursor-pointer pl-[15px] text-[15px] text-base font-normal leading-6 text-black'
+				htmlFor={id || customID}
 			>
 				{label}
 			</label>

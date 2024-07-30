@@ -14,9 +14,9 @@ import DayIcon from './__mock__/DayIcon';
 import CalendarIcon from './__mock__/CalendarIcon';
 import MonthIcon from './__mock__/MonthIcon';
 import EventIcon from './__mock__/EventIcon';
-import { Flex, Box } from '~/components/layout';
-import { Button } from '~/components/buttons/Button';
-import { CirclePlusIcon } from '~/icons';
+import { Flex } from '~/components/layout';
+import Button from '~/components/controls/Button';
+import { RoundedPlus } from '~/icons';
 import EditCalendar from './components/PencilIconEdit';
 import ViewCalendarAction from './components/ViewEmployeeAction';
 
@@ -75,11 +75,10 @@ function Body({ items }: { items?: IClient[] }) {
 				)}
 
 				<Button
-					isFullWidth={false}
 					variant='primary'
 					message={t('page.timetable.add_event')}
 					className='fixed bottom-10 right-10'
-					icon={<CirclePlusIcon />}
+					icon={<RoundedPlus />}
 					onClick={() => setEdit({ event: true })}
 				/>
 			</main>

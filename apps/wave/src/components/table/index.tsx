@@ -5,7 +5,7 @@ import { TUID } from '@nw/storage';
 
 export interface IHeadProps {
 	key: string;
-	title: React.ReactNode;
+	title?: React.ReactNode;
 	alignX?: 'left' | 'center' | 'right';
 	alignY?: 'top' | 'middle' | 'bottom';
 	device?: EnumDeviceType;

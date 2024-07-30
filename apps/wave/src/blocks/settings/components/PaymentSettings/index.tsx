@@ -1,4 +1,4 @@
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import PaymentBlock from './components/PaymentBlock';
 import BankAccountBlock from './components/BankAccountBlock';
 import PaymentTerminalBlock from './components/PaymentTerminalBlock';

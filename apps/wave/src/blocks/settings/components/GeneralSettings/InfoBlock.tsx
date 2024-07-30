@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import Input from '~/components/form/InputNew';
+import Input from '~/components/form/Input';
 import useNWStore from '~/lib/store';
 
 const InfoBlock = () => {

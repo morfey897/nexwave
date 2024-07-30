@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 import OAuthForm from './OAuthForm';
 import GoogleIcon from '~/icons/GoogleIcon';
 import { Box } from '../layout';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import Input from '~/components/form/Input';
 import SpanBlock from '~/components/richText/SpanBlock';
 import { useAction } from '~/hooks/action';
@@ -41,9 +41,7 @@ function SignIn({
 	confirm: () => void;
 }) {
 	const t = useTranslations();
-	const { action, submit, reset, pending, result } = useAction(
-		signUpWithEmailAndPassword
-	);
+	const { formProps, pending, result } = useAction(signUpWithEmailAndPassword);
 
 	const errorCodes = result?.error?.code;
 
@@ -62,6 +60,7 @@ function SignIn({
 					buttonProps={{
 						icon: <GoogleIcon />,
 						disabled: pending,
+						isFullWidth: true,
 					}}
 				>
 					{t('page.sign_up.with_google')}
@@ -76,14 +75,11 @@ function SignIn({
 
 				<span className='border-stroke w-1/5 border-b' />
 			</div>
-			<Form.Root
-				className='gap-4'
-				action={action}
-				onChange={reset}
-				onSubmit={submit}
-			>
-				<Input name='name' label={t('form.name')} />
+			<Form.Root className='space-y-4' {...formProps}>
+				<Input name='name' label={t('form.name')} variant='over' size='lg' />
 				<Input
+					variant='over'
+					size='lg'
 					serverInvalid={
 						errorCodes?.includes(ErrorCodes.MISSING_LOGIN) ||
 						errorCodes?.includes(ErrorCodes.INVALID_LOGIN)
@@ -107,6 +103,8 @@ function SignIn({
 					]}
 				/>
 				<Input
+					variant='over'
+					size='lg'
 					serverInvalid={
 						errorCodes?.includes(ErrorCodes.MISSING_PASSWORD) ||
 						errorCodes?.includes(ErrorCodes.WEAK_PASSWORD)
@@ -131,6 +129,8 @@ function SignIn({
 					]}
 				/>
 				<Input
+					variant='over'
+					size='lg'
 					serverInvalid={
 						errorCodes?.includes(ErrorCodes.MISSING_PASSWORD) ||
 						errorCodes?.includes(ErrorCodes.INVALID_PASSWORD)
@@ -179,6 +179,7 @@ function SignIn({
 
 				<Form.Submit asChild>
 					<Button
+						isFullWidth
 						type='submit'
 						variant='primary'
 						message={t('page.sign_up.submit')}
@@ -190,6 +191,7 @@ function SignIn({
 
 			<Box className='mt-4'>
 				<Button
+					isFullWidth
 					onClick={changeMode}
 					variant='text'
 					className='gap-2'

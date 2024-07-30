@@ -6,7 +6,7 @@ import ThreeDotsVerticalIcon from '~/icons/ThreeDotsVerticalIcon';
 import { Flex } from '~/components/layout';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useTranslations } from 'next-intl';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import {
 	CalendarPlusIcon,
 	SuitcaseIcon,

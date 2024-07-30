@@ -279,17 +279,20 @@
 			"subheadline": "Clients of {name}",
 			"headline_empty": "No clients yet",
 			"subheadline_empty": "You can add new client",
-			"name": "Name / Phone number",
-			"badges": "Badges",
-			"season_tickets": "Season tickets",
-			"last_visit": "Last visit",
-			"actions": "Actions",
+			"header": {
+				"name": "Name / Phone number",
+				"badges": "Badges",
+				"season_tickets": "Season tickets",
+				"last_visit": "Last visit",
+				"actions": "Actions"
+			},
 			"action": {
 				"enroll": "Enroll to class",
 				"pause": "Pause session ticket",
 				"block": "Block user",
 				"unblock": "Unblock user",
 				"edit": "Edit",
+				"view": "View",
 				"delete": "Delete"
 			}
 		},

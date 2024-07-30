@@ -1,7 +1,7 @@
 import React from 'react';
 import { signInWithOauth } from '~/actions/auth-action';
 import { EnumOAuthProvider } from '~/constants/enums';
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 
 function OAuthForm({
 	redirectTo,

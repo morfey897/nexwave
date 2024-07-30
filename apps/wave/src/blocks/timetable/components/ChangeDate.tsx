@@ -7,7 +7,6 @@ import { useNow } from '~/hooks/calendar';
 import { toIsoDate } from '~/utils/datetime';
 import { HiChevronRight, HiChevronLeft } from 'react-icons/hi';
 import { useDateLocale } from '~/hooks/datetime';
-import { Button } from '~/components/buttons/Button';
 import { useTranslations } from 'next-intl';
 
 function ChangeDate({
@@ -26,16 +25,15 @@ function ChangeDate({
 		const from = toIsoDate(dates[0]);
 		const to = toIsoDate(dates[1]);
 
-		if (from === to)
-			return format(new Date(from), 'dd MMM', { locale: locale });
+		if (from === to) return format(new Date(from), 'dd MMM', { locale });
 
-		return (
-			format(new Date(from), 'dd MMM', { locale: locale }) +
-			' - ' +
-			format(new Date(to), 'dd MMM', {
-				locale: locale,
-			})
-		);
+		return `${format(new Date(from), 'dd MMM', { locale })} - ${format(
+			new Date(to),
+			'dd MMM',
+			{
+				locale,
+			}
+		)}`;
 	}, [dates, locale]);
 
 	const showToday = useMemo(() => {

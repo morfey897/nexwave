@@ -90,9 +90,12 @@ const ItemList = () => {
 								<Link
 									href={href}
 									className={clsx(
-										'focus:outline-user-selected hover:border-user-selected hover:bg-gray-2 text-secondary-text flex items-center rounded-t-lg border-b-2 border-transparent p-2 focus:rounded-lg dark:hover:bg-gray-700',
+										'focus:outline-user-selected',
+										'hover:border-user-selected border-b-2 border-transparent',
+										'hover:bg-gray-2 dark:hover:bg-gray-700',
+										'text-secondary-text flex items-center rounded-t-lg p-2',
 										isActive(pathname || '', href) &&
-											'bg-gray-2 dark:bg-gray-700'
+											'bg-gray-2 rounded-lg dark:bg-gray-700'
 									)}
 								>
 									<span>{item.Icon && <item.Icon />}</span>

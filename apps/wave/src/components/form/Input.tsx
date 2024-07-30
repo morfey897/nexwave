@@ -1,12 +1,12 @@
-import React, { use, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
 	Control,
 	Field,
-	Label,
 	Message,
 	type FormMessageProps,
 } from '@radix-ui/react-form';
 import clsx from 'clsx';
+import BaseField from './field';
 
 function Input({
 	required,
@@ -14,12 +14,19 @@ function Input({
 	className,
 	messages,
 	type,
+	defaultValue,
+	placeholder,
+	size = 'md',
+	variant = 'inline',
 	...rest
 }: React.ComponentProps<typeof Field> & {
-	label: string;
+	label?: string;
 	messages?: Array<FormMessageProps>;
 	required?: React.InputHTMLAttributes<HTMLInputElement>['required'];
 	type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
+	placeholder?: React.InputHTMLAttributes<HTMLInputElement>['placeholder'];
+	size?: 'md' | 'lg';
+	variant?: 'inline' | 'over' | 'default';
 }) {
 	const messComponent = useMemo(
 		() =>
@@ -36,22 +43,22 @@ function Input({
 	);
 
 	return (
-		<Field className={clsx('mb-[10px] grid', className)} {...rest}>
-			<div className='flex items-baseline justify-between'>
-				<Label className='text-primary-text text-sm font-medium'>
-					{label}
-					{required && <span className='text-red-1 ml-1 mt-1'>*</span>}
-				</Label>
-				{messComponent}
-			</div>
+		<BaseField label={label} required={required} variant={variant} {...rest}>
 			<Control asChild>
 				<input
 					type={type}
-					className='bg-secondary border-stroke data-[invalid]:border-red-1 inline-flex rounded-md border py-3 pl-5 pr-4 text-base'
+					defaultValue={defaultValue}
 					required={required}
+					placeholder={placeholder}
+					className={clsx(
+						'mt-1 block w-full rounded-md border',
+						'data-[invalid]:border-red-1 border-stroke bg-secondary shadow-sm focus:border-indigo-500 focus:outline-none',
+						size === 'md' && 'px-3 py-2',
+						size === 'lg' && 'py-3 pl-5 pr-4'
+					)}
 				/>
 			</Control>
-		</Field>
+		</BaseField>
 	);
 }
 

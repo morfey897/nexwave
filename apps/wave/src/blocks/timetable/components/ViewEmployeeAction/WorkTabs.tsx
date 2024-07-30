@@ -1,6 +1,6 @@
-import { WorkViewEmployeeContent } from '~/blocks/employees/components/ViewEmployeeAction/ViewEmployeeContent';
+import { WorkViewEmployeeContent } from '~/blocks/employees/components/ViewAction/ViewEmployeeContent';
 import ButtonViewEmployee from './ButtonViewEmployee';
-import EmployeeActionContentLayout from '~/blocks/employees/components/ViewEmployeeAction/EmployeeActionContentLayout';
+import EmployeeActionContentLayout from '~/blocks/employees/components/ViewAction/EmployeeActionContentLayout';
 
 function WorkTabs() {
 	return (

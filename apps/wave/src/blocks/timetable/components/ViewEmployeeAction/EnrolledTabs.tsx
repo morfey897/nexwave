@@ -1,4 +1,4 @@
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import CalendaryViewActionContentLayout from './CalendaryViewActionContentLayout';
 import { EnrolledContent } from './ViewEmployeeContent';
 import PersonIconFill from '~/icons/PersonIconFill';
@@ -19,7 +19,7 @@ function EnrolledTabs() {
 			))}
 			<div className='flex w-full justify-end p-2'>
 				<div className='w-[125px]'>
-					<Button message='Enroll' icon={<PersonIconFill />} />
+					<Button isFullWidth message='Enroll' icon={<PersonIconFill />} />
 				</div>
 			</div>
 		</div>

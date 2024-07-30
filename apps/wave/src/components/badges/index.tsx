@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Badge from './Badge';
+import Badge, { BadgeProps } from './Badge';
 import clsx from 'clsx';
 
-const Badges = ({ list }: { list: Array<Parameters<typeof Badge>[0]> }) => (
+const Badges = ({ list }: { list: Array<BadgeProps> }) => (
 	<div className={clsx('group relative flex w-fit flex-wrap justify-center')}>
 		{list.map((badge) => (
-			<Badge key={badge.title} {...badge} hoverEffect={list.length > 1} />
+			<Badge key={badge.value} {...badge} hoverEffect={list.length > 1} />
 		))}
 	</div>
 );

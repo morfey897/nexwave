@@ -5,18 +5,17 @@ import BadgesRenderer from '~/components/renderers/BadgesRenderer';
 import AccessRenderer from './AccessRenderer';
 import ActionsRenderer from './ActionsRenderer';
 import TicketsRenderer from './ScheduleRenderer';
-import { BadgeLevel } from '~/components/badges/Badge';
-import { EnumEmployeeBadge } from '~/constants/enums';
+import { EnumEmployeeBadge, EnumLevel } from '~/constants/enums';
 
-const getLevel = (title: string): BadgeLevel => {
+const getLevel = (title: string): EnumLevel => {
 	if (
 		title === EnumEmployeeBadge.DISMISSED ||
 		title === EnumEmployeeBadge.BLOCKED
 	)
-		return 'error';
-	if (title === EnumEmployeeBadge.WORKS) return 'success';
-	if (title === EnumEmployeeBadge.VACANCY) return 'warn';
-	return 'info';
+		return EnumLevel.CRIT;
+	if (title === EnumEmployeeBadge.WORKS) return EnumLevel.SUCCESS;
+	if (title === EnumEmployeeBadge.VACANCY) return EnumLevel.WARN;
+	return EnumLevel.INFO;
 };
 
 const factory = (key: string, item: IEmployee) => {
@@ -33,15 +32,17 @@ const factory = (key: string, item: IEmployee) => {
 					}}
 				/>
 			);
-		case BADGES:
+		case BADGES: {
 			const budges = (item.meta.badges || '')
 				.split(',')
 				.filter((badge) => !!badge)
-				.map((title) => ({
-					title,
-					level: getLevel(title.toLowerCase()),
+				.map((label) => ({
+					label,
+					value: label,
+					level: getLevel(label.toLowerCase()),
 				}));
 			return <BadgesRenderer item={budges} />;
+		}
 		case SCHEDULE:
 			return <TicketsRenderer item={item} />;
 		case ACCESS:

@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import CalendarIcon from '~/icons/CalendarIcon';
 import UnionIcon from '~/icons/UnionIcon';
 

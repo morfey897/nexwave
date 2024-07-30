@@ -1,6 +1,6 @@
 import * as Popover from '@radix-ui/react-popover';
 import { useState } from 'react';
-import EllipsisIcon from '~/icons/ElipsisIcon';
+import { ThreeDotsVerticalIcon } from '~/icons';
 import RightArrowFull from '~/icons/RightArrowFull';
 import LeftArrowFull from '~/icons/LeftArrowFull';
 import PencilIcon from '~/icons/PencilIcon';
@@ -21,7 +21,7 @@ const HoverCardInfoBlock = () => {
 					onClick={() => setOpen(true)}
 					aria-label='Open menu'
 				>
-					<EllipsisIcon />
+					<ThreeDotsVerticalIcon />
 				</button>
 			</Popover.Trigger>
 			<Popover.Content

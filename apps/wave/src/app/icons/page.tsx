@@ -36,10 +36,6 @@ export default function Page() {
 				<span>DashboardIcon</span>
 			</div>
 			<div>
-				<Icon.EllipsisIcon />
-				<span>EllipsisIcon</span>
-			</div>
-			<div>
 				<Icon.EmployeesIcon />
 				<span>EmployeesIcon</span>
 			</div>
@@ -174,6 +170,22 @@ export default function Page() {
 			<div>
 				<Icon.SuitcaseIcon />
 				<span>SuitcaseIcon</span>
+			</div>
+			<div>
+				<Icon.Eye />
+				<span>Eye</span>
+			</div>
+			<div>
+				<Icon.EyeSlash />
+				<span>EyeSlash</span>
+			</div>
+			<div>
+				<Icon.DashCircleIcon />
+				<span>DashCircleIcon</span>
+			</div>
+			<div>
+				<Icon.WarningIcon />
+				<span>WarningIcon</span>
 			</div>
 		</div>
 	);

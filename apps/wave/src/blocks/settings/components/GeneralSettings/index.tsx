@@ -1,7 +1,7 @@
 'use client';
 
 import * as Form from '@radix-ui/react-form';
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import ColorThemeBlock from './ColorThemeBlock';
 import InfoBlock from './InfoBlock';
 import PhotosBlock from './PhotosBlock';
@@ -21,8 +21,7 @@ const GeneralSettings = () => {
 	const project = useNWStore((state) => state.project);
 	const route = useRouter();
 
-	const { result, pending, action, reset, submit } =
-		useAction(actionUpdateProject);
+	const { result, pending, formProps } = useAction(actionUpdateProject);
 
 	useEffect(() => {
 		if (result?.status === EnumResponseStatus.SUCCESS) {
@@ -32,7 +31,7 @@ const GeneralSettings = () => {
 	}, [result, route, project]);
 
 	return (
-		<Form.Root action={action} onChange={reset} onSubmit={submit}>
+		<Form.Root {...formProps}>
 			<input type='hidden' name='uuid' value={project?.uuid || ''} />
 			<div className='flex flex-col gap-5'>
 				<span className='font-inter text-xl font-semibold leading-7'>

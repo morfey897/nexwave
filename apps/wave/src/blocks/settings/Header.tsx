@@ -2,7 +2,7 @@
 
 import useNWStore from '~/lib/store';
 import HamburgerIcon from '~/icons/HamburgerIcon';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import RoundedPlus from '~/icons/RoundedPlus';
 import DropdownProjects from '~/components/sidebar/components/DropdownProjects';
 import HeaderWrapper from '~/components/general/HeaderWrapper';

@@ -1,5 +1,5 @@
 import { LOCALES } from '@nw/config';
-import { EnumResponseStatus } from '~/constants/enums';
+import { EnumLevel, EnumResponseStatus } from '~/constants/enums';
 
 export type TLocale = (typeof LOCALES.LIST)[number];
 
@@ -20,6 +20,16 @@ export interface IResponse<T = undefined> {
 	status: EnumResponseStatus;
 	error?: IError;
 	data: T | null;
+}
+
+export interface IAlert {
+	uuid: string;
+	level?: EnumLevel;
+	headline: string;
+	subheadline: string;
+	buttons: [string, string] | string;
+	onSubmit: () => void;
+	onCancel?: () => void;
 }
 
 export interface ErrorLayoutProps {

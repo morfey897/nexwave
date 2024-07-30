@@ -83,6 +83,7 @@ export enum EnumClientBadge {
 	VIP = 'vip',
 	PROBLEM = 'problem',
 	INACTIVE = 'inactive',
+	NEWBIE = 'newbie',
 }
 
 export enum EnumEmployeeBadge {
@@ -116,6 +117,13 @@ export enum EnumEmployeeBadge {
 //   YEAR = 'year',
 // }
 
+export enum EnumLevel {
+	CRIT = 'crit',
+	WARN = 'warn',
+	INFO = 'info',
+	SUCCESS = 'success',
+}
+
 export enum EnumRole {
 	owner = 'owner',
 	super = 'super',
@@ -141,6 +149,14 @@ export enum EnumCurrency {
 	EUR = 'EUR',
 }
 
+export enum EnumMode {
+	VIEW = 'view',
+	EDIT = 'edit',
+}
+
 export const COLORS = Object.values(EnumColor);
 export const CURRENCIES = Object.values(EnumCurrency);
 export const WEEK_DAYS = Object.values(EnumWeekDay);
+
+export const BADGES_CLIENTS = Object.values(EnumClientBadge);
+export const BADGES_EMPLOYEES = Object.values(EnumEmployeeBadge);

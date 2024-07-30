@@ -5,7 +5,6 @@ import CheckIcon from '~/icons/CheckIcon';
 import ClientsIcon from '~/icons/ClientsIcon';
 import ColumnsIcon from '~/icons/ColumnsIcon';
 import DashboardIcon from '~/icons/DashboardIcon';
-import EllipsisIcon from '~/icons/ElipsisIcon';
 import EmployeesIcon from '~/icons/EmployeesIcon';
 import EURIcon from '~/icons/EURIcon';
 import ExportIcon from '~/icons/ExportIcon';
@@ -41,7 +40,10 @@ import LockIcon from '~/icons/LockIcon';
 import ProfileIcon from '~/icons/ProfileIcon';
 import SuitcaseIcon from '~/icons/SuitcaseIcon';
 import CalendarPlusIcon from '~/icons/CalendarPlusIcon';
-import CirclePlusIcon from '~/icons/CirclePlusIcon';
+import Eye from '~/icons/Eye';
+import EyeSlash from '~/icons/EyeSlash';
+import DashCircleIcon from './DashCircleIIcon';
+import WarningIcon from './WarningIcon';
 
 export {
 	AccessDenied,
@@ -52,7 +54,6 @@ export {
 	ClientsIcon,
 	ColumnsIcon,
 	DashboardIcon,
-	EllipsisIcon,
 	EmployeesIcon,
 	EURIcon,
 	ExportIcon,
@@ -87,5 +88,8 @@ export {
 	LockIcon,
 	ProfileIcon,
 	SuitcaseIcon,
-	CirclePlusIcon,
+	Eye,
+	EyeSlash,
+	DashCircleIcon,
+	WarningIcon,
 };

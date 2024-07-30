@@ -4,7 +4,7 @@ import { IClient } from '@nw/storage';
 import { IResponse } from '~/types';
 import { EnumResponseStatus } from '~/constants/enums';
 import { getClients, updateClient } from '~/models/clients';
-import { parseError, doError } from '~/utils';
+import { parseError } from '~/utils';
 
 /**
  * Get clients in the project
@@ -22,7 +22,7 @@ export async function actionGetClients(
 			status: EnumResponseStatus.SUCCESS,
 			data: clients,
 		};
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return {
 			status: EnumResponseStatus.FAILED,
 			error: parseError(error),
@@ -36,8 +36,10 @@ export async function actionGetClients(
  * @param formData
  * @returns IResponse<null>
  */
-export async function actionUpdateClient(formData: FormData) {
-	const clientUUID = formData.get('uuid') as string;
+export async function actionUpdateClient(
+	formData: FormData
+): Promise<IResponse<IClient>> {
+	const clientUUID = formData.get('clientUUID') as string;
 	const name = formData.get('name') as string;
 	const email = formData.get('email') as string;
 	const phone = formData.get('phone') as string;
@@ -60,7 +62,7 @@ export async function actionUpdateClient(formData: FormData) {
 			status: EnumResponseStatus.SUCCESS,
 			data: newClient,
 		};
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return {
 			status: EnumResponseStatus.FAILED,
 			error: parseError(error),

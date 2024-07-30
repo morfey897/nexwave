@@ -1,6 +1,4 @@
 import { IoIosWarning } from 'react-icons/io';
-import { Button, Link } from '~/components/buttons/Button';
-import { EnumProtectedRoutes } from '~/constants/enums';
 import { useTranslations } from 'next-intl';
 import ErrorLayout from '~/components/errors/ErrorLayout';
 

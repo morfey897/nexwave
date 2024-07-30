@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { EnumTheme } from '~/constants/enums';
 import MoonFullIcon from '~/icons/MoonFullIcon';
 import clsx from 'clsx';
-import { DivButton } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 
 const Toggle = ({
 	theme,
@@ -30,7 +30,7 @@ function ThemeSwithcer({ className }: { className?: string }) {
 
 	return mounted ? (
 		<div>
-			<DivButton
+			<Button.Div
 				variant='tertiary'
 				icon={<MoonFullIcon />}
 				iconAfter={<Toggle theme={theme} toggleTheme={toggleTheme} />}

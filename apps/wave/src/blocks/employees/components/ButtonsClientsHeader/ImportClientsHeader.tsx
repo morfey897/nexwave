@@ -1,14 +1,13 @@
 import ImportIcon from '~/icons/ImportIcon';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import SidebarBurgerIcon from '~/icons/SidebarBurgerIcon';
-import { Button } from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 
 const ImportClientsHeader = () => (
 	<AlertDialog.Root>
 		<AlertDialog.Trigger asChild>
 			<Button
-				isFullWidth={false}
-				message={'Import'}
+				message='Import'
 				icon={<ImportIcon />}
 				className='!border-blue-1'
 			/>

@@ -1,12 +1,8 @@
 import React from 'react';
-import { BadgeLevel } from '~/components/badges/Badge';
 import Badges from '~/components/badges';
+import { BadgeProps } from '../badges/Badge';
 
-function BadgesRenderer({
-	item,
-}: {
-	item: Array<{ title: string; level: BadgeLevel }>;
-}) {
+function BadgesRenderer({ item }: { item: Array<BadgeProps> }) {
 	return <Badges list={item} />;
 }
 

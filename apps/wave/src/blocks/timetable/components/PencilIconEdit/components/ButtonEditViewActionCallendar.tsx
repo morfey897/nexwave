@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 
 const ButtonEditViewActionCallendar = () => {
 	const t = useTranslations();

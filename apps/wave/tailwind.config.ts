@@ -28,7 +28,7 @@ const config: Config = {
 					to: { opacity: '1', transform: 'translateY(0)' },
 				},
 				slideRightAndFade: {
-					from: { opacity: '0', transform: 'translateX(-2px)' },
+					from: { opacity: '1', transform: 'translateX(-2px)' },
 					to: { opacity: '1', transform: 'translateX(0)' },
 				},
 				overlayShow: {
@@ -42,6 +42,17 @@ const config: Config = {
 					},
 					to: { opacity: '1', transform: 'translate(-50%, -50%) scale(1)' },
 				},
+				dialogShow: {
+					from: {
+						opacity: '0',
+						transform: 'translateX(100%)',
+					},
+					to: { opacity: '1', transform: 'translateX(0)' },
+				},
+				dialogHide: {
+					from: { opacity: '1', transform: 'translateX(0)' },
+					to: { opacity: '0', transform: 'translateX(100%)' },
+				},
 			},
 			animation: {
 				slideDownAndFade:
@@ -53,6 +64,8 @@ const config: Config = {
 					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
 				overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
 				contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
+				dialogShow: 'dialogShow 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+				dialogHide: 'dialogHide 300ms cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
 				'user-selected': 'var(--user-selected)',
@@ -164,6 +177,12 @@ const config: Config = {
 					'7': 'var(--green-7)',
 					'8': 'var(--green-8)',
 				},
+			},
+			zIndex: {
+				do: '60',
+				d: '70',
+				ao: '80',
+				a: '90',
 			},
 		},
 	},

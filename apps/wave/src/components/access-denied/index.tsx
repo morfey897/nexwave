@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { FaUserLock } from 'react-icons/fa';
-import { Link } from '../buttons/Button';
+import Button from '~/components/controls/Button';
 import { EnumProtectedRoutes } from '~/constants/enums';
 
 function AccessDenied({
@@ -29,7 +29,10 @@ function AccessDenied({
 			</p>
 
 			<div className='mt-6 w-full shrink-0 gap-x-3 sm:w-auto'>
-				<Link href={EnumProtectedRoutes.APP} message={t('button.try_again')} />
+				<Button.Link
+					href={EnumProtectedRoutes.APP}
+					message={t('button.try_again')}
+				/>
 			</div>
 		</div>
 	);

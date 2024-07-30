@@ -1,4 +1,4 @@
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 import FirstHallBlock from './components/FirstHallBlock';
 import SecondHallBlock from './components/SecondHallBlock';
 import RoundedPlus from '~/icons/RoundedPlus';

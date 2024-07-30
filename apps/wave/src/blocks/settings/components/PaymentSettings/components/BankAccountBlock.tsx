@@ -1,6 +1,7 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import Button from '~/components/buttons/Button';
+import Button from '~/components/controls/Button';
 
 const BankAccountBlock = () => {
 	const [accountNumber, setAccountNumber] = useState('');

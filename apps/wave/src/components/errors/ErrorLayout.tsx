@@ -1,5 +1,5 @@
 import { ErrorLayoutProps } from '~/types';
-import Button, { Link } from '../buttons/Button';
+import Button from '~/components/controls/Button';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { EnumProtectedRoutes } from '~/constants/enums';
@@ -24,8 +24,8 @@ const ErrorLayout: React.FC<ErrorLayoutProps> = ({
 						{t('error.advice')}
 					</h2>
 					<ol className='list-inside list-decimal'>
-						{instructions.map((instruction, index) => (
-							<li key={index}>{instruction}</li>
+						{instructions.map((instruction) => (
+							<li key={instruction}>{instruction}</li>
 						))}
 					</ol>
 					<div
@@ -33,23 +33,23 @@ const ErrorLayout: React.FC<ErrorLayoutProps> = ({
 							hidden: !showForgotPassword,
 						})}
 					>
-						<a
-							href='#'
+						<button
 							className='mb-2 w-full text-left text-blue-500 hover:text-blue-600'
+							type='button'
 						>
 							{t('error.forgot_password')}
-						</a>
+						</button>
 					</div>
 					<div className='mt-4 flex flex-row space-x-4'>
 						<div>
-							<Link
+							<Button.Link
 								message={t('button.home_page')}
 								variant='primary'
 								href={EnumProtectedRoutes.APP}
 							/>
 						</div>
 						<div>
-							<Button message={t('button.contact_us')} />
+							<Button message={t('button.contact_us')} isFullWidth />
 						</div>
 					</div>
 				</div>

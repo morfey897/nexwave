@@ -2,12 +2,7 @@
 
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import SidebarBurgerIcon from '~/icons/SidebarBurgerIcon';
-import { Button } from '~/components/buttons/Button';
-import { LockIcon, PencilIcon, TrashIcon } from '~/icons';
 import { useTranslations } from 'next-intl';
-import * as Tabs from '@radix-ui/react-tabs';
-import ArchiveIcon from '~/icons/ArchiveIcon';
-import Separator from '~/components/sidebar/components/Separator';
 import GeneralInfoBlock from './components/GeneralInfoBlock';
 import SettingsBlock from './components/SettingsBlock';
 import DateBlock from './components/DateBlock';
